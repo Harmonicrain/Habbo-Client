@@ -1,6 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?><layout name="simple_alert" width="224" height="182" version="0.1" uid="CA671DFC-7EC1-6AF7-078A-27036B86FE33">
+<?xml version="1.0" encoding="UTF-8"?>
+<layout name="simple_alert" width="224" height="182" version="0.1" uid="CA671DFC-7EC1-6AF7-078A-27036B86FE33">
   <window>
-    <frame x="0" y="0" width="224" height="182" params="32769" style="3" name="alert_%203" caption="PH%20Caption" color="0x0418db0">
+    <frame x="0" y="0" width="224" height="182" params="32769" style="3" name="alert_%203" caption="PH%20Caption" color="0xffffff">
       <filters>
         <DropShadowFilter distance="4" alpha="0.34901960784313724" blurX="4" blurY="4"/>
       </filters>

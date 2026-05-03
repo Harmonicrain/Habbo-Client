@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <layout name="enforce_category" width="310" height="240" version="0.1" uid="50A1F7FD-C4E5-75EA-4CD8-B942AC5F98B6">
   <window>
-    <frame x="0" y="0" width="310" height="240" params="1" style="3" caption="%24%7Benforce.category.title%7D" color="0xff418db0">
+    <frame x="0" y="0" width="310" height="240" params="1" style="3" caption="%24%7Benforce.category.title%7D" color="0xffffffff">
       <filters>
         <DropShadowFilter distance="4" alpha="0.34901960784313724" blurX="4" blurY="4"/>
       </filters>

@@ -1,6 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?><layout name="ctlg_info_rentables" width="360" height="460" version="0.1" uid="2CAF46F9-ED87-A393-87BD-E3CFD4E83CBB">
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- good luck fixing the texts fml -->
+<layout name="ctlg_info_rentables" width="360" height="460" version="0.1" uid="2CAF46F9-ED87-A393-87BD-E3CFD4E83CBB">
   <window>
-    <container x="0" y="0" width="360" height="460" params="2064" style="0" name="ctlg_info_rentables">
+    <container x="10" y="0" width="360" height="460" params="2064" style="0" name="ctlg_info_rentables">
       <children>
         <border x="17" y="20" width="328" height="425" params="2064" style="2" color="0x0d8d8d8">
           <children>

@@ -11,11 +11,14 @@
     import com.sulake.habbo.communication.messages.outgoing.preferences.SetIgnoreRoomInvitesMessageComposer;
     import com.sulake.habbo.communication.messages.outgoing.preferences.SetRoomCameraPreferencesMessageComposer;
     import com.sulake.habbo.communication.messages.outgoing.gifts.ResetPhoneNumberStateMessageComposer;
+    import com.sulake.habbo.session.events.PerksUpdatedEvent;
 
     public class OtherSettingsView 
     {
         private var _window:IWindowContainer;
         private var _toolbar:HabboToolbar;
+        private var _reopenNavigatorOnPerksUpdated:Boolean;
+        private var _reopenNavigatorUseNew:Boolean;
 
         public function OtherSettingsView(k:HabboToolbar)
         {
@@ -29,6 +32,8 @@
             {
                 return;
             }
+            this._toolbar.sessionDataManager.events.removeEventListener(PerksUpdatedEvent.PERKS_UPDATED, this.onPerksUpdated);
+            this._reopenNavigatorOnPerksUpdated = false;
             this._window.dispose();
             this._window = null;
         }
@@ -47,6 +52,7 @@
             }
             ICheckBoxWindow(this._window.findChildByName("prefer_old_chat_checkbox")).Selected = this._toolbar.freeFlowChat.isDisabledInPreferences;
             ICheckBoxWindow(this._window.findChildByName("ignore_room_invites_checkbox")).Selected = this._toolbar.messenger.getRoomInvitesIgnored();
+            ICheckBoxWindow(this._window.findChildByName("use_new_navigator_checkbox")).Selected = this._toolbar.sessionDataManager.isNavigatorPhaseTwo;
             this._window.findChildByName("disable_room_camera_follow_checkbox").visible = (this._window.findChildByName("disable_room_camera_follow_label").visible = this._toolbar.getBoolean("room.camera.follow_user"));
             if (this._toolbar.getBoolean("room.camera.follow_user"))
             {
@@ -89,6 +95,14 @@
                     this._toolbar.messenger.setRoomInvitesIgnored(ICheckBoxWindow(this._window.findChildByName("ignore_room_invites_checkbox")).Selected);
                     this._toolbar.connection.send(new SetIgnoreRoomInvitesMessageComposer(this._toolbar.messenger.getRoomInvitesIgnored()));
                     return;
+                case "use_new_navigator_checkbox":
+                    _local_4 = ICheckBoxWindow(this._window.findChildByName("use_new_navigator_checkbox")).Selected;
+                    this._toolbar.sessionDataManager.events.removeEventListener(PerksUpdatedEvent.PERKS_UPDATED, this.onPerksUpdated);
+                    this._reopenNavigatorOnPerksUpdated = true;
+                    this._reopenNavigatorUseNew = _local_4;
+                    this._toolbar.sessionDataManager.events.addEventListener(PerksUpdatedEvent.PERKS_UPDATED, this.onPerksUpdated);
+                    this._toolbar.sessionDataManager.setNavigatorPhaseTwo(_local_4);
+                    return;
                 case "disable_room_camera_follow_checkbox":
                     _local_4 = ICheckBoxWindow(this._window.findChildByName("disable_room_camera_follow_checkbox")).Selected;
                     this._toolbar.connection.send(new SetRoomCameraPreferencesMessageComposer(_local_4));
@@ -98,6 +112,28 @@
                     this._window.findChildByName("btn_reset_phone_number_collection").visible = false;
                     this._toolbar.connection.send(new ResetPhoneNumberStateMessageComposer());
                     return;
+            }
+        }
+
+        private function onPerksUpdated(k:PerksUpdatedEvent):void
+        {
+            this._toolbar.sessionDataManager.events.removeEventListener(PerksUpdatedEvent.PERKS_UPDATED, this.onPerksUpdated);
+            if (!this._reopenNavigatorOnPerksUpdated)
+            {
+                return;
+            }
+            this._reopenNavigatorOnPerksUpdated = false;
+            if (this._reopenNavigatorUseNew)
+            {
+                if (this._toolbar.sessionDataManager.isPerkAllowed("NAVIGATOR_PHASE_TWO_2014"))
+                {
+                    this._toolbar.openNewNavigator();
+                }
+                return;
+            }
+            if (!this._toolbar.sessionDataManager.isPerkAllowed("NAVIGATOR_PHASE_TWO_2014"))
+            {
+                this._toolbar.navigator.openNavigator();
             }
         }
 

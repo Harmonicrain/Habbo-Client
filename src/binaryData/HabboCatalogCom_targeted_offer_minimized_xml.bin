@@ -1,8 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?><layout name="targetedoffers_minimized" width="192" height="51" version="0.1" uid="AA805EFD-15AE-BDD7-EEC7-62AA4ABFD769">
+<?xml version="1.0" encoding="UTF-8"?>
+<layout name="targetedoffers_minimized" width="192" height="51" version="0.1" uid="AA805EFD-15AE-BDD7-EEC7-62AA4ABFD769">
   <window>
     <region x="0" y="0" width="192" height="51" params="147473" style="0" name="targetedoffers_minimized" clipping="false" treshold="0">
       <children>
-        <border x="0" y="0" width="192" height="51" params="147472" style="9" color="0x0686661" tags="BGCOLOR">
+        <border x="0" y="0" width="192" height="51" params="147472" style="9" color="0x1aadcd" tags="BGCOLOR">
           <children>
             <itemlist_vertical x="0" y="6" width="192" height="22" params="147472" style="3" name="itemlist">
               <children>

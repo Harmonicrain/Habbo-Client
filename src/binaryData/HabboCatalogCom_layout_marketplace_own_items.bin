@@ -1,10 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?><layout name="ctlg_marketplace" width="360" height="460" version="0.1" uid="C5DFF6BA-4311-09BF-A8D2-E3D34CEABC19">
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- own items my sales -->
+<layout name="ctlg_marketplace" width="680" height="440" version="0.1" uid="C5DFF6BA-4311-09BF-A8D2-E3D34CEABC19">
   <window>
-    <container x="0" y="0" width="360" height="460" params="2064" style="0" name="ctlg_marketplace_own_items" color="0x2121ffffff" background="true">
+    <container x="10" y="0" width="680" height="440" params="2064" style="0" name="ctlg_marketplace_own_items" color="0x2121ffffff" background="true">
       <children>
-        <container x="0" y="0" width="360" height="460" params="2064" style="0" name="marketPlaceOwnItemsWidget" color="0xffeeeeee" tags="EMBEDDED">
+        <container x="0" y="0" width="680" height="440" params="2064" style="0" name="marketPlaceOwnItemsWidget" color="0xffeeeeee" tags="EMBEDDED">
           <children>
-            <text x="10" y="0" width="340" height="30" params="16" style="3" name="redeem_info" caption="%24%7Blorem.header%7D" width_min="340">
+            <text x="10" y="0" width="660" height="30" params="16" style="3" name="redeem_info" caption="%24%7Blorem.header%7D" width_min="340">
               <variables>
                 <var key="auto_size" value="left" type="String"/>
                 <var key="text_style" value="u_italic" type="String"/>
@@ -14,15 +16,24 @@
                 <var key="leading" value="0" type="Number"/>
               </variables>
             </text>
-            <button x="76" y="66" width="210" height="24" params="917521" style="3" name="redeem_sold" caption="%24%7Bcatalog.marketplace.offer.redeem%7D"/>
+	<text x="0" y="50" width="680" height="30" params="80" style="0" name="ngh_credits" caption="Created%20by%20Ridge%20&%20John%20of%20NextGenHabbo">
+   	    <variables>
+     	       <var key="spacing" value="0" type="Number" />
+      	       <var key="text_color" value="0xffafaeaf" type="hex" />
+      	       <var key="word_wrap" value="true" type="Boolean" />
+      	       <var key="auto_size" value="center" type="String" />
+ 	    </variables>
+	</text>
+<!-- Please note: A lot of work was put into this SWF. Removing our names COMPLETELY from it will get you permanently banned from NextGenHabbo, unless we have an agreement. -->
+            <button x="240" y="66" width="210" height="24" params="917521" style="3" name="redeem_sold" caption="%24%7Bcatalog.marketplace.offer.redeem%7D"/>
             <label x="0" y="96" width="62" height="15" params="16" style="3" name="status_text" caption="%24%7Blorem.title%7D">
               <variables>
                 <var key="text_style" value="u_small" type="String"/>
               </variables>
             </label>
-            <scrollable_itemlist_vertical x="0" y="120" width="360" height="339" params="2064" style="3" name="item_list" tags="own_items_grid">
+            <scrollable_itemlist_vertical x="0" y="120" width="670" height="267" params="2064" style="3" name="item_list" tags="own_items_grid">
               <children>
-                <border x="0" y="0" width="340" height="58" params="17" style="100" name="ongoing_item" color="0x0e3e3e3">
+                <border x="0" y="0" width="650" height="58" params="17" style="100" name="ongoing_item" color="0x0e3e3e3">
                   <children>
                     <container x="9" y="9" width="40" height="40" params="16" style="0" name="image_container">
                       <children>
@@ -81,10 +92,10 @@
                         <var key="leading" value="0" type="Number"/>
                       </variables>
                     </text>
-                    <button x="145" y="31" width="189" height="22" params="393233" style="3" name="pick_button" caption="%24%7Bcatalog.marketplace.offer.pick%7D"/>
+                    <button x="457" y="31" width="189" height="22" params="393233" style="3" name="pick_button" caption="%24%7Bcatalog.marketplace.offer.pick%7D"/>
                   </children>
                 </border>
-                <border x="0" y="59" width="340" height="58" params="17" style="100" name="sold_item" color="0x0e3e3e3" treshold="0">
+                <border x="0" y="59" width="650" height="58" params="17" style="100" name="sold_item" color="0x0e3e3e3" treshold="0">
                   <children>
                     <container x="9" y="9" width="40" height="40" params="16" style="0" name="image_container">
                       <children>
@@ -145,7 +156,7 @@
                     </text>
                   </children>
                 </border>
-                <border x="0" y="118" width="340" height="58" params="17" style="100" name="expired_item" color="0x0e3e3e3">
+                <border x="0" y="118" width="650" height="58" params="17" style="100" name="expired_item" color="0x0e3e3e3">
                   <children>
                     <container x="9" y="9" width="40" height="40" params="16" style="0" name="image_container">
                       <children>
@@ -195,7 +206,7 @@
                         <var key="leading" value="0" type="Number"/>
                       </variables>
                     </text>
-                    <button x="145" y="31" width="189" height="22" params="393233" style="3" name="pick_button" caption="%24%7Bcatalog.marketplace.offer.pick%7D"/>
+                    <button x="457" y="31" width="189" height="22" params="393233" style="3" name="pick_button" caption="%24%7Bcatalog.marketplace.offer.pick%7D"/>
                   </children>
                 </border>
               </children>

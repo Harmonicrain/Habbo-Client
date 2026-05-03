@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><layout name="singleViewWidget" width="158" height="207" version="0.1" uid="ACB1C0A9-0BFD-D25B-0BCC-9CD32C947DAD">
+<?xml version="1.0" encoding="UTF-8"?>
+<layout name="singleViewWidget" width="158" height="207" version="0.1" uid="ACB1C0A9-0BFD-D25B-0BCC-9CD32C947DAD">
   <window>
     <container x="174" y="154" width="158" height="207" params="16" style="0" name="singleViewWidget">
       <children>

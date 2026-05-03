@@ -1,0 +1,26 @@
+{
+  "branch": "ngh",
+  "source_root": "C:\\habbo\\client\\habbo-client-ngh",
+  "target_root": "C:\\habbo\\client\\habbo-client-clean",
+  "manifest": "C:\\habbo\\client\\habbo-client-clean\\docs\\Development\\NGH_UI_port_manifest.csv",
+  "total_mapped_assets": 352,
+  "copied_assets": 250,
+  "copied_xml_bins": 135,
+  "copied_images": 115,
+  "skipped_identical": 102,
+  "skipped_missing_or_unsupported": [],
+  "summary": {
+    "HabboCatalogCom:copied": 129,
+    "HabboCatalogCom:identical": 56,
+    "HabboNavigatorCom:identical": 18,
+    "HabboNavigatorCom:copied": 79,
+    "HabboNewNavigatorCom:identical": 2,
+    "HabboNewNavigatorCom:copied": 3,
+    "HabboToolbarCom:identical": 15,
+    "HabboToolbarCom:copied": 36,
+    "HabboWindowManagerCom:identical": 11,
+    "HabboWindowManagerCom:copied": 3
+  },
+  "runtime_image_verification": "skipped per user: referenced C:\\habbo\\ngh c_images assets already exist",
+  "runtime_text_updates": "skipped per user: external_flash_texts keys already exist"
+}

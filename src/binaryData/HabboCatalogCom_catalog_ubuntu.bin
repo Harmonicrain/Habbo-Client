@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <layout name="catalog_ubuntu" width="570" height="600" version="0.1" uid="AFF0F6F1-79BB-175A-7D3E-04DACA54BC20">
   <window>
-    <frame x="0" y="0" width="570" height="600" params="98337" style="3" name="catalog_main_container" caption="%24%7Bcatalog.title%7D" color="0xff418db0" width_min="570" width_max="570" height_min="540">
+    <frame x="0" y="0" width="570" height="600" params="98337" style="3" name="catalog_main_container" caption="NextGenHabbo%20Shop" color="0xffffffff" width_min="570" width_max="570" height_min="540">
       <filters>
         <DropShadowFilter distance="4" alpha="0.34901960784313724" blurX="4" blurY="4"/>
       </filters>

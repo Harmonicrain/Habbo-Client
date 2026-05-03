@@ -10,10 +10,12 @@
     import com.sulake.habbo.communication.messages.incoming.navigator.OfficialRoomEntryData;
     import com.sulake.core.window.components.ITextWindow;
     import flash.display.BitmapData;
+    import flash.net.URLRequest;
     import com.sulake.core.window.IWindow;
     import com.sulake.core.window.events.WindowEvent;
     import com.sulake.habbo.communication.messages.incoming.navigator.RoomSettingsFlatInfo;
     import com.sulake.habbo.navigator.domain.Tabs;
+    import com.sulake.habbo.communication.messages.incoming.navigator.GuestRoomData;
 
     public class OfficialRoomEntryManager implements IDisposable 
     {
@@ -236,20 +238,58 @@
 
         private function _Str_24128(k:IWindowContainer, _arg_2:OfficialRoomEntryData, _arg_3:IBitmapWrapperWindow):void
         {
-            var _local_4:String = ("guestRoom." + _arg_2._Str_5019.thumbnail._Str_22978());
-            if (_arg_3.tags[0] == _local_4)
+            var _local_4:String;
+            var _local_5:String;
+            var _local_6:String;
+            var _local_7:String;
+            var _local_8:OfficialRoomImageLoader;
+            if (_arg_2._Str_5019.officialRoomPicRef != null)
+            {
+                if (this._navigator.getBoolean("new.navigator.official.room.thumbnails.in.amazon"))
+                {
+                    _local_4 = ((this._navigator.getProperty("navigator.thumbnail.url_base") + _arg_2._Str_5019.flatId) + ".png");
+                }
+                else
+                {
+                    _local_4 = (this._navigator.getProperty("image.library.url") + _arg_2._Str_5019.officialRoomPicRef);
+                }
+            }
+            else
+            {
+                _local_4 = ((this._navigator.getProperty("navigator.thumbnail.url_base") + _arg_2._Str_5019.flatId) + ".png");
+            }
+            _local_5 = this._navigator.data.getRoomThumbnailRefreshKey(_arg_2._Str_5019.flatId);
+            if (((!(_local_5 == null)) && (!(_local_5 == ""))))
+            {
+                _local_4 = (_local_4 + ("?v=" + _local_5));
+            }
+            _local_6 = this._Str_25434(_arg_2._Str_5019, _local_5);
+            if (_arg_3.tags[0] == _local_6)
             {
                 _arg_3.visible = true;
                 return;
             }
-            Logger.log("Redrawing guest room image");
+            Logger.log(("Loading guest room image: " + _local_4));
             _arg_3.x = 0;
             _arg_3.width = 64;
             _arg_3.bitmap = new BitmapData(64, 64);
             _arg_3.bitmap.fillRect(_arg_3.bitmap.rect, 0xFFFFFFFF);
+            _local_7 = this._Str_22316(_local_4);
+            _local_8 = new OfficialRoomImageLoader(this._navigator, _local_6, _arg_3, _local_7, "image/png", 64, 64);
+            _local_8._Str_24517();
             _arg_3.tags.splice(0, _arg_3.tags.length);
-            _arg_3.tags.push(_local_4);
+            _arg_3.tags.push(_local_6);
             _arg_3.visible = true;
+        }
+
+        private function _Str_25434(k:GuestRoomData, _arg_2:String):String
+        {
+            return (("guestRoomThumb_" + k.flatId) + (((_arg_2 != null) && (!(_arg_2 == ""))) ? ("_" + _arg_2) : ""));
+        }
+
+        private function _Str_22316(k:String):String
+        {
+            return k.split("?")[0];
         }
 
         private function _Str_24928(k:IWindowContainer, _arg_2:OfficialRoomEntryData, _arg_3:IBitmapWrapperWindow):void

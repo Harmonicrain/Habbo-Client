@@ -1,6 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?><layout name="rent_confirmation" width="370" height="300" version="0.1" uid="63AA03E1-7C79-B9F4-5886-CDD92AFF0350">
+<?xml version="1.0" encoding="UTF-8"?>
+<layout name="rent_confirmation" width="370" height="300" version="0.1" uid="63AA03E1-7C79-B9F4-5886-CDD92AFF0350">
   <window>
-    <frame x="0" y="0" width="370" height="300" params="32769" style="3" caption="%24%7Brent.confirmation.title.extend%7D" color="0xff67a3bf">
+    <frame x="0" y="0" width="370" height="300" params="32769" style="3" caption="%24%7Brent.confirmation.title.extend%7D" color="0xffffffff">
       <filters>
         <DropShadowFilter distance="4" alpha="0.34901960784313724" blurX="4" blurY="4"/>
       </filters>

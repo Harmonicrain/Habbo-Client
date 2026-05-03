@@ -232,8 +232,7 @@
             {
                 if (depth == 1)
                 {
-                    this._window.findChildByName("icon").visible = false;
-                    this._window.findChildByTag("ITEM_TITLE").x = 0;
+                    this._window.findChildByName("icon").visible = true;
                 }
                 if (depth > 3)
                 {

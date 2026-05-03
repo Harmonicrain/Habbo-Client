@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><layout name="ctlg_trophies" width="360" height="460" version="0.1" uid="40F54643-8C0B-175E-E485-E45356BB5A28">
+<?xml version="1.0" encoding="UTF-8"?>
+<layout name="ctlg_trophies" width="360" height="460" version="0.1" uid="40F54643-8C0B-175E-E485-E45356BB5A28">
   <window>
     <container x="0" y="0" width="360" height="460" params="16" style="0" name="ctlg_trophies">
       <children>

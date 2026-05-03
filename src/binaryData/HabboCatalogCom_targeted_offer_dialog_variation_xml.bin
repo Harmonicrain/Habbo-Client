@@ -1,6 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?><layout name="targeted_offer_variations" width="640" height="480" version="0.1" uid="62111BEA-CD5A-48FF-DB90-E8296C858318">
+<?xml version="1.0" encoding="UTF-8"?>
+<layout name="targeted_offer_variations" width="640" height="480" version="0.1" uid="62111BEA-CD5A-48FF-DB90-E8296C858318">
   <window>
-    <frame x="0" y="0" width="640" height="480" params="32769" style="3" color="0xff418db0" treshold="0">
+    <frame x="0" y="0" width="640" height="480" params="32769" style="3" color="0xff1aadcd" treshold="0" blend="0.4" >
       <filters>
         <DropShadowFilter distance="4" alpha="0.34901960784313724" blurX="4" blurY="4"/>
       </filters>

@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git restore *)",
+      "Bash(cp \"C:/habbo/client/habbo-client-ngh/binaryData/2357_HabboWindowManagerCom_habbo_skin_header_3_xml.bin\" \"src/binaryData/HabboWindowManagerCom_habbo_skin_header_3_xml.bin\")",
+      "Bash(cp \"C:/habbo/client/habbo-client-ngh/binaryData/2337_HabboWindowManagerCom_habbo_skin_header_7_xml.bin\" \"src/binaryData/HabboWindowManagerCom_habbo_skin_header_7_xml.bin\")",
+      "Bash(ls C:/habbo/client/habbo-client-ngh/binaryData/)",
+      "Read(//tmp/**)",
+      "PowerShell($files = Get-ChildItem 'C:\\\\habbo\\\\client\\\\habbo-client-ngh\\\\binaryData\\\\' -File; Write-Output \"Total: $\\($files.Count\\)\"; $files | Where-Object { $_.Name -match 'nav|main_window|grs_|frame_|skin_header' } | Select-Object -ExpandProperty Name | Sort-Object)",
+      "PowerShell($dir = 'C:\\\\habbo\\\\client\\\\habbo-client-ngh\\\\binaryData\\\\'; $useDotNet = [System.IO.Directory]::GetFiles\\($dir\\).Count; Write-Output \"DotNet count: $useDotNet\"; $useGCI = \\(Get-ChildItem $dir -File | Measure-Object\\).Count; Write-Output \"GCI count: $useGCI\")",
+      "PowerShell(& 'C:\\\\Users\\\\John\\\\AppData\\\\Local\\\\Temp\\\\port_ngh_navigator.ps1')",
+      "PowerShell($bytes = [System.IO.File]::ReadAllBytes\\('C:\\\\habbo\\\\client\\\\habbo-client-clean\\\\src\\\\binaryData\\\\HabboNewNavigatorCom_navigator_frame_2_xml.bin'\\); $text = [System.Text.Encoding]::UTF8.GetString\\($bytes\\); $idx = $text.IndexOf\\('NGH'\\); if \\($idx -gt 0\\) { $text.Substring\\([Math]::Max\\(0,$idx-50\\), 200\\) }; Write-Output \"---\"; $idx2 = $text.IndexOf\\('NextGen'\\); if \\($idx2 -gt 0\\) { $text.Substring\\([Math]::Max\\(0,$idx2-50\\), 200\\) })"
+    ]
+  }
+}

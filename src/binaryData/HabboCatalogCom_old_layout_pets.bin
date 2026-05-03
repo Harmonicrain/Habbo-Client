@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><layout name="ctlg_pets" width="360" height="460" version="0.1" uid="49F8D76A-8F1B-3061-0180-E498896A94D2">
+<?xml version="1.0" encoding="UTF-8"?>
+<layout name="ctlg_pets" width="360" height="460" version="0.1" uid="49F8D76A-8F1B-3061-0180-E498896A94D2">
   <window>
     <container x="0" y="0" width="360" height="460" params="16" style="0" name="ctlg_pets">
       <children>
@@ -95,7 +96,7 @@
                 </input>
               </children>
             </border>
-            <container x="0" y="345" width="360" height="30" params="16" style="0" name="purchaseWidget"/>
+            <container x="0" y="345" width="0" height="0" params="16" style="0" name="purchaseWidget" visible="false"/>
             <container x="30" y="85" width="40" height="40" params="16" style="0" name="addOnBadgeViewWidget"/>
           </children>
         </container>

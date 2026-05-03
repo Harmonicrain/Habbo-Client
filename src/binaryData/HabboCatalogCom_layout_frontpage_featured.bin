@@ -1,24 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<layout name="layout_frontpage_featured" width="552" height="460" version="0.1" uid="170FB930-A89B-0381-D48B-B929630F33B7">
+<layout name="layout_frontpage_featured" width="680" height="440" version="0.1" uid="170FB930-A89B-0381-D48B-B929630F33B7">
   <window>
-    <container x="0" y="0" width="552" height="460" params="16" style="0" name="ctlg_frontpage5">
+    <container x="10" y="0" width="680" height="440" params="16" style="0" name="ctlg_frontpage5">
       <children>
-        <container x="0" y="0" width="552" height="460" params="16400" style="3" name="featuredItemsWidget" tags="EMBEDDED">
+        <container x="0" y="0" width="680" height="440" params="16400" style="3" name="featuredItemsWidget" tags="EMBEDDED">
           <children>
-            <scrollable_itemlist_vertical x="192" y="0" width="360" height="392" params="16" style="3" name="itemlist_featured">
+              <!-- ngh text on left -->
+              <border x="0" y="0" width="312" height="360" params="2064" style="2" color="0xff87c2dd">
+          <children>
+              <html x="5" y="5" width="301" height="25" params="16" style="3" caption="%24%7Bngh.frontpage.title%7D">
+              <variables>
+                <var key="font_size" value="16" type="uint" />
+                    <var key="text_color" value="0x000" type="hex" />
+                    <var key="text_style" value="u_headline_medium" type="String" />
+                    <var key="mouse_wheel_enabled" value="false" type="Boolean" />
+                    <var key="multiline" value="true" type="Boolean" />
+                    <var key="word_wrap" value="true" type="Boolean" />
+                    <var key="spacing" value="0" type="Number" />
+                    <var key="leading" value="0" type="Number" />
+                    <var key="editable" value="false" type="Boolean" />
+                    <var key="selectable" value="false" type="Boolean" />
+                    <var key="editable" value="false" type="Boolean" />
+                    <var key="selectable" value="false" type="Boolean" />
+              </variables>
+            </html>
+           <html x="5" y="30" width="301" height="325" params="16" style="3" caption="%24%7Bngh.frontpage.desc%7D">
+              <variables>
+                <var key="font_size" value="13" type="uint" />
+                    <var key="text_color" value="0x000" type="hex" />
+                    <var key="text_style" value="u_regular" type="String" />
+                    <var key="mouse_wheel_enabled" value="false" type="Boolean" />
+                    <var key="multiline" value="true" type="Boolean" />
+                    <var key="word_wrap" value="true" type="Boolean" />
+                    <var key="spacing" value="0" type="Number" />
+                    <var key="leading" value="0" type="Number" />
+                    <var key="editable" value="false" type="Boolean" />
+                    <var key="selectable" value="false" type="Boolean" />
+                    <var key="editable" value="false" type="Boolean" />
+                    <var key="selectable" value="false" type="Boolean" />
+                  
+              </variables>
+            </html>
+                  </children>
+              </border>
+              <!-- set of 3 featured, slot_ids 1 through 3 -->
+            <scrollable_itemlist_vertical x="320" y="3" width="350" height="392" params="16" style="3" name="itemlist_featured">
               <children>
-                <container x="0" y="0" width="360" height="126" params="16" style="3" name="featured_item_template">
+                <container x="0" y="0" width="350" height="120" params="16" style="3" name="featured_item_template">
                   <children>
-                    <static_bitmap x="0" y="0" width="356" height="126" params="18" style="3" name="item_image">
+                    <static_bitmap x="0" y="0" width="346" height="120" params="12582960" style="3" name="item_image">
                       <variables>
                         <var key="pivot_point" value="center" type="String"/>
                         <var key="stretched_x" value="false" type="Boolean"/>
                         <var key="stretched_y" value="false" type="Boolean"/>
                       </variables>
                     </static_bitmap>
-                    <border x="5" y="93" width="346" height="30" params="1198099" style="3" name="text_container" color="0x0333333" blend="0.5">
+                    <border x="5" y="88" width="335" height="30" params="1198099" style="3" name="text_container" color="0x0333333" blend="0.7">
                       <children>
-                        <text x="5" y="5" width="340"  width_max="340" height="24" params="8388627" style="3" name="item_title" caption="">
+                        <text x="5" y="5" width="330" width_max="330" height="24" params="8388627" style="3" name="item_title" caption="">
                           <variables>
                             <var key="auto_size" value="left" type="String"/>
                             <var key="text_style" value="ubuntu_condensed_title" type="String"/>
@@ -33,7 +72,7 @@
                         </text>
                       </children>
                     </border>
-                    <region x="0" y="0" width="360" height="126" params="17" style="3" name="event_catcher_region" treshold="0"/>
+                    <region x="0" y="0" width="355" height="120" params="17" style="3" name="event_catcher_region" treshold="0"/>
                   </children>
                 </container>
               </children>
@@ -41,18 +80,19 @@
                 <var key="spacing" value="7" type="int"/>
               </variables>
             </scrollable_itemlist_vertical>
-            <container x="0" y="0" width="184" height="460" params="17" style="3" name="firstitem">
+              <!-- tall featured, slot_id 4 -->
+            <container x="400" y="0" width="200" height="350" params="17" style="3" name="firstitem" visible="false">
               <children>
-                <static_bitmap x="0" y="0" width="184" height="460" params="1073741843" style="3" name="item_image">
+                <static_bitmap x="0" y="0" width="200" height="350" params="1073741843" style="3" name="item_image">
                   <variables>
                     <var key="pivot_point" value="center" type="String"/>
                     <var key="stretched_x" value="false" type="Boolean"/>
                     <var key="stretched_y" value="false" type="Boolean"/>
                   </variables>
                 </static_bitmap>
-                <border x="5" y="428" width="174" height="29" params="1198099" style="3" name="text_container" color="0x0333333" blend="0.5" width_max="174">
+                <border x="5" y="338" width="204" height="29" params="1198099" style="3" name="text_container" color="0x0333333" blend="0.5" width_max="174">
                   <children>
-                    <text x="5" y="0" width="174" height="29" params="8388627" style="3" name="item_title" caption="" width_max="174">
+                    <text x="5" y="0" width="204" height="29" params="8388627" style="3" name="item_title" caption="" width_max="174">
                       <variables>
                         <var key="auto_size" value="left" type="String"/>
                         <var key="text_style" value="ubuntu_condensed_title" type="String"/>
@@ -67,14 +107,15 @@
                     </text>
                   </children>
                 </border>
-                <region x="0" y="0" width="184" height="422" params="17" style="3" name="event_catcher_region" treshold="0"/>
+                <region x="0" y="0" width="200" height="422" params="17" style="3" name="event_catcher_region" treshold="0"/>
               </children>
             </container>
           </children>
         </container>
-        <border x="200" y="399" width="345" height="61" params="1040" style="2" name="bgBorder" color="0x051bbee">
+          <!-- voucher -->
+        <border x="0" y="320" width="312" height="61" params="1040" style="2" name="bgBorder" color="0xff87c2dd" background="false">
           <children>
-            <formatted_text x="10" y="6" width="272" height="17" params="16" style="3" name="ctlg_txt2" caption="%24%7Blorem.title%7D">
+            <formatted_text x="10" y="6" width="272" height="17" params="16" style="3" caption="%24%7Bngh.frontpage.voucher%7D">
               <variables>
                 <var key="auto_size" value="left" type="String"/>
                 <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
@@ -84,11 +125,11 @@
                 <var key="leading" value="0" type="Number"/>
               </variables>
             </formatted_text>
-            <container x="0" y="20" width="345" height="34" params="16" style="0" name="redeemItemCodeWidget">
+            <container x="0" y="20" width="312" height="34" params="16" style="0" name="redeemItemCodeWidget">
               <children>
-                <border x="10" y="5" width="216" height="25" params="16" style="0">
+                <border x="10" y="5" width="206" height="25" params="16" style="0">
                   <children>
-                    <input x="4" y="4" width="206" height="15" params="1" style="3" name="voucher_code">
+                    <input x="4" y="4" width="196" height="15" params="1" style="3" name="voucher_code">
                       <variables>
                         <var key="always_show_selection" value="true" type="Boolean"/>
                         <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
@@ -99,7 +140,7 @@
                     </input>
                   </children>
                 </border>
-                <button x="274" y="5" width="62" height="22" params="393361" style="3" name="redeem" caption="%24%7Bredeem%7D" width_max="100"/>
+                <button x="230" y="5" width="62" height="22" params="393361" style="3" name="redeem" caption="%24%7Bredeem%7D" width_max="100"/>
               </children>
             </container>
           </children>

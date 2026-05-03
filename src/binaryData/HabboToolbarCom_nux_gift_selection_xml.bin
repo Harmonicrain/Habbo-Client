@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><layout name="nux_gift_selection" width="487" height="287" version="0.1" uid="C93718B4-3A6B-FF15-96D4-8582ED62FF06">
   <window>
-    <frame x="0" y="0" width="487" height="287" params="34849" style="3" caption="%24%7Bnux.gift.selection.title%7D" color="0xff418db0" clipping="false">
+    <frame x="0" y="0" width="487" height="287" params="34849" style="3" caption="%24%7Bnux.gift.selection.title%7D" color="0xffffffff" clipping="false">
       <filters>
         <DropShadowFilter distance="4" alpha="0.34901960784313724" blurX="4" blurY="4"/>
       </filters>

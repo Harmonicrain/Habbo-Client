@@ -221,7 +221,7 @@
               <children>
                 <text x="0" y="0" width="100" height="14" params="16" style="0" name="eventinfo.caption" caption="%24%7Broomad.event%7D">
                   <variables>
-                    <var key="antialias_type" value="advanced" type="String"/>
+                    <var key="antialias_type" value="normal" type="String"/>
                     <var key="etching_color" value="0x0" type="hex"/>
                     <var key="etching_position" value="top-left" type="String"/>
                     <var key="font_face" value="Volter Bold" type="String"/>

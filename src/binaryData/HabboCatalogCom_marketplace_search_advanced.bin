@@ -1,8 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?><layout name="marketplace_search_simple" width="360" height="120" version="0.1" uid="0A7ACC76-9D1E-560C-E52C-08F6DEB8FD46">
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- advanced search in marketplace offers -->
+<layout name="marketplace_search_simple" width="680" height="120" version="0.1" uid="0A7ACC76-9D1E-560C-E52C-08F6DEB8FD46">
   <window>
-    <container x="0" y="0" width="360" height="120" params="16" style="0">
+    <container x="0" y="0" width="680" height="120" params="16" style="0">
       <children>
-        <container x="10" y="10" width="340" height="20" params="16" style="0" name="text_search_container">
+        <container x="140" y="10" width="400" height="20" params="16" style="0" name="text_search_container">
           <children>
             <text x="0" y="3" width="102" height="16" params="16" style="3" caption="%24%7Bcatalog.marketplace.search_name%7D">
               <variables>
@@ -12,9 +14,9 @@
                 <var key="leading" value="0" type="Number"/>
               </variables>
             </text>
-            <border x="120" y="0" width="220" height="20" params="16" style="0">
+            <border x="120" y="0" width="260" height="20" params="16" style="0">
               <children>
-                <input x="6" y="2" width="210" height="16" params="1" style="3" name="search_input">
+                <input x="6" y="2" width="250" height="16" params="1" style="3" name="search_input">
                   <variables>
                     <var key="always_show_selection" value="true" type="Boolean"/>
                     <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
@@ -26,7 +28,7 @@
             </border>
           </children>
         </container>
-        <container x="10" y="35" width="340" height="20" params="16" style="0" name="price_container">
+        <container x="140" y="35" width="400" height="20" params="16" style="0" name="price_container">
           <children>
             <text x="0" y="3" width="102" height="16" params="16" style="3" caption="%24%7Bcatalog.marketplace.search_price%7D">
               <variables>
@@ -49,7 +51,7 @@
                 </input>
               </children>
             </border>
-            <border x="270" y="0" width="70" height="20" params="16" style="0">
+            <border x="300" y="0" width="70" height="20" params="16" style="0">
               <children>
                 <input x="6" y="3" width="60" height="16" params="1" style="3" name="max_price_input">
                   <variables>
@@ -64,7 +66,7 @@
             </border>
           </children>
         </container>
-        <container x="10" y="60" width="340" height="24" params="16" style="0" name="sort_container">
+        <container x="140" y="60" width="400" height="24" params="16" style="0" name="sort_container">
           <children>
             <text x="0" y="3" width="102" height="16" params="16" style="3" caption="%24%7Bcatalog.marketplace.sort_order%7D">
               <variables>
@@ -74,10 +76,10 @@
                 <var key="leading" value="0" type="Number"/>
               </variables>
             </text>
-            <dropmenu x="120" y="0" width="220" height="24" params="17" style="3" name="sort_dropmenu"/>
+            <dropmenu x="120" y="0" width="260" height="24" params="17" style="3" name="sort_dropmenu"/>
           </children>
         </container>
-        <button x="250" y="90" width="100" height="22" params="393233" style="3" name="search_button" caption="%24%7Bgeneric.search%7D" width_min="100"/>
+        <button x="280" y="90" width="100" height="22" params="393233" style="3" name="search_button" caption="%24%7Bgeneric.search%7D" width_min="100"/>
       </children>
     </container>
   </window>

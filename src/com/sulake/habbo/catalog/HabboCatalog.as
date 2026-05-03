@@ -1363,9 +1363,9 @@
             if (this._mainContainer != null)
             {
                 this._mainContainer.color = ((k == CatalogType.NORMAL) ? 4296112 : 16758076);
-                this._mainContainer.caption = ((k == CatalogType.NORMAL) ? "${catalog.title}" : "${builder.catalog.title}");
-                this._mainContainer.findChildByName("catalog.header.background.border").color = ((k == CatalogType.NORMAL) ? 4281819765 : 4283320388);
-                this._mainContainer.findChildByName("catalog.header.background.body").color = ((k == CatalogType.NORMAL) ? 4279123794 : 4281149220);
+                this._mainContainer.caption = ((k == CatalogType.NORMAL) ? "NextGenHabbo Shop" : "${builder.catalog.title}");
+            this._mainContainer.findChildByName("catalog.header.background.border").color = ((k == CatalogType.NORMAL) ? 0x00000000 : 4283320388);
+            this._mainContainer.findChildByName("catalog.header.background.body").color = ((k == CatalogType.NORMAL) ? 0x00000000 : 4281149220);
                 this._mainContainer.findChildByName("catalog.mode.header").visible = (k == CatalogType.NORMAL);
                 this._mainContainer.findChildByName("builder.mode.header").visible = (k == CatalogType.BUILDER);
                 this.refreshBuilderStatus();
@@ -1489,7 +1489,7 @@
             var _local_2:IWindow;
             if (this._mainContainer)
             {
-                this._mainContainer.caption = ((k) ? "${generic.loading}" : "${catalog.title}");
+                this._mainContainer.caption = ((k) ? "${generic.loading}" : "NextGenHabbo Shop");
                 _local_2 = this._mainContainer.findChildByName("search_waiting_for_results_mask");
                 if (_local_2)
                 {

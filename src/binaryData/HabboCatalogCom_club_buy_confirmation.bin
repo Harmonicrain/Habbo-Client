@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <layout name="purchase_confirmation" width="369" height="210" version="0.1" uid="78BB1282-B577-5AA1-C4D9-CB41C0BF5CC6">
   <window>
-    <frame x="20" y="29" width="369" height="210" params="33025" style="3" caption="%24%7Bcatalog.club.buy.confirm%7D" color="0x0418db0">
+    <frame x="20" y="29" width="369" height="210" params="33025" style="3" caption="%24%7Bcatalog.club.buy.confirm%7D" color="0xffffffff">
       <filters>
         <DropShadowFilter distance="4" alpha="0.34901960784313724" blurX="4" blurY="4"/>
       </filters>

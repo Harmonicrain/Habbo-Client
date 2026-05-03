@@ -31,7 +31,7 @@
             this._habboToolbar = k;
 			if (this.currencyId == -1)
 			{
-				this._habboToolbar.getInteger("seasonalcurrencyindicator.currency", 1)
+				this.currencyId = this._habboToolbar.getInteger("seasonalcurrencyindicator.currency", 1);
 			}
             this._catalog = _arg_4;
             this._Str_19567 = _Str_3591;

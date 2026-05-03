@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><layout name="hells" width="270" height="90" version="0.1" uid="19B365B1-AED9-3639-893D-7473C730E738">
   <window>
-    <container x="0" y="0" width="270" height="90" params="16" style="3" name="row" color="0x0a5babf">
+    <container x="0" y="0" width="270" height="90" params="16" style="3" name="row" color="0x09ca1a7">
       <children>
         <border x="1" y="0" width="126" height="22" params="145" style="3" name="category_header" color="0x0999999">
           <children>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><layout name="targeted_offer_window" width="575" height="430" version="0.1" uid="1E1E58C7-934C-1DC3-6238-283F47E19A2C">
   <window>
-    <frame x="0" y="0" width="575" height="430" params="32769" style="3" color="0xff418db0" treshold="0">
+    <frame x="0" y="0" width="575" height="430" params="32769" style="3" color="0xffffffff" treshold="0">
       <filters>
         <DropShadowFilter distance="4" alpha="0.34901960784313724" blurX="4" blurY="4"/>
       </filters>

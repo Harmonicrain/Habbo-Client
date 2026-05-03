@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <layout name="memenu_chat_settings" width="242" height="200" version="0.1" uid="5A336689-1859-724E-787A-034EC478EBEB">
   <window>
-    <border x="1" y="1" width="242" height="200" params="1" style="6" name="settings_brdr" color="0x079756e">
+    <border x="1" y="1" width="242" height="200" params="1" style="7" name="settings_brdr" color="0x079756e">
       <children>
-        <text x="45" y="5" width="153" height="17" params="786640" style="0" name="settings_title" caption="%24%7Bwidget.memenu.other.settings.title%7D">
+        <text x="45" y="5" width="153" height="17" params="786640" style="0" name="settings_title" caption="NextGenHabbo%20Settings">
           <variables>
             <var key="auto_size" value="center" type="String"/>
             <var key="text_color" value="0xffffff" type="hex"/>
@@ -36,7 +36,14 @@
               <var key="text_color" value="0xffffff" type="hex"/>
           </variables>
         </label>
-        <button x="10" y="105" width="200" height="30" params="131089" style="3" name="btn_reset_phone_number_collection" caption="%24%7Bmemenu.settings.reset.phone.number.collection%7D" width_max="210"/>
+        <checkbox x="10" y="106" width="22" height="21" params="17" style="3" name="use_new_navigator_checkbox" height_min="21" height_max="21"/>
+        <label x="30" y="106" width="247" height="17" params="16" style="100" name="use_new_navigator_label" caption="%24%7Bmemenu.settings.other.use.new.navigator%7D">
+          <variables>
+            <var key="text_style" value="u_regular" type="String"/>
+            <var key="text_color" value="0xffffff" type="hex"/>
+          </variables>
+        </label>
+        <button x="10" y="129" width="200" height="30" params="131089" style="3" name="btn_reset_phone_number_collection" caption="%24%7Bmemenu.settings.reset.phone.number.collection%7D" width_max="210"/>
       </children>
     </border>
   </window>

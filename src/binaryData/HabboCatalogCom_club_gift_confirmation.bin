@@ -1,6 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?><layout name="purchase_confirmation" width="280" height="142" version="0.1" uid="29811AFE-186C-041A-7D71-9CBCEE17ACF0">
+<?xml version="1.0" encoding="UTF-8"?>
+<layout name="purchase_confirmation" width="280" height="142" version="0.1" uid="29811AFE-186C-041A-7D71-9CBCEE17ACF0">
   <window>
-    <frame x="0" y="0" width="280" height="142" params="33025" style="3" caption="%24%7Bcatalog.club_gift.confirm%7D" color="0x0418db0">
+    <frame x="0" y="0" width="280" height="142" params="33025" style="3" caption="%24%7Bcatalog.club_gift.confirm%7D" color="0xffffffff">
       <filters>
         <DropShadowFilter distance="4" alpha="0.34901960784313724" blurX="4" blurY="4"/>
       </filters>

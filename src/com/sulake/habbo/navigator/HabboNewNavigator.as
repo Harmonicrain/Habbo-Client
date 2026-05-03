@@ -209,6 +209,14 @@
                 switch (k.iconId)
                 {
                     case HabboToolbarIconEnum.NAVIGATOR:
+                        if (!this._sessionData.isPerkAllowed(PerkEnum.NAVIGATOR_PHASE_TWO_2014))
+                        {
+                            if (this._oldNavigator != null)
+                            {
+                                this._oldNavigator.openNavigator();
+                            }
+                            return;
+                        }
                         this.toggle();
                         return;
                 }
@@ -531,6 +539,10 @@
 
         public function open():void
         {
+            if (!this._sessionData.isPerkAllowed(PerkEnum.NAVIGATOR_PHASE_TWO_2014))
+            {
+                return;
+            }
             if (this._navigatorView == null)
             {
                 return;
@@ -551,6 +563,10 @@
 
         public function toggle():void
         {
+            if (!this._sessionData.isPerkAllowed(PerkEnum.NAVIGATOR_PHASE_TWO_2014))
+            {
+                return;
+            }
             if (this._navigatorView == null)
             {
                 return;

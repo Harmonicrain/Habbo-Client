@@ -195,7 +195,6 @@
             <asset mimeType="text/xml" name="old_layout_vip_buy"/>
 
             <asset mimeType="text/xml" name="offer_center_xml" />
-            <asset mimeType="text/xml" name="charge_confirmation" />
 
             <!-- Club Center -->
             <asset mimeType="text/xml" name="club_center_xml" />

@@ -1,11 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?><layout name="guildSelectorWidget" width="170" height="85" version="0.1" uid="E93AF308-C30E-1ADD-29A0-A1E8F4738F30">
+<?xml version="1.0" encoding="UTF-8"?>
+<layout name="guildSelectorWidget" width="160" height="85" version="0.1" uid="E93AF308-C30E-1ADD-29A0-A1E8F4738F30">
   <window>
-    <container x="0" y="0" width="170" height="85" params="16" style="0" name="guildSelectorWidget">
+    <container x="0" y="0" width="160" height="85" params="16" style="0" name="guildSelectorWidget">
       <children>
-        <droplist x="0" y="0" width="170" height="26" params="17" style="3" name="guild_selector"/>
-        <border x="0" y="0" width="170" height="85" params="16" style="2" name="members_only" color="0x05ea1ab">
+        <droplist x="0" y="0" width="160" height="26" params="17" style="3" name="guild_selector"/>
+        <border x="0" y="0" width="160" height="85" params="16" style="2" name="members_only" color="0x05ea1ab">
           <children>
-            <text x="7" y="7" width="147" height="46" params="16" style="3" caption="%24%7Bcatalog.guild_selector.members_only%7D">
+            <text x="7" y="7" width="137" height="46" params="16" style="3" caption="%24%7Bcatalog.guild_selector.members_only%7D">
               <variables>
                 <var key="text_color" value="0xffffff" type="hex"/>
                 <var key="mouse_wheel_enabled" value="false" type="Boolean"/>

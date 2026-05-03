@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><layout name="targeted_offer_habbomall" width="268" height="362" version="0.1" uid="86C655FD-76B9-4749-DE4F-20F39058777E">
   <window>
-    <frame x="0" y="0" width="268" height="362" params="33025" style="3" color="0xff418db0">
+    <frame x="0" y="0" width="268" height="362" params="33025" style="3" color="0xffffffff">
       <filters>
         <DropShadowFilter distance="4" alpha="0.34901960784313724" blurX="4" blurY="4"/>
       </filters>

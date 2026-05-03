@@ -549,6 +549,16 @@
             return this._isRoomCameraFollowDisabled;
         }
 
+        public function setNavigatorPhaseTwo(k:Boolean):void
+        {
+            this.setUIFlag(UIFlags.NAVIGATOR_PHASE_TWO, k);
+        }
+
+        public function get isNavigatorPhaseTwo():Boolean
+        {
+            return (this._uiFlags & UIFlags.NAVIGATOR_PHASE_TWO) != 0;
+        }
+
         public function setFriendBarState(k:Boolean):void
         {
             this.setUIFlag(UIFlags.FRIEND_BAR_OPEN, k);

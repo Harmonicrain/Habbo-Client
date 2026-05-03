@@ -1,6 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?><layout name="ctlg_recycler_prizes" width="360" height="460" version="0.1" uid="7C3DD403-D96E-6275-9FD6-C6BDBCFEBD1D">
+<?xml version="1.0" encoding="UTF-8"?>
+<layout name="ctlg_recycler_prizes" width="420" height="460" version="0.1" uid="7C3DD403-D96E-6275-9FD6-C6BDBCFEBD1D">
   <window>
-    <container x="0" y="0" width="360" height="460" params="16" style="0" name="ctlg_default_3x3">
+    <container x="0" y="0" width="420" height="460" params="16" style="0" name="ctlg_default_3x3">
       <children>
         <text x="2" y="133" width="128" height="13" params="16" style="3" name="ctlg_selectproduct" caption="%24%7Bcatalog_selectproduct%7D">
           <variables>
@@ -11,7 +12,7 @@
           </variables>
         </text>
         <container x="180" y="116" width="142" height="73" params="16" style="0" name="specialInfoWidget"/>
-        <container x="0" y="146" width="360" height="314" params="16" style="0" name="recyclerPrizesWidget">
+        <container x="0" y="146" width="420" height="314" params="16" style="0" name="recyclerPrizesWidget">
           <children>
             <scrollable_itemlist_vertical x="0" y="0" width="175" height="314" params="16" style="3" name="itemList"/>
             <container x="180" y="0" width="180" height="277" params="16" style="0" name="productView">

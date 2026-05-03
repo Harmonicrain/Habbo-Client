@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<layout name="gridItem_with_price_multi" width="53" height="74" version="0.1" uid="491ACF56-7196-3FDF-D425-4964E44CD40A">
+<layout name="gridItem_with_price_multi" width="48" height="64" version="0.1" uid="491ACF56-7196-3FDF-D425-4964E44CD40A">
   <window>
-    <region x="0" y="0" width="53" height="74" params="17" style="3" treshold="0">
+    <region x="0" y="0" width="48" height="64" params="17" style="3" treshold="0">
       <children>
-        <border x="0" y="0" width="53" height="74" params="16" style="3" name="bg" visible="false"/>
-        <border x="0" y="0" width="53" height="74" params="16" style="2" color="0xffa1a19b" tags="ITEM_HILIGHT">
+        <border x="0" y="0" width="48" height="64" params="16" style="3" name="bg" visible="false"/>
+        <border x="0" y="0" width="48" height="64" params="16" style="2" color="0xffa1a19b" tags="ITEM_HILIGHT">
           <children>
-            <border x="0" y="0" width="53" height="74" params="16" style="3" name="border_outline" color="0x063c5e9">
+            <border x="0" y="0" width="48" height="64" params="16" style="3" name="border_outline" color="0x063c5e9">
               <children>
-                <border x="2" y="2" width="49" height="70" params="16" style="3"/>
+                <border x="2" y="2" width="44" height="60" params="16" style="3"/>
               </children>
             </border>
           </children>
         </border>
-        <container x="8" y="2" width="36" height="36" params="17" style="3" treshold="0">
+        <container x="6" y="2" width="41" height="41" params="17" style="3" treshold="0">
           <children>
             <static_bitmap x="0" y="0" width="36" height="36" params="16" style="0" name="unique_item_background_bitmap" visible="false" background="true">
               <variables>
@@ -72,14 +72,14 @@
                 <var key="asset_uri" value="unique_item_sold_out_tile" type="String"/>
               </variables>
             </static_bitmap>
-            <static_bitmap x="0" y="0" width="36" height="36" params="16" style="3" visible="false" tags="ITEM_HILIGHT_TOP">
+            <static_bitmap x="0" y="0" width="41" height="41" params="16" style="3" visible="false" tags="ITEM_HILIGHT_TOP">
               <variables>
                 <var key="asset_uri" value="inventory_thumb_selected_outline" type="String"/>
               </variables>
             </static_bitmap>
           </children>
         </container>
-        <itemlist_horizontal x="7" y="36" width="44" height="19" params="409616" style="3" name="totalprice_container">
+        <itemlist_horizontal x="0" y="32" width="44" height="19" params="409616" style="3" name="totalprice_container">
           <children>
             <text x="0" y="2" width="17" height="17" params="262160" style="3" name="amount_text_left" caption="00">
               <variables>
@@ -97,7 +97,7 @@
             <var key="spacing" value="1" type="int"/>
           </variables>
         </itemlist_horizontal>
-        <itemlist_horizontal x="7" y="51" width="44" height="19" params="409616" style="3" name="totalprice_container">
+        <itemlist_horizontal x="0" y="45" width="44" height="19" params="409616" style="3" name="totalprice_container">
           <children>
             <text x="0" y="2" width="10" height="17" params="16" style="3" name="plus" caption="+">
               <variables>
@@ -118,7 +118,7 @@
                 <var key="leading" value="0" type="Number"/>
               </variables>
             </text>
-            <icon x="29" y="4" width="14" height="15" params="16" style="35" name="currency_indicator_bitmap_right"/>
+            <icon x="27" y="4" width="14" height="15" params="16" style="35" name="currency_indicator_bitmap_right"/>
           </children>
           <variables>
             <var key="spacing" value="1" type="int"/>

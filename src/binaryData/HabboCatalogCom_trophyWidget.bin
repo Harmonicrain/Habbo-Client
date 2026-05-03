@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><layout name="trophyWidget" width="110" height="127" version="0.1" uid="0D97BA61-C72B-01D5-3E75-9CC904C01E39">
+<?xml version="1.0" encoding="UTF-8"?>
+<layout name="trophyWidget" width="110" height="127" version="0.1" uid="0D97BA61-C72B-01D5-3E75-9CC904C01E39">
   <window>
     <container x="28" y="75" width="110" height="127" params="16" style="0" name="trophyWidget">
       <children>

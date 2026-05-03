@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><layout name="nux_noob_room_offer" width="382" height="222" version="0.1" uid="C4BC0A41-67F2-DEEA-E1C6-DF596F131835">
   <window>
-    <frame x="0" y="0" width="382" height="222" params="32801" style="3" caption="%24%7Bnotification.notification.nux.popup.title%7D" color="0xff418db0">
+    <frame x="0" y="0" width="382" height="222" params="32801" style="3" caption="%24%7Bnotification.notification.nux.popup.title%7D" color="0xffffffff">
       <filters>
         <DropShadowFilter distance="4" alpha="0.34901960784313724" blurX="4" blurY="4"/>
       </filters>

@@ -88,6 +88,7 @@ package com.sulake.habbo.navigator.mainview
         public function MainViewCtrl(k:HabboNavigator):void
         {
             this._navigator = k;
+            this._phaseOneNavigator = this._navigator.isPerkAllowed("NAVIGATOR_PHASE_ONE_2014");
             this._popularTags = new PopularTagsListCtrl(this._navigator);
             this._guestRooms = new GuestRoomListCtrl(this._navigator, 0, false);
             this._officialRooms = new OfficialRoomListCtrl(this._navigator);
@@ -278,7 +279,8 @@ package com.sulake.habbo.navigator.mainview
             var _local_7:ITabButtonWindow;
             var k:Boolean = this._navigator.getBoolean("eventinfo.enabled");
             var _local_2:Boolean;
-            this._mainWindow = IFrameWindow(this._navigator.getXmlWindow("grs_main_window_new"));
+            this._mainWindow = IFrameWindow(this._navigator.getXmlWindow(((this._phaseOneNavigator) ? "grs_main_window" : "grs_main_window_new")));
+            this._mainWindow.color = 4296112;
             this._tabContext = ITabContextWindow(this._mainWindow.findChildByName("tab_context"));
             this._content = IWindowContainer(this._mainWindow.findChildByName("tab_content"));
             this._customContent = IWindowContainer(this._mainWindow.findChildByName("custom_content"));

@@ -1,6 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?><layout name="club_direct_buy" width="454" height="442" version="0.1" uid="B23C56CE-80C7-EBAF-2469-CAF2684422C8">
+<?xml version="1.0" encoding="UTF-8"?>
+<layout name="club_direct_buy" width="454" height="442" version="0.1" uid="B23C56CE-80C7-EBAF-2469-CAF2684422C8">
   <window>
-    <frame x="0" y="0" width="454" height="442" params="33025" style="3" caption="%24%7Bdirect.club.buy.dialog.title%7D" color="0x0418db0">
+    <frame x="0" y="0" width="454" height="442" params="33025" style="3" caption="%24%7Bdirect.club.buy.dialog.title%7D" color="0xffffff">
       <filters>
         <DropShadowFilter distance="4" alpha="0.34901960784313724" blurX="4" blurY="4"/>
       </filters>

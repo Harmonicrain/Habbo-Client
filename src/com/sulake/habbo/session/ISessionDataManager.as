@@ -75,6 +75,8 @@
         function removeFurniDataListener(_arg_1:IFurniDataListener):void;
         function setRoomCameraFollowDisabled(_arg_1:Boolean):void;
         function get isRoomCameraFollowDisabled():Boolean;
+        function setNavigatorPhaseTwo(_arg_1:Boolean):void;
+        function get isNavigatorPhaseTwo():Boolean;
         function setFriendBarState(_arg_1:Boolean):void;
         function setRoomToolsState(_arg_1:Boolean):void;
         function get uiFlags():int;

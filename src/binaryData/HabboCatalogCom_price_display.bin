@@ -1,6 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?><layout name="price_display" width="55" height="21" version="0.1" uid="4183F942-1875-C0E7-7D16-787DB830ED3F">
+<?xml version="1.0" encoding="UTF-8"?>
+<layout name="price_display" width="55" height="21" version="0.1" uid="4183F942-1875-C0E7-7D16-787DB830ED3F">
   <window>
-    <itemlist_horizontal x="0" y="0" width="55" height="21" params="147472" style="0" name="price_box">
+    <itemlist_horizontal x="0" y="0" width="55" height="21" params="147472" style="3" name="price_box">
       <children>
         <text x="0" y="1" width="4" height="4" params="16" style="0" name="amount_0">
           <variables>

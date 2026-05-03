@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <layout name="targeted_offer_purchase_confirmation" width="325" height="291" version="0.1" uid="36413E0E-F8C6-F209-37DC-54D8C68A0E5D">
   <window>
-    <frame x="9" y="12" width="325" height="291" params="35073" style="3" caption="%24%7Bcatalog.purchase_confirmation.title%7D" color="0xff418db0" width_min="275" height_min="150">
+    <frame x="9" y="12" width="325" height="291" params="35073" style="3" caption="%24%7Bcatalog.purchase_confirmation.title%7D" color="0xffffffff" width_min="275" height_min="150">
       <filters>
         <DropShadowFilter distance="4" alpha="0.34901960784313724" blurX="4" blurY="4"/>
       </filters>

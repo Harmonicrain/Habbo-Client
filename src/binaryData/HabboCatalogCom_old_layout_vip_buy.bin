@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><layout name="ctlg_vip_buy" width="360" height="460" version="0.1" uid="821A401B-10A1-1E27-0DFE-DABAD91D9FAD">
+<?xml version="1.0" encoding="UTF-8"?>
+<layout name="ctlg_vip_buy" width="360" height="460" version="0.1" uid="821A401B-10A1-1E27-0DFE-DABAD91D9FAD">
   <window>
     <container x="0" y="0" width="360" height="460" params="16" style="0" name="ctlg_vip_buy" color="0x2121ffffff" background="true">
       <children>
@@ -40,7 +41,7 @@
                 <var key="stretched_y" value="false" type="Boolean"/>
               </variables>
             </static_bitmap>
-            <text x="19" y="330" width="286" height="17" params="786449" style="3" name="vip_link" caption="%24%7Bcatalog.vip.buy.link%7D">
+ <text x="19" y="330" width="286" height="17" params="786449" style="3" name="vip_link" caption="%24%7Bcatalog.vip.buy.link%7D">
               <variables>
                 <var key="auto_size" value="center" type="String"/>
                 <var key="text_color" value="0x38ef4" type="hex"/>

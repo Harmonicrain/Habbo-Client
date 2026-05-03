@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <layout name="grs_main_window" width="325" height="474" version="0.1" uid="BE7CE3C5-E14F-C3B7-AD03-BB58B7692DD0">
   <window>
-    <frame x="0" y="0" width="325" height="474" params="98337" style="0" name="grs_main_window" caption="%24%7Bnavigator.title%7D" color="0xff418db0" tags="FIT%3Anavigator" height_min="215">
+    <frame x="0" y="0" width="325" height="474" params="98337" style="0" name="grs_main_window" caption="%24%7Bnavigator.title%7D" color="0xffffffff" tags="FIT%3Anavigator" height_min="215">
       <filters>
         <DropShadowFilter distance="4" alpha="0.34901960784313724" blurX="4" blurY="4"/>
       </filters>

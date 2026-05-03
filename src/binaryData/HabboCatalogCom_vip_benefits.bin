@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <layout name="vip_benefits" width="457" height="450" version="0.1" uid="D13BB45E-823D-DBA1-9D97-434BFE4521F2">
   <window>
-    <frame x="0" y="0" width="457" height="450" params="33025" style="3" caption="%24%7Bvip.benefits.caption%7D" color="0x0418db0">
+    <frame x="0" y="0" width="457" height="450" params="33025" style="3" caption="%24%7Bvip.benefits.caption%7D" color="0xffffff">
       <filters>
         <DropShadowFilter distance="4" alpha="0.34901960784313724" blurX="4" blurY="4"/>
       </filters>

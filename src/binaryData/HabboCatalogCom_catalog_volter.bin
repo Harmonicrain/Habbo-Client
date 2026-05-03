@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?><layout name="catalog_volter" width="550" height="516" version="0.1" uid="7B9E1578-C204-3CFC-1525-DAD9DA8B82B3">
+﻿<?xml version="1.0" encoding="UTF-8"?><layout name="catalog_volter" width="550" height="516" version="0.1" uid="7B9E1578-C204-3CFC-1525-DAD9DA8B82B3">
   <window>
     <container x="0" y="0" width="550" height="516" params="32801" style="0" name="catalog_main_container">
       <children>
-        <frame x="370" y="24" width="175" height="466" params="257" style="0" name="navigatorMain" caption="%24%7Bcatalog.title%7D" color="0xff418db0">
+        <frame x="370" y="24" width="175" height="466" params="257" style="0" name="navigatorMain" caption="NextGenHabbo%20Shop" color="0xffffffff">
           <filters>
             <DropShadowFilter distance="4" alpha="0.34901960784313724" blurX="4" blurY="4"/>
           </filters>

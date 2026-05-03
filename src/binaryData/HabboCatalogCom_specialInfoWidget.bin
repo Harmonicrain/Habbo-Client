@@ -1,15 +1,16 @@
-<?xml version="1.0" encoding="UTF-8"?><layout name="specialInfoWidget" width="142" height="73" version="0.1" uid="4ADA8508-F67D-22AA-E69D-A1D42B3C6C1C">
+<?xml version="1.0" encoding="UTF-8"?>
+<layout name="specialInfoWidget" width="200" height="73" version="0.1" uid="4ADA8508-F67D-22AA-E69D-A1D42B3C6C1C">
   <window>
-    <container x="0" y="0" width="142" height="73" params="16" style="0" name="specialInfoWidget">
+    <container x="0" y="0" width="200" height="73" params="16" style="0" name="specialInfoWidget">
       <children>
-        <bitmap x="0" y="0" width="142" height="73" params="16" style="0" name="ctlg_special_img">
+        <bitmap x="0" y="0" width="200" height="73" params="16" style="0" name="ctlg_special_img">
           <variables>
             <var key="pivot_point" value="bottom center" type="String"/>
             <var key="stretched_x" value="false" type="Boolean"/>
             <var key="stretched_y" value="false" type="Boolean"/>
           </variables>
         </bitmap>
-        <text x="2" y="28" width="139" height="16" params="3935440" style="3" name="ctlg_special_txt" caption="lorem%20ipsum">
+        <text x="2" y="28" width="200" height="16" params="3935440" style="3" name="ctlg_special_txt" caption="lorem%20ipsum">
           <variables>
             <var key="auto_size" value="center" type="String"/>
             <var key="font_size" value="11" type="uint"/>

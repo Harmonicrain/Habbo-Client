@@ -1,6 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?><layout name="offer_center" width="377" height="412" version="0.1" uid="9C3ED857-99B5-4832-7C1E-6C5276C90D52">
+<?xml version="1.0" encoding="UTF-8"?>
+<layout name="offer_center" width="377" height="412" version="0.1" uid="9C3ED857-99B5-4832-7C1E-6C5276C90D52">
   <window>
-    <frame x="400" y="7" width="377" height="412" params="98305" style="3" caption="%24%7Boffers.center.title%7D" color="0xff67a3bf" width_min="377" width_max="377">
+    <frame x="400" y="7" width="377" height="412" params="98305" style="3" caption="%24%7Boffers.center.title%7D" color="0xffffffff" width_min="377" width_max="377">
       <filters>
         <DropShadowFilter distance="4" alpha="0.34901960784313724" blurX="4" blurY="4"/>
       </filters>

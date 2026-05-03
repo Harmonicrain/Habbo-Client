@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><layout name="purchase_confirmation" width="279" height="255" version="0.1" uid="3156E78C-C863-4586-5DD1-BBBE680BA322">
   <window>
-    <frame x="0" y="0" width="279" height="255" params="33025" style="3" caption="%24%7Bcatalog.marketplace.confirm_title%7D" color="0xff418db0">
+    <frame x="0" y="0" width="279" height="255" params="33025" style="3" caption="%24%7Bcatalog.marketplace.confirm_title%7D" color="0xffffffff">
       <filters>
         <DropShadowFilter distance="4" alpha="0.34901960784313724" blurX="4" blurY="4"/>
       </filters>

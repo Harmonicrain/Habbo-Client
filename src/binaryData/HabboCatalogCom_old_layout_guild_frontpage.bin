@@ -1,6 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?><layout name="ctlg_guild_frontpage" width="360" height="460" version="0.1" uid="D59E9B9B-CA79-FBFB-157B-DADE975E41E5">
+<?xml version="1.0" encoding="UTF-8"?>
+<layout name="ctlg_guild_frontpage" width="420" height="460" version="0.1" uid="D59E9B9B-CA79-FBFB-157B-DADE975E41E5">
   <window>
-    <container x="0" y="0" width="360" height="460" params="16" style="0" name="ctlg_guild_frontpage">
+    <container x="0" y="0" width="420" height="460" params="16" style="0" name="ctlg_guild_frontpage">
       <children>
         <bitmap x="0" y="288" width="359" height="163" params="16" style="0" name="ctlg_teaserimg_1">
           <variables>
@@ -28,7 +29,7 @@
         </formatted_text>
         <container x="49" y="251" width="267" height="45" params="16" style="0" name="buyGuildWidget">
           <children>
-            <button x="23" y="2" width="213" height="28" params="933905" style="3" name="start_guild_purchase" caption="%24%7Bcatalog.start.guild.purchase.button%7D" width_min="190" height_min="28" height_max="50"/>
+            <button x="63" y="2" width="213" height="28" params="933905" style="3" name="start_guild_purchase" caption="%24%7Bcatalog.start.guild.purchase.button%7D" width_min="190" height_min="28" height_max="50"/>
           </children>
         </container>
       </children>

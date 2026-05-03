@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><layout name="activityPointDisplayWidget" width="175" height="25" version="0.1" uid="82EFB3BC-82E3-3830-95A1-A1637C25369E">
+<?xml version="1.0" encoding="UTF-8"?>
+<layout name="activityPointDisplayWidget" width="175" height="25" version="0.1" uid="82EFB3BC-82E3-3830-95A1-A1637C25369E">
   <window>
     <border x="0" y="0" width="175" height="25" params="16" style="3" name="activityPointDisplayWidget" color="0x0e0e0e0" blend="0.8">
       <children>

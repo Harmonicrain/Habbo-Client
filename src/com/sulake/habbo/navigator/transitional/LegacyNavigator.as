@@ -343,12 +343,17 @@
 
         public function openNavigator(k:Point=null):void
         {
-            return this._newNavigator.open();
+            return this._oldNavigator.openNavigator(k);
         }
 
         public function closeNavigator():void
         {
-            return this._newNavigator.close();
+            if (this._newNavigator.sessionData.isPerkAllowed("NAVIGATOR_PHASE_TWO_2014"))
+            {
+                this._newNavigator.close();
+                return;
+            }
+            return this._oldNavigator.closeNavigator();
         }
 
         public function get homeRoomId():int

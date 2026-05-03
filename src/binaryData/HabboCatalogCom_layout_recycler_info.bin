@@ -1,6 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?><layout name="ctlg_recycler_info" width="360" height="460" version="0.1" uid="D976F19D-55D9-AB3D-E086-E3CF76C4B83F">
+<?xml version="1.0" encoding="UTF-8"?>
+<layout name="ctlg_recycler_info" width="420" height="460" version="0.1" uid="D976F19D-55D9-AB3D-E086-E3CF76C4B83F">
   <window>
-    <container x="0" y="0" width="360" height="460" params="2064" style="0" name="ctlg_recycler_info">
+    <container x="0" y="0" width="420" height="460" params="2064" style="0" name="ctlg_recycler_info">
       <children>
         <border x="10" y="10" width="340" height="440" params="2064" style="2" color="0x0fbc362">
           <children>

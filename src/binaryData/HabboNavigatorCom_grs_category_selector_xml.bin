@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><layout name="grs_category_selector" width="345" height="55" version="0.1" uid="D252BE73-F156-0154-9D0B-F0081B8EFFBD">
   <window>
-    <container x="0" y="0" width="345" height="55" params="16" style="3" name="row" color="0x0a5babf">
+    <container x="0" y="0" width="345" height="55" params="16" style="3" name="row" color="0x09ca1a7">
       <children>
         <container_button x="1" y="0" width="344" height="53" params="145" style="3" name="enter_category_button">
           <children>

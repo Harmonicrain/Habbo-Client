@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><layout name="rev_room_event" width="241" height="191" version="0.1" uid="5ADCEEDB-3BEA-C86A-4FB0-6F17825A9D07">
   <window>
-    <frame x="0" y="0" width="241" height="191" params="32769" style="3" name="event_window" color="0xff418db0">
+    <frame x="0" y="0" width="241" height="191" params="32769" style="3" name="event_window" color="0xffffffff">
       <filters>
         <DropShadowFilter distance="4" alpha="0.34901960784313724" blurX="4" blurY="4"/>
       </filters>

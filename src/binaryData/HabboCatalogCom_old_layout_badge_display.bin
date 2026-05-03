@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><layout name="ctlg_badge_display" width="360" height="460" version="0.1" uid="2FCEE45D-1CF8-8AB5-066C-DA831A2E5E83">
+<?xml version="1.0" encoding="UTF-8"?>
+<layout name="ctlg_badge_display" width="360" height="460" version="0.1" uid="2FCEE45D-1CF8-8AB5-066C-DA831A2E5E83">
   <window>
     <container x="0" y="0" width="360" height="460" params="16" style="0" name="ctlg_badgedisplay">
       <children>

@@ -1,6 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?><layout name="memenu_effects" width="312" height="170" version="0.1" uid="8EA89EDD-D510-F44F-EF16-3679862BE51B">
+<?xml version="1.0" encoding="UTF-8"?>
+<layout name="memenu_effects" width="312" height="170" version="0.1" uid="8EA89EDD-D510-F44F-EF16-3679862BE51B">
   <window>
-    <border x="1" y="1" width="312" height="170" params="1" style="6" name="settings_brdr" color="0x079756e">
+    <border x="1" y="1" width="312" height="170" params="1" style="7" name="settings_brdr" color="0x079756e">
       <children>
         <text x="93" y="5" width="126" height="17" params="786640" style="0" name="settings_title" caption="%24%7Bwidget.memenu.settings.title%7D">
           <variables>

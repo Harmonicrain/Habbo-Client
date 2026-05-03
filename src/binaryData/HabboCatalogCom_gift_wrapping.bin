@@ -1,6 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?><layout name="gift_wrapping" width="342" height="482" version="0.1" uid="03C5597D-EA23-BFC2-8A94-C0F4320F405A">
+<?xml version="1.0" encoding="UTF-8"?>
+<layout name="gift_wrapping" width="342" height="482" version="0.1" uid="03C5597D-EA23-BFC2-8A94-C0F4320F405A">
   <window>
-    <frame x="72" y="1" width="342" height="482" params="33025" style="3" caption="%24%7Bcatalog.gift_wrapping.title%7D" color="0x0418db0">
+    <frame x="72" y="1" width="342" height="482" params="33025" style="3" caption="%24%7Bcatalog.gift_wrapping.title%7D" color="0xffffff">
       <filters>
         <DropShadowFilter distance="4" alpha="0.34901960784313724" blurX="4" blurY="4"/>
       </filters>

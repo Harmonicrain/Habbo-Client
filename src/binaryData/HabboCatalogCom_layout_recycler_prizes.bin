@@ -1,6 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?><layout name="ctlg_recycler_prizes" width="360" height="460" version="0.1" uid="6F5CF086-8F19-6D85-8437-E3D73A3EB265">
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- actual reycler prizes -->
+<layout name="ctlg_recycler_prizes" width="680" height="440" version="0.1" uid="6F5CF086-8F19-6D85-8437-E3D73A3EB265">
   <window>
-    <container x="0" y="0" width="360" height="460" params="2064" style="0" name="ctlg_default_3x3">
+    <container x="0" y="0" width="680" height="440" params="2064" style="0" name="ctlg_default_3x3">
       <children>
         <text x="2" y="133" width="128" height="13" params="16" style="3" name="ctlg_selectproduct" caption="%24%7Bcatalog_selectproduct%7D" visible="false">
           <variables>
@@ -10,13 +12,14 @@
             <var key="leading" value="0" type="Number"/>
           </variables>
         </text>
-        <container x="100" y="46" width="142" height="73" params="16" style="0" name="specialInfoWidget"/>
-        <container x="0" y="0" width="360" height="460" params="2064" style="0" name="recyclerPrizesWidget" tags="WIDE">
+        <container x="130" y="46" width="142" height="73" params="16" style="0" name="specialInfoWidget"/>
+        <container x="10" y="0" width="660" height="440" params="2064" style="0" name="recyclerPrizesWidget" tags="WIDE">
           <children>
-            <scrollable_itemlist_vertical x="0" y="245" width="360" height="180" params="2064" style="3" name="itemList"/>
-            <container x="0" y="0" width="360" height="240" params="16" style="0" name="productView">
+              <border x="0" y="195" width="660" height="190" params="2192" style="7" blend="0.5" />
+            <scrollable_itemlist_vertical x="5" y="200" width="650" height="180" params="2064" style="3" name="itemList"/>
+            <container x="0" y="0" width="680" height="200" params="16" style="0" name="productView">
               <children>
-                <bitmap x="0" y="0" width="360" height="240" params="16" style="0" name="ctlg_teaserimg_1">
+                <bitmap x="0" y="0" width="680" height="200" params="16" style="0" name="ctlg_teaserimg_1">
                   <variables>
                     <var key="pivot_point" value="center" type="String"/>
                     <var key="stretched_x" value="false" type="Boolean"/>
@@ -43,7 +46,7 @@
                     <var key="leading" value="0" type="Number"/>
                   </variables>
                 </formatted_text>
-                <scrollable_itemgrid_vertical x="18" y="147" width="142" height="76" params="16" style="3" name="bundleGrid">
+                <scrollable_itemgrid_vertical x="18" y="147" width="650" height="76" params="16" style="3" name="bundleGrid">
                   <variables>
                     <var key="spacing" value="2" type="int"/>
                     <var key="scale_to_fit_items" value="true" type="Boolean"/>

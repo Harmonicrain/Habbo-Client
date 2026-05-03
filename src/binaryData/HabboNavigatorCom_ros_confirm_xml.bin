@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <layout name="ros_room_delete_confirm" width="215" height="203" version="0.1" uid="CF757492-185C-409E-C4E8-1A652B6BC171">
   <window>
-    <frame x="0" y="0" width="215" height="203" params="32769" style="3" name="event_window" caption="title" color="0xff418db0">
+    <frame x="0" y="0" width="215" height="203" params="32769" style="3" name="event_window" caption="title" color="0xffffffff">
       <filters>
         <DropShadowFilter distance="4" alpha="0.34901960784313724" blurX="4" blurY="4"/>
       </filters>

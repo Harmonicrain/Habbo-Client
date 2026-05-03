@@ -1,6 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?><layout name="doorbell" width="270" height="182" version="0.1" uid="C92F7F72-F335-E226-ED19-D6D5575C28B0">
+<?xml version="1.0" encoding="UTF-8"?>
+<layout name="doorbell" width="270" height="182" version="0.1" uid="C92F7F72-F335-E226-ED19-D6D5575C28B0">
   <window>
-    <frame x="131" y="129" width="270" height="182" params="32769" style="3" caption="%24%7Bnavigator.doorbell.title%7D" color="0x0418db0">
+    <frame x="131" y="129" width="270" height="182" params="32769" style="3" caption="%24%7Bnavigator.doorbell.title%7D" color="0xffffff">
       <filters>
         <DropShadowFilter distance="4" alpha="0.34901960784313724" blurX="4" blurY="4"/>
       </filters>

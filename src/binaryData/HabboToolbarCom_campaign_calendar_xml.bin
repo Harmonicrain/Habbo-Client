@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <layout name="calendar" width="1033" height="607" version="0.1" uid="3416F126-E11C-B5EA-B3D7-E4D61259C23A">
   <window>
-    <frame x="0" y="0" width="1033" height="607" params="1" style="3" caption="" color="0xff418db0">
+    <frame x="0" y="0" width="1033" height="607" params="1" style="3" caption="" color="0xffffffff">
       <filters>
         <DropShadowFilter distance="4" alpha="0.34901960784313724" blurX="4" blurY="4"/>
       </filters>

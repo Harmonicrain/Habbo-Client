@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<layout name="soldLtdItemsWidget" width="360" height="30" version="0.1" uid="2076758E-DDF0-077B-F6E7-E42219A5B8C9">
+<layout name="soldLtdItemsWidget" width="180" height="30" version="0.1" uid="2076758E-DDF0-077B-F6E7-E42219A5B8C9">
   <window>
-    <container x="0" y="0" width="360" height="30" params="0" style="0" name="widgetContainer" treshold="0">
+    <container x="0" y="0" width="180" height="47" params="0" style="0" name="widgetContainer" treshold="0">
       <children>
-        <static_bitmap x="0" y="0" width="360" height="30" params="16" style="0">
+        <static_bitmap x="0" y="0" width="180" height="47" params="16" style="0">
           <variables>
-            <var key="asset_uri" value="unique_item_large_na_button_wide" type="String"/>
+            <var key="asset_uri" value="unique_item_large_na_button" type="String"/>
             <var key="pivot_point" value="top right" type="String"/>
             <var key="stretched_x" value="false" type="Boolean"/>
             <var key="stretched_y" value="false" type="Boolean"/>
           </variables>
         </static_bitmap>
-        <text x="204" y="8" width="137" height="17" params="16" style="3" name="not_available_text" caption="%24%7Bsold.ltd.items.not.available%7D" blend="0.7">
+        <text x="24" y="8" width="137" height="17" params="16" style="3" name="not_available_text" caption="%24%7Bsold.ltd.items.not.available%7D" blend="0.7">
           <variables>
             <var key="auto_size" value="center" type="String"/>
             <var key="etching_color" value="0xffffffff" type="hex"/>
