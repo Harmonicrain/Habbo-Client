@@ -45,6 +45,7 @@ package com.sulake.habbo.navigator.mainview
     import com.sulake.habbo.communication.messages.outgoing.navigator.MyRecommendedRoomsMessageComposer;
     import com.sulake.habbo.communication.messages.outgoing.navigator.MyFrequentRoomHistorySearchMessageComposer;
     import com.sulake.core.communication.messages.IMessageComposer;
+    import com.sulake.habbo.communication.enum.perk.PerkEnum;
 
     public class MainViewCtrl implements ITransitionalMainViewCtrl, IUpdateReceiver, IDisposable 
     {
@@ -88,7 +89,7 @@ package com.sulake.habbo.navigator.mainview
         public function MainViewCtrl(k:HabboNavigator):void
         {
             this._navigator = k;
-            this._phaseOneNavigator = this._navigator.isPerkAllowed("NAVIGATOR_PHASE_ONE_2014");
+            this._phaseOneNavigator = this._navigator.isPerkAllowed(PerkEnum.NAVIGATOR_PHASE_ONE_2014);
             this._popularTags = new PopularTagsListCtrl(this._navigator);
             this._guestRooms = new GuestRoomListCtrl(this._navigator, 0, false);
             this._officialRooms = new OfficialRoomListCtrl(this._navigator);
@@ -405,6 +406,7 @@ package com.sulake.habbo.navigator.mainview
             this._Str_24977(k, (!(_local_3)));
             this._Str_23623(k, this._navigator.data.popularTagsArrived);
             this._Str_25576(k, this._navigator.data._Str_23411);
+            this._Str_20399(k, this._navigator.data._Str_26351);
         }
 
         private function _Str_24977(k:Boolean, _arg_2:Boolean):void

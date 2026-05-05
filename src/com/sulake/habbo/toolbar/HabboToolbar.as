@@ -48,6 +48,7 @@
     import com.sulake.iid.IIDHabboSoundManager;
     import com.sulake.iid.IIDSessionDataManager;
     import com.sulake.habbo.session.events.PerksUpdatedEvent;
+    import com.sulake.habbo.communication.enum.perk.PerkEnum;
     import com.sulake.iid.IIDHabboHelp;
     import com.sulake.iid.IIDHabboFreeFlowChat;
     import com.sulake.iid.IIDHabboRoomUI;
@@ -861,15 +862,16 @@
 
         public function get navigator():IHabboNavigator
         {
-            if (this._newNavigator != null)
+            if (((this._newNavigator != null) && (this.isNewNavigatorActive)))
             {
-                if (((this._sessionDataManager != null) && (this._sessionDataManager.isPerkAllowed("NAVIGATOR_PHASE_TWO_2014"))))
-                {
-                    return this._newNavigator.legacyNavigator;
-                }
-                return this._navigator;
+                return this._newNavigator.legacyNavigator;
             }
             return this._navigator;
+        }
+
+        public function get isNewNavigatorActive():Boolean
+        {
+            return ((this._sessionDataManager != null) && (this._sessionDataManager.isPerkAllowed(PerkEnum.NAVIGATOR_PHASE_TWO_2014)));
         }
 
         public function get questEngine():IHabboQuestEngine
@@ -909,7 +911,7 @@
 
         public function openNewNavigator():void
         {
-            if (this._newNavigator != null)
+            if (((this._newNavigator != null) && (this.isNewNavigatorActive)))
             {
                 this._newNavigator.open();
             }

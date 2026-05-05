@@ -1095,7 +1095,14 @@
             _local_3.inventory = this._inventory;
             _local_3.messenger = this._messenger;
             _local_3.toolbar = this._toolbar;
-            _local_3.navigator = this._newNavigator.legacyNavigator;
+            if (((this._newNavigator != null) && (this._sessionDataManager.isPerkAllowed(PerkEnum.NAVIGATOR_PHASE_TWO_2014))))
+            {
+                _local_3.navigator = this._newNavigator.legacyNavigator;
+            }
+            else
+            {
+                _local_3.navigator = this._navigator;
+            }
             _local_3.habboGroupsManager = this._habboGroupsManager;
             _local_3.avatarEditor = this._avatarEditor;
             _local_3.catalog = this._catalog;

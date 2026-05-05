@@ -22,15 +22,49 @@
 
         public function OfficialRoomImageLoader(k:IHabboTransitionalNavigator, _arg_2:String, _arg_3:IBitmapWrapperWindow, _arg_4:String=null, _arg_5:String="image/gif", _arg_6:int=-1, _arg_7:int=-1)
         {
+            var _local_8:String;
             this._navigator = k;
             this._picRef = _arg_2;
             this._bitmapWrapper = _arg_3;
-            this._mimeType = _arg_5;
             this._renderWidth = _arg_6;
             this._renderHeight = _arg_7;
             var _local_6:String = this._navigator.getProperty("image.library.url");
-            this._url = ((_arg_4 != null) && (!(_arg_4 == ""))) ? _arg_4 : (_local_6 + this._picRef);
+            if ((_arg_4 != null) && (!(_arg_4 == "")))
+            {
+                this._url = _arg_4;
+            }
+            else
+            {
+                if (((this._picRef.indexOf("http://") == 0) || (this._picRef.indexOf("https://") == 0)))
+                {
+                    this._url = this._picRef;
+                }
+                else
+                {
+                    _local_8 = this._picRef;
+                    if (_local_8.indexOf("c_images/") == 0)
+                    {
+                        _local_8 = _local_8.substr("c_images/".length);
+                    }
+                    this._url = (_local_6 + _local_8);
+                }
+            }
+            this._mimeType = this._Str_25240(this._url, _arg_5);
             Logger.log(("[OFFICIAL ROOM ICON IMAGE DOWNLOADER] : " + this._url));
+        }
+
+        private function _Str_25240(k:String, _arg_2:String):String
+        {
+            var _local_3:String = k.toLowerCase();
+            if (_local_3.indexOf(".png") == (_local_3.length - 4))
+            {
+                return "image/png";
+            }
+            if (((_local_3.indexOf(".jpg") == (_local_3.length - 4)) || (_local_3.indexOf(".jpeg") == (_local_3.length - 5))))
+            {
+                return "image/jpeg";
+            }
+            return _arg_2;
         }
 
         public function _Str_24517():void

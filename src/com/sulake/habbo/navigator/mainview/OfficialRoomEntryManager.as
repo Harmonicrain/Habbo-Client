@@ -10,12 +10,13 @@
     import com.sulake.habbo.communication.messages.incoming.navigator.OfficialRoomEntryData;
     import com.sulake.core.window.components.ITextWindow;
     import flash.display.BitmapData;
-    import flash.net.URLRequest;
     import com.sulake.core.window.IWindow;
     import com.sulake.core.window.events.WindowEvent;
     import com.sulake.habbo.communication.messages.incoming.navigator.RoomSettingsFlatInfo;
     import com.sulake.habbo.navigator.domain.Tabs;
     import com.sulake.habbo.communication.messages.incoming.navigator.GuestRoomData;
+    import com.sulake.habbo.communication.messages.outgoing.newnavigator.NavigatorAddCollapsedCategoryMessageComposer;
+    import com.sulake.habbo.communication.messages.outgoing.newnavigator.NavigatorRemoveCollapsedCategoryMessageComposer;
 
     public class OfficialRoomEntryManager implements IDisposable 
     {
@@ -23,6 +24,10 @@
         private static const _Str_18121:int = 267;
         private static const _Str_19023:int = 65;
         private static const _Str_20053:int = -70;
+        private static const THUMBNAIL_SIZE:int = 64;
+        private static const ENTRY_SIDE_PADDING:int = 5;
+        private static const DETAILS_OFFSET_X:int = 72;
+        private static const OFFICIAL_ROOT_SEARCH_CODE:String = "official_view";
 
         private var _disposed:Boolean;
         private var _navigator:IHabboTransitionalNavigator;
@@ -106,6 +111,7 @@
                 {
                     this._Str_23189(k, _arg_3);
                 }
+                this.layoutEntry(k, _arg_3);
                 k.visible = true;
             }
             else
@@ -128,7 +134,7 @@
             var _local_3:IWindowContainer = IWindowContainer(k.findChildByName("folder_cont"));
             _local_3.visible = true;
             var _local_4:ITextWindow = ITextWindow(_local_3.findChildByName("folder_name_text"));
-            _local_4.text = _arg_2._Str_9428;
+            _local_4.text = this._Str_25165(_arg_2);
             var _local_5:ITextWindow = ITextWindow(_local_3.findChildByName("arrow_label"));
             _local_5.text = ((_arg_2.open) ? "${navigator.folder.hide}" : "${navigator.folder.show}");
             this._navigator.refreshButton(_local_3, "arrow_down_white", _arg_2.open, null, 0);
@@ -166,9 +172,55 @@
         {
             var _local_3:IWindowContainer = IWindowContainer(k.findChildByName("image_cont"));
             _local_3.visible = true;
-            _local_3.width = ((_arg_2._Str_5386) ? _Str_19023 : _Str_18121);
+            _local_3.width = ((_arg_2._Str_5386) ? _Str_19023 : Math.max(_Str_18121, k.width - (ENTRY_SIDE_PADDING * 2)));
             this._Str_23785(_local_3, _arg_2);
             this._Str_25146(_local_3, _arg_2);
+        }
+
+        private function layoutEntry(k:IWindowContainer, _arg_2:OfficialRoomEntryData):void
+        {
+            var _local_3:IWindowContainer = IWindowContainer(k.findChildByName("image_cont"));
+            var _local_4:IWindowContainer = IWindowContainer(k.findChildByName("folder_cont"));
+            var _local_5:IWindowContainer = IWindowContainer(k.findChildByName("details_container"));
+            var _local_6:IWindowContainer;
+            var _local_7:ITextWindow;
+            var _local_8:IWindowContainer;
+
+            if (_local_3)
+            {
+                _local_3.x = ENTRY_SIDE_PADDING;
+            }
+
+            if (_local_4)
+            {
+                _local_4.x = ENTRY_SIDE_PADDING;
+                _local_4.width = Math.max(_Str_18121, k.width - (ENTRY_SIDE_PADDING * 2));
+
+                _local_8 = IWindowContainer(_local_4.findChildByName("arrowContainer"));
+                if (_local_8)
+                {
+                    _local_8.x = Math.max(0, (_local_4.width - _local_8.width) - 2);
+                }
+
+                _local_6 = IWindowContainer(k.findChildByName("folderNameContainer"));
+                _local_7 = ITextWindow(_local_4.findChildByName("folder_name_text"));
+
+                if (_local_6)
+                {
+                    _local_6.width = Math.max(0, _local_4.width);
+                }
+
+                if ((_local_6) && (_local_7))
+                {
+                    _local_7.width = Math.max(0, _local_6.width - 10);
+                }
+            }
+
+            if (_local_5)
+            {
+                _local_5.x = DETAILS_OFFSET_X;
+                _local_5.width = Math.max(0, k.width - _local_5.x - ENTRY_SIDE_PADDING);
+            }
         }
 
         private function _Str_23785(k:IWindowContainer, _arg_2:OfficialRoomEntryData):void
@@ -238,32 +290,13 @@
 
         private function _Str_24128(k:IWindowContainer, _arg_2:OfficialRoomEntryData, _arg_3:IBitmapWrapperWindow):void
         {
-            var _local_4:String;
-            var _local_5:String;
-            var _local_6:String;
-            var _local_7:String;
-            var _local_8:OfficialRoomImageLoader;
-            if (_arg_2._Str_5019.officialRoomPicRef != null)
-            {
-                if (this._navigator.getBoolean("new.navigator.official.room.thumbnails.in.amazon"))
-                {
-                    _local_4 = ((this._navigator.getProperty("navigator.thumbnail.url_base") + _arg_2._Str_5019.flatId) + ".png");
-                }
-                else
-                {
-                    _local_4 = (this._navigator.getProperty("image.library.url") + _arg_2._Str_5019.officialRoomPicRef);
-                }
-            }
-            else
-            {
-                _local_4 = ((this._navigator.getProperty("navigator.thumbnail.url_base") + _arg_2._Str_5019.flatId) + ".png");
-            }
-            _local_5 = this._navigator.data.getRoomThumbnailRefreshKey(_arg_2._Str_5019.flatId);
+            var _local_4:String = this.buildThumbnailUrl(_arg_2._Str_5019);
+            var _local_5:String = this._navigator.data.getRoomThumbnailRefreshKey(_arg_2._Str_5019.flatId);
             if (((!(_local_5 == null)) && (!(_local_5 == ""))))
             {
                 _local_4 = (_local_4 + ("?v=" + _local_5));
             }
-            _local_6 = this._Str_25434(_arg_2._Str_5019, _local_5);
+            var _local_6:String = this._Str_25434(_arg_2._Str_5019, _local_5);
             if (_arg_3.tags[0] == _local_6)
             {
                 _arg_3.visible = true;
@@ -271,25 +304,28 @@
             }
             Logger.log(("Loading guest room image: " + _local_4));
             _arg_3.x = 0;
-            _arg_3.width = 64;
-            _arg_3.bitmap = new BitmapData(64, 64);
+            _arg_3.width = THUMBNAIL_SIZE;
+            _arg_3.bitmap = new BitmapData(THUMBNAIL_SIZE, THUMBNAIL_SIZE);
             _arg_3.bitmap.fillRect(_arg_3.bitmap.rect, 0xFFFFFFFF);
-            _local_7 = this._Str_22316(_local_4);
-            _local_8 = new OfficialRoomImageLoader(this._navigator, _local_6, _arg_3, _local_7, "image/png", 64, 64);
-            _local_8._Str_24517();
+            var _local_7:OfficialRoomImageLoader = new OfficialRoomImageLoader(this._navigator, _local_6, _arg_3, _local_4, "image/png", THUMBNAIL_SIZE, THUMBNAIL_SIZE);
+            _local_7._Str_24517();
             _arg_3.tags.splice(0, _arg_3.tags.length);
             _arg_3.tags.push(_local_6);
             _arg_3.visible = true;
         }
 
+        private function buildThumbnailUrl(k:GuestRoomData):String
+        {
+            if (((k.officialRoomPicRef != null) && (!(this._navigator.getBoolean("new.navigator.official.room.thumbnails.in.amazon")))))
+            {
+                return (this._navigator.getProperty("image.library.url") + k.officialRoomPicRef);
+            }
+            return ((this._navigator.getProperty("navigator.thumbnail.url_base") + k.flatId) + ".png");
+        }
+
         private function _Str_25434(k:GuestRoomData, _arg_2:String):String
         {
             return (("guestRoomThumb_" + k.flatId) + (((_arg_2 != null) && (!(_arg_2 == ""))) ? ("_" + _arg_2) : ""));
-        }
-
-        private function _Str_22316(k:String):String
-        {
-            return k.split("?")[0];
         }
 
         private function _Str_24928(k:IWindowContainer, _arg_2:OfficialRoomEntryData, _arg_3:IBitmapWrapperWindow):void
@@ -392,9 +428,58 @@
                 {
                     Logger.log(("FOLDER CLICKD: " + _local_2.index));
                     _local_2._Str_16147();
+                    this._Str_25532(_local_2);
                     this._navigator.mainViewCtrl.refresh();
                 }
             }
+        }
+
+        private function _Str_25532(k:OfficialRoomEntryData):void
+        {
+            var _local_2:String = this._Str_25234(k);
+            if (_local_2 == null)
+            {
+                return;
+            }
+            if (k.open)
+            {
+                this._navigator.send(new NavigatorRemoveCollapsedCategoryMessageComposer(_local_2));
+            }
+            else
+            {
+                this._navigator.send(new NavigatorAddCollapsedCategoryMessageComposer(_local_2));
+            }
+        }
+
+        private function _Str_25234(k:OfficialRoomEntryData):String
+        {
+            if (((k == null) || (!(k.type == OfficialRoomEntryData._Str_16098))))
+            {
+                return null;
+            }
+            var _local_2:String = k._Str_9428;
+            if (((_local_2 == null) || (_local_2 == "")))
+            {
+                return null;
+            }
+            var _local_3:String = this._navigator.getText(("navigator.searchcode.title." + OFFICIAL_ROOT_SEARCH_CODE));
+            if (((_local_2 == _local_3) || (_local_2 == "Public Rooms")))
+            {
+                return OFFICIAL_ROOT_SEARCH_CODE;
+            }
+            return _local_2;
+        }
+
+        private function _Str_25165(k:OfficialRoomEntryData):String
+        {
+            var _local_2:String = this._Str_25234(k);
+            if (_local_2 == null)
+            {
+                return "";
+            }
+            var _local_3:String = ("navigator.searchcode.title." + _local_2);
+            var _local_4:String = this._navigator.getText(_local_3);
+            return (_local_4 == _local_3) ? k._Str_9428 : _local_4;
         }
 
         private function getEntry(k:IWindow):OfficialRoomEntryData

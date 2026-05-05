@@ -529,13 +529,11 @@ package com.sulake.habbo.navigator.roomsettings
         {
             var _local_3:int = 0;
             var _local_1:ITabButtonWindow;
-            var _local_2:Boolean;
             this._Str_2498 = ITabContextWindow(this._window.findChildByName("tab_context"));
             while (_local_3 < this._Str_2498.numTabs)
             {
                 _local_1 = this._Str_2498.getTabButtonAt(_local_3);
-                _local_2 = ((this._Str_17244) && ((_local_1.id == _Str_7004) || (_local_1.id == _Str_8841)));
-                _local_1.visible = (!_local_2);
+                _local_1.visible = true;
                 _local_3++;
             }
             this._Str_2498.selector.setSelected(ISelectableWindow(this._window.findChildByName(("tab_" + this._Str_5809))));
@@ -546,8 +544,8 @@ package com.sulake.habbo.navigator.roomsettings
             var _local_6:int;
             var _local_4:int;
             var _local_2:ITabButtonWindow;
-            var _local_3:Boolean;
             var _local_5:int;
+            var _local_7:int;
             _local_6 = 0;
             while (_local_6 < this._Str_2498.numTabs)
             {
@@ -567,8 +565,12 @@ package com.sulake.habbo.navigator.roomsettings
             while (_local_4 < this._Str_2498.numTabs)
             {
                 _local_2 = this._Str_2498.getTabButtonAt(_local_4);
-                _local_3 = ((this._Str_17244) && ((_local_2.id == _Str_7004) || (_local_2.id == _Str_8841)));
-                _local_2.width = ((_local_3) ? 0 : _local_1);
+                _local_2.width = ((_local_2.visible) ? _local_1 : 0);
+                if (_local_2.visible)
+                {
+                    _local_2.x = _local_7;
+                    _local_7 = (_local_7 + _local_1);
+                }
                 _local_4++;
             }
         }
@@ -881,7 +883,10 @@ package com.sulake.habbo.navigator.roomsettings
                 }
             }
             _local_2.populate(_local_3);
-            _local_2.selection = _local_4;
+            if (_local_2.numMenuItems > 0)
+            {
+                _local_2.selection = _local_4;
+            }
         }
 
         private function _Str_24623(k:int):void
@@ -910,7 +915,7 @@ package com.sulake.habbo.navigator.roomsettings
                     _local_3++;
                 }
             }
-            return null;
+            return this._navigator.data._Str_26045(k);
         }
 
         private function onCloseHandler(k:WindowMouseEvent):void
@@ -979,6 +984,10 @@ package com.sulake.habbo.navigator.roomsettings
             }
             var _local_4:IDropMenuWindow = (this._window.findChildByName("categories") as IDropMenuWindow);
             var _local_5:FlatCategory = this._Str_25335(this._roomSettingsData.categoryId, _local_4.selection);
+            if (_local_5 == null)
+            {
+                return;
+            }
             k.categoryId = _local_5.nodeId;
             var _local_6:IDropMenuWindow = (this._window.findChildByName("tradesettings") as IDropMenuWindow);
             k.tradeMode = _local_6.selection;

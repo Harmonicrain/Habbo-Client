@@ -12,6 +12,7 @@
     import com.sulake.habbo.communication.messages.outgoing.preferences.SetRoomCameraPreferencesMessageComposer;
     import com.sulake.habbo.communication.messages.outgoing.gifts.ResetPhoneNumberStateMessageComposer;
     import com.sulake.habbo.session.events.PerksUpdatedEvent;
+    import com.sulake.habbo.communication.enum.perk.PerkEnum;
 
     public class OtherSettingsView 
     {
@@ -34,6 +35,7 @@
             }
             this._toolbar.sessionDataManager.events.removeEventListener(PerksUpdatedEvent.PERKS_UPDATED, this.onPerksUpdated);
             this._reopenNavigatorOnPerksUpdated = false;
+            this._reopenNavigatorUseNew = false;
             this._window.dispose();
             this._window = null;
         }
@@ -69,6 +71,7 @@
 
         private function onButtonClicked(k:WindowMouseEvent):void
         {
+            var _local_5:Boolean;
             var _local_4:Boolean;
             var _local_2:IWindow = (k.target as IWindow);
             var _local_3:String = _local_2.name;
@@ -98,10 +101,14 @@
                 case "use_new_navigator_checkbox":
                     _local_4 = ICheckBoxWindow(this._window.findChildByName("use_new_navigator_checkbox")).Selected;
                     this._toolbar.sessionDataManager.events.removeEventListener(PerksUpdatedEvent.PERKS_UPDATED, this.onPerksUpdated);
-                    this._reopenNavigatorOnPerksUpdated = true;
-                    this._reopenNavigatorUseNew = _local_4;
-                    this._toolbar.sessionDataManager.events.addEventListener(PerksUpdatedEvent.PERKS_UPDATED, this.onPerksUpdated);
-                    this._toolbar.sessionDataManager.setNavigatorPhaseTwo(_local_4);
+                    this._reopenNavigatorOnPerksUpdated = false;
+                    _local_5 = this._toolbar.sessionDataManager.setNavigatorPhaseTwo(_local_4);
+                    if (_local_5)
+                    {
+                        this._reopenNavigatorOnPerksUpdated = true;
+                        this._reopenNavigatorUseNew = _local_4;
+                        this._toolbar.sessionDataManager.events.addEventListener(PerksUpdatedEvent.PERKS_UPDATED, this.onPerksUpdated);
+                    }
                     return;
                 case "disable_room_camera_follow_checkbox":
                     _local_4 = ICheckBoxWindow(this._window.findChildByName("disable_room_camera_follow_checkbox")).Selected;
@@ -125,13 +132,13 @@
             this._reopenNavigatorOnPerksUpdated = false;
             if (this._reopenNavigatorUseNew)
             {
-                if (this._toolbar.sessionDataManager.isPerkAllowed("NAVIGATOR_PHASE_TWO_2014"))
+                if (this._toolbar.sessionDataManager.isPerkAllowed(PerkEnum.NAVIGATOR_PHASE_TWO_2014))
                 {
                     this._toolbar.openNewNavigator();
                 }
                 return;
             }
-            if (!this._toolbar.sessionDataManager.isPerkAllowed("NAVIGATOR_PHASE_TWO_2014"))
+            if (!this._toolbar.sessionDataManager.isPerkAllowed(PerkEnum.NAVIGATOR_PHASE_TWO_2014))
             {
                 this._toolbar.navigator.openNavigator();
             }
@@ -143,10 +150,6 @@
         }
     }
 }
-
-
-
-
 
 
 

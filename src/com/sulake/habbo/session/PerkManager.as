@@ -63,6 +63,11 @@
             return (k in this._perks) && (this._perks[k].isAllowed);
         }
 
+        public function hasPerk(k:String):Boolean
+        {
+            return k in this._perks;
+        }
+
         public function getPerkErrorMessage(k:String):String
         {
             var _local_2:Perk = this._perks[k];

@@ -106,6 +106,7 @@
                 _arg_3 = this._navigator.officialRoomEntryManager._Str_9034(_arg_2);
                 this._list.addListItem(_arg_3);
             }
+            _arg_3.width = this._list.width;
             this._navigator.officialRoomEntryManager.refreshEntry(_arg_3, k, _arg_4);
             return false;
         }

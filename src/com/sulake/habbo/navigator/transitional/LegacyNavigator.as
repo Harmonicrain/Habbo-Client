@@ -33,6 +33,7 @@
     import flash.events.IEventDispatcher;
     import flash.geom.Point;
     import com.sulake.habbo.communication.messages.incoming.navigator.GuestRoomData;
+    import com.sulake.habbo.communication.enum.perk.PerkEnum;
     import com.sulake.core.runtime.IID;
     import com.sulake.core.runtime.IUnknown;
     import flash.utils.Dictionary;
@@ -42,7 +43,6 @@
         private var _newNavigator:HabboNewNavigator;
         private var _oldNavigator:HabboNavigator;
         private var _fakeMainViewCtrl:FakeMainViewCtrl;
-        private var _roomSettingsCtrl:RoomSettingsCtrl;
         private var _roomInfoViewCtrl:RoomInfoViewCtrl;
         private var _roomCreateViewCtrl:RoomCreateViewCtrl;
         private var _passwordInput:GuestRoomPasswordInput;
@@ -58,7 +58,6 @@
             this._newNavigator = k;
             this._oldNavigator = _arg_2;
             this._fakeMainViewCtrl = new FakeMainViewCtrl(this._newNavigator, this._oldNavigator);
-            this._roomSettingsCtrl = new RoomSettingsCtrl(this);
             this._roomInfoViewCtrl = new RoomInfoViewCtrl(this);
             this._roomCreateViewCtrl = new RoomCreateViewCtrl(this);
             this._passwordInput = new GuestRoomPasswordInput(this);
@@ -117,7 +116,7 @@
 
         public function get roomSettingsCtrl():RoomSettingsCtrl
         {
-            return this._roomSettingsCtrl;
+            return this._oldNavigator.roomSettingsCtrl;
         }
 
         public function get sessionData():ISessionDataManager
@@ -343,17 +342,22 @@
 
         public function openNavigator(k:Point=null):void
         {
-            return this._oldNavigator.openNavigator(k);
+            if (this._newNavigator.sessionData.isPerkAllowed(PerkEnum.NAVIGATOR_PHASE_TWO_2014))
+            {
+                this._newNavigator.open();
+                return;
+            }
+            this._oldNavigator.openNavigator(k);
         }
 
         public function closeNavigator():void
         {
-            if (this._newNavigator.sessionData.isPerkAllowed("NAVIGATOR_PHASE_TWO_2014"))
+            if (this._newNavigator.sessionData.isPerkAllowed(PerkEnum.NAVIGATOR_PHASE_TWO_2014))
             {
                 this._newNavigator.close();
                 return;
             }
-            return this._oldNavigator.closeNavigator();
+            this._oldNavigator.closeNavigator();
         }
 
         public function get homeRoomId():int
@@ -399,7 +403,6 @@
 
         public function dispose():void
         {
-            this._roomSettingsCtrl.dispose();
             this._roomInfoViewCtrl.dispose();
             this._roomCreateViewCtrl.dispose();
             this._passwordInput.dispose();

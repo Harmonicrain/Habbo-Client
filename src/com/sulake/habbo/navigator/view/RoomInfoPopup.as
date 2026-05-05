@@ -180,6 +180,7 @@
                 this._window.findChildByName("report_container").visible = false;
             }
             IItemListWindow(this._window.findChildByName("midBottom_itemlist")).arrangeListItems();
+            this._Str_25725();
             IStaticBitmapWrapperWindow(this._window.findChildByName("favorite_icon")).assetUri = ("newnavigator_icon_fav_" + ((this._Str_9158) ? "yes" : "no"));
             IStaticBitmapWrapperWindow(this._window.findChildByName("home_icon")).assetUri = ("newnavigator_icon_home_" + ((this._Str_11907) ? "yes" : "no"));
             var _local_4:* = (!(this._guestRoomData.groupBadgeCode == ""));
@@ -287,6 +288,19 @@
         private function _Str_25406():void
         {
             IItemListWindow(this._window.findChildByName("properties")).destroyListItems();
+        }
+
+        private function _Str_25725():void
+        {
+            var k:IWindowContainer = IWindowContainer(this._window.findChildByName("settings_container"));
+            if (!(k.visible))
+            {
+                return;
+            }
+            var _local_2:IRegionWindow = IRegionWindow(this._window.findChildByName("settings_region"));
+            var _local_3:Rectangle = new Rectangle();
+            k.getGlobalRectangle(_local_3);
+            _local_2.setGlobalRectangle(_local_3);
         }
 
         private function _Str_16458(k:String, _arg_2:String, _arg_3:String):void

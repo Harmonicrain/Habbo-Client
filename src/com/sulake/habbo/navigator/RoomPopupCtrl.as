@@ -75,6 +75,10 @@
         {
             var _local_2:IRegionWindow;
             var _local_3:ITextWindow;
+            var _local_4:IWindow;
+            var _local_5:int;
+            var _local_6:int;
+            var _local_7:int;
             var k:Boolean = true;
             if (k)
             {
@@ -82,7 +86,21 @@
                 _local_3 = ITextWindow(this._details.findChildByName("roomsettings"));
                 _local_2.procedure = this.onRoomSettings;
                 _local_2.visible = ((k) && (this._navigator.sessionData.userId == this._room.ownerId));
+                _local_3.width = (_local_3.textWidth + 5);
+                _local_3.height = (_local_3.textHeight + 3);
                 Util._Str_7173(_local_2, 1000, 10, 2);
+                while (_local_7 < _local_2.numChildren)
+                {
+                    _local_4 = _local_2.getChildAt(_local_7);
+                    if (_local_4.visible)
+                    {
+                        _local_5 = Math.max(_local_5, (_local_4.x + _local_4.width));
+                        _local_6 = Math.max(_local_6, (_local_4.y + _local_4.height));
+                    }
+                    _local_7++;
+                }
+                _local_2.width = _local_5;
+                _local_2.height = _local_6;
             }
         }
 
