@@ -12,6 +12,8 @@
         private var _enterRoom:Boolean;
         private var _roomForward:Boolean;
         private var _staffPick:Boolean;
+        private var _publicRoom:Boolean;
+        private var _canPublicPick:Boolean;
         private var _data:GuestRoomData;
         private var _isGroupMember:Boolean;
         private var _roomModerationSettings:RoomModerationSettings;
@@ -29,6 +31,8 @@
             this._data = new GuestRoomData(k);
             this._roomForward = k.readBoolean();
             this._staffPick = k.readBoolean();
+            this._publicRoom = k.readBoolean();
+            this._canPublicPick = k.readBoolean();
             this._isGroupMember = k.readBoolean();
             var _local_2:Boolean = k.readBoolean();
             this._roomModerationSettings = new RoomModerationSettings(k);
@@ -66,6 +70,16 @@
         public function get _Str_21489():Boolean
         {
             return this._staffPick;
+        }
+
+        public function get publicRoom():Boolean
+        {
+            return this._publicRoom;
+        }
+
+        public function get canPublicPick():Boolean
+        {
+            return this._canPublicPick;
         }
 
         public function get _Str_22141():Boolean

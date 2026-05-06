@@ -26,6 +26,7 @@
     import com.sulake.habbo.communication.messages.outgoing.room.action.MuteAllInRoomComposer;
     import com.sulake.habbo.communication.messages.outgoing.navigator.UpdateHomeRoomMessageComposer;
     import com.sulake.habbo.communication.messages.outgoing.navigator.ToggleStaffPickMessageComposer;
+    import com.sulake.habbo.communication.messages.outgoing.navigator.TogglePublicRoomMessageComposer;
     import com.sulake.core.runtime.Component;
     import com.sulake.habbo.communication.messages.outgoing.users.GetExtendedProfileMessageComposer;
 
@@ -270,6 +271,29 @@
             }
         }
 
+        private function refreshPublicRoom(k:Boolean=false):void
+        {
+            var _local_2:IWindow;
+            if (this._window)
+            {
+                _local_2 = this._window.findChildByName("public_room_button");
+                if (!this._navigator.data.canPublicPick)
+                {
+                    _local_2.visible = false;
+                    return;
+                }
+                _local_2.visible = true;
+                if (k)
+                {
+                    _local_2.caption = this._navigator.getText(((this._navigator.data.currentRoomIsPublic) ? "navigator.publicrooms.pick" : "navigator.publicrooms.unpick"));
+                }
+                else
+                {
+                    _local_2.caption = this._navigator.getText(((this._navigator.data.currentRoomIsPublic) ? "navigator.publicrooms.unpick" : "navigator.publicrooms.pick"));
+                }
+            }
+        }
+
         public function refreshButtons(k:GuestRoomData):void
         {
             var _local_7:IWindowContainer;
@@ -288,6 +312,7 @@
                 }
             }
             this.refreshStaffPick();
+            this.refreshPublicRoom();
             var _local_2:IWindow = this.find("room_muteall_button");
             _local_2.visible = ((this._navigator.data.enteredGuestRoom.canMute) && (this._navigator.getBoolean("room_moderation.mute_all.enabled")));
             var _local_3:Boolean = this._navigator.data.enteredGuestRoom.allInRoomMuted;
@@ -295,7 +320,7 @@
             var _local_4:IRoomSession = this._navigator.roomSessionManager.getSession(this._navigator.data.enteredGuestRoom.flatId);
             this.find("floor_plan_editor_button").visible = (_local_4.roomControllerLevel >= RoomControllerLevel.GUEST);
             var _local_5:IWindowContainer = IWindowContainer(this._window.findChildByName("buttons_cont"));
-            var _local_6:Array = ["room_settings_button", "room_filter_button", "floor_plan_editor_button", "staff_pick_button", "room_report_button", "room_muteall_button"];
+            var _local_6:Array = ["room_settings_button", "room_filter_button", "floor_plan_editor_button", "staff_pick_button", "public_room_button", "room_report_button", "room_muteall_button"];
             Util.moveChildrenToColumn(_local_5, _local_6, 0, 3);
             _local_5.visible = Util._Str_13639(IWindowContainer(_local_5));
             _local_5.height = Util.getLowestPoint(_local_5);
@@ -320,6 +345,7 @@
             this.addMouseClickListener(this.find("remove_rights_region"), this.onRemoveRights);
             this.addMouseClickListener(this.find("embed_src_txt"), this.onEmbedSrcClick);
             this.addMouseClickListener(this.find("staff_pick_button"), this.onStaffPick);
+            this.addMouseClickListener(this.find("public_room_button"), this.onPublicRoom);
             this.addMouseClickListener(this.find("room_report_button"), this.onRoomReport);
             this._navigator.refreshButton(IRegionWindow(this.find("remove_rights_region")), "remove_rights", this._navigator.hasRoomRightsButIsNotOwner(this._navigator.data.enteredGuestRoom.flatId), null, 0);
             this._navigator.refreshButton(IRegionWindow(this.find("make_home_region")), "make_home", true, null, 0);
@@ -474,6 +500,14 @@
         {
             this.refreshStaffPick(true);
             this._navigator.send(new ToggleStaffPickMessageComposer(this._navigator.data.enteredGuestRoom.flatId, this._navigator.data._Str_8299));
+        }
+
+        private function onPublicRoom(k:WindowEvent):void
+        {
+            var _local_2:Boolean = this._navigator.data.currentRoomIsPublic;
+            this._navigator.data.currentRoomIsPublic = (!_local_2);
+            this.refreshPublicRoom();
+            this._navigator.send(new TogglePublicRoomMessageComposer(this._navigator.data.enteredGuestRoom.flatId, _local_2));
         }
 
         private function onRoomReport(k:WindowEvent):void

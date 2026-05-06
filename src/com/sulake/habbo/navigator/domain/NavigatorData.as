@@ -51,6 +51,8 @@
         private var _currentRoomRating:int;
         private var _canRate:Boolean;
         private var _currentRoomIsStaffPick:Boolean;
+        private var _currentRoomIsPublic:Boolean;
+        private var _canPublicPick:Boolean;
         private var _adIndex:int = 0;
         private var _adRoomData:OfficialRoomEntryData;
         private var _promotedRooms:PromotedRoomsData;
@@ -307,6 +309,16 @@
             return this._currentRoomIsStaffPick;
         }
 
+        public function get currentRoomIsPublic():Boolean
+        {
+            return this._currentRoomIsPublic;
+        }
+
+        public function get canPublicPick():Boolean
+        {
+            return this._canPublicPick;
+        }
+
         public function get _Str_20386():int
         {
             return this._currentRoomId;
@@ -370,6 +382,16 @@
         public function set _Str_8299(k:Boolean):void
         {
             this._currentRoomIsStaffPick = k;
+        }
+
+        public function set currentRoomIsPublic(k:Boolean):void
+        {
+            this._currentRoomIsPublic = k;
+        }
+
+        public function set canPublicPick(k:Boolean):void
+        {
+            this._canPublicPick = k;
         }
 
         public function set categories(k:Array):void

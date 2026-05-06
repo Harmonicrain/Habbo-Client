@@ -282,10 +282,18 @@
             Logger.log(("Loading custom image: " + k._Str_10304));
             _arg_2.x = 0;
             _arg_2.visible = false;
-            var _local_4:OfficialRoomImageLoader = new OfficialRoomImageLoader(this._navigator, k._Str_10304, _arg_2);
-            _local_4._Str_24517();
+            var _local_4:OfficialRoomImageLoader;
             _arg_2.tags.splice(0, _arg_2.tags.length);
             _arg_2.tags.push(_local_3);
+            if (k._Str_5386)
+            {
+                _local_4 = new OfficialRoomImageLoader(this._navigator, k._Str_10304, _arg_2, null, "image/gif", THUMBNAIL_SIZE, THUMBNAIL_SIZE, true);
+            }
+            else
+            {
+                _local_4 = new OfficialRoomImageLoader(this._navigator, k._Str_10304, _arg_2);
+            }
+            _local_4._Str_24517();
         }
 
         private function _Str_24128(k:IWindowContainer, _arg_2:OfficialRoomEntryData, _arg_3:IBitmapWrapperWindow):void
@@ -307,10 +315,10 @@
             _arg_3.width = THUMBNAIL_SIZE;
             _arg_3.bitmap = new BitmapData(THUMBNAIL_SIZE, THUMBNAIL_SIZE);
             _arg_3.bitmap.fillRect(_arg_3.bitmap.rect, 0xFFFFFFFF);
-            var _local_7:OfficialRoomImageLoader = new OfficialRoomImageLoader(this._navigator, _local_6, _arg_3, _local_4, "image/png", THUMBNAIL_SIZE, THUMBNAIL_SIZE);
-            _local_7._Str_24517();
+            var _local_7:OfficialRoomImageLoader = new OfficialRoomImageLoader(this._navigator, _local_6, _arg_3, _local_4, "image/png", THUMBNAIL_SIZE, THUMBNAIL_SIZE, true);
             _arg_3.tags.splice(0, _arg_3.tags.length);
             _arg_3.tags.push(_local_6);
+            _local_7._Str_24517();
             _arg_3.visible = true;
         }
 

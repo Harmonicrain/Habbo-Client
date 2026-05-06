@@ -516,6 +516,7 @@
 	import com.sulake.habbo.communication.messages.outgoing.navigator.MyFavouriteRoomsSearchMessageComposer;
 	import com.sulake.habbo.communication.messages.outgoing.navigator.ConvertGlobalRoomIdMessageComposer;
 	import com.sulake.habbo.communication.messages.outgoing.navigator.ToggleStaffPickMessageComposer;
+	import com.sulake.habbo.communication.messages.outgoing.navigator.TogglePublicRoomMessageComposer;
 	import com.sulake.habbo.communication.messages.outgoing.navigator.RoomAdEventTabAdClickedComposer;
 	import com.sulake.habbo.communication.messages.outgoing.navigator.RoomAdEventTabViewedComposer;
 	import com.sulake.habbo.communication.messages.outgoing.navigator.CancelEventMessageComposer;
@@ -1631,6 +1632,7 @@
             OUTGOING_PACKETS[1894] = RejectMembershipRequestMessageComposer;
             OUTGOING_PACKETS[1911] = GetCustomRoomFilterMessageComposer;
             OUTGOING_PACKETS[1918] = ToggleStaffPickMessageComposer;
+            OUTGOING_PACKETS[1919] = TogglePublicRoomMessageComposer;
             OUTGOING_PACKETS[1922] = GuideSessionOnDutyUpdateMessageComposer;
             OUTGOING_PACKETS[1945] = ModMuteMessageComposer;
             OUTGOING_PACKETS[1954] = NavigatorDeleteSavedSearchComposer;

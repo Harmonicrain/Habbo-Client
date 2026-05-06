@@ -242,6 +242,7 @@
             <button x="0" y="0" width="220" height="29" params="131089" style="3" name="room_settings_button" caption="%24%7Bnavigator.roomsettings%7D" width_min="220" width_max="220"/>
             <button x="0" y="0" width="220" height="29" params="131089" style="3" name="room_filter_button" caption="%24%7Bnavigator.roomsettings.roomfilter%7D" width_min="220" width_max="220"/>
             <button x="0" y="0" width="220" height="29" params="131089" style="3" name="staff_pick_button" caption="filledByTheServer" width_min="220" width_max="220"/>
+            <button x="0" y="0" width="220" height="29" params="131089" style="3" name="public_room_button" caption="filledByTheServer" width_min="220" width_max="220"/>
             <button x="0" y="0" width="220" height="29" params="131089" style="3" name="floor_plan_editor_button" caption="%24%7Bopen.floor.plan.editor%7D" width_min="220" width_max="220"/>
             <container_button x="0" y="0" width="218" height="55" params="1" style="100" name="room_report_button">
               <children>
