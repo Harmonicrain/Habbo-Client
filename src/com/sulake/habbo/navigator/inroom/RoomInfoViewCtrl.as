@@ -297,10 +297,14 @@
         public function refreshButtons(k:GuestRoomData):void
         {
             var _local_7:IWindowContainer;
+            var _local_8:Boolean;
             if (((this._navigator.data.enteredGuestRoom == null) || (this._window == null)))
             {
                 return;
             }
+            _local_8 = this._navigator.hasRoomRightsButIsNotOwner(this._navigator.data.enteredGuestRoom.flatId);
+            this.find("remove_rights_region").visible = _local_8;
+            this._navigator.refreshButton(IRegionWindow(this.find("remove_rights_region")), "remove_rights", _local_8, null, 0);
             this.find("room_settings_button").visible = this._navigator.data.canEditRoomSettings;
             this.find("room_filter_button").visible = ((this._navigator.data.canEditRoomSettings) && (this._navigator.getBoolean("room.custom.filter.enabled")));
             if (!this._navigator.getBoolean("room.report.enabled"))
@@ -347,7 +351,9 @@
             this.addMouseClickListener(this.find("staff_pick_button"), this.onStaffPick);
             this.addMouseClickListener(this.find("public_room_button"), this.onPublicRoom);
             this.addMouseClickListener(this.find("room_report_button"), this.onRoomReport);
-            this._navigator.refreshButton(IRegionWindow(this.find("remove_rights_region")), "remove_rights", this._navigator.hasRoomRightsButIsNotOwner(this._navigator.data.enteredGuestRoom.flatId), null, 0);
+            var _local_5:Boolean = this._navigator.hasRoomRightsButIsNotOwner(this._navigator.data.enteredGuestRoom.flatId);
+            this.find("remove_rights_region").visible = _local_5;
+            this._navigator.refreshButton(IRegionWindow(this.find("remove_rights_region")), "remove_rights", _local_5, null, 0);
             this._navigator.refreshButton(IRegionWindow(this.find("make_home_region")), "make_home", true, null, 0);
             this._navigator.refreshButton(IRegionWindow(this.find("favourite_region")), "favourite", true, null, 0);
             this._navigator.refreshButton(IRegionWindow(this.find("make_favourite_region")), "make_favourite", true, null, 0);

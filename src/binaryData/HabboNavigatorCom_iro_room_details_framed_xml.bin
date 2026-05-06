@@ -206,7 +206,7 @@
             <container x="5" y="185" width="220" height="10" params="16" style="1" name="padding_cont"/>
             <container x="1" y="140" width="227" height="114" params="16" style="3" name="thumbnail_container">
               <children>
-                <container x="57" y="1" width="112" height="112" params="16" style="3" name="thumbnail_edges" color="0xffff000000" background="true">
+                <container x="57" y="1" width="112" height="112" params="16" style="3" name="thumbnail_edges" color="0xffff000000" background="false">
                   <children>
                     <static_bitmap x="1" y="1" width="110" height="110" params="16" style="3" name="thumbnail_image">
                       <variables>
