@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Habbo Ruffle Launcher</title>
+	<meta name="description" content="Ruffle-based Habbo SWF launcher with editable FlashVars and an in-page console." />
+	<style>
+		/* ── Reset & base ── */
+		*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+		:root {
+			--bg:           #09090e;
+			--sidebar:      #0d0d15;
+			--surface-hi:   #1a1a26;
+			--surface-top:  #22222e;
+			--ink:          #ddddf0;
+			--ink-2:        #9090b0;
+			--muted:        #52526a;
+			--accent:       #a78bfa;
+			--accent-hover: #c4b5fd;
+			--accent-bg:    rgba(167,139,250,.1);
+			--accent-glow:  rgba(167,139,250,.07);
+			--border:       rgba(255,255,255,.07);
+			color-scheme: dark;
+		}
+
+		html, body { height: 100%; overflow: hidden; }
+
+		body {
+			font-family: "Inter", "Segoe UI Variable Text", system-ui, sans-serif;
+			font-size: 13px;
+			color: var(--ink);
+			background: var(--bg);
+			display: flex;
+			flex-direction: column;
+		}
+
+		button, input, textarea { font: inherit; }
+		button { cursor: pointer; }
+
+		/* ── Topbar ── */
+		.topbar {
+			flex: none;
+			height: 46px;
+			background: var(--sidebar);
+			border-bottom: 1px solid var(--border);
+			display: flex;
+			align-items: center;
+			padding: 0 14px;
+			gap: 10px;
+			z-index: 10;
+		}
+
+		.topbar-brand {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			padding-right: 16px;
+			border-right: 1px solid var(--border);
+			flex: none;
+		}
+
+		.topbar-brand svg { color: var(--accent); flex: none; }
+
+		.brand-name {
+			font-size: 0.84rem;
+			font-weight: 700;
+			letter-spacing: 0.04em;
+			color: var(--ink);
+			white-space: nowrap;
+		}
+
+		.brand-name em { font-style: normal; color: var(--accent); }
+
+		.topbar-status {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			flex: 1;
+			min-width: 0;
+			overflow: hidden;
+		}
+
+		.topbar-actions {
+			display: flex;
+			align-items: center;
+			gap: 6px;
+			flex: none;
+			margin-left: auto;
+		}
+
+		/* ── Status pill ── */
+		.status-pill {
+			flex: none;
+			display: inline-flex;
+			align-items: center;
+			gap: 5px;
+			padding: 3px 9px;
+			border-radius: 4px;
+			background: rgba(255,255,255,0.04);
+			border: 1px solid var(--border);
+			color: var(--muted);
+			font-size: 0.72rem;
+			font-weight: 700;
+			letter-spacing: 0.09em;
+			text-transform: uppercase;
+		}
+
+		.status-pill::before {
+			content: "";
+			width: 6px; height: 6px;
+			border-radius: 50%;
+			background: var(--muted);
+			flex: none;
+		}
+
+		.status-pill[data-state="loading"] { background: rgba(251,191,36,.1); border-color: rgba(251,191,36,.22); color: #fbbf24; }
+		.status-pill[data-state="loading"]::before { background: #fbbf24; box-shadow: 0 0 6px #fbbf24; }
+		.status-pill[data-state="ready"]   { background: var(--accent-bg); border-color: rgba(167,139,250,.25); color: var(--accent); }
+		.status-pill[data-state="ready"]::before   { background: var(--accent); box-shadow: 0 0 6px var(--accent); }
+		.status-pill[data-state="error"]   { background: rgba(248,113,113,.1); border-color: rgba(248,113,113,.22); color: #f87171; }
+		.status-pill[data-state="error"]::before   { background: #f87171; }
+
+		.status-detail {
+			color: var(--muted);
+			font-size: 0.76rem;
+			font-family: "Cascadia Code", "Consolas", monospace;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		/* ── Buttons ── */
+		.primary-button, .secondary-button, .ghost-button {
+			border: 1px solid transparent;
+			border-radius: 5px;
+			padding: 6px 13px;
+			font-size: 0.78rem;
+			font-weight: 600;
+			letter-spacing: 0.01em;
+			transition: background 100ms, border-color 100ms, color 100ms;
+			white-space: nowrap;
+		}
+
+		.primary-button { background: var(--accent); color: #09090e; border-color: var(--accent); }
+		.primary-button:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+
+		.secondary-button { background: var(--surface-hi); color: var(--ink-2); border-color: var(--border); }
+		.secondary-button:hover { background: var(--surface-top); color: var(--ink); }
+
+		.ghost-button { background: transparent; color: var(--muted); border-color: transparent; padding: 4px 10px; font-size: 0.74rem; }
+		.ghost-button:hover { background: rgba(255,255,255,0.04); color: var(--ink-2); }
+
+		/* ── Work area ── */
+		.workarea { flex: 1; display: flex; overflow: hidden; }
+
+		/* ── Sidebar ── */
+		.sidebar {
+			flex: none;
+			width: 288px;
+			background: var(--sidebar);
+			border-right: 1px solid var(--border);
+			overflow-y: auto;
+			overflow-x: hidden;
+			display: flex;
+			flex-direction: column;
+		}
+
+		.sidebar-section {
+			padding: 14px 14px 16px;
+			border-bottom: 1px solid var(--border);
+		}
+
+		.section-label {
+			display: flex;
+			align-items: center;
+			gap: 6px;
+			margin-bottom: 12px;
+			font-size: 0.68rem;
+			font-weight: 700;
+			letter-spacing: 0.1em;
+			text-transform: uppercase;
+			color: var(--muted);
+		}
+
+		.section-label::after {
+			content: "";
+			flex: 1;
+			height: 1px;
+			background: var(--border);
+		}
+
+		/* ── Form fields ── */
+		.field-group { display: grid; gap: 5px; margin-bottom: 10px; }
+		.field-group:last-child { margin-bottom: 0; }
+
+		.field-group label {
+			font-size: 0.68rem;
+			font-weight: 600;
+			letter-spacing: 0.08em;
+			text-transform: uppercase;
+			color: var(--ink-2);
+		}
+
+		.text-input, .text-area {
+			width: 100%;
+			padding: 7px 9px;
+			border-radius: 5px;
+			border: 1px solid var(--border);
+			background: var(--surface-hi);
+			color: var(--ink);
+			transition: border-color 100ms, box-shadow 100ms;
+			font-size: 0.8rem;
+		}
+
+		.text-area {
+			min-height: 76px;
+			resize: vertical;
+			font-family: "Cascadia Code", "Consolas", monospace;
+			font-size: 0.74rem;
+			line-height: 1.55;
+		}
+
+		.text-input:focus, .text-area:focus {
+			outline: none;
+			border-color: rgba(167,139,250,.4);
+			box-shadow: 0 0 0 3px var(--accent-glow);
+		}
+
+		.hint { color: var(--muted); font-size: 0.72rem; line-height: 1.5; }
+
+		.input-row { display: grid; gap: 6px; }
+
+		/* ── FlashVar grid ── */
+		.flashvar-grid { display: grid; gap: 8px; }
+		.flashvar-field { display: grid; gap: 4px; }
+		.flashvar-field span {
+			font-size: 0.66rem;
+			letter-spacing: 0.07em;
+			text-transform: uppercase;
+			color: var(--muted);
+			font-weight: 600;
+		}
+
+		/* ── Stage ── */
+		.stage-wrap {
+			flex: 1;
+			overflow: hidden;
+			display: flex;
+			flex-direction: column;
+			background: #050507;
+		}
+
+		.player-stage {
+			flex: 1;
+			overflow: hidden;
+			position: relative;
+			display: grid;
+		}
+
+		.player-stage > * { min-width: 0; min-height: 0; }
+
+		.empty-state {
+			margin: auto;
+			text-align: center;
+			padding: 40px;
+			max-width: 320px;
+		}
+
+		.empty-icon {
+			margin: 0 auto 18px;
+			width: 52px; height: 52px;
+			border-radius: 14px;
+			background: var(--surface-hi);
+			border: 1px solid var(--border);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			color: var(--muted);
+		}
+
+		.empty-state h2 {
+			font-size: 0.78rem;
+			font-weight: 700;
+			letter-spacing: 0.1em;
+			text-transform: uppercase;
+			color: var(--muted);
+			margin-bottom: 8px;
+		}
+
+		.empty-state p {
+			font-size: 0.78rem;
+			line-height: 1.6;
+			color: var(--muted);
+			opacity: .55;
+		}
+
+		.ruffle-host { width: 100%; height: 100%; display: block; }
+
+		/* ── Console drawer ── */
+		.console-drawer {
+			flex: none;
+			height: 210px;
+			border-top: 1px solid var(--border);
+			display: flex;
+			flex-direction: column;
+			background: var(--bg);
+		}
+
+		.console-bar {
+			flex: none;
+			height: 32px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 0 12px;
+			border-bottom: 1px solid var(--border);
+			background: var(--sidebar);
+		}
+
+		.console-bar-title {
+			font-size: 0.68rem;
+			font-weight: 700;
+			letter-spacing: 0.1em;
+			text-transform: uppercase;
+			color: var(--muted);
+		}
+
+		.console-actions { display: flex; gap: 4px; }
+
+		.console-output {
+			flex: 1;
+			overflow-y: auto;
+			overflow-x: hidden;
+			font-family: "Cascadia Code", "Consolas", "Courier New", monospace;
+			font-size: 0.75rem;
+		}
+
+		.console-entry {
+			display: grid;
+			grid-template-columns: 70px 44px minmax(0,1fr);
+			padding: 3px 12px;
+			border-bottom: 1px solid rgba(255,255,255,.025);
+			align-items: baseline;
+		}
+
+		.console-entry:last-child { border-bottom: 0; }
+
+		.console-time { color: var(--muted); white-space: nowrap; font-size: 0.7rem; opacity: .6; }
+		.console-level { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; }
+		.console-message { margin: 0; padding-left: 8px; white-space: pre-wrap; word-break: break-word; color: var(--ink-2); }
+
+		.console-entry[data-level="warn"]  .console-level { color: #fbbf24; }
+		.console-entry[data-level="warn"]  .console-message { color: #b45309; }
+		.console-entry[data-level="error"] .console-level { color: #f87171; }
+		.console-entry[data-level="error"] .console-message { color: #fca5a5; }
+		.console-entry[data-level="info"]  .console-level { color: #60a5fa; }
+		.console-entry[data-level="debug"] .console-level,
+		.console-entry[data-level="trace"] .console-level { color: var(--accent); }
+		.console-entry[data-level="log"]   .console-level { color: var(--ink-2); }
+
+		/* ── Scrollbars ── */
+		::-webkit-scrollbar { width: 5px; height: 5px; }
+		::-webkit-scrollbar-track { background: transparent; }
+		::-webkit-scrollbar-thumb { background: rgba(255,255,255,.08); border-radius: 99px; }
+		::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,.14); }
+
+		/* ── Responsive ── */
+		@media (max-width: 860px) {
+			html, body { height: auto; overflow: auto; }
+			.workarea { flex-direction: column; overflow: visible; }
+			.sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border); overflow: visible; }
+			.stage-wrap { min-height: 380px; }
+			.console-drawer { height: auto; min-height: 160px; }
+			.brand-name { display: none; }
+		}
+	</style>
+	<script>
+		(function () {
+			var controller = {
+				buffer: [],
+				emit: null,
+				original: {}
+			};
+
+			function formatValue(value) {
+				if (value instanceof Error) {
+					return value.stack || (value.name + ": " + value.message);
+				}
+
+				if (typeof value === "string") {
+					return value;
+				}
+
+				if (value === null) {
+					return "null";
+				}
+
+				if (value === undefined) {
+					return "undefined";
+				}
+
+				if (typeof value === "object") {
+					try {
+						return JSON.stringify(value, null, 2);
+					} catch (error) {
+						return Object.prototype.toString.call(value);
+					}
+				}
+
+				return String(value);
+			}
+
+			function capture(level, values) {
+				var entry = {
+					level: level,
+					timestamp: new Date().toISOString(),
+					message: values.map(formatValue).join(" ")
+				};
+
+				if (typeof controller.emit === "function") {
+					controller.emit(entry);
+					return;
+				}
+
+				controller.buffer.push(entry);
+			}
+
+			["log", "info", "warn", "error", "debug", "trace"].forEach(function (method) {
+				var original = typeof console[method] === "function"
+					? console[method].bind(console)
+					: console.log.bind(console);
+
+				controller.original[method] = original;
+				console[method] = function () {
+					var args = Array.prototype.slice.call(arguments);
+
+					try {
+						capture(method, args);
+					} catch (error) {
+						original("Console capture failed", error);
+					}
+
+					original.apply(null, args);
+				};
+			});
+
+			window.addEventListener("error", function (event) {
+				var suffix = event.filename
+					? " (" + event.filename + ":" + event.lineno + ":" + event.colno + ")"
+					: "";
+
+				capture("error", [event.message + suffix, event.error || ""]);
+			});
+
+			window.addEventListener("unhandledrejection", function (event) {
+				capture("error", ["Unhandled promise rejection", event.reason]);
+			});
+
+			window.RufflePlayer = window.RufflePlayer || {};
+			window.RufflePlayer.config = Object.assign({}, window.RufflePlayer.config || {}, {
+				autoplay: "on",
+				logLevel: "warn",
+				splashScreen: true,
+				warnOnUnsupportedContent: true
+			});
+
+			window.__launcherConsole = controller;
+		})();
+	</script>
+	<script src="js/ruffle/ruffle.js"></script>
+</head>
+<body>
+	<!-- Topbar -->
+	<header class="topbar">
+		<div class="topbar-brand">
+			<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+				<polygon points="5 3 19 12 5 21 5 3"/>
+			</svg>
+			<span class="brand-name">Habbo&nbsp;<em>Ruffle</em></span>
+		</div>
+
+		<div class="topbar-status">
+			<span id="runtime-status" class="status-pill" data-state="idle">Idle</span>
+			<span id="current-swf" class="status-detail">No SWF loaded.</span>
+		</div>
+
+		<div class="topbar-actions">
+			<button class="secondary-button" id="reset-defaults" type="button">Reset</button>
+			<button class="secondary-button" id="clear-player" type="button">Unload</button>
+			<button class="primary-button" type="submit" form="launcher-form">Load SWF</button>
+		</div>
+	</header>
+
+	<!-- Work area -->
+	<div class="workarea">
+
+		<!-- Sidebar / config -->
+		<aside class="sidebar">
+			<form id="launcher-form">
+
+				<div class="sidebar-section">
+					<div class="section-label">SWF Target</div>
+					<div class="field-group">
+						<label for="swf-path">Path or URL</label>
+						<div class="input-row">
+							<input id="swf-path" class="text-input" type="text" list="known-swfs" spellcheck="false" autocomplete="off" />
+							<datalist id="known-swfs">
+								<option value="Habbo.swf"></option>
+								<option value="PRODUCTION-202605040356-625.swf"></option>
+							</datalist>
+						</div>
+						<p class="hint">Relative to the bin folder. Absolute URLs work too if CORS allows.</p>
+					</div>
+				</div>
+
+				<div class="sidebar-section">
+					<div class="section-label">FlashVars</div>
+					<div id="flashvar-grid" class="flashvar-grid"></div>
+				</div>
+
+				<div class="sidebar-section">
+					<div class="section-label">Extra FlashVars</div>
+					<div class="field-group">
+						<label for="custom-flashvars">One key=value per line</label>
+						<textarea id="custom-flashvars" class="text-area" spellcheck="false" placeholder="key=value&#10;# comments ignored"></textarea>
+						<p class="hint">Merged on top of the named fields above. Lines starting with # are ignored.</p>
+					</div>
+				</div>
+
+			</form>
+		</aside>
+
+		<!-- Player stage -->
+		<main class="stage-wrap">
+			<div id="player-stage" class="player-stage">
+				<div class="empty-state">
+					<div class="empty-icon" aria-hidden="true">
+						<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+							<rect x="2" y="2" width="20" height="20" rx="3"/>
+							<polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/>
+						</svg>
+					</div>
+					<h2>No SWF Loaded</h2>
+					<p>Configure the target in the sidebar, then click Load SWF in the toolbar.</p>
+				</div>
+			</div>
+		</main>
+
+	</div>
+
+	<!-- Console drawer -->
+	<div class="console-drawer">
+		<div class="console-bar">
+			<span class="console-bar-title">Console</span>
+			<div class="console-actions">
+				<button class="ghost-button" id="copy-console" type="button">Copy log</button>
+				<button class="ghost-button" id="clear-console" type="button">Clear</button>
+			</div>
+		</div>
+		<div id="console-output" class="console-output" aria-live="polite"></div>
+	</div>
+
+	<script>
+		(function () {
+			var STORAGE_KEY = "habbo-ruffle-launcher";
+			var MAX_CONSOLE_ENTRIES = 400;
+			var KNOWN_SWFS = ["Habbo.swf", "PRODUCTION-202605040356-625.swf"];
+			var FLASHVAR_FIELDS = [
+				{ key: "connection.info.host", label: "Connection host", value: "127.0.0.1" },
+				{ key: "connection.info.port", label: "Connection port", value: "31000" },
+				{ key: "site.url", label: "Site URL", value: "http://127.0.0.1:8080" },
+				{ key: "url.prefix", label: "URL prefix", value: "http://127.0.0.1:8080" },
+				{ key: "external.variables.txt", label: "External variables", value: "http://127.0.0.1:8080/gamedata/external_variables.txt" },
+				{ key: "external.override.variables.txt", label: "Override variables", value: "http://127.0.0.1:8080/gamedata/override/external_override_variables.txt" },
+				{ key: "external.texts.txt", label: "External texts", value: "http://127.0.0.1:8080/gamedata/external_flash_texts_en.txt" },
+				{ key: "external.override.texts.txt", label: "Override texts", value: "http://127.0.0.1:8080/gamedata/override/external_flash_override_texts_en.txt" },
+				{ key: "external.figurepartlist.txt", label: "Figure part list", value: "http://127.0.0.1:8080/gamedata/figuredata.xml" },
+				{ key: "flash.dynamic.avatar.download.configuration", label: "Avatar download map", value: "http://127.0.0.1:8080/gamedata/figuremap.xml" },
+				{ key: "flash.dynamic.avatar.download.url", label: "Avatar download URL", value: "http://127.0.0.1:8080/gordon/PRODUCTION-202202222202-225849040/" },
+				{ key: "flash.dynamic.avatar.download.name.template", label: "Avatar library template", value: "%libname%.swf" },
+				{ key: "productdata.load.url", label: "Product data", value: "http://127.0.0.1:8080/gamedata/productdata_en.txt" },
+				{ key: "furnidata.load.url", label: "Furni data", value: "http://127.0.0.1:8080/gamedata/furnidata.xml" },
+				{ key: "client.fatal.error.url", label: "Fatal error URL", value: "http://127.0.0.1:8080/flash_client_error" },
+				{ key: "client.starting", label: "Client starting flag", value: "Testing Client 123..." },
+				{ key: "flash.client.url", label: "Flash client URL", value: "http://127.0.0.1:8080/gordon/PRODUCTION-202202222202-225849040/" }
+			];
+
+			var dom = {
+				form: document.getElementById("launcher-form"),
+				swfPath: document.getElementById("swf-path"),
+				flashvarGrid: document.getElementById("flashvar-grid"),
+				customFlashvars: document.getElementById("custom-flashvars"),
+				playerStage: document.getElementById("player-stage"),
+				runtimeStatus: document.getElementById("runtime-status"),
+				currentSwf: document.getElementById("current-swf"),
+				resetDefaults: document.getElementById("reset-defaults"),
+				clearPlayer: document.getElementById("clear-player"),
+				consoleOutput: document.getElementById("console-output"),
+				clearConsole: document.getElementById("clear-console"),
+				copyConsole: document.getElementById("copy-console")
+			};
+
+			var consoleEntries = [];
+			var currentPlayer = null;
+
+			function buildDefaultFlashvars() {
+				var defaults = {};
+
+				FLASHVAR_FIELDS.forEach(function (field) {
+					defaults[field.key] = field.value;
+				});
+
+				return defaults;
+			}
+
+			function createEmptyState(title, message) {
+				var wrapper = document.createElement("div");
+				var heading = document.createElement("h2");
+				var body = document.createElement("p");
+
+				wrapper.className = "empty-state";
+				heading.textContent = title;
+				body.textContent = message;
+
+				wrapper.appendChild(heading);
+				wrapper.appendChild(body);
+
+				return wrapper;
+			}
+
+			function formatValue(value) {
+				if (value instanceof Error) {
+					return value.stack || (value.name + ": " + value.message);
+				}
+
+				if (typeof value === "string") {
+					return value;
+				}
+
+				if (value === null) {
+					return "null";
+				}
+
+				if (value === undefined) {
+					return "undefined";
+				}
+
+				if (typeof value === "object") {
+					try {
+						return JSON.stringify(value, null, 2);
+					} catch (error) {
+						return Object.prototype.toString.call(value);
+					}
+				}
+
+				return String(value);
+			}
+
+			function appendConsoleEntry(entry) {
+				var row = document.createElement("div");
+				var time = document.createElement("span");
+				var level = document.createElement("span");
+				var message = document.createElement("pre");
+
+				consoleEntries.push(entry);
+
+				if (consoleEntries.length > MAX_CONSOLE_ENTRIES) {
+					consoleEntries.shift();
+
+					if (dom.consoleOutput.firstChild) {
+						dom.consoleOutput.removeChild(dom.consoleOutput.firstChild);
+					}
+				}
+
+				row.className = "console-entry";
+				row.dataset.level = entry.level;
+
+				time.className = "console-time";
+				time.textContent = new Date(entry.timestamp).toLocaleTimeString();
+
+				level.className = "console-level";
+				level.textContent = entry.level.toUpperCase();
+
+				message.className = "console-message";
+				message.textContent = entry.message;
+
+				row.appendChild(time);
+				row.appendChild(level);
+				row.appendChild(message);
+				dom.consoleOutput.appendChild(row);
+				dom.consoleOutput.scrollTop = dom.consoleOutput.scrollHeight;
+			}
+
+			function record(level) {
+				var values = Array.prototype.slice.call(arguments, 1);
+
+				appendConsoleEntry({
+					level: level,
+					timestamp: new Date().toISOString(),
+					message: values.map(formatValue).join(" ")
+				});
+			}
+
+			function setStatus(state, label, detail) {
+				dom.runtimeStatus.dataset.state = state;
+				dom.runtimeStatus.textContent = label;
+				dom.currentSwf.textContent = detail || "";
+			}
+
+			function renderFlashvarFields() {
+				var fragment = document.createDocumentFragment();
+
+				FLASHVAR_FIELDS.forEach(function (field) {
+					var wrapper = document.createElement("label");
+					var label = document.createElement("span");
+					var input = document.createElement("input");
+
+					wrapper.className = "flashvar-field";
+					label.textContent = field.label;
+
+					input.className = "text-input";
+					input.type = "text";
+					input.autocomplete = "off";
+					input.spellcheck = false;
+					input.dataset.flashvar = field.key;
+
+					wrapper.appendChild(label);
+					wrapper.appendChild(input);
+					fragment.appendChild(wrapper);
+				});
+
+				dom.flashvarGrid.replaceChildren(fragment);
+			}
+
+			function normalizeState(source) {
+				var defaults = buildDefaultFlashvars();
+				var state = {
+					swfPath: KNOWN_SWFS[0],
+					flashvars: defaults,
+					customFlashvars: ""
+				};
+				var extraLines = [];
+
+				if (!source || typeof source !== "object") {
+					return state;
+				}
+
+				if (typeof source.swfPath === "string" && source.swfPath.trim()) {
+					state.swfPath = source.swfPath.trim();
+				}
+
+				if (source.flashvars && typeof source.flashvars === "object") {
+					Object.keys(source.flashvars).forEach(function (key) {
+						var value = source.flashvars[key];
+						var stringValue = value === undefined || value === null ? "" : String(value);
+
+						if (Object.prototype.hasOwnProperty.call(defaults, key)) {
+							state.flashvars[key] = stringValue;
+							return;
+						}
+
+						extraLines.push(key + "=" + stringValue);
+					});
+				}
+
+				if (typeof source.customFlashvars === "string" && source.customFlashvars.trim()) {
+					extraLines = extraLines.concat(
+						source.customFlashvars
+							.replace(/\r/g, "")
+							.split("\n")
+							.filter(function (line) {
+								return line.trim().length > 0;
+							})
+					);
+				}
+
+				state.customFlashvars = extraLines.join("\n");
+				return state;
+			}
+
+			function applyStateToForm(state) {
+				dom.swfPath.value = state.swfPath;
+
+				Array.from(dom.flashvarGrid.querySelectorAll("[data-flashvar]")).forEach(function (input) {
+					var key = input.dataset.flashvar;
+
+					input.value = Object.prototype.hasOwnProperty.call(state.flashvars, key)
+						? state.flashvars[key]
+						: "";
+				});
+
+				dom.customFlashvars.value = state.customFlashvars || "";
+			}
+
+			function parseCustomFlashvars(text) {
+				var parsed = {};
+				var invalid = [];
+
+				text.replace(/\r/g, "").split("\n").forEach(function (line, index) {
+					var trimmed = line.trim();
+					var separator = trimmed.indexOf("=");
+
+					if (!trimmed || trimmed.charAt(0) === "#") {
+						return;
+					}
+
+					if (separator === -1) {
+						invalid.push(index + 1);
+						return;
+					}
+
+					var key = trimmed.slice(0, separator).trim();
+					var value = trimmed.slice(separator + 1);
+
+					if (!key) {
+						invalid.push(index + 1);
+						return;
+					}
+
+					parsed[key] = value;
+				});
+
+				return {
+					parsed: parsed,
+					invalid: invalid
+				};
+			}
+
+			function collectLaunchConfig() {
+				var flashvars = {};
+				var customResult = parseCustomFlashvars(dom.customFlashvars.value);
+
+				Array.from(dom.flashvarGrid.querySelectorAll("[data-flashvar]")).forEach(function (input) {
+					flashvars[input.dataset.flashvar] = input.value;
+				});
+
+				Object.keys(customResult.parsed).forEach(function (key) {
+					flashvars[key] = customResult.parsed[key];
+				});
+
+				if (customResult.invalid.length) {
+					record("warn", "Ignored invalid extra FlashVars on lines:", customResult.invalid.join(", "));
+				}
+
+				return {
+					swfPath: dom.swfPath.value.trim(),
+					flashvars: flashvars
+				};
+			}
+
+			function persistState(config) {
+				try {
+					window.localStorage.setItem(STORAGE_KEY, JSON.stringify(config));
+				} catch (error) {
+					record("warn", "Could not persist launcher settings.", error);
+				}
+
+				try {
+					var params = new URLSearchParams();
+
+					if (config.swfPath) {
+						params.set("swf", config.swfPath);
+					}
+
+					params.set("flashvars", JSON.stringify(config.flashvars));
+					var nextUrl = window.location.pathname + (params.toString() ? "?" + params.toString() : "");
+					window.history.replaceState(null, "", nextUrl);
+				} catch (error) {
+					record("warn", "Could not update the query string.", error);
+				}
+			}
+
+			function readQueryState() {
+				var params = new URLSearchParams(window.location.search);
+				var swfPath = params.get("swf");
+				var flashvars = params.get("flashvars");
+				var state = null;
+
+				if (!swfPath && !flashvars) {
+					return null;
+				}
+
+				state = {
+					swfPath: swfPath || KNOWN_SWFS[0]
+				};
+
+				if (flashvars) {
+					try {
+						state.flashvars = JSON.parse(flashvars);
+					} catch (error) {
+						record("warn", "Could not parse flashvars from the query string.", error);
+					}
+				}
+
+				return state;
+			}
+
+			function readPersistedState() {
+				var queryState = readQueryState();
+
+				if (queryState) {
+					return normalizeState(queryState);
+				}
+
+				try {
+					var raw = window.localStorage.getItem(STORAGE_KEY);
+
+					if (raw) {
+						return normalizeState(JSON.parse(raw));
+					}
+				} catch (error) {
+					record("warn", "Could not restore launcher settings.", error);
+				}
+
+				return normalizeState();
+			}
+
+			function clearPlayerStage(title, message) {
+				if (currentPlayer) {
+					try {
+						currentPlayer.remove();
+					} catch (error) {
+						record("warn", "Failed to dispose the current player cleanly.", error);
+					}
+
+					currentPlayer = null;
+				}
+
+				dom.playerStage.replaceChildren(createEmptyState(title, message));
+			}
+
+			function ensureRuffle() {
+				if (!window.RufflePlayer || typeof window.RufflePlayer.newest !== "function") {
+					throw new Error("Ruffle did not initialize. Check that unpkg.com is reachable from this browser.");
+				}
+
+				var ruffle = window.RufflePlayer.newest();
+
+				if (!ruffle || typeof ruffle.createPlayer !== "function") {
+					throw new Error("Ruffle is available, but no player factory was exposed.");
+				}
+
+				return ruffle;
+			}
+
+			async function loadSwf(event) {
+				var config = collectLaunchConfig();
+				var ruffle;
+				var player;
+
+				if (event) {
+					event.preventDefault();
+				}
+
+				if (!config.swfPath) {
+					setStatus("error", "Missing SWF path", "Enter a SWF path or URL before loading.");
+					record("error", "Load aborted because no SWF path was provided.");
+					return;
+				}
+
+				persistState(config);
+				setStatus("loading", "Loading", config.swfPath);
+				record("info", "Loading SWF:", config.swfPath);
+				record("debug", "FlashVars:", config.flashvars);
+
+				if (currentPlayer) {
+					clearPlayerStage("SWF Preview", "Creating a fresh player instance.");
+				}
+
+				try {
+					ruffle = ensureRuffle();
+					player = ruffle.createPlayer();
+					player.className = "ruffle-host";
+					player.style.width = "100%";
+					player.style.height = "100%";
+					player.traceObserver = function (line) {
+						appendConsoleEntry({
+							level: "trace",
+							timestamp: new Date().toISOString(),
+							message: line
+						});
+					};
+
+					player.addEventListener("loadedmetadata", function () {
+						setStatus("ready", "Metadata ready", config.swfPath);
+						record("info", "Ruffle reported loadedmetadata for", config.swfPath);
+					});
+
+					player.addEventListener("loadeddata", function () {
+						setStatus("ready", "Running", config.swfPath);
+						record("info", "Ruffle reported loadeddata for", config.swfPath);
+					});
+
+					dom.playerStage.replaceChildren(player);
+					currentPlayer = player;
+
+					await player.load({
+						url: config.swfPath,
+						parameters: config.flashvars,
+						allowScriptAccess: true,
+						allowFullscreen: true,
+						backgroundColor: "#000000",
+						menu: false,
+						scale: "showAll",
+						wmode: "direct",
+						warnOnUnsupportedContent: true,
+						logLevel: "warn"
+					});
+
+					setStatus("ready", "Load requested", config.swfPath);
+					record("info", "Ruffle load call resolved for", config.swfPath);
+				} catch (error) {
+					setStatus("error", "Load failed", config.swfPath);
+					record("error", "SWF load failed.", error);
+
+					if (!currentPlayer) {
+						clearPlayerStage("Load failed", "Check the built-in console for the exact error.");
+					}
+				}
+			}
+
+			async function copyConsole() {
+				var text = consoleEntries.map(function (entry) {
+					return "[" + entry.level.toUpperCase() + "] " + entry.timestamp + " " + entry.message;
+				}).join("\n");
+
+				if (!text) {
+					record("info", "The built-in console is already empty.");
+					return;
+				}
+
+				if (!navigator.clipboard || typeof navigator.clipboard.writeText !== "function") {
+					record("warn", "Clipboard access is unavailable in this browser context.");
+					return;
+				}
+
+				try {
+					await navigator.clipboard.writeText(text);
+					record("info", "Copied built-in console output to the clipboard.");
+				} catch (error) {
+					record("error", "Failed to copy built-in console output.", error);
+				}
+			}
+
+			function resetDefaults() {
+				applyStateToForm(normalizeState({
+					swfPath: KNOWN_SWFS[0],
+					flashvars: buildDefaultFlashvars()
+				}));
+				record("info", "Restored default SWF and FlashVars.");
+			}
+
+			function clearConsole() {
+				consoleEntries = [];
+				dom.consoleOutput.replaceChildren();
+			}
+
+			function bootstrapConsole() {
+				var controller = window.__launcherConsole;
+
+				if (!controller) {
+					return;
+				}
+
+				controller.emit = appendConsoleEntry;
+
+				while (controller.buffer.length) {
+					appendConsoleEntry(controller.buffer.shift());
+				}
+			}
+
+			renderFlashvarFields();
+			bootstrapConsole();
+
+			var initialState = readPersistedState();
+			applyStateToForm(initialState);
+
+			dom.form.addEventListener("submit", loadSwf);
+			dom.resetDefaults.addEventListener("click", resetDefaults);
+			dom.clearPlayer.addEventListener("click", function () {
+				clearPlayerStage("SWF Preview", "The player was unloaded. Load a SWF to create a new instance.");
+				setStatus("idle", "Idle", "Player unloaded.");
+				record("info", "Unloaded the current player instance.");
+			});
+			dom.clearConsole.addEventListener("click", clearConsole);
+			dom.copyConsole.addEventListener("click", copyConsole);
+
+			if (window.location.protocol === "file:") {
+				record("warn", "This page is running from file://. Ruffle blocks many features in that mode. Use a local http(s) server for real testing.");
+			}
+
+			if (!KNOWN_SWFS.includes(initialState.swfPath) && initialState.swfPath) {
+				record("info", "Restored a custom SWF path from storage or the query string:", initialState.swfPath);
+			}
+
+			loadSwf();
+		})();
+	</script>
+</body>
+</html>

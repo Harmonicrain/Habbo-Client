@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<setup>
+    <flashvars>
+        <param key="connection.info.host" value="127.0.0.1"/>
+        <param key="connection.info.port" value="31000"/>
+        <param key="site.url" value="http://127.0.0.1:8080"/>
+        <param key="url.prefix" value="http://127.0.0.1:8080"/>
+        <param key="external.variables.txt" value="http://127.0.0.1:8080/gamedata/external_variables.txt"/>
+        <param key="external.override.variables.txt" value="http://127.0.0.1:8080/gamedata/override/external_override_variables.txt"/>
+        <param key="external.texts.txt" value="http://127.0.0.1:8080/gamedata/external_flash_texts.txt"/>
+        <param key="external.override.texts.txt" value="http://127.0.0.1:8080/gamedata/override/external_flash_override_texts.txt"/>
+        <param key="external.figurepartlist.txt" value="http://127.0.0.1:8080/gamedata/figuredata.xml"/>
+        <param key="flash.dynamic.avatar.download.configuration" value="http://127.0.0.1:8080/gamedata/figuremap.xml"/>
+        <param key="flash.dynamic.avatar.download.url" value="http://127.0.0.1:8080/gordon/PRODUCTION-202202222202-225849040/"/>
+        <param key="flash.dynamic.avatar.download.name.template" value="%libname%.swf"/>
+        <param key="productdata.load.url" value="http://127.0.0.1:8080/gamedata/productdata.txt"/>
+        <param key="furnidata.load.url" value="http://127.0.0.1:8080/gamedata/furnidata.xml"/>
+        <param key="client.fatal.error.url" value="http://127.0.0.1:8080/flash_client_error"/>
+        <param key="client.starting" value="Testing Client 123..."/>
+        <param key="flash.client.url" value="http://127.0.0.1:8080/gordon/PRODUCTION-202202222202-225849040/"/>
+    </flashvars>
+</setup>

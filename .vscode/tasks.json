@@ -1,0 +1,94 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "start flash policy server",
+      "type": "shell",
+      "command": "npm run tool -- flash-policy --allow-ports \"*\"",
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "flash-policy",
+        "pattern": {
+          "regexp": "."
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*",
+          "endsPattern": "Flash policy server (running|already running) on port 843"
+        }
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      }
+    },
+    {
+      "label": "build debug swf",
+      "type": "shell",
+      "command": "npm run tool -- build --no-archive",
+      "group": "build",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      }
+    },
+    {
+      "label": "start remote tcp relay",
+      "type": "shell",
+      "command": "npm run tool -- tcp-relay --listen-host 127.0.0.1 --listen-port 31000 --target-host 172.232.129.154 --target-port 31000",
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "tcp-relay",
+        "pattern": {
+          "regexp": "."
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*",
+          "endsPattern": "TCP relay (running|already running) on 127\\.0\\.0\\.1:31000"
+        }
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      }
+    },
+    {
+      "label": "start asset proxy",
+      "type": "shell",
+      "command": "npm run tool -- asset-proxy --host 127.0.0.1 --port 8080 --upstream https://ahmedprince22.github.io --local-dir bin",
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "asset-proxy",
+        "pattern": {
+          "regexp": "."
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*",
+          "endsPattern": "Asset proxy (running|already running) on 127\\.0\\.0\\.1:8080"
+        }
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      }
+    },
+    {
+      "label": "debug prerequisites",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "start flash policy server",
+        "start remote tcp relay",
+        "start asset proxy",
+        "build debug swf"
+      ],
+      "problemMatcher": []
+    }
+  ]
+}

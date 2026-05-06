@@ -157,6 +157,7 @@
                     _local_4 = getProperty("flash.dynamic.avatar.download.configuration");
                     _local_5 = getProperty("flash.dynamic.avatar.download.url");
                     _local_6 = getProperty("flash.dynamic.avatar.download.name.template");
+                    trace("AvatarRenderManager avatar downloads config=" + _local_4 + "; base=" + _local_5 + "; template=" + _local_6);
                     this._avatarAssetDownloadManager = new AvatarAssetDownloadManager(context.assets, _local_4, _local_5, this._structure, _local_6);
                     this._avatarAssetDownloadManager.addEventListener(Event.COMPLETE, this._Str_1656);
                     this._avatarAssetDownloadManager.addEventListener(AvatarAssetDownloadManager.LIBRARY_LOADED, this._Str_1154);
@@ -166,6 +167,7 @@
                     _local_7 = (getProperty("flash.dynamic.avatar.download.url") + "effectmap.xml");
                     _local_5 = getProperty("flash.dynamic.avatar.download.url");
                     _local_6 = getProperty("flash.dynamic.avatar.download.name.template");
+                    trace("AvatarRenderManager effect downloads config=" + _local_7 + "; base=" + _local_5 + "; template=" + _local_6);
                     this._effectAssetDownloadManager = new EffectAssetDownloadManager(context.assets, _local_7, _local_5, this._structure, _local_6);
                     this._effectAssetDownloadManager.addEventListener(Event.COMPLETE, this._Str_1528);
                     this._effectAssetDownloadManager.addEventListener(AvatarAssetDownloadManager.LIBRARY_LOADED, this._Str_1613);

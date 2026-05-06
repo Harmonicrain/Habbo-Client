@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Flash Client Error</title>
+  <style>
+    :root {
+      --bg: #0b1118;
+      --surface: #101a25;
+      --surface-2: #132131;
+      --border: rgba(255,255,255,0.08);
+      --text: #edf3fb;
+      --muted: #95a5bb;
+      --accent: #ffb84d;
+      --accent-2: #73d0ff;
+      --danger: #ff7b72;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", system-ui, sans-serif;
+      background: radial-gradient(circle at top, #122033, var(--bg) 45%);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    .shell {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 32px 20px 48px;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 32px;
+    }
+    .sub {
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+    .toolbar {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    button, a.button {
+      border: 1px solid var(--border);
+      background: var(--surface-2);
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 10px;
+      text-decoration: none;
+      cursor: pointer;
+      font: inherit;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      gap: 18px;
+    }
+    .panel {
+      border: 1px solid var(--border);
+      background: rgba(16, 26, 37, 0.92);
+      border-radius: 16px;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+    }
+    .panel h2 {
+      margin: 0;
+      padding: 16px 18px;
+      font-size: 15px;
+      border-bottom: 1px solid var(--border);
+      color: var(--accent-2);
+    }
+    .report-list {
+      padding: 10px;
+      display: grid;
+      gap: 10px;
+      max-height: 70vh;
+      overflow: auto;
+    }
+    .report-card {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 12px;
+      cursor: pointer;
+    }
+    .report-card.active {
+      border-color: rgba(255,184,77,0.5);
+      box-shadow: inset 0 0 0 1px rgba(255,184,77,0.35);
+    }
+    .report-card strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--accent);
+    }
+    .meta {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .detail {
+      padding: 18px;
+      display: grid;
+      gap: 16px;
+    }
+    .kv {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 8px 14px;
+      align-items: start;
+    }
+    .kv div {
+      padding: 8px 10px;
+      border-radius: 10px;
+      background: var(--surface);
+      min-width: 0;
+      word-break: break-word;
+    }
+    .kv .key {
+      color: var(--muted);
+      font-family: Consolas, monospace;
+    }
+    pre {
+      margin: 0;
+      padding: 14px;
+      border-radius: 12px;
+      background: #09111a;
+      border: 1px solid var(--border);
+      color: var(--text);
+      overflow: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .empty {
+      color: var(--muted);
+      padding: 18px;
+    }
+    @media (max-width: 900px) {
+      .grid { grid-template-columns: 1fr; }
+      .kv { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <h1>Flash Client Error Viewer</h1>
+    <div class="sub">Shows the latest payloads posted by the SWF to <code>/flash_client_error</code>.</div>
+    <div class="toolbar">
+      <button id="refresh" type="button">Refresh</button>
+      <a class="button" href="/">Open Root</a>
+    </div>
+    <div class="grid">
+      <section class="panel">
+        <h2>Reports</h2>
+        <div id="report-list" class="report-list"></div>
+      </section>
+      <section class="panel">
+        <h2>Details</h2>
+        <div id="detail" class="detail">
+          <div class="empty">No reports received yet.</div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var list = document.getElementById("report-list");
+      var detail = document.getElementById("detail");
+      var refresh = document.getElementById("refresh");
+      var reports = [];
+      var selectedIndex = 0;
+
+      function escapeHtml(value) {
+        return String(value)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/\"/g, "&quot;");
+      }
+
+      function renderList() {
+        if (!reports.length) {
+          list.innerHTML = '<div class="empty">No crash payloads have been posted yet.</div>';
+          return;
+        }
+
+        list.innerHTML = reports.map(function (report, index) {
+          var title = report.fields.error_desc || report.fields.error_cat || "Crash report";
+          return '' +
+            '<button class="report-card' + (index === selectedIndex ? ' active' : '') + '" data-index="' + index + '" type="button">' +
+              '<strong>' + escapeHtml(title) + '</strong>' +
+              '<div class="meta">' + escapeHtml(report.receivedAt || "") + '</div>' +
+              '<div class="meta">' + escapeHtml(report.userAgent || "") + '</div>' +
+            '</button>';
+        }).join("");
+      }
+
+      function renderDetail() {
+        var report = reports[selectedIndex];
+        if (!report) {
+          detail.innerHTML = '<div class="empty">No reports received yet.</div>';
+          return;
+        }
+
+        var keys = Object.keys(report.fields || {}).sort();
+        var rows = keys.map(function (key) {
+          return '<div class="key">' + escapeHtml(key) + '</div><div>' + escapeHtml(report.fields[key]) + '</div>';
+        }).join("");
+
+        detail.innerHTML = '' +
+          '<div class="kv">' +
+            '<div class="key">receivedAt</div><div>' + escapeHtml(report.receivedAt || "") + '</div>' +
+            '<div class="key">userAgent</div><div>' + escapeHtml(report.userAgent || "") + '</div>' +
+            rows +
+          '</div>' +
+          '<div>' +
+            '<h3>Raw Body</h3>' +
+            '<pre>' + escapeHtml(report.rawBody || "") + '</pre>' +
+          '</div>';
+      }
+
+      function render() {
+        renderList();
+        renderDetail();
+      }
+
+      function loadReports() {
+        fetch('/api/flash_client_error', { cache: 'no-store' })
+          .then(function (response) { return response.json(); })
+          .then(function (payload) {
+            reports = Array.isArray(payload.reports) ? payload.reports : [];
+            if (selectedIndex >= reports.length) {
+              selectedIndex = 0;
+            }
+            render();
+          })
+          .catch(function (error) {
+            detail.innerHTML = '<pre>' + escapeHtml(String(error)) + '</pre>';
+          });
+      }
+
+      list.addEventListener('click', function (event) {
+        var button = event.target.closest('[data-index]');
+        if (!button) {
+          return;
+        }
+        selectedIndex = Number(button.getAttribute('data-index')) || 0;
+        render();
+      });
+
+      refresh.addEventListener('click', loadReports);
+      loadReports();
+      setInterval(loadReports, 3000);
+    }());
+  </script>
+</body>
+</html>

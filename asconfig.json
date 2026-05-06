@@ -13,13 +13,14 @@
 		"target-player": "25.0",
 		"accessible": false,
 		"benchmark": false,
-		"optimize": true,
+		"debug": true,
+		"optimize": false,
 		"show-unused-type-selector-warnings": true,
 		"strict": true,
 		"use-network": true,
 		"use-resource-bundle-metadata": true,
 		"warnings": true,
-		"verbose-stacktraces": false,
+		"verbose-stacktraces": true,
 		"static-link-runtime-shared-libraries": true
 	},
 	"files": [

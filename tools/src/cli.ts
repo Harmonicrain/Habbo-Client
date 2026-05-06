@@ -1,5 +1,6 @@
 import { runAssets } from "./commands/assets";
 import { runBuild } from "./commands/build";
+import { runFlashPolicy } from "./commands/flashPolicy";
 import { runGamedata } from "./commands/gamedata";
 import { runImports } from "./commands/imports";
 import { runPackets } from "./commands/packets";
@@ -11,6 +12,7 @@ type CommandRunner = (argv: string[]) => Promise<void>;
 const commands = new Map<string, CommandRunner>([
   ["build", runBuild],
   ["compile", runBuild],
+  ["flash-policy", runFlashPolicy],
   ["gamedata", runGamedata],
   ["imports", runImports],
   ["assets", runAssets],
@@ -40,6 +42,7 @@ function printHelp(): void {
 
 Commands:
   build                 Compile the AS3 client and archive the SWF
+  flash-policy          Run a Flash XML socket policy server for local debug
   gamedata migrate      Convert flat Habbo gamedata .txt files to verified JSON
   imports generate      Generate import stubs for AS3 compiler/bootstrap work
   assets report         Inspect Embed wrappers and missing asset files

@@ -46,6 +46,7 @@
         public function startDownloading():void
         {
             this._state = _Str_997;
+            trace("AvatarAssetDownloadLibrary.start name=" + this._libraryName + "; url=" + this._downloadUrl);
             var k:URLRequest = new URLRequest(this._downloadUrl);
             var _local_2:LibraryLoader = new LibraryLoader();
             this._assets.loadFromFile(_local_2, true);
@@ -56,6 +57,7 @@
 
         private function onLoaderError(k:LibraryLoaderEvent):void
         {
+            trace("AvatarAssetDownloadLibrary.error name=" + this._libraryName + "; url=" + this._downloadUrl + "; status=" + k.status + "; bytes=" + k.bytesLoaded + "/" + k.bytesTotal + "; error=" + (k.target as LibraryLoader).getLastErrorMessage());
             Core.error(((((((((("Could not load avatar asset library " + this._libraryName) + " from URL ") + this._downloadUrl) + " HTTP status ") + k.status) + " bytes loaded ") + k.bytesLoaded) + "/") + k.bytesTotal), false, Core.ERROR_CATEGORY_DOWNLOAD_LIBRARY);
         }
 
@@ -64,6 +66,7 @@
             var _local_2:LibraryLoader = (k.target as LibraryLoader);
             _local_2.removeEventListener(LibraryLoaderEvent.LIBRARY_LOADER_EVENT_COMPLETE, this.onLoaderComplete);
             _local_2.removeEventListener(LibraryLoaderEvent.LIBRARY_LOADER_EVENT_ERROR, this.onLoaderError);
+            trace("AvatarAssetDownloadLibrary.complete name=" + this._libraryName + "; url=" + this._downloadUrl);
             this._state = _Str_599;
             dispatchEvent(new Event(Event.COMPLETE));
         }

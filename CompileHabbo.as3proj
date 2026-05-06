@@ -22,9 +22,10 @@
     <option accessible="False" />
     <option allowSourcePathOverlap="False" />
     <option benchmark="False" />
+    <option debug="True" />
     <option es="False" />
     <option loadConfig="" />
-    <option optimize="True" />
+    <option optimize="False" />
     <option showActionScriptWarnings="True" />
     <option showBindingWarnings="True" />
     <option showDeprecationWarnings="True" />
@@ -33,7 +34,7 @@
     <option useNetwork="True" />
     <option useResourceBundleMetadata="True" />
     <option warnings="True" />
-    <option verboseStackTraces="False" />
+    <option verboseStackTraces="True" />
     <option staticLinkRSL="True" />
     <option additional="" />
     <option customSDK="" />

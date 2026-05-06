@@ -12,6 +12,7 @@ npm run tool -- --help
 
 ```bash
 npm run build:swf
+npm run tool -- flash-policy --allow-ports "*"
 npm run tool -- assets report
 npm run tool -- gamedata migrate --gamedata C:\habbo\client\habbo-swfs\gamedata
 npm run tool -- packets report --format json --out packets.json
@@ -32,6 +33,7 @@ npm run tool -- symbols compare functions --reference air --out analyse.txt
 | New command | Replaces | Notes |
 | --- | --- | --- |
 | `build` | `compile.js`, `compile.php` | Uses `asconfig.json`, `FLEX_HOME`, `JAVA_HOME`, and archives builds in `bin/`. |
+| `flash-policy` | `policy-server.js` | Runs a local Flash XML socket policy server for projector debugging. |
 | `gamedata migrate` | `migrate_gamedata_to_json.py` | Keeps round-trip verification and strict duplicate handling. |
 | `imports generate` | `getImport.php` | Uses package declarations rather than Windows-only path splitting. |
 | `assets report` | Manual asset checks | Shows missing embed sources and wrapper/source mismatches. |

@@ -24,6 +24,7 @@
     import flash.display.DisplayObject;
     import flash.utils.getDefinitionByName;
     import flash.system.Security;
+	import com.sulake.habbo.utils.ProjectorParameters;
 	
 
     public class Habbo extends MovieClip 
@@ -74,35 +75,54 @@
         public function Habbo()
         {
 			super();
-            var _local_2:String;
+            trace("DEBUG TEST: Habbo started");
             stop();
-            _isSpaWeb = (stage.loaderInfo.parameters["spaweb"] == "1");
+            if (Capabilities.playerType == "StandAlone")
+            {
+                ProjectorParameters.load(root.loaderInfo.parameters, this.initializeStartup);
+            }
+            else
+            {
+                ProjectorParameters.initialize(root.loaderInfo.parameters);
+                this.initializeStartup();
+            }
+			
+        }
+
+        private function initializeStartup():void
+        {
+            var flashVars:Object = ProjectorParameters.parameters;
+            var _local_2:String;
+            _isSpaWeb = (flashVars["spaweb"] == "1");
             HabboWebTools.isSpaWeb = _isSpaWeb;
-            CONNECTION_HOST = root.loaderInfo.parameters["connection.info.host"];
-            CONNECTION_PORTS = root.loaderInfo.parameters["connection.info.port"];
-            var k:String = root.loaderInfo.parameters["client.fatal.error.url"];
-			
-			if (k != null)
-			{
-				Habbo._crashURL = k;
-			}
-			else
-			{
-				_local_2 = root.loaderInfo.parameters["url.prefix"];
-				if (_local_2 != null)
-				{
-					Habbo._crashURL = (_local_2 + "/flash_client_error");
-				};
-			};
-			if (stage)
-			{
-				this.onAddedToStage();
-			}
-			else
-			{
-				this.addEventListener(Event.ADDED_TO_STAGE, this.onAddedToStage);
-			};
-			
+            CONNECTION_HOST = flashVars["connection.info.host"];
+            CONNECTION_PORTS = flashVars["connection.info.port"];
+            var k:String = flashVars["client.fatal.error.url"];
+            if (((k != null) && (k.replace(/\s+/g, "") != "")))
+            {
+                Habbo._crashURL = k;
+            }
+            else
+            {
+                _local_2 = flashVars["url.prefix"];
+                if (_local_2 != null)
+                {
+                    Habbo._crashURL = (_local_2 + "/flash_client_error");
+                };
+            };
+            if (stage)
+            {
+                this.onAddedToStage();
+            }
+            else
+            {
+                this.addEventListener(Event.ADDED_TO_STAGE, this.onAddedToStage);
+            };
+        }
+
+        private function getParameter(key:String):String
+        {
+            return ProjectorParameters.getValue(key);
         }
 
         public static function trackLoginStep(k:String, _arg_2:String=null):void
@@ -140,6 +160,11 @@
 
         public static function reportCrash(errorMessage:String, crashCategory:int, critical:Boolean, error:Error=null):void
         {
+            if (Habbo._crashURL == null || Habbo._crashURL.replace(/\s+/g, "") == "")
+            {
+                Logger.log("Crash reporting disabled: client.fatal.error.url is empty.");
+                return;
+            }
             var request:URLRequest = new URLRequest(Habbo._crashURL);
             var variables:URLVariables = new URLVariables();
             variables[ERROR_VARIABLE_CLIENT_CRASH_TIME] = new Date().getTime().toString();
@@ -219,7 +244,7 @@
         {
             removeEventListener(Event.ADDED_TO_STAGE, this.onAddedToStage);
             this.enableAccessFromJavascript();
-            Habbo.PROCESSLOG_ENABLED = (stage.loaderInfo.parameters["processlog.enabled"] == "1");
+            Habbo.PROCESSLOG_ENABLED = (this.getParameter("processlog.enabled") == "1");
             trackLoginStep(ClientEnum.CLIENT_INIT_START);
             stage.scaleMode = StageScaleMode.NO_SCALE;
             stage.quality = StageQuality.LOW;
@@ -235,6 +260,12 @@
                 reportCrash(((("Uncaught client error, eventType: " + k.type) + " errorID: ") + k.errorID), ERROR_UNCAUGHT_ERROR, true, k.error);
             });
             this.createNewUserLobbyOrLoadingScreen();
+            if (((root.loaderInfo.bytesTotal > 0) && (root.loaderInfo.bytesLoaded >= root.loaderInfo.bytesTotal)))
+            {
+                this._cacheIsDirty = true;
+                this.onPreLoadingCompleted(new Event(Event.COMPLETE));
+                return;
+            }
             this.checkPreLoadingStatus();
             MouseWheelEnabler.init(stage);
         }
@@ -343,12 +374,12 @@
 
         public function createLoadingScreen():void
         {
-            var k:String = stage.loaderInfo.parameters[CLIENT_STARTING];
+            var k:String = this.getParameter(CLIENT_STARTING);
             if (k == null)
             {
                 k = CLIENT_STARTING;
             }
-            var _local_2:String = stage.loaderInfo.parameters[CLIENT_STARTING_LOADING];
+            var _local_2:String = this.getParameter(CLIENT_STARTING_LOADING);
             if (_local_2 == CLIENT_STARTING_LOADING)
             {
                 _local_2 = null;
@@ -409,7 +440,7 @@
             var _local_2:int;
             if (ExternalInterface.available)
             {
-                k = stage.loaderInfo.parameters["url.prefix"];
+                k = this.getParameter("url.prefix");
                 if (k != null)
                 {
                     k = k.replace("http://", "").replace("https://", "");
@@ -473,37 +504,37 @@
 
         private function get newUserReceptionEnabled():Boolean
         {
-            return stage.loaderInfo.parameters[NEW_USER_FLOW_ENABLED] == "true";
+            return this.getParameter(NEW_USER_FLOW_ENABLED) == "true";
         }
 
         private function get newUserOnboardingEnabled():Boolean
         {
-            return stage.loaderInfo.parameters[NEW_USER_ONBOARDING_HC_FLOW_ENABLED] == "true";
+            return this.getParameter(NEW_USER_ONBOARDING_HC_FLOW_ENABLED) == "true";
         }
 
         private function get showHcItemDuringOnboarding():Boolean
         {
-            return stage.loaderInfo.parameters[NEW_USER_ONBOARDING_SHOW_HC_ITEMS] == "true";
+            return this.getParameter(NEW_USER_ONBOARDING_SHOW_HC_ITEMS) == "true";
         }
 
         private function get onboardingGoToPage():String
         {
-            return stage.loaderInfo.parameters[NEW_USER_ONBOARDING_PAGE_TO_SHOW];
+            return this.getParameter(NEW_USER_ONBOARDING_PAGE_TO_SHOW);
         }
 
         private function get processLogEnabled():Boolean
         {
-            return stage.loaderInfo.parameters[PROCESSLOG_ENABLED_KEY] == "1";
+            return this.getParameter(PROCESSLOG_ENABLED_KEY) == "1";
         }
 
         public function get infoHost():String
         {
-            return stage.loaderInfo.parameters["connection.info.host"];
+            return this.getParameter("connection.info.host");
         }
 
         public function get infoPort():String
         {
-            return stage.loaderInfo.parameters["connection.info.port"];
+            return this.getParameter("connection.info.port");
         }
 
         private function _Str_1228(_arg_1:String, _arg_2:Object=null):Boolean

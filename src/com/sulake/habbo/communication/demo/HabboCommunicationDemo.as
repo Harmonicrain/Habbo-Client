@@ -208,15 +208,8 @@
             {
                 if (((!(this._windowManager == null)) && (!(this.isRoomViewerMode))))
                 {
-                    if (((false) || (false)))
-                    {
-                        this._view = new HabboLoginDemoView(this);
-                        this._view.addEventListener(HabboLoginDemoView.INITCONNECTION, this.onInitConnection);
-                    }
-                    else
-                    {
-                        Core.crash("Login without an SSO ticket is not supported", Core.ERROR_CATEGORY_COMMMUNICATION_INIT);
-                    }
+                    this._view = new HabboLoginDemoView(this);
+                    this._view.addEventListener(HabboLoginDemoView.INITCONNECTION, this.onInitConnection);
                 }
             }
         }

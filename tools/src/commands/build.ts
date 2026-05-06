@@ -107,11 +107,12 @@ function buildCompilerArgs(input: {
   args.push("-default-size", String(size.width), String(size.height));
   pushValue(args, "accessible", options.accessible, false);
   pushValue(args, "benchmark", options.benchmark, false);
-  pushValue(args, "optimize", options.optimize, true);
+  pushValue(args, "debug", options.debug, true);
+  pushValue(args, "optimize", options.optimize, false);
   pushValue(args, "show-unused-type-selector-warnings", options["show-unused-type-selector-warnings"], true);
   pushValue(args, "strict", options.strict, true);
   pushValue(args, "warnings", options.warnings, true);
-  pushValue(args, "verbose-stacktraces", options["verbose-stacktraces"], false);
+  pushValue(args, "verbose-stacktraces", options["verbose-stacktraces"], true);
 
   return [...args, ...input.passthrough];
 }

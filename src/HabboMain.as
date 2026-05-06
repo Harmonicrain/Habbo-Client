@@ -18,6 +18,7 @@
     import com.sulake.habbo.room.events.RoomEngineEvent;
     import flash.utils.setInterval;
     import com.sulake.habbo.utils.HabboWebTools;
+	import com.sulake.habbo.utils.ProjectorParameters;
 
     public class HabboMain extends Sprite 
     {
@@ -108,15 +109,24 @@
             this._core.prepareComponent(HabboTrackingLib);
             addEventListener(ProgressEvent.PROGRESS, this.onProgressEvent);
             addEventListener(Event.COMPLETE, this.onCompleteEvent);
-            var _local_2:XML = <config>
-				<asset-libraries>
-					<library url="hh_human_body.swf"/>
-					<library url="hh_human_item.swf"/>
-				</asset-libraries>
-				<service-libraries/>
-				<component-libraries/>
-			</config>
-            ;
+            var clientUrl:String = ProjectorParameters.getValue("flash.client.url", "");
+            trace("HabboMain.prepareCore flash.client.url raw=" + ((clientUrl.length > 0) ? clientUrl : "<empty>"));
+            if (clientUrl.length > 0 && clientUrl.charAt(clientUrl.length - 1) != "/")
+            {
+                clientUrl += "/";
+            }
+            trace("HabboMain.prepareCore asset library base=" + ((clientUrl.length > 0) ? clientUrl : "<empty>"));
+            var _local_2:XML = new XML(
+                "<config>" +
+                "<asset-libraries>" +
+                "<library url=\"" + clientUrl + "hh_human_body.swf\"/>" +
+                "<library url=\"" + clientUrl + "hh_human_item.swf\"/>" +
+                "</asset-libraries>" +
+                "<service-libraries/>" +
+                "<component-libraries/>" +
+                "</config>"
+            );
+            trace("HabboMain.prepareCore asset config=" + _local_2.toXMLString());
             this._core.readConfigDocument(_local_2, this);
             this._totalSteps = ((this._core.getNumberOfFilesPending() + this._core.getNumberOfFilesLoaded()) + INIT_STEPS);
             this._core.prepareComponent(CoreCommunicationFrameworkLib);

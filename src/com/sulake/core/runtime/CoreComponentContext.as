@@ -262,6 +262,7 @@
         private function errorInLoadingProcess(k:LibraryLoaderEvent=null):void
         {
             var _local_2:LibraryLoader = LibraryLoader(k.target);
+            trace("CoreComponentContext.errorInLoadingProcess url=" + _local_2.url + "; status=" + k.status + "; bytes=" + k.bytesLoaded + "/" + k.bytesTotal + "; error=" + _local_2.getLastErrorMessage());
             this.error(((((((((('Failed to download library "' + _local_2.url) + '" HTTP status ') + k.status) + " bytes loaded ") + k.bytesLoaded) + "/") + k.bytesTotal) + " : ") + _local_2.getLastErrorMessage()), true, Core.ERROR_CATEGORY_DOWNLOAD_LIBRARY);
             if (!disposed)
             {

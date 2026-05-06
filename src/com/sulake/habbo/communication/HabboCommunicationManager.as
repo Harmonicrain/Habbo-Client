@@ -20,8 +20,6 @@
     import com.sulake.core.Core;
     import com.sulake.habbo.communication.enum.HabboConnectionType;
     import com.sulake.core.communication.messages.IMessageEvent;
-    import com.sulake.core.utils.ErrorReportStorage;
-    import com.sulake.habbo.tracking.HabboErrorVariableEnum;
     import com.sulake.core.communication.messages.IMessageDataWrapper;
     import com.sulake.habbo.communication.encryption.ArcFour;
     import com.sulake.core.communication.encryption.IEncryption;
@@ -257,13 +255,10 @@
 
         public function connectionInit(host:String, port:int):void
         {
-            ErrorReportStorage.setParameter(HabboErrorVariableEnum.HOST, host);
-            ErrorReportStorage.setParameter(HabboErrorVariableEnum.PORT, String(port));
         }
 
         public function messageReceived(k:String):void
         {
-            ErrorReportStorage.setParameter(HabboErrorVariableEnum.RECE_MSG_TIME, String(new Date().getTime()));
             if (this._handledMessageIds.length > 0)
             {
                 this._handledMessageIds = (this._handledMessageIds + (",R:" + k));
@@ -280,7 +275,6 @@
 
         public function messageSent(k:String):void
         {
-            ErrorReportStorage.setParameter(HabboErrorVariableEnum.SENT_MSG_TIME, String(new Date().getTime()));
             if (this._handledMessageIds.length > 0)
             {
                 this._handledMessageIds = (this._handledMessageIds + (",S:" + k));
@@ -297,13 +291,10 @@
 
         public function messageParseError(k:IMessageDataWrapper):void
         {
-            ErrorReportStorage.setParameter(HabboErrorVariableEnum.SENT_MSG_DATA, (k as Object).toString());
-            ErrorReportStorage.addDebugData("MESSAGE_QUEUE", this._handledMessageIds);
         }
 
         public function setMessageQueueErrorDebugData():void
         {
-            ErrorReportStorage.addDebugData("MESSAGE_QUEUE", this._handledMessageIds);
         }
 
         public function initializeEncryption():IEncryption
@@ -361,14 +352,13 @@
             this._portIndex++;
             if (this._currentTcpDummy == null)
             {
-                this._currentTcpDummy = new TcpAuthDummy((this._host + this.getKeyValue([[65290, 65290, 65290, 65290, 65290], [65290, 65290, 65290], [65290, 65290]], 0)), this._ports[this._portIndex]);
+                this._currentTcpDummy = new TcpAuthDummy(this._host, this._ports[this._portIndex]);
                 this._portIndex--;
                 this.resetPocketHabboSession();
                 return;
             }
             if (this._portIndex >= this._ports.length)
             {
-                ErrorReportStorage.addDebugData("ConnectionRetry", ("Connection attempt " + this._connectionAttempts));
                 this._connectionAttempts++;
                 k = _Str_18533;
                 if (this._ports.length == 1)
@@ -393,7 +383,7 @@
             this._connection.timeout = (this._connectionAttempts * 10000);
             if (false == false)
             {
-                this._connection.init((this._host + this.getKeyValue([[65290, 65290, 65290, 65290, 65290], [65290, 65290, 65290], [65290, 65290]], 0)), this._ports[this._portIndex]);
+                this._connection.init(this._host, this._ports[this._portIndex]);
             }
             if (this._dummyTimer != null)
             {
@@ -439,13 +429,11 @@
                 case IOErrorEvent.VERIFY_ERROR:
                     break;
             }
-            ErrorReportStorage.addDebugData("Communication IO Error", ((((("IOError " + k.type) + " on connect: ") + k.text) + ". Port was ") + this._ports[this._portIndex]));
             this.resetPocketHabboSession();
         }
 
         private function onConnect(k:Event):void
         {
-            ErrorReportStorage.addDebugData("Connection", (("Connected with " + this._connectionAttempts) + " attempts"));
         }
 
         private function onTryNextPort(k:TimerEvent):void
@@ -455,7 +443,6 @@
 
         private function onSecurityError(k:SecurityErrorEvent):void
         {
-            ErrorReportStorage.addDebugData("Communication Security Error", ((("SecurityError on connect: " + k.text) + ". Port was ") + this._ports[this._portIndex]));
             this.resetPocketHabboSession();
         }
     }

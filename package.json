@@ -4,6 +4,7 @@
     "tools:build": "tsc -p tsconfig.json",
     "tool": "npm run tools:build --silent && node tools/dist/cli.js",
     "build:swf": "npm run tool -- build",
+    "serve:web": "node scripts/web-server.js",
     "gamedata:migrate": "npm run tool -- gamedata migrate"
   },
   "devDependencies": {

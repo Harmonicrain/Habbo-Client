@@ -94,6 +94,16 @@
             return false;
         }
 
+        public function get manualSsoTicket():String
+        {
+            var field:ITextFieldWindow = (this._window.findChildByName("sso_ticket_field") as ITextFieldWindow);
+            if (field != null)
+            {
+                return field.text;
+            }
+            return "";
+        }
+
         private function createWindow():void
         {
             var _local_9:Array;
@@ -116,6 +126,7 @@
                 Logger.log("Could not find the button");
             }
             var _local_4:SharedObject = SharedObject.getLocal(this.SOL_ID, "/");
+            var ssoField:ITextFieldWindow = (this._window.findChildByName("sso_ticket_field") as ITextFieldWindow);
             if (_local_2 != null)
             {
                 _local_2.textBackground = true;
@@ -137,6 +148,16 @@
                     _local_3.text = _local_4.data.password;
                 }
                 _local_3.addEventListener(WindowKeyboardEvent.WINDOW_EVENT_KEY_UP, this.windowEventProcessor);
+            }
+            if (ssoField != null)
+            {
+                ssoField.textBackground = true;
+                ssoField.textBackgroundColor = 0xFFFFFF;
+                if (_local_4.data.ssoTicket != null)
+                {
+                    ssoField.text = _local_4.data.ssoTicket;
+                }
+                ssoField.addEventListener(WindowKeyboardEvent.WINDOW_EVENT_KEY_UP, this.windowEventProcessor);
             }
             var _local_5:ISelectableWindow = (this._window.findChildByName("useTicket") as ISelectableWindow);
             if (_local_5)
@@ -351,6 +372,8 @@
             }
             var nameField:ITextFieldWindow = (this._window.findChildByName("name_field") as ITextFieldWindow);
             var passField:ITextFieldWindow = (this._window.findChildByName("pwd_field") as ITextFieldWindow);
+            var ssoField:ITextFieldWindow = (this._window.findChildByName("sso_ticket_field") as ITextFieldWindow);
+            var manualTicket:String = "";
             if (nameField != null)
             {
                 this.name = nameField.text;
@@ -359,24 +382,37 @@
             {
                 this.password = passField.text;
             }
+            if (ssoField != null)
+            {
+                manualTicket = ssoField.text;
+            }
             try
             {
                 so = SharedObject.getLocal(this.SOL_ID, "/");
                 so.data.login = this.name;
                 so.data.password = this.password;
+                so.data.ssoTicket = manualTicket;
                 so.flush();
             }
             catch(e:Error)
             {
                 Logger.log(("Could not store developer credentials to SharedObject: " + e));
             }
-            if (this.useSSOTicket)
+            manualTicket = manualTicket.replace(/^\s+|\s+$/g, "");
+            if (manualTicket.length > 0)
+            {
+                this._habboLogin.setSSOTicket = manualTicket;
+                dispatchEvent(new Event(INITCONNECTION));
+            }
+            else if (this.useSSOTicket)
             {
                 this.initSSOTicket(this.useExistingSession);
             }
             else
             {
-                dispatchEvent(new Event(INITCONNECTION));
+                this.displayResults("Enter an SSO ticket or enable Use SSO Ticket.");
+                this._window.findChildByName("login_btn").enable();
+                return;
             }
             this._window.findChildByName("login_btn").disable();
         }

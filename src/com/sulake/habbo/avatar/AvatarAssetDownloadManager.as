@@ -57,15 +57,18 @@
             this._initDownloadBuffer = [];
             this._pendingDownloadQueue = [];
             this._currentDownloads = [];
+            trace("AvatarAssetDownloadManager init configUrl=" + _arg_2 + "; assetBase=" + _arg_3 + "; template=" + _arg_5);
             var _local_6:URLRequest = new URLRequest(_arg_2);
             var _local_7:IAsset = this._assets.getAssetByName("figuremap");
             if (_local_7 == null)
             {
+                trace("AvatarAssetDownloadManager loading figuremap from " + _arg_2);
                 this._mapLoader = this._assets.loadAssetFromFile("figuremap", _local_6, "text/xml");
                 this._Str_725();
             }
             else
             {
+                trace("AvatarAssetDownloadManager using cached figuremap asset");
                 _local_8 = (this._assets.getAssetByName("figuremap") as XmlAsset);
                 _local_9 = (_local_8.content as XML).copy();
                 this._Str_1556(_local_9);
@@ -128,6 +131,7 @@
                 return;
             }
             this._mapDownloadTriesLeft--;
+            trace("AvatarAssetDownloadManager figuremap error url=" + this._configurationURL + "; triesLeft=" + this._mapDownloadTriesLeft);
             if (this._mapDownloadTriesLeft <= 0)
             {
                 HabboWebTools.logEventLog(("Figuremap download error " + this._configurationURL));
@@ -164,9 +168,11 @@
             try
             {
                 data = new XML((loaderStruct.assetLoader.content as String));
+                trace("AvatarAssetDownloadManager figuremap complete url=" + this._configurationURL + "; libs=" + data.lib.length());
             }
             catch(e:Error)
             {
+                trace("AvatarAssetDownloadManager figuremap parse error url=" + this._configurationURL + "; error=" + e.message);
                 return;
             }
             this._Str_1556(data);
@@ -245,6 +251,7 @@
             var _local_4:Array = this._Str_708(k);
             if (_local_4.length > 0)
             {
+                trace("AvatarAssetDownloadManager queue figure=" + _local_3 + "; missingLibraries=" + _local_4.length);
                 if (((_arg_2) && (!(_arg_2.disposed))))
                 {
                     _local_6 = this._listeners[_local_3];
@@ -395,6 +402,7 @@
             while (((this._pendingDownloadQueue.length > 0) && (this._currentDownloads.length < this._Str_589)))
             {
                 k = this._pendingDownloadQueue[0];
+                trace("AvatarAssetDownloadManager start library=" + k.libraryName + "; pending=" + this._pendingDownloadQueue.length + "; active=" + this._currentDownloads.length);
                 k.startDownloading();
                 this._currentDownloads.push(this._pendingDownloadQueue.shift());
             }

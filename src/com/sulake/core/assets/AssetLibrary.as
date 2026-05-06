@@ -733,7 +733,7 @@
         {
             this._isReady = false;
             var loader:LibraryLoader = (event.target as LibraryLoader);
-            //var _local_3:String = ((loader) ? loader.name : "unknown");
+            trace("AssetLibrary.loadErrorHandler name=" + this._name + "; url=" + ((loader != null) ? loader.url : "<unknown>") + "; status=" + event.status + "; error=" + ((loader != null) ? loader.getLastErrorMessage() : "<unknown>"));
             dispatchEvent(new Event(AssetLibrary.ASSET_LIBRARY_LOAD_ERROR));
 			Habbo.trackLoginStep("AssetLibrary:loadErrorHandler: " + this._name + ": " + event.target)
             this._loader = null;

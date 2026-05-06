@@ -1,0 +1,20 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "swf",
+      "request": "launch",
+      "name": "Build + Launch Habbo SWF",
+      "program": "${workspaceFolder}\\bin\\Habbo.swf",
+      "runtimeExecutable": "${workspaceFolder}\\player\\flashplayer_32_sa_debug.exe",
+      "preLaunchTask": "debug prerequisites"
+    },
+    {
+      "type": "swf",
+      "request": "launch",
+      "name": "Launch Habbo SWF (no rebuild)",
+      "program": "${workspaceFolder}\\bin\\Habbo.swf",
+      "runtimeExecutable": "${workspaceFolder}\\player\\flashplayer_32_sa_debug.exe"
+    }
+  ]
+}
