@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "scripts": {
+    "tools:build": "tsc -p tsconfig.json",
+    "tool": "npm run tools:build --silent && node tools/dist/cli.js",
+    "build:swf": "npm run tool -- build",
+    "gamedata:migrate": "npm run tool -- gamedata migrate"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "typescript": "^6.0.3"
+  }
+}

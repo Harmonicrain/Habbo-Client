@@ -213,11 +213,19 @@ Client                                        Server
 
 ### Building
 
-This is an ActionScript 3 project. Use your preferred AS3 compiler:
+This is an ActionScript 3 project. The repository tooling is now managed through a TypeScript CLI:
 
 ```bash
-# Example with FlashDevelop
-# Open the project file and compile
+npm install
+npm run build:swf
+```
+
+The build command uses `asconfig.json`, `FLEX_HOME`, `JAVA_HOME`, and the Flex SDK `mxmlc.jar`. It writes the latest build to `bin/Habbo.swf` and keeps timestamped `PRODUCTION-*.swf` archives in `bin/`.
+
+Tooling helpers are available through:
+
+```bash
+npm run tool -- --help
 ```
 
 ### Configuration

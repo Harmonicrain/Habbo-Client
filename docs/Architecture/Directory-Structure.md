@@ -9,10 +9,11 @@ habbo-client-clean/
 ├── src/           - Main source code (9,800+ ActionScript files)
 ├── bin/           - Compiled SWF and runtime files
 ├── docs/          - Documentation (this wiki)
-├── tools/         - Build and utility scripts
+├── tools/         - TypeScript build and maintenance CLI
 ├── .vscode/       - IDE settings
 ├── .git/          - Git repository
 ├── asconfig.json  - Flash compiler configuration
+├── package.json   - TypeScript toolchain scripts
 ├── README.md      - Project readme
 └── CLIENT-SERVER-ARCHITECTURE.md - Protocol documentation
 ```
