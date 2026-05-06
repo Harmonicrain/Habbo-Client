@@ -9,7 +9,7 @@ package com.sulake.habbo.window.utils.tableview
 
     public class TableRowView implements IDisposable
     {
-        private static const COLOR_SELECTED_FOCUSED:uint = 0xFF46FF44;
+        private static const COLOR_SELECTED_FOCUSED:uint = 0xFFB8E2FC;
         private static const COLOR_SELECTED:uint = 0xFFD1D1D1;
         private static const COLOR_EVEN:uint = 0xFFF2F2F2;
         private static const COLOR_ODD:uint = 0xFFF9F9F9;

@@ -116,7 +116,9 @@
 
         public function get roomSettingsCtrl():RoomSettingsCtrl
         {
-            return this._oldNavigator.roomSettingsCtrl;
+            var k:RoomSettingsCtrl = this._oldNavigator.roomSettingsCtrl;
+            k.navigator = this;
+            return k;
         }
 
         public function get sessionData():ISessionDataManager

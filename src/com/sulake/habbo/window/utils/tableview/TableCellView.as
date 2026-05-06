@@ -40,17 +40,44 @@ package com.sulake.habbo.window.utils.tableview
         {
             this._cell = cell;
             this.initializeView();
+            this.updateWidth();
         }
 
         public function update(cell:TableCell):void
         {
             this._cell = cell;
             this.initializeView();
+            this.updateWidth();
         }
 
         public function updateWidth():void
         {
-            this._container.width = this._table.getCellWidth(this._columnId);
+            var text:ITextWindow;
+            var input:ITextFieldWindow;
+            var linkRegion:IRegionWindow;
+            var linkText:ITextWindow;
+            var width:int = this._table.getCellWidth(this._columnId);
+            this._container.width = width;
+            text = this.getTextElement(false);
+            if (text != null)
+            {
+                text.width = width;
+            }
+            input = this.getInputElement(false);
+            if (input != null)
+            {
+                input.width = width;
+            }
+            linkRegion = this.getLinkRegion(false);
+            if (linkRegion != null)
+            {
+                linkRegion.width = width;
+                linkText = this.getLinkElement(false);
+                if (linkText != null)
+                {
+                    linkText.width = width;
+                }
+            }
         }
 
         public function get container():IRegionWindow
@@ -130,6 +157,7 @@ package com.sulake.habbo.window.utils.tableview
                 this.getTextElement(true).visible = true;
             }
             this.updateContents();
+            this.updateWidth();
         }
 
         private function updateContents():void

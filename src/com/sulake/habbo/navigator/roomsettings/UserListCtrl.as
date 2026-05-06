@@ -33,6 +33,11 @@
             this._navigator = null;
         }
 
+        public function set navigator(k:IHabboTransitionalNavigator):void
+        {
+            this._navigator = k;
+        }
+
         public function get disposed():Boolean
         {
             return this._navigator == null;

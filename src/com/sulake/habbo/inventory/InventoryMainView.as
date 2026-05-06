@@ -483,6 +483,7 @@ package com.sulake.habbo.inventory
             }
             _local_2.visible = true;
             this.mainContainer.addChild(_local_2);
+            _local_2.width = this.mainContainer.width;
             _local_2.height = this.mainContainer.height;
             this._controller.updateView(k);
             this._lastView = _local_2;

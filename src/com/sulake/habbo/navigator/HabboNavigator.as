@@ -162,6 +162,7 @@
 
         public function get roomSettingsCtrl():RoomSettingsCtrl
         {
+            this._roomSettingsCtrl.navigator = this;
             return this._roomSettingsCtrl;
         }
 

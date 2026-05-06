@@ -182,6 +182,23 @@ package com.sulake.habbo.navigator.roomsettings
             this._navigator = null;
         }
 
+        public function set navigator(k:IHabboTransitionalNavigator):void
+        {
+            this._navigator = k;
+            if (this._Str_8572)
+            {
+                this._Str_8572.navigator = k;
+            }
+            if (this._Str_8896)
+            {
+                this._Str_8896.navigator = k;
+            }
+            if (this._Str_7254)
+            {
+                this._Str_7254.navigator = k;
+            }
+        }
+
         public function get disposed():Boolean
         {
             return this._navigator == null;

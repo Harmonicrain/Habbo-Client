@@ -25,6 +25,9 @@
     import com.sulake.habbo.communication.messages.outgoing.tracking.EventLogMessageComposer;
     import com.sulake.habbo.communication.messages.outgoing.users.SelectFavouriteHabboGroupMessageComposer;
     import com.sulake.habbo.communication.messages.outgoing.users.DeselectFavouriteHabboGroupMessageComposer;
+    import com.sulake.habbo.communication.enum.perk.PerkEnum;
+    import com.sulake.habbo.navigator.IHabboTransitionalNavigator;
+    import com.sulake.habbo.navigator.domain.Tabs;
     import com.sulake.habbo.window.utils.IAlertDialog;
 
     public class ExtendedProfileWindowCtrl implements IDisposable 
@@ -356,7 +359,12 @@
             {
                 return;
             }
-            this._manager.newNavigator.performSearch("hotel_view", ("owner:" + this._data.userName));
+            if (this._manager.sessionDataManager.isPerkAllowed(PerkEnum.NAVIGATOR_PHASE_TWO_2014))
+            {
+                this._manager.newNavigator.performSearch("hotel_view", ("owner:" + this._data.userName));
+                return;
+            }
+            IHabboTransitionalNavigator(this._manager.navigator).mainViewCtrl.startSearch(Tabs.TAB_SEARCH, Tabs.SEARCHTYPE_BY_OWNER, this._data.userName);
         }
 
         private function _Str_24644(k:WindowEvent, _arg_2:IWindow):void

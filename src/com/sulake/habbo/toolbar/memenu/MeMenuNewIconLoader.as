@@ -76,7 +76,10 @@ package com.sulake.habbo.toolbar.memenu
             }
             if (this._toolbar != null)
             {
-                this._toolbar.setAssetUri(HabboToolbarIconEnum.MEMENU, _local_2);
+                if (_local_2 != null)
+                {
+                    this._toolbar.setAssetUri(HabboToolbarIconEnum.MEMENU, _local_2.clone());
+                }
             }
         }
 

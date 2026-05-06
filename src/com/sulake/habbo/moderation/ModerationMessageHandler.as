@@ -124,7 +124,6 @@
             }
             this._moderationManager.issueManager._Str_19194();
             this._moderationManager.initMsg = _local_3;
-            this._moderationManager.startPanel.show();
         }
 
         private function onModeratorToolPreferences(k:ModeratorToolPreferencesEvent):void

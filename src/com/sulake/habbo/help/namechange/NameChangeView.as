@@ -100,9 +100,17 @@
             if (!this._window)
             {
                 this._window = (this._controller.buildXmlWindow("welcome_name_change") as IFrameWindow);
+                if (!this._window)
+                {
+                    return;
+                }
                 this._window.center();
                 this._window.procedure = this._Str_3545;
                 this._mainView = (this._window.content.getChildAt(0) as IWindowContainer);
+            }
+            if (!this._mainView)
+            {
+                return;
             }
             this._controller.localization.registerParameter("tutorial.name_change.current", "name", this._controller.myName);
             this._window.caption = this._controller.localization.getLocalization("tutorial.name_change.title.main");
