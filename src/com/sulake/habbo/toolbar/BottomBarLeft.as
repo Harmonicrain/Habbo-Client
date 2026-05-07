@@ -27,6 +27,7 @@
     import com.sulake.core.window.utils.IBitmapDataContainer;
     import com.sulake.core.window.components.IBitmapWrapperWindow;
     import com.sulake.core.window.enum.WindowType;
+    import com.sulake.core.window.enum.WindowParam;
     import flash.filters.GlowFilter;
     import flash.filters.BitmapFilterQuality;
     import com.sulake.core.window.motion.Motions;
@@ -535,15 +536,6 @@
             {
                 this._Str_6574(icon, _NORMAL);
             }
-            var counter:IWindowContainer = (this._unseenItemCounters.getValue(HabboToolbarIconEnum.MEMENU) as IWindowContainer);
-            if (counter != null)
-            {
-                var counterParent:IWindowContainer = (counter.parent as IWindowContainer);
-                if (counterParent != null)
-                {
-                    counterParent.setChildIndex(counter, (counterParent.numChildren - 1));
-                }
-            }
         }
 
         private function getIconName(k:String):String
@@ -677,8 +669,11 @@
                 _local_4 = (this._window.findChildByName(_local_2) as IWindowContainer);
                 if (_local_4)
                 {
+                    if (k == HabboToolbarIconEnum.MEMENU)
+                    {
+                        _local_3.setParamFlag(WindowParam.WINDOW_PARAM_USE_PARENT_GRAPHIC_CONTEXT, false);
+                    }
                     _local_4.addChild(_local_3);
-                    _local_4.setChildIndex(_local_3, (_local_4.numChildren - 1));
                     _local_3.x = ((_local_4.width - _local_3.width) - _Str_3504);
                     _local_3.y = _Str_3504;
                     this._unseenItemCounters.add(k, _local_3);
