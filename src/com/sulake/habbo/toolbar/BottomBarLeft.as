@@ -536,6 +536,15 @@
             {
                 this._Str_6574(icon, _NORMAL);
             }
+            var counter:IWindowContainer = (this._unseenItemCounters.getValue(HabboToolbarIconEnum.MEMENU) as IWindowContainer);
+            if (counter != null)
+            {
+                var counterParent:IWindowContainer = (counter.parent as IWindowContainer);
+                if (counterParent != null)
+                {
+                    counterParent.setChildIndex(counter, (counterParent.numChildren - 1));
+                }
+            }
         }
 
         private function getIconName(k:String):String
@@ -674,6 +683,7 @@
                         _local_3.setParamFlag(WindowParam.WINDOW_PARAM_USE_PARENT_GRAPHIC_CONTEXT, false);
                     }
                     _local_4.addChild(_local_3);
+                    _local_4.setChildIndex(_local_3, (_local_4.numChildren - 1));
                     _local_3.x = ((_local_4.width - _local_3.width) - _Str_3504);
                     _local_3.y = _Str_3504;
                     this._unseenItemCounters.add(k, _local_3);
