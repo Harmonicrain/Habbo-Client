@@ -67,6 +67,7 @@
             {
                 this._context = k;
             }
+            try { this._context.allowCodeImport = true; } catch (e:Error) {}
             this._paused = _arg_2;
             this._debug = _arg_3;
             this._status = 0;

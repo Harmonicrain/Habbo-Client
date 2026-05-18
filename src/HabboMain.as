@@ -8,6 +8,8 @@
     import flash.events.ProgressEvent;
     import com.sulake.core.runtime.Component;
     import com.sulake.core.utils.ErrorReportStorage;
+    import com.sulake.habbo.utils.HabboWebTools;
+    import com.sulake.habbo.room.IRoomEngine;
     import flash.system.Capabilities;
     import com.sulake.core.runtime.ICoreErrorLogger;
     import flash.external.ExternalInterface;
@@ -17,7 +19,6 @@
     import com.sulake.iid.IIDRoomEngine;
     import com.sulake.habbo.room.events.RoomEngineEvent;
     import flash.utils.setInterval;
-    import com.sulake.habbo.utils.HabboWebTools;
 
     public class HabboMain extends Sprite 
     {
@@ -31,6 +32,8 @@
         private var _completedInitSteps:int = 0;
         private var roomEngineReady:Boolean = false;
         private var coreRunning:Boolean = false;
+        private var _prepareCoreOnNextFrame:Boolean = true;
+        private var _corePrepared:Boolean = false;
 
         public function HabboMain(k:IHabboLoadingScreen)
         {
@@ -57,7 +60,11 @@
             }
             if (parent)
             {
-                parent.removeChild(this);
+                try
+                {
+                    parent.removeChild(this);
+                }
+                catch (e:Error) {}
             }
         }
 
@@ -78,22 +85,28 @@
 
         protected function onAddedToStage(event:Event=null):void
         {
-            try
-            {
-                this.prepareCore();
-            }
-            catch(error:Error)
-            {
-                Habbo.trackLoginStep(ClientEnum.CLIENT_INIT_CORE_FAIL);
-				Habbo.trackLoginStep(error.message);
-                Habbo.reportCrash(("Failed to prepare the core: " + error.message), Core.ERROR_CATEGORY_INITIALIZE_CORE, true, error);
-                Core.dispose();
-            }
+            this._prepareCoreOnNextFrame = true;
         }
 
         protected function onExitFrame(k:Event=null):void
         {
-            if (this.roomEngineReady && this.coreRunning)
+            if (this._prepareCoreOnNextFrame)
+            {
+                this._prepareCoreOnNextFrame = false;
+                try
+                {
+                    this.prepareCore();
+                }
+                catch(error:Error)
+                {
+                    Habbo.trackLoginStep(ClientEnum.CLIENT_INIT_CORE_FAIL);
+                    Habbo.trackLoginStep(error.message);
+                    Habbo.reportCrash(("Failed to prepare the core: " + error.message), Core.ERROR_CATEGORY_INITIALIZE_CORE, true, error);
+                    Core.dispose();
+                }
+                return;
+            }
+            if (((this.coreRunning) && (this.roomEngineReady)))
             {
                 this.dispose();
             }
@@ -101,6 +114,11 @@
 
         private function prepareCore():void
         {
+            if (this._corePrepared)
+            {
+                return;
+            }
+            this._corePrepared = true;
 			try
 			{
             var k:ICoreErrorLogger = ((Capabilities.playerType != "StandAlone") ? new HabboCoreErrorReporter() : null);
@@ -108,10 +126,13 @@
             this._core.prepareComponent(HabboTrackingLib);
             addEventListener(ProgressEvent.PROGRESS, this.onProgressEvent);
             addEventListener(Event.COMPLETE, this.onCompleteEvent);
+            var assetBase:String = "";
+            assetBase = HabboWebTools.getParameter("flash.client.url");
+            if (assetBase == null) assetBase = "";
             var _local_2:XML = <config>
 				<asset-libraries>
-					<library url="hh_human_body.swf"/>
-					<library url="hh_human_item.swf"/>
+					<library url={assetBase + "hh_human_body.swf"}/>
+					<library url={assetBase + "hh_human_item.swf"}/>
 				</asset-libraries>
 				<service-libraries/>
 				<component-libraries/>
@@ -168,6 +189,7 @@
             if (this._loadingScreen != null)
             {
                 k = (CORE_RATIO + (((this._completedInitSteps + this._loadedFiles) / this._totalSteps) * (1 - CORE_RATIO)));
+                if (k > 1) k = 1;
                 this._loadingScreen._Str_774(k);
             }
         }
@@ -222,7 +244,12 @@
             this.simpleQueueInterface(new IIDHabboConfigurationManager(), this.onConfigurationComplete);
             this.simpleQueueInterface(new IIDRoomEngine(), function (k:IID, _arg_2:Component):void
             {
+                var roomEngine:IRoomEngine = _arg_2 as IRoomEngine;
                 _arg_2.events.addEventListener(RoomEngineEvent.ENGINE_INITIALIZED, onRoomEngineReady);
+                if (((roomEngine != null) && (roomEngine.isInitialized)))
+                {
+                    onRoomEngineReady(null);
+                }
             });
             this._core.events.addEventListener(Component.COMPONENT_EVENT_RUNNING, this.onCoreRunning);
         }
@@ -243,6 +270,10 @@
 
         private function onRoomEngineReady(k:Event):void
         {
+            if (this.roomEngineReady)
+            {
+                return;
+            }
             this.roomEngineReady = true;
             Habbo.trackLoginStep(ClientEnum.CLIENT_INIT_ROOM_READY);
             if (this._core.getInteger("spaweb", 0) == 1)

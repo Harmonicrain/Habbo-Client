@@ -17,8 +17,12 @@
     import com.sulake.core.assets.XmlAsset;
     import com.sulake.core.utils.Map;
     import com.sulake.core.window.components.ITextWindow;
+    import flash.display.BitmapData;
     import flash.events.Event;
+    import flash.events.TimerEvent;
+    import flash.utils.Timer;
     import com.sulake.habbo.communication.IHabboWebLogin;
+    import com.sulake.habbo.utils.HabboWebTools;
     import com.sulake.core.window.components.*;
 
     public class HabboLoginDemoView extends EventDispatcherWrapper 
@@ -39,6 +43,9 @@
         private var _userListItem:IWindow;
         private var _environmentItem:IWindow;
         private var _testEnvironmentIndex:int;
+        private var _airSubmitInFlight:Boolean = false;
+        private var _airRetryCooldown:Timer;
+        private static const AIR_RETRY_COOLDOWN_MS:int = 1000;
 
         public function HabboLoginDemoView(k:HabboCommunicationDemo)
         {
@@ -52,7 +59,14 @@
         override public function dispose():void
         {
             super.dispose();
+            this.hideAirLoginBackground();
             this._environmentList = null;
+            if (this._airRetryCooldown != null)
+            {
+                this._airRetryCooldown.stop();
+                this._airRetryCooldown.removeEventListener(TimerEvent.TIMER_COMPLETE, this.onAirRetryCooldownComplete);
+                this._airRetryCooldown = null;
+            }
             if (this._dialog)
             {
                 this._dialog.dispose();
@@ -63,6 +77,7 @@
 
         public function closeLoginWindow():void
         {
+            this.hideAirLoginBackground();
             if (this._dialog)
             {
                 this._dialog.dispose();
@@ -138,6 +153,14 @@
                 }
                 _local_3.addEventListener(WindowKeyboardEvent.WINDOW_EVENT_KEY_UP, this.windowEventProcessor);
             }
+            if (HabboWebTools.isAirDesktop)
+            {
+                var _air_savedSso:String = (_local_4.data.air_sso as String);
+                if (_local_2 != null && _air_savedSso != null && _air_savedSso.length > 0)
+                {
+                    _local_2.text = _air_savedSso;
+                }
+            }
             var _local_5:ISelectableWindow = (this._window.findChildByName("useTicket") as ISelectableWindow);
             if (_local_5)
             {
@@ -158,9 +181,15 @@
                 this.windowEventProcessor(WindowEvent.allocate(WindowEvent.WINDOW_EVENT_OK, this._window, null, false));
             }
             var _local_7:IItemListWindow = (this._window.findChildByName("list") as IItemListWindow);
-            this._userListItem = _local_7.removeListItemAt(0);
+            if (_local_7 != null)
+            {
+                this._userListItem = _local_7.removeListItemAt(0);
+            }
             var _local_8:XmlAsset = (this._habboLogin.assets.getAssetByName("login_environment_list_item") as XmlAsset);
-            this._environmentItem = this._habboLogin.windowManager.buildFromXML((_local_8.content as XML));
+            if (_local_8 != null)
+            {
+                this._environmentItem = this._habboLogin.windowManager.buildFromXML((_local_8.content as XML));
+            }
             if (((false) || (false)))
             {
                 this._environmentList = (this._window.findChildByName("environment_list") as IDropListWindow);
@@ -341,12 +370,26 @@
         private function windowEventProcessor(event:WindowEvent=null, window:IWindow=null):void
         {
             var so:SharedObject;
+            var loginBtn:IWindow;
             if (event.type == WindowKeyboardEvent.WINDOW_EVENT_KEY_UP)
             {
                 this.handleKeyUp((event as WindowKeyboardEvent));
                 if ((event as WindowKeyboardEvent).keyCode != 13)
                 {
                     return;
+                }
+            }
+            if (HabboWebTools.isAirDesktop)
+            {
+                if (this._airSubmitInFlight)
+                {
+                    return;
+                }
+                this._airSubmitInFlight = true;
+                loginBtn = this._window.findChildByName("login_btn");
+                if (loginBtn != null)
+                {
+                    loginBtn.disable();
                 }
             }
             var nameField:ITextFieldWindow = (this._window.findChildByName("name_field") as ITextFieldWindow);
@@ -370,7 +413,21 @@
             {
                 Logger.log(("Could not store developer credentials to SharedObject: " + e));
             }
-            if (this.useSSOTicket)
+            if (HabboWebTools.isAirDesktop)
+            {
+                this._habboLogin.setSSOTicket = this.name;
+                try
+                {
+                    so.data.air_sso = this.name;
+                    so.flush();
+                }
+                catch (e2:Error)
+                {
+                }
+                this.setAirLoginStatus("Connecting...");
+                dispatchEvent(new Event(INITCONNECTION));
+            }
+            else if (this.useSSOTicket)
             {
                 this.initSSOTicket(this.useExistingSession);
             }
@@ -447,6 +504,87 @@
         {
             this._window.findChildByName("users_info").caption = ((("Received error: " + k) + " regarding message: ") + _arg_2);
             this._window.findChildByName("login_btn").enable();
+        }
+
+        public function showAirLoginError(messageKey:String):void
+        {
+            var statusText:IWindow;
+            if (((this._window == null) || (this._window.disposed)))
+            {
+                this._airSubmitInFlight = false;
+                return;
+            }
+            this._window.visible = true;
+            HabboWebTools.showAirLoginBackground();
+            HabboWebTools.setAirLoadingScreenVisible(false);
+            statusText = this._window.findChildByName("status_text");
+            if (statusText != null)
+            {
+                statusText.caption = (messageKey == null) ? "" : messageKey;
+                statusText.visible = true;
+            }
+            this.startAirRetryCooldown();
+        }
+
+        private function startAirRetryCooldown():void
+        {
+            if (this._airRetryCooldown != null)
+            {
+                this._airRetryCooldown.stop();
+                this._airRetryCooldown.removeEventListener(TimerEvent.TIMER_COMPLETE, this.onAirRetryCooldownComplete);
+                this._airRetryCooldown = null;
+            }
+            this._airRetryCooldown = new Timer(AIR_RETRY_COOLDOWN_MS, 1);
+            this._airRetryCooldown.addEventListener(TimerEvent.TIMER_COMPLETE, this.onAirRetryCooldownComplete);
+            this._airRetryCooldown.start();
+        }
+
+        private function onAirRetryCooldownComplete(event:TimerEvent):void
+        {
+            var loginBtn:IWindow;
+            if (this._airRetryCooldown != null)
+            {
+                this._airRetryCooldown.removeEventListener(TimerEvent.TIMER_COMPLETE, this.onAirRetryCooldownComplete);
+                this._airRetryCooldown = null;
+            }
+            this._airSubmitInFlight = false;
+            if (((this._window == null) || (this._window.disposed)))
+            {
+                return;
+            }
+            loginBtn = this._window.findChildByName("login_btn");
+            if (loginBtn != null)
+            {
+                loginBtn.enable();
+            }
+        }
+
+        public function setAirLoginStatus(messageKey:String):void
+        {
+            var statusText:IWindow;
+            if (((this._window == null) || (this._window.disposed)))
+            {
+                return;
+            }
+            statusText = this._window.findChildByName("status_text");
+            if (statusText != null)
+            {
+                statusText.caption = (messageKey == null) ? "" : messageKey;
+            }
+        }
+
+        private function hideAirLoginBackground():void
+        {
+            if (!HabboWebTools.isAirDesktop)
+            {
+                return;
+            }
+            HabboWebTools.hideAirLoginBackground();
+            if (((this._dialog) && (this._dialog.background)))
+            {
+                this._dialog.background.bitmap = new BitmapData(Math.max(1, this._dialog.background.width), Math.max(1, this._dialog.background.height), false, 0);
+                this._dialog.background.invalidate();
+            }
         }
     }
 }

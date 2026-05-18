@@ -22,7 +22,6 @@
     import com.sulake.core.utils.MouseWheelEnabler;
     import flash.utils.setTimeout;
     import flash.display.DisplayObject;
-    import flash.utils.getDefinitionByName;
     import flash.system.Security;
 	
 
@@ -76,11 +75,12 @@
 			super();
             var _local_2:String;
             stop();
-            _isSpaWeb = (stage.loaderInfo.parameters["spaweb"] == "1");
+            HabboWebTools.rootLoaderInfo = this.loaderInfo;
+            _isSpaWeb = (loaderInfo.parameters["spaweb"] == "1");
             HabboWebTools.isSpaWeb = _isSpaWeb;
-            CONNECTION_HOST = root.loaderInfo.parameters["connection.info.host"];
-            CONNECTION_PORTS = root.loaderInfo.parameters["connection.info.port"];
-            var k:String = root.loaderInfo.parameters["client.fatal.error.url"];
+            CONNECTION_HOST = loaderInfo.parameters["connection.info.host"];
+            CONNECTION_PORTS = loaderInfo.parameters["connection.info.port"];
+            var k:String = loaderInfo.parameters["client.fatal.error.url"];
 			
 			if (k != null)
 			{
@@ -88,7 +88,7 @@
 			}
 			else
 			{
-				_local_2 = root.loaderInfo.parameters["url.prefix"];
+				_local_2 = loaderInfo.parameters["url.prefix"];
 				if (_local_2 != null)
 				{
 					Habbo._crashURL = (_local_2 + "/flash_client_error");
@@ -219,7 +219,7 @@
         {
             removeEventListener(Event.ADDED_TO_STAGE, this.onAddedToStage);
             this.enableAccessFromJavascript();
-            Habbo.PROCESSLOG_ENABLED = (stage.loaderInfo.parameters["processlog.enabled"] == "1");
+            Habbo.PROCESSLOG_ENABLED = (loaderInfo.parameters["processlog.enabled"] == "1");
             trackLoginStep(ClientEnum.CLIENT_INIT_START);
             stage.scaleMode = StageScaleMode.NO_SCALE;
             stage.quality = StageQuality.LOW;
@@ -229,6 +229,10 @@
             root.loaderInfo.addEventListener(HTTPStatusEvent.HTTP_STATUS, this.onPreLoadingStatus);
             root.loaderInfo.addEventListener(Event.COMPLETE, this.onPreLoadingCompleted);
             root.loaderInfo.addEventListener(IOErrorEvent.IO_ERROR, this.onPreLoadingFailed);
+            if (root.loaderInfo.bytesTotal > 0 && root.loaderInfo.bytesLoaded >= root.loaderInfo.bytesTotal)
+            {
+                this._loaderCompleted = true;
+            }
             root.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, function (k:UncaughtErrorEvent):void
             {
 				//trackLoginStep(((("Uncaught client error, eventType: " + k.type) + " errorID: ") + k.errorID) + " | " + k.toString());
@@ -343,12 +347,12 @@
 
         public function createLoadingScreen():void
         {
-            var k:String = stage.loaderInfo.parameters[CLIENT_STARTING];
+            var k:String = loaderInfo.parameters[CLIENT_STARTING];
             if (k == null)
             {
                 k = CLIENT_STARTING;
             }
-            var _local_2:String = stage.loaderInfo.parameters[CLIENT_STARTING_LOADING];
+            var _local_2:String = loaderInfo.parameters[CLIENT_STARTING_LOADING];
             if (_local_2 == CLIENT_STARTING_LOADING)
             {
                 _local_2 = null;
@@ -388,18 +392,11 @@
             root.loaderInfo.removeEventListener(IOErrorEvent.IO_ERROR, this.onPreLoadingFailed);
             nextFrame();
 
-            HabboMain;
-			
-            var componentClass:Class = (getDefinitionByName("HabboMain") as Class);
-
-            if (componentClass)
+            _local_2 = new HabboMain(this._loadingScreen) as DisplayObject;
+            if (_local_2)
             {
-                _local_2 = (new componentClass(this._loadingScreen) as DisplayObject);
-                if (_local_2)
-                {
-                    _local_2.addEventListener(Event.REMOVED, this.onMainRemoved, false, 0, true);
-                    addChild(_local_2);
-                }
+                _local_2.addEventListener(Event.REMOVED, this.onMainRemoved, false, 0, true);
+                addChild(_local_2);
             }
         }
 
@@ -409,7 +406,7 @@
             var _local_2:int;
             if (ExternalInterface.available)
             {
-                k = stage.loaderInfo.parameters["url.prefix"];
+                k = loaderInfo.parameters["url.prefix"];
                 if (k != null)
                 {
                     k = k.replace("http://", "").replace("https://", "");
@@ -443,7 +440,11 @@
                 }
                 if (parent)
                 {
-                    parent.removeChild(this);
+                    try
+                    {
+                        parent.removeChild(this);
+                    }
+                    catch (e:Error) {}
                 }
             }
         }
@@ -473,37 +474,37 @@
 
         private function get newUserReceptionEnabled():Boolean
         {
-            return stage.loaderInfo.parameters[NEW_USER_FLOW_ENABLED] == "true";
+            return loaderInfo.parameters[NEW_USER_FLOW_ENABLED] == "true";
         }
 
         private function get newUserOnboardingEnabled():Boolean
         {
-            return stage.loaderInfo.parameters[NEW_USER_ONBOARDING_HC_FLOW_ENABLED] == "true";
+            return loaderInfo.parameters[NEW_USER_ONBOARDING_HC_FLOW_ENABLED] == "true";
         }
 
         private function get showHcItemDuringOnboarding():Boolean
         {
-            return stage.loaderInfo.parameters[NEW_USER_ONBOARDING_SHOW_HC_ITEMS] == "true";
+            return loaderInfo.parameters[NEW_USER_ONBOARDING_SHOW_HC_ITEMS] == "true";
         }
 
         private function get onboardingGoToPage():String
         {
-            return stage.loaderInfo.parameters[NEW_USER_ONBOARDING_PAGE_TO_SHOW];
+            return loaderInfo.parameters[NEW_USER_ONBOARDING_PAGE_TO_SHOW];
         }
 
         private function get processLogEnabled():Boolean
         {
-            return stage.loaderInfo.parameters[PROCESSLOG_ENABLED_KEY] == "1";
+            return loaderInfo.parameters[PROCESSLOG_ENABLED_KEY] == "1";
         }
 
         public function get infoHost():String
         {
-            return stage.loaderInfo.parameters["connection.info.host"];
+            return loaderInfo.parameters["connection.info.host"];
         }
 
         public function get infoPort():String
         {
-            return stage.loaderInfo.parameters["connection.info.port"];
+            return loaderInfo.parameters["connection.info.port"];
         }
 
         private function _Str_1228(_arg_1:String, _arg_2:Object=null):Boolean

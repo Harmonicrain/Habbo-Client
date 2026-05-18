@@ -33,6 +33,7 @@
     import com.sulake.habbo.room.object.RoomObjectVariableEnum;
     import com.sulake.room.object.IRoomObject;
     import com.sulake.core.assets.BitmapDataAsset;
+    import com.sulake.habbo.utils.HabboWebTools;
     import flash.utils.getTimer;
 
     public class RoomContentLoader implements IRoomContentLoader, IFurniDataListener, IDisposable 
@@ -717,17 +718,17 @@
             switch (_local_4)
             {
                 case PLACE_HOLDER:
-                    return [this.getAssetLibraryName("PlaceHolderFurniture.swf")];
+                    return [this.resolveLocalOrAssetBaseUrl("PlaceHolderFurniture.swf")];
                 case WALL_PLACE_HOLDER:
-                    return [this.getAssetLibraryName("PlaceHolderWallItem.swf")];
+                    return [this.resolveLocalOrAssetBaseUrl("PlaceHolderWallItem.swf")];
                 case PET_PLACE_HOLDER:
-                    return [this.getAssetLibraryName("PlaceHolderPet.swf")];
+                    return [this.resolveLocalOrAssetBaseUrl("PlaceHolderPet.swf")];
                 case ROOM:
-                    return [this.getAssetLibraryName("HabboRoomContent.swf")];
+                    return [this.resolveLocalOrAssetBaseUrl("HabboRoomContent.swf")];
                 case TILE_CURSOR:
-                    return [this.getAssetLibraryName("TileCursor.swf")];
+                    return [this.resolveLocalOrAssetBaseUrl("TileCursor.swf")];
                 case SELECTION_ARROW:
-                    return [this.getAssetLibraryName("SelectionArrow.swf")];
+                    return [this.resolveLocalOrAssetBaseUrl("SelectionArrow.swf")];
                 default:
                     _local_5 = this.getObjectCategory(_local_4);
                     if (((_local_5 == RoomObjectCategoryEnum.OBJECT_CATEGORY_FURNITURE) || (_local_5 == RoomObjectCategoryEnum.OBJECT_CATEGORY_WALLITEM)))
@@ -757,6 +758,15 @@
         private function getAssetLibraryName(k:String):String
         {
             return this._assetUrlBase + k;
+        }
+
+        private function resolveLocalOrAssetBaseUrl(k:String):String
+        {
+            if (HabboWebTools.isAirDesktop)
+            {
+                return "app:/local_include/" + k;
+            }
+            return this.getAssetLibraryName(k);
         }
 
         public function insertObjectContent(k:int, _arg_2:int, _arg_3:IAssetLibrary):Boolean
@@ -865,6 +875,7 @@
                     _local_9 = _local_8;
                     _local_10 = this._iconAssets.loadAssetFromFile([_arg_2, _arg_3].join("_"), new URLRequest(_local_9), "image/png", null, -1, k);
                     _local_10.addEventListener(AssetLoaderEvent.ASSETLOADEREVENTCOMPLETE, this._Str_9536);
+                    _local_10.addEventListener(AssetLoaderEvent.ASSETLOADEREVENTERROR, this.onThumbnailContentError);
                     _local_7++;
                 }
                 return true;
@@ -965,6 +976,10 @@
                 }
                 this.processLoadedLibrary(_local_3);
             }
+        }
+
+        private function onThumbnailContentError(k:AssetLoaderEvent):void
+        {
         }
 
         private function processLoadedLibrary(k:IAssetLibrary):void

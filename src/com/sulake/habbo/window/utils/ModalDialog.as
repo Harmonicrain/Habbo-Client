@@ -16,6 +16,7 @@
     import com.sulake.core.window.components.IDisplayObjectWrapper;
     import com.sulake.core.window.WindowController;
     import flash.geom.Matrix;
+    import com.sulake.habbo.utils.HabboWebTools;
 
     public class ModalDialog implements IModalDialog
     {
@@ -66,6 +67,7 @@
             var context:IWindowContext;
             var wrapper:IBitmapWrapperWindow;
             var window:IWindow;
+            var hasLoginBackground:Boolean;
             if (_container == null)
             {
                 return;
@@ -107,24 +109,28 @@
                 i = (i + 1);
             }
             var image:BitmapData = new BitmapData(rectangle.width, rectangle.height, false, 0);
-            i = 0;
-            while (i < _Str_4923)
+            hasLoginBackground = HabboWebTools.renderAirLoginBackground(image);
+            if (!hasLoginBackground)
             {
-                context = _windowManager.getWindowContext(i);
-                if (context != null)
+                i = 0;
+                while (i < _Str_4923)
                 {
-                    try
+                    context = _windowManager.getWindowContext(i);
+                    if (context != null)
                     {
-                        image.draw(IDisplayObjectWrapper(context.getDesktopWindow()).getDisplayObject());
+                        try
+                        {
+                            image.draw(IDisplayObjectWrapper(context.getDesktopWindow()).getDisplayObject());
+                        }
+                        catch(e:SecurityError)
+                        {
+                            Logger.log(("[ModalDialog] security error while drawing modal dialog:" + e.message));
+                        }
                     }
-                    catch(e:SecurityError)
-                    {
-                        Logger.log(("[ModalDialog] security error while drawing modal dialog:" + e.message));
-                    }
+                    i = (i + 1);
                 }
-                i = (i + 1);
+                image.colorTransform(image.rect, _Str_5846);
             }
-            image.colorTransform(image.rect, _Str_5846);
             i = 0;
             while (i < _container.numChildren)
             {

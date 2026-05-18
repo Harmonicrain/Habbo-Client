@@ -94,6 +94,10 @@
             }, false), new ComponentDependency(new IIDHabboConfigurationManager(), null), new ComponentDependency(new IIDRoomEngine(), function (k:IRoomEngine):void
             {
                 _roomEngine = k;
+                if (((_roomEngine != null) && (_roomEngine.isInitialized)))
+                {
+                    onRoomEngineInitialized(null);
+                }
             }, ((flags & SETUP_WITHOUT_ROOMENGINE) == 0), [{
                 "type":RoomEngineEvent.ENGINE_INITIALIZED,
                 "callback":this.onRoomEngineInitialized
@@ -153,6 +157,10 @@
 
         private function onRoomEngineInitialized(k:RoomEngineEvent):void
         {
+            if (this._roomEngineReady)
+            {
+                return;
+            }
             this._roomEngineReady = true;
             this.executePendingSessionRequest();
         }

@@ -82,6 +82,8 @@
         private var _windowManager:IHabboWindowManager;
         private var _ssoTicket:String;
         private var _flashClientUrl:String;
+        private var _authenticated:Boolean = false;
+        private var _airLoginInFlight:Boolean = false;
 
         public function HabboCommunicationDemo(k:IContext, _arg_2:uint=0, _arg_3:IAssetLibrary=null)
         {
@@ -208,21 +210,24 @@
             {
                 if (((!(this._windowManager == null)) && (!(this.isRoomViewerMode))))
                 {
-                    if (((false) || (false)))
+                    if (HabboWebTools.isAirDesktop)
                     {
-                        this._view = new HabboLoginDemoView(this);
-                        this._view.addEventListener(HabboLoginDemoView.INITCONNECTION, this.onInitConnection);
+                        HabboWebTools.showAirLoginBackground();
+                        HabboWebTools.setAirLoadingScreenVisible(false);
                     }
-                    else
-                    {
-                        Core.crash("Login without an SSO ticket is not supported", Core.ERROR_CATEGORY_COMMMUNICATION_INIT);
-                    }
+                    this._view = new HabboLoginDemoView(this);
+                    this._view.addEventListener(HabboLoginDemoView.INITCONNECTION, this.onInitConnection);
                 }
             }
         }
 
         override public function dispose():void
         {
+            HabboWebTools.airDebug("HabboCommunicationDemo.dispose called! view=" + (this._view != null) + " stack=" + new Error().getStackTrace());
+            if (HabboWebTools.isAirDesktop)
+            {
+                HabboWebTools.hideAirLoginBackground();
+            }
             if (this._view != null)
             {
                 this._view.dispose();
@@ -418,6 +423,9 @@
         {
             var _local_2:IConnection = k.connection;
             var _local_3:AuthenticationOKMessageEvent = (k as AuthenticationOKMessageEvent);
+            HabboWebTools.airDebug("onAuthenticationOK fired");
+            this._authenticated = true;
+            this._airLoginInFlight = false;
             this.dispatchLoginStepEvent(HabboCommunicationEvent.HABBO_CONNECTION_EVENT_AUTHENTICATED);
             var _local_4:InfoRetrieveMessageComposer = new InfoRetrieveMessageComposer();
             _local_2.send(_local_4);
@@ -429,26 +437,62 @@
                 this._view.dispose();
                 this._view = null;
             }
+            if (HabboWebTools.isAirDesktop)
+            {
+                HabboWebTools.hideAirLoginBackground();
+                HabboWebTools.setAirLoadingScreenVisible(true);
+            }
         }
 
         private function onGenericError(event:IMessageEvent):void
         {
             var parser:GenericErrorParser = (event as GenericErrorEvent).getParser();
+            HabboWebTools.airDebug("onGenericError code=" + parser.errorCode);
+            if (HabboWebTools.isAirDesktop)
+            {
+                switch (parser.errorCode)
+                {
+                    case -3:
+                        this.showAirLoginAlert("Your SSO ticket was rejected. Paste a valid ticket and try again.");
+                        return;
+                    case -400:
+                        this.showAirLoginAlert("Could not reach the server. Check the connection and try again.");
+                        return;
+                    default:
+                        this.showAirLoginAlert("Login failed (error " + parser.errorCode + "). Please try again.");
+                        return;
+                }
+            }
             switch (parser.errorCode)
             {
                 case -3:
-                    this._windowManager.alert("${connection.error.id.title}", "${connection.login.error.-3.desc}", 0, function (k:IAlertDialog, _arg_2:WindowEvent):void
-                    {
-                        k.dispose();
-                    });
+                    this.showLoginAlert("${connection.login.error.-3.desc}");
                     return;
                 case -400:
-                    this._windowManager.alert("${connection.error.id.title}", "${connection.login.error.-400.desc}", 0, function (k:IAlertDialog, _arg_2:WindowEvent):void
-                    {
-                        k.dispose();
-                    });
+                    this.showLoginAlert("${connection.login.error.-400.desc}");
                     return;
             }
+        }
+
+        private function showAirLoginAlert(message:String):void
+        {
+            this._airLoginInFlight = false;
+            if (this._view != null)
+            {
+                this._view.showAirLoginError(message);
+            }
+        }
+
+        private function showLoginAlert(messageKey:String):void
+        {
+            if (this._windowManager == null)
+            {
+                return;
+            }
+            this._windowManager.alert("${connection.error.id.title}", messageKey, 0, function (k:IAlertDialog, _arg_2:WindowEvent):void
+            {
+                k.dispose();
+            });
         }
 
         private function onPing(k:IMessageEvent):void
@@ -559,6 +603,7 @@
 
         private function onDisconnectReason(k:DisconnectReasonEvent):void
         {
+            HabboWebTools.airDebug("onDisconnectReason reason=" + (k != null ? k.reason : -1));
             if (this.isRoomViewerMode)
             {
                 return;
@@ -566,6 +611,10 @@
             if (this._handshakeInProgress)
             {
                 this.dispatchLoginStepEvent(HabboCommunicationEvent.HABBO_CONNECTION_EVENT_HANDSHAKE_FAIL);
+            }
+            if (HabboWebTools.isAirDesktop && !this._authenticated && this._view != null)
+            {
+                return;
             }
             this._logoutInProgress = true;
             var _local_2:String = getProperty("logout.url");
@@ -633,14 +682,35 @@
 
         private function onInitConnection(k:Event=null):void
         {
+            if (HabboWebTools.isAirDesktop)
+            {
+                HabboWebTools.airDebug("onInitConnection: inFlight=" + this._airLoginInFlight + " authd=" + this._authenticated + " view=" + (this._view != null));
+                if (this._airLoginInFlight)
+                {
+                    if (this._view != null)
+                    {
+                        this._view.setAirLoginStatus("Already signing in...");
+                    }
+                    return;
+                }
+                this._airLoginInFlight = true;
+                this._authenticated = false;
+                this._logoutInProgress = false;
+                this._handshakeInProgress = false;
+            }
             this.dispatchLoginStepEvent(HabboCommunicationEvent.INIT);
             this._communication.mode = HabboConnectionType.NORMAL_MODE;
+            if (HabboWebTools.isAirDesktop)
+            {
+                try { this._communication.renewSocket(); } catch (e:Error) { HabboWebTools.airDebug("renewSocket failed: " + e.message); }
+            }
             this._communication.initConnection(HabboConnectionType.HABBO_MAIN);
         }
 
         private function onConnectionDisconnected(k:Event):void
         {
             var _local_2:String;
+            HabboWebTools.airDebug("onConnectionDisconnected type=" + (k != null ? k.type : "null") + " authd=" + this._authenticated + " logoutInProgress=" + this._logoutInProgress + " view=" + (this._view != null));
             if (this.isRoomViewerMode)
             {
                 return;
@@ -648,6 +718,11 @@
             if (this._handshakeInProgress)
             {
                 this.dispatchLoginStepEvent(HabboCommunicationEvent.HABBO_CONNECTION_EVENT_HANDSHAKE_FAIL);
+            }
+            if (HabboWebTools.isAirDesktop && !this._authenticated && this._view != null)
+            {
+                this.showAirLoginAlert("The server closed the connection while signing in. This usually means the SSO ticket is invalid or expired.");
+                return;
             }
             if (ExternalInterface.available)
             {

@@ -1,15 +1,25 @@
 ﻿package com.sulake.habbo.utils
 {
+    import flash.display.BitmapData;
+    import flash.display.LoaderInfo;
     import flash.external.ExternalInterface;
     import flash.net.URLRequest;
     import flash.net.navigateToURL;
 
-    public class HabboWebTools 
+    public class HabboWebTools
     {
         public static const ADVERTISEMENT:String = "advertisement";
         public static const OPENLINK:String = "openlink";
         public static const OPENROOM:String = "openroom";
         private static var _isSpaWeb:Boolean = false;
+        public static var rootLoaderInfo:LoaderInfo;
+        public static var airParameters:Object;
+        public static var isAirDesktop:Boolean = false;
+        public static var showAirLoginBackgroundCallback:Function;
+        public static var hideAirLoginBackgroundCallback:Function;
+        public static var renderAirLoginBackgroundCallback:Function;
+        public static var setAirLoadingScreenVisibleCallback:Function;
+        public static var airDebugLogCallback:Function;
 
         public static function set isSpaWeb(isSpaWeb:Boolean):void
         {
@@ -28,6 +38,108 @@
             catch(e:Error)
             {
                 Logger.log("External interface not working, failed to log event log.");
+            }
+        }
+
+        public static function getParameter(key:String, fallbackLoaderInfo:LoaderInfo=null):String
+        {
+            var normalizedKey:String = key.replace(/[_]/g, ".");
+            if (airParameters != null)
+            {
+                if (airParameters[key] != null)
+                {
+                    return String(airParameters[key]);
+                }
+                if (airParameters[normalizedKey] != null)
+                {
+                    return String(airParameters[normalizedKey]);
+                }
+            }
+            if (((rootLoaderInfo != null) && (rootLoaderInfo.parameters[key] != null)))
+            {
+                return String(rootLoaderInfo.parameters[key]);
+            }
+            if (((rootLoaderInfo != null) && (rootLoaderInfo.parameters[normalizedKey] != null)))
+            {
+                return String(rootLoaderInfo.parameters[normalizedKey]);
+            }
+            if (((fallbackLoaderInfo != null) && (fallbackLoaderInfo.parameters[key] != null)))
+            {
+                return String(fallbackLoaderInfo.parameters[key]);
+            }
+            if (((fallbackLoaderInfo != null) && (fallbackLoaderInfo.parameters[normalizedKey] != null)))
+            {
+                return String(fallbackLoaderInfo.parameters[normalizedKey]);
+            }
+            return null;
+        }
+
+        public static function getParameterMap(fallbackLoaderInfo:LoaderInfo=null):Object
+        {
+            var key:String;
+            var parameters:Object = {};
+            if (fallbackLoaderInfo != null)
+            {
+                for (key in fallbackLoaderInfo.parameters)
+                {
+                    parameters[key] = fallbackLoaderInfo.parameters[key];
+                }
+            }
+            else if (rootLoaderInfo != null)
+            {
+                for (key in rootLoaderInfo.parameters)
+                {
+                    parameters[key] = rootLoaderInfo.parameters[key];
+                }
+            }
+            if (airParameters != null)
+            {
+                for (key in airParameters)
+                {
+                    parameters[key] = airParameters[key];
+                }
+            }
+            return parameters;
+        }
+
+        public static function showAirLoginBackground():void
+        {
+            if (showAirLoginBackgroundCallback != null)
+            {
+                showAirLoginBackgroundCallback();
+            }
+        }
+
+        public static function hideAirLoginBackground():void
+        {
+            if (hideAirLoginBackgroundCallback != null)
+            {
+                hideAirLoginBackgroundCallback();
+            }
+        }
+
+        public static function renderAirLoginBackground(target:BitmapData):Boolean
+        {
+            if (renderAirLoginBackgroundCallback == null)
+            {
+                return false;
+            }
+            return Boolean(renderAirLoginBackgroundCallback(target));
+        }
+
+        public static function setAirLoadingScreenVisible(visible:Boolean):void
+        {
+            if (setAirLoadingScreenVisibleCallback != null)
+            {
+                setAirLoadingScreenVisibleCallback(visible);
+            }
+        }
+
+        public static function airDebug(message:String):void
+        {
+            if (airDebugLogCallback != null)
+            {
+                airDebugLogCallback(message);
             }
         }
 
