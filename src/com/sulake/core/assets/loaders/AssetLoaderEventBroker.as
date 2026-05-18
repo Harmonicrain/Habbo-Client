@@ -65,7 +65,7 @@
 			}
 			catch (error: Error)
 			{
-				Habbo.trackLoginStep("loadEventHandler failed " + event.target() + "|" + event.toString() + "|" + error.message + "|" + error.getStackTrace());
+				Habbo.trackLoginStep("loadEventHandler failed " + ((event == null) ? "null" : event.target) + "|" + ((event == null) ? "null" : event.toString()) + "|" + error.message + "|" + error.getStackTrace());
 			}
         }
 

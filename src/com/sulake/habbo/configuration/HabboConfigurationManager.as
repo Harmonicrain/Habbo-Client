@@ -20,6 +20,7 @@
     import flash.system.Security;
     import com.sulake.core.assets.TextAsset;
     import flash.display.Stage;
+    import flash.display.LoaderInfo;
 
     public class HabboConfigurationManager extends Component implements IHabboConfigurationManager 
     {
@@ -567,16 +568,28 @@
         {
             var _local_4:String;
             var _local_5:String;
-            var k:Stage = context.displayObjectContainer.stage;
-            var _local_2:String = k.loaderInfo.url;
+            var k:LoaderInfo = HabboWebTools.rootLoaderInfo;
+            var parameters:Object;
+            var flashClientUrl:String;
+            if (k == null)
+            {
+                k = context.displayObjectContainer.stage.loaderInfo;
+            }
+            var _local_2:String = k.url;
             var _local_3:int = _local_2.lastIndexOf("/");
             _local_2 = _local_2.substring(0, (_local_3 + 1));
-            this.setProperty("flash.client.url", _local_2);
-            this._useHttps = (_local_2.substr(0, 8) == "https://");
-            ErrorReportStorage.addDebugData("Parsing flashvars", "Parsing flasvars");
-            for (_local_4 in k.loaderInfo.parameters)
+            flashClientUrl = HabboWebTools.getParameter("flash.client.url", k);
+            if (((flashClientUrl == null) || (flashClientUrl.length == 0)))
             {
-                _local_5 = k.loaderInfo.parameters[_local_4];
+                flashClientUrl = _local_2;
+            }
+            this.setProperty("flash.client.url", flashClientUrl);
+            this._useHttps = (flashClientUrl.substr(0, 8) == "https://");
+            ErrorReportStorage.addDebugData("Parsing flashvars", "Parsing flasvars");
+            parameters = HabboWebTools.getParameterMap(k);
+            for (_local_4 in parameters)
+            {
+                _local_5 = parameters[_local_4];
                 _local_4 = _local_4.replace(/[_]/g, ".");
                 this.setProperty(_local_4, _local_5, true);
             }

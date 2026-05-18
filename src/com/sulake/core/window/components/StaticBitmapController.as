@@ -75,7 +75,15 @@
             {
                 return;
             }
-            var _local_4:BitmapData = (_local_3.content as BitmapData);
+            var _local_4:BitmapData;
+            try
+            {
+                _local_4 = (_local_3.content as BitmapData);
+            }
+            catch(error:Error)
+            {
+                return;
+            }
             if (_local_4 == null)
             {
                 return;

@@ -237,10 +237,10 @@
 
         public function getString(k:String, _arg_2:String):String
         {
-            var _local_3:String = stage.loaderInfo.parameters[("new.user.flow." + k)];
+            var _local_3:String = loaderInfo.parameters[("new.user.flow." + k)];
             if (((_local_3 == null) || (_local_3 == "")))
             {
-                _local_3 = stage.loaderInfo.parameters[("new.user.reception." + k)];
+                _local_3 = loaderInfo.parameters[("new.user.reception." + k)];
                 if (((_local_3 == null) || (_local_3 == "")))
                 {
                     return _arg_2;
@@ -251,10 +251,10 @@
 
         public function getNumber(k:String, _arg_2:int):int
         {
-            var _local_3:String = stage.loaderInfo.parameters[("new.user.flow." + k)];
+            var _local_3:String = loaderInfo.parameters[("new.user.flow." + k)];
             if (((_local_3 == null) || (_local_3 == "")))
             {
-                _local_3 = stage.loaderInfo.parameters[("new.user.reception." + k)];
+                _local_3 = loaderInfo.parameters[("new.user.reception." + k)];
                 if (((_local_3 == null) || (_local_3 == "")))
                 {
                     return _arg_2;
