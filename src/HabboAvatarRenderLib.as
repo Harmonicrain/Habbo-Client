@@ -39,6 +39,7 @@
         public static var pet_experience_bubble_png:Class = HabboAvatarRenderLib_pet_experience_bubble_png;
         public static var action_offset_lay:Class = HabboAvatarRenderLib_action_offset_lay;
         public static var action_offset_swim:Class = HabboAvatarRenderLib_action_offset_swim;
+        public static var dance_sixseven_animation:Class = HabboAvatarRenderLib_dance_sixseven_animation;
         public static var HabboAvatarAnimation:Class = HabboAvatarRenderLib_HabboAvatarAnimation;
         public static var HabboAvatarFigure:Class = HabboAvatarRenderLib_HabboAvatarFigure;
         public static var HabboAvatarGeometry:Class = HabboAvatarRenderLib_HabboAvatarGeometry;

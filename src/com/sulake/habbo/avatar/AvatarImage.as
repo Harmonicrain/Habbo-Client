@@ -616,6 +616,7 @@ public function getCroppedImage(k:String, _arg_2:Number=1):BitmapData
                 case AvatarAction.SIGN:
                 case AvatarAction.EXPRESSION_RESPECT:
                 case AvatarAction.EXPRESSION_BLOW_A_KISS:
+                case AvatarAction.EXPRESSION_67:
                 case AvatarAction.EXPRESSION_LAUGH:
                 case AvatarAction.EXPRESSION_CRY:
                 case AvatarAction.EXPRESSION_IDLE:

@@ -169,6 +169,14 @@
                                             return null;
                                         }
                                         break;
+                                    case ":67":
+                                        if (((this._container.config.getBoolean("avatar.expression.67.enabled")) && (this._container.sessionDataManager.clubLevel == HabboClubLevelEnum.VIP)))
+                                        {
+                                            this._container.roomSession.sendAvatarExpressionMessage(AvatarExpressionEnum.EXPRESSION_67.ordinal);
+                                            HabboTracking.getInstance().trackEventLog("OwnAvatarMenu", "chat", "67");
+                                            return null;
+                                        }
+                                        break;
                                     case ":jump":
                                         if (this._container.sessionDataManager.clubLevel == HabboClubLevelEnum.VIP)
                                         {

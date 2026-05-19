@@ -17,6 +17,7 @@
         public static const PLAYING_GAME:String = "playing_game";
         public static const GUIDE_STATUS:String = "guide";
         public static const EXPRESSION_RESPECT:String = "respect";
+        public static const EXPRESSION_67:String = "67";
         public static const EXPRESSION_WAVE:String = "wave";
         public static const EXPRESSION_BLOW_A_KISS:String = "blow";
         public static const EXPRESSION_LAUGH:String = "laugh";
@@ -61,6 +62,8 @@
                     return 5000;
                 case 2:
                     return 1400;
+                case 67:
+                    return 990;
                 case 3:
                     return 2000;
                 case 4:
@@ -84,11 +87,19 @@
 
         public static function getExpressionId(expression:String):int
         {
+            if (expression == EXPRESSION_67)
+            {
+                return 67;
+            }
             return EXPRESSION_MAP.indexOf(expression);
         }
 
         public static function getExpression(expressionId:int):String
         {
+            if (expressionId == 67)
+            {
+                return EXPRESSION_67;
+            }
             if (expressionId < EXPRESSION_MAP.length)
             {
                 return EXPRESSION_MAP[expressionId];
