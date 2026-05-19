@@ -1146,6 +1146,9 @@
                         case AvatarAction.DANCE:
                             k.appendAction(AvatarAction.DANCE, 2);
                             break;
+                        case AvatarAction.EXPRESSION_67:
+                            k.appendAction(AvatarAction.DANCE, "sixseven");
+                            break;
                         default:
                             k.appendAction(_local_4);
                     }

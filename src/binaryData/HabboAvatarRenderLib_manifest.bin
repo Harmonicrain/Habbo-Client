@@ -7,6 +7,7 @@
 
             <asset mimeType="text/xml" name="action_offset_lay" />
             <asset mimeType="text/xml" name="action_offset_swim" />
+            <asset mimeType="text/xml" name="dance_sixseven_animation" />
             <asset mimeType="text/xml" name="HabboAvatarAnimation" />
             <asset mimeType="text/xml" name="HabboAvatarFigure" />
             <asset mimeType="text/xml" name="HabboAvatarGeometry" />

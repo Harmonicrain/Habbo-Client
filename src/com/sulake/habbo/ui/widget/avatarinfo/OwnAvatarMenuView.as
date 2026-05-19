@@ -195,6 +195,7 @@ package com.sulake.habbo.ui.widget.avatarinfo
                     showButton("wave", true, (!(this.widget.isSwimming)));
                     showButton("laugh", true, (((!(this.widget.hasEffectOn)) && (!(this.widget.isSwimming))) && (this.widget.hasVip)), (!(this.widget.hasVip)));
                     showButton("blow", true, (((!(this.widget.hasEffectOn)) && (!(this.widget.isSwimming))) && (this.widget.hasVip)), (!(this.widget.hasVip)));
+                    showButton("67", this.widget.configuration.getBoolean("avatar.expression.67.enabled"), (((!(this.widget.hasEffectOn)) && (!(this.widget.isSwimming))) && (this.widget.hasVip)), (!(this.widget.hasVip)));
                     showButton("idle", true);
                     if ((((this.widget.configuration.getBoolean("avatar.sitting.enabled")) && (!(this.widget.isSwimming))) && (!(_local_3))))
                     {
@@ -209,7 +210,23 @@ package com.sulake.habbo.ui.widget.avatarinfo
                     break;
             }
             _buttons.autoArrangeItems = true;
+            this.updateMinimizeRegion();
             _buttons.visible = true;
+        }
+
+        private function updateMinimizeRegion():void
+        {
+            var k:IWindow;
+            if (((!(_window)) || (!(_buttons))))
+            {
+                return;
+            }
+            k = _window.findChildByName("minimize");
+            if (k)
+            {
+                k.y = (_buttons.y + _buttons.height);
+                k.visible = true;
+            }
         }
 
         private function _Str_23693(k:WindowEvent, _arg_2:IWindow):void
@@ -313,6 +330,13 @@ package com.sulake.habbo.ui.widget.avatarinfo
                         case "blow":
                             _local_4 = new RoomWidgetAvatarExpressionMessage(AvatarExpressionEnum.BLOW);
                             HabboTracking.getInstance().trackEventLog("OwnAvatarMenu", "click", "blow");
+                            break;
+                        case "67":
+                            if (this.widget.configuration.getBoolean("avatar.expression.67.enabled"))
+                            {
+                                _local_4 = new RoomWidgetAvatarExpressionMessage(AvatarExpressionEnum.EXPRESSION_67);
+                                HabboTracking.getInstance().trackEventLog("OwnAvatarMenu", "click", "67");
+                            }
                             break;
                         case "jump":
                             break;

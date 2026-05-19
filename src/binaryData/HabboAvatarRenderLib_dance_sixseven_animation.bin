@@ -1,0 +1,86 @@
+<animation name="dance.sixseven" desc="67 meme gesture">
+    <frame>
+        <bodypart id="leftarm" action="Default" frame="0" dx="-1" dy="1" dd="0" />
+        <bodypart id="torso" action="Default" frame="0" dx="0" dy="0" dd="0" />
+        <bodypart id="head" action="Default" frame="0" dx="0" dy="1" dd="0" />
+        <bodypart id="rightarm" action="Default" frame="0" dx="1" dy="1" dd="0" />
+    </frame>
+    <frame>
+        <bodypart id="leftarm" action="CarryItem" frame="0" dx="-1" dy="0" dd="0" />
+        <bodypart id="torso" action="Default" frame="0" dx="0" dy="0" dd="0" />
+        <bodypart id="head" action="Default" frame="0" dx="0" dy="0" dd="0" />
+        <bodypart id="rightarm" action="CarryItem" frame="0" dx="1" dy="1" dd="0" />
+    </frame>
+    <frame>
+        <bodypart id="leftarm" action="CarryItem" frame="0" dx="-1" dy="1" dd="0" />
+        <bodypart id="torso" action="Default" frame="0" dx="0" dy="0" dd="0" />
+        <bodypart id="head" action="Default" frame="0" dx="0" dy="1" dd="0" />
+        <bodypart id="rightarm" action="CarryItem" frame="0" dx="1" dy="0" dd="0" />
+    </frame>
+    <frame>
+        <bodypart id="leftarm" action="CarryItem" frame="0" dx="-1" dy="0" dd="0" />
+        <bodypart id="torso" action="Default" frame="0" dx="0" dy="0" dd="0" />
+        <bodypart id="head" action="Default" frame="0" dx="0" dy="0" dd="0" />
+        <bodypart id="rightarm" action="CarryItem" frame="0" dx="1" dy="-1" dd="0" />
+    </frame>
+    <frame>
+        <bodypart id="leftarm" action="CarryItem" frame="0" dx="-1" dy="-1" dd="0" />
+        <bodypart id="torso" action="Default" frame="0" dx="0" dy="0" dd="0" />
+        <bodypart id="head" action="Talk" frame="0" dx="0" dy="1" dd="0" />
+        <bodypart id="rightarm" action="CarryItem" frame="0" dx="1" dy="0" dd="0" />
+    </frame>
+    <frame>
+        <bodypart id="leftarm" action="CarryItem" frame="0" dx="-1" dy="0" dd="0" />
+        <bodypart id="torso" action="Default" frame="0" dx="0" dy="0" dd="0" />
+        <bodypart id="head" action="Talk" frame="1" dx="0" dy="0" dd="1" />
+        <bodypart id="rightarm" action="CarryItem" frame="0" dx="1" dy="1" dd="0" />
+    </frame>
+    <frame>
+        <bodypart id="leftarm" action="CarryItem" frame="0" dx="-1" dy="1" dd="0" />
+        <bodypart id="torso" action="Default" frame="0" dx="0" dy="0" dd="0" />
+        <bodypart id="head" action="Talk" frame="0" dx="0" dy="0" dd="1" />
+        <bodypart id="rightarm" action="CarryItem" frame="0" dx="1" dy="0" dd="0" />
+    </frame>
+    <frame>
+        <bodypart id="leftarm" action="CarryItem" frame="0" dx="-1" dy="0" dd="0" />
+        <bodypart id="torso" action="Default" frame="0" dx="0" dy="0" dd="0" />
+        <bodypart id="head" action="Talk" frame="1" dx="0" dy="0" dd="0" />
+        <bodypart id="rightarm" action="CarryItem" frame="0" dx="1" dy="-1" dd="0" />
+    </frame>
+    <frame>
+        <bodypart id="leftarm" action="CarryItem" frame="0" dx="-1" dy="-1" dd="0" />
+        <bodypart id="torso" action="Default" frame="0" dx="0" dy="0" dd="0" />
+        <bodypart id="head" action="Talk" frame="0" dx="0" dy="1" dd="0" />
+        <bodypart id="rightarm" action="CarryItem" frame="0" dx="1" dy="0" dd="0" />
+    </frame>
+    <frame>
+        <bodypart id="leftarm" action="CarryItem" frame="0" dx="-1" dy="0" dd="0" />
+        <bodypart id="torso" action="Default" frame="0" dx="0" dy="0" dd="0" />
+        <bodypart id="head" action="Talk" frame="1" dx="0" dy="0" dd="0" />
+        <bodypart id="rightarm" action="CarryItem" frame="0" dx="1" dy="1" dd="0" />
+    </frame>
+    <frame>
+        <bodypart id="leftarm" action="CarryItem" frame="0" dx="-1" dy="1" dd="0" />
+        <bodypart id="torso" action="Default" frame="0" dx="0" dy="0" dd="0" />
+        <bodypart id="head" action="Default" frame="0" dx="0" dy="1" dd="0" />
+        <bodypart id="rightarm" action="CarryItem" frame="0" dx="1" dy="0" dd="0" />
+    </frame>
+    <frame>
+        <bodypart id="leftarm" action="CarryItem" frame="0" dx="-1" dy="0" dd="0" />
+        <bodypart id="torso" action="Default" frame="0" dx="0" dy="0" dd="0" />
+        <bodypart id="head" action="Default" frame="0" dx="0" dy="0" dd="0" />
+        <bodypart id="rightarm" action="CarryItem" frame="0" dx="1" dy="-1" dd="0" />
+    </frame>
+    <frame>
+        <bodypart id="leftarm" action="Default" frame="0" dx="-1" dy="1" dd="0" />
+        <bodypart id="torso" action="Default" frame="0" dx="0" dy="0" dd="0" />
+        <bodypart id="head" action="Default" frame="0" dx="0" dy="1" dd="0" />
+        <bodypart id="rightarm" action="Default" frame="1" dx="1" dy="1" dd="0" />
+    </frame>
+    <frame>
+        <bodypart id="leftarm" action="Default" frame="0" dx="-1" dy="0" dd="0" />
+        <bodypart id="torso" action="Default" frame="0" dx="0" dy="0" dd="0" />
+        <bodypart id="head" action="Default" frame="0" dx="0" dy="0" dd="0" />
+        <bodypart id="rightarm" action="Default" frame="0" dx="1" dy="0" dd="0" />
+    </frame>
+</animation>

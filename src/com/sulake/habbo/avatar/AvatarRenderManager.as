@@ -33,6 +33,8 @@
 
     public class AvatarRenderManager extends Component implements IAvatarRenderManager 
     {
+        private static const BUILT_IN_ANIMATION_ASSET_NAMES:Array = ["dance_sixseven_animation"];
+
         private const _Str_1161:String = "hd-99999-99999";
 
         private var _aliasCollection:AssetAliasCollection;
@@ -99,8 +101,26 @@
             var _local_2:XML = <actions><action id="Default" precedence="1000" state="std" main="1" isdefault="1" geometrytype="vertical" activepartset="figure" assetpartdefinition="std"/></actions>
             ;
             this._structure.updateActions(((assets.hasAsset("HabboAvatarActions")) ? (assets.getAssetByName("HabboAvatarActions").content as XML) : _local_2));
+            this.registerBuiltInAnimations();
             this._actionsAreReady = true;
             this.createStructure();
+        }
+
+        private function registerBuiltInAnimations():void
+        {
+            var k:String;
+            var _local_2:XML;
+            for each (k in BUILT_IN_ANIMATION_ASSET_NAMES)
+            {
+                if (assets.hasAsset(k))
+                {
+                    _local_2 = assets.getAssetByName(k).content as XML;
+                    if (_local_2 != null)
+                    {
+                        this._structure.registerAnimation(_local_2);
+                    }
+                }
+            }
         }
 
         override public function dispose():void
