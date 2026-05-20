@@ -20,6 +20,8 @@
         public static const CH:String = "ch";
         public static const CA:String = "ca";
         public static const CP:String = "cp";
+        public static const MC:String = "mc";
+        public static const PT:String = "pt";
         public static const LG:String = "lg";
         public static const SH:String = "sh";
         public static const WA:String = "wa";
@@ -173,6 +175,8 @@
                 case CC:
                 case CA:
                 case CP:
+                case MC:
+                case PT:
                 case LG:
                 case SH:
                 case WA:
@@ -204,6 +208,8 @@
                 case CC:
                 case CA:
                 case CP:
+                case MC:
+                case PT:
                 case LG:
                 case SH:
                 case WA:

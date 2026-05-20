@@ -22,6 +22,8 @@
         public static const CH:String = "ch";
         public static const CHEST_ACCESSORIES:String = "ca";
         public static const CHEST_PRINTS:String = "cp";
+        public static const MISC:String = "mc";
+        public static const PET:String = "pt";
         public static const LG:String = "lg";
         public static const SH:String = "sh";
         public static const WA:String = "wa";
@@ -181,6 +183,8 @@
                 case CC:
                 case CHEST_ACCESSORIES:
                 case CHEST_PRINTS:
+                case MISC:
+                case PET:
                 case LG:
                 case SH:
                 case WA:
@@ -214,6 +218,8 @@
                 case CC:
                 case CHEST_ACCESSORIES:
                 case CHEST_PRINTS:
+                case MISC:
+                case PET:
                 case LG:
                 case SH:
                 case WA:

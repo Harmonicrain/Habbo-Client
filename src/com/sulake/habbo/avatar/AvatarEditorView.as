@@ -66,6 +66,10 @@ package com.sulake.habbo.avatar
             {
                 this._allCategories.push(AvatarEditorFigureCategory.EFFECTS);
             }
+            if (k.manager.getBoolean("clothing.misc.tab.enabled"))
+            {
+                this._allCategories.push("misc");
+            }
             if (_arg_2 == null)
             {
                 _arg_2 = this._allCategories;

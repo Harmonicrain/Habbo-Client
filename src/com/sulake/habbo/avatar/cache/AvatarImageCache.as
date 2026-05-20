@@ -36,6 +36,7 @@
         private var _canvas:AvatarCanvas;
         private var _disposed:Boolean;
         private var _geometryType:String;
+        private var _geometryDefaultAction:String = "std";
         private var _unionImages:Array;
         private var _colorTransform:ColorTransform;
         private var _matrix:Matrix;
@@ -149,14 +150,16 @@
             {
                 return;
             }
-            if ((((this._geometryType == GeometryType.SITTING) && (k == GeometryType.VERTICAL)) || ((this._geometryType == GeometryType.VERTICAL) && (k == GeometryType.SITTING)) || ((this._geometryType == GeometryType.SNOWWARS_HORIZONTAL) && (k = GeometryType.SNOWWARS_HORIZONTAL))))
+            if ((((this._geometryType == GeometryType.SITTING) && (k == GeometryType.VERTICAL)) || ((this._geometryType == GeometryType.VERTICAL) && (k == GeometryType.SITTING)) || ((this._geometryType == GeometryType.SNOWWARS_HORIZONTAL) || (k == GeometryType.SNOWWARS_HORIZONTAL))))
             {
                 this._geometryType = k;
+                this._geometryDefaultAction = ((this._geometryType == GeometryType.HORIZONTAL) ? "lay" : "std");
                 this._canvas = null;
                 return;
             }
             this._Str_1086(0);
             this._geometryType = k;
+            this._geometryDefaultAction = ((this._geometryType == GeometryType.HORIZONTAL) ? "lay" : "std");
             this._canvas = null;
         }
 
@@ -379,86 +382,63 @@
                         {
                             _local_23 = partContainer._Str_1674(_arg_3);
                         }
+                        if (((((_local_10 == "lay") || (_local_10 == "sit")) && (((_local_20 == "pt") || (_local_20 == "ptl")) || (_local_20 == "ptr"))) && (_local_23 > 3)))
+                        {
+                            _local_23 = (_local_23 % 4);
+                        }
                         _local_6 = k;
                         _local_8 = false;
                         if (_local_7)
                         {
-                            if (((_local_10 == "wav") && (((_local_20 == AvatarFigurePartType.LEFT_HAND) || (_local_20 == AvatarFigurePartType.LEFT_SLEEVE)) || (_local_20 == AvatarFigurePartType.LEFT_COAT_SLEEVE))))
+                            if (((_local_10 == "wav") && ((((_local_20 == AvatarFigurePartType.LEFT_HAND) || (_local_20 == AvatarFigurePartType.LEFT_SLEEVE)) || (_local_20 == AvatarFigurePartType.LEFT_COAT_SLEEVE)) || (_local_20 == "mcl"))))
+                            {
+                                _local_8 = true;
+                            }
+                            else if (((_local_10 == "drk") && ((((_local_20 == AvatarFigurePartType.RIGHT_HAND) || (_local_20 == AvatarFigurePartType.RIGHT_SLEEVE)) || (_local_20 == AvatarFigurePartType.RIGHT_COAT_SLEEVE)) || (_local_20 == "mcr"))))
+                            {
+                                _local_8 = true;
+                            }
+                            else if (((_local_10 == "blw") && (_local_20 == AvatarFigurePartType.RIGHT_HAND)))
+                            {
+                                _local_8 = true;
+                            }
+                            else if (((_local_10 == "sig") && (_local_20 == AvatarFigurePartType.LEFT_HAND)))
+                            {
+                                _local_8 = true;
+                            }
+                            else if (((_local_10 == "respect") && (_local_20 == AvatarFigurePartType.LEFT_HAND)))
+                            {
+                                _local_8 = true;
+                            }
+                            else if (_local_20 == AvatarFigurePartType.RIGHT_HAND_ITEM)
+                            {
+                                _local_8 = true;
+                            }
+                            else if (_local_20 == AvatarFigurePartType.LEFT_HAND_ITEM)
+                            {
+                                _local_8 = true;
+                            }
+                            else if (_local_20 == AvatarFigurePartType.CHEST_PRINT)
                             {
                                 _local_8 = true;
                             }
                             else
                             {
-                                if (((_local_10 == "drk") && (((_local_20 == AvatarFigurePartType.RIGHT_HAND) || (_local_20 == AvatarFigurePartType.RIGHT_SLEEVE)) || (_local_20 == AvatarFigurePartType.RIGHT_COAT_SLEEVE))))
+                                if (k == 4)
                                 {
-                                    _local_8 = true;
+                                    _local_6 = 2;
                                 }
-                                else
+                                else if (k == 5)
                                 {
-                                    if (((_local_10 == "blw") && (_local_20 == AvatarFigurePartType.RIGHT_HAND)))
-                                    {
-                                        _local_8 = true;
-                                    }
-                                    else
-                                    {
-                                        if (((_local_10 == "sig") && (_local_20 == AvatarFigurePartType.LEFT_HAND)))
-                                        {
-                                            _local_8 = true;
-                                        }
-                                        else
-                                        {
-                                            if (((_local_10 == "respect") && (_local_20 == AvatarFigurePartType.LEFT_HAND)))
-                                            {
-                                                _local_8 = true;
-                                            }
-                                            else
-                                            {
-                                                if (_local_20 == AvatarFigurePartType.RIGHT_HAND_ITEM)
-                                                {
-                                                    _local_8 = true;
-                                                }
-                                                else
-                                                {
-                                                    if (_local_20 == AvatarFigurePartType.LEFT_HAND_ITEM)
-                                                    {
-                                                        _local_8 = true;
-                                                    }
-                                                    else
-                                                    {
-                                                        if (_local_20 == AvatarFigurePartType.CHEST_PRINT)
-                                                        {
-                                                            _local_8 = true;
-                                                        }
-                                                        else
-                                                        {
-                                                            if (k == 4)
-                                                            {
-                                                                _local_6 = 2;
-                                                            }
-                                                            else
-                                                            {
-                                                                if (k == 5)
-                                                                {
-                                                                    _local_6 = 1;
-                                                                }
-                                                                else
-                                                                {
-                                                                    if (k == 6)
-                                                                    {
-                                                                        _local_6 = 0;
-                                                                    }
-                                                                }
-                                                            }
-                                                            if (partContainer.flippedPartType != _local_20)
-                                                            {
-                                                                _local_20 = partContainer.flippedPartType;
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
+                                    _local_6 = 1;
+                                }
+                                else if (k == 6)
+                                {
+                                    _local_6 = 0;
+                                }
+                                if (partContainer.flippedPartType != _local_20)
+                                {
+                                    _local_20 = partContainer.flippedPartType;
                                 }
                             }
                         }
@@ -466,7 +446,17 @@
                         bitmapAsset = (this._assets.getAssetByName(_local_24) as BitmapDataAsset);
                         if (bitmapAsset == null)
                         {
-                            _local_24 = (((((((this._scale + "_std_") + _local_20) + "_") + _local_21) + "_") + _local_6) + "_0");
+                            _local_24 = ((((((((((this._scale + "_") + _local_10) + "_") + _local_20) + "_") + _local_21) + "_") + _local_6) + "_") + 0);
+                            bitmapAsset = (this._assets.getAssetByName(_local_24) as BitmapDataAsset);
+                        }
+                        if (bitmapAsset == null)
+                        {
+                            _local_24 = ((((((((((this._scale + "_") + this._geometryDefaultAction) + "_") + _local_20) + "_") + _local_21) + "_") + _local_6) + "_") + _local_23);
+                            bitmapAsset = (this._assets.getAssetByName(_local_24) as BitmapDataAsset);
+                        }
+                        if (bitmapAsset == null)
+                        {
+                            _local_24 = ((((((((((this._scale + "_") + this._geometryDefaultAction) + "_") + _local_20) + "_") + _local_21) + "_") + _local_6) + "_") + 0);
                             bitmapAsset = (this._assets.getAssetByName(_local_24) as BitmapDataAsset);
                         }
                         if (!bitmapAsset)

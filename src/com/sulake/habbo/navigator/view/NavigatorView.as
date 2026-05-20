@@ -140,7 +140,7 @@
                 this._Str_4451 = k;
                 this._Str_4599 = _arg_2;
                 this._lastWindowHeight = _arg_3;
-                this._Str_11769 = _arg_4;
+                this._Str_11769 = !_arg_4;
             }
         }
 

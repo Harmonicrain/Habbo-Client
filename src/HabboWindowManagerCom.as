@@ -274,6 +274,7 @@
         public static var avatar_editor_tabs_ae_tabs_head:Class = HabboWindowManagerCom_avatar_editor_tabs_ae_tabs_head;
         public static var avatar_editor_tabs_ae_tabs_hotlooks:Class = HabboWindowManagerCom_avatar_editor_tabs_ae_tabs_hotlooks;
         public static var avatar_editor_tabs_ae_tabs_legs:Class = HabboWindowManagerCom_avatar_editor_tabs_ae_tabs_legs;
+        public static var avatar_editor_tabs_ae_tabs_misc:Class = HabboWindowManagerCom_avatar_editor_tabs_ae_tabs_misc;
         public static var avatar_editor_tabs_ae_tabs_torso:Class = HabboWindowManagerCom_avatar_editor_tabs_ae_tabs_torso;
         public static var avatar_editor_tabs_ae_tabs_wardrobe:Class = HabboWindowManagerCom_avatar_editor_tabs_ae_tabs_wardrobe;
         public static var avatar_editor_tabs_bottom_accessories:Class = HabboWindowManagerCom_avatar_editor_tabs_bottom_accessories;
@@ -297,6 +298,8 @@
         public static var avatar_editor_tabs_head_hair_on:Class = HabboWindowManagerCom_avatar_editor_tabs_head_hair_on;
         public static var avatar_editor_tabs_head_hats:Class = HabboWindowManagerCom_avatar_editor_tabs_head_hats;
         public static var avatar_editor_tabs_head_hats_on:Class = HabboWindowManagerCom_avatar_editor_tabs_head_hats_on;
+        public static var avatar_editor_tabs_icon_misc_misc_off:Class = HabboWindowManagerCom_avatar_editor_tabs_icon_misc_misc_off;
+        public static var avatar_editor_tabs_icon_misc_pets_off:Class = HabboWindowManagerCom_avatar_editor_tabs_icon_misc_pets_off;
         public static var avatar_editor_tabs_top_accessories:Class = HabboWindowManagerCom_avatar_editor_tabs_top_accessories;
         public static var avatar_editor_tabs_top_accessories_on:Class = HabboWindowManagerCom_avatar_editor_tabs_top_accessories_on;
         public static var avatar_editor_tabs_top_jacket:Class = HabboWindowManagerCom_avatar_editor_tabs_top_jacket;

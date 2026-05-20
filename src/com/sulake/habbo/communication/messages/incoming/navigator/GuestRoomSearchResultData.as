@@ -78,5 +78,12 @@
         {
             return this._ad;
         }
+
+        public function releaseAd():OfficialRoomEntryData
+        {
+            var k:OfficialRoomEntryData = this._ad;
+            this._ad = null;
+            return k;
+        }
     }
 }

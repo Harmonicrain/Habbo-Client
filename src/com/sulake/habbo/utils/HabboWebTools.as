@@ -19,7 +19,9 @@
         public static var hideAirLoginBackgroundCallback:Function;
         public static var renderAirLoginBackgroundCallback:Function;
         public static var setAirLoadingScreenVisibleCallback:Function;
+        public static var returnToAirLoginCallback:Function;
         public static var airDebugLogCallback:Function;
+        public static var enterHomeRoomOnNextAirAuth:Boolean = false;
 
         public static function set isSpaWeb(isSpaWeb:Boolean):void
         {
@@ -132,6 +134,14 @@
             if (setAirLoadingScreenVisibleCallback != null)
             {
                 setAirLoadingScreenVisibleCallback(visible);
+            }
+        }
+
+        public static function returnToAirLogin():void
+        {
+            if (returnToAirLoginCallback != null)
+            {
+                returnToAirLoginCallback();
             }
         }
 

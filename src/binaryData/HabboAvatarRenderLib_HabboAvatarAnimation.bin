@@ -65,6 +65,13 @@
 			 <frame number="3" assetpartdefinition="wlk"/>
 		 </part>
 
+		 <part set-type="mcl">
+			 <frame number="0" assetpartdefinition="wlk"/>
+			 <frame number="1" assetpartdefinition="wlk"/>
+			 <frame number="2" assetpartdefinition="wlk"/>
+			 <frame number="3" assetpartdefinition="wlk"/>
+		 </part>
+
          <part set-type="rh">
              <frame number="0" assetpartdefinition="wlk"/>
              <frame number="1" assetpartdefinition="wlk"/>
@@ -78,7 +85,7 @@
              <frame number="2" assetpartdefinition="wlk"/>
              <frame number="3" assetpartdefinition="wlk"/>
          </part>
-		
+
 		<part set-type="rs">
 			<frame number="0" assetpartdefinition="wlk"/>
 			<frame number="1" assetpartdefinition="wlk"/>
@@ -93,7 +100,105 @@
 			<frame number="3" assetpartdefinition="wlk"/>
 		</part>
 
+		<part set-type="mcr">
+			<frame number="0" assetpartdefinition="wlk"/>
+			<frame number="1" assetpartdefinition="wlk"/>
+			<frame number="2" assetpartdefinition="wlk"/>
+			<frame number="3" assetpartdefinition="wlk"/>
+		</part>
+
         <part set-type="ch">
+            <frame number="0" assetpartdefinition="wlk"/>
+            <frame number="1" assetpartdefinition="wlk"/>
+            <frame number="2" assetpartdefinition="wlk"/>
+            <frame number="3" assetpartdefinition="wlk"/>
+        </part>
+
+        <part set-type="cc">
+            <frame number="0" assetpartdefinition="wlk"/>
+            <frame number="1" assetpartdefinition="wlk"/>
+            <frame number="2" assetpartdefinition="wlk"/>
+            <frame number="3" assetpartdefinition="wlk"/>
+        </part>
+
+        <part set-type="ha">
+            <frame number="0" assetpartdefinition="wlk"/>
+            <frame number="1" assetpartdefinition="wlk"/>
+            <frame number="2" assetpartdefinition="wlk"/>
+            <frame number="3" assetpartdefinition="wlk"/>
+        </part>
+
+        <part set-type="he">
+            <frame number="0" assetpartdefinition="wlk"/>
+            <frame number="1" assetpartdefinition="wlk"/>
+            <frame number="2" assetpartdefinition="wlk"/>
+            <frame number="3" assetpartdefinition="wlk"/>
+        </part>
+
+        <part set-type="ca">
+            <frame number="0" assetpartdefinition="wlk"/>
+            <frame number="1" assetpartdefinition="wlk"/>
+            <frame number="2" assetpartdefinition="wlk"/>
+            <frame number="3" assetpartdefinition="wlk"/>
+        </part>
+
+        <part set-type="wa">
+            <frame number="0" assetpartdefinition="wlk"/>
+            <frame number="1" assetpartdefinition="wlk"/>
+            <frame number="2" assetpartdefinition="wlk"/>
+            <frame number="3" assetpartdefinition="wlk"/>
+        </part>
+
+        <part set-type="hr">
+            <frame number="0" assetpartdefinition="wlk"/>
+            <frame number="1" assetpartdefinition="wlk"/>
+            <frame number="2" assetpartdefinition="wlk"/>
+            <frame number="3" assetpartdefinition="wlk"/>
+        </part>
+
+        <part set-type="hrb">
+            <frame number="0" assetpartdefinition="wlk"/>
+            <frame number="1" assetpartdefinition="wlk"/>
+            <frame number="2" assetpartdefinition="wlk"/>
+            <frame number="3" assetpartdefinition="wlk"/>
+        </part>
+
+        <part set-type="ea">
+            <frame number="0" assetpartdefinition="wlk"/>
+            <frame number="1" assetpartdefinition="wlk"/>
+            <frame number="2" assetpartdefinition="wlk"/>
+            <frame number="3" assetpartdefinition="wlk"/>
+        </part>
+
+        <part set-type="fa">
+            <frame number="0" assetpartdefinition="wlk"/>
+            <frame number="1" assetpartdefinition="wlk"/>
+            <frame number="2" assetpartdefinition="wlk"/>
+            <frame number="3" assetpartdefinition="wlk"/>
+        </part>
+
+        <part set-type="pt">
+            <frame number="0" assetpartdefinition="wlk"/>
+            <frame number="1" assetpartdefinition="wlk"/>
+            <frame number="2" assetpartdefinition="wlk"/>
+            <frame number="3" assetpartdefinition="wlk"/>
+        </part>
+
+        <part set-type="ptr">
+            <frame number="0" assetpartdefinition="wlk"/>
+            <frame number="1" assetpartdefinition="wlk"/>
+            <frame number="2" assetpartdefinition="wlk"/>
+            <frame number="3" assetpartdefinition="wlk"/>
+        </part>
+
+        <part set-type="ptl">
+            <frame number="0" assetpartdefinition="wlk"/>
+            <frame number="1" assetpartdefinition="wlk"/>
+            <frame number="2" assetpartdefinition="wlk"/>
+            <frame number="3" assetpartdefinition="wlk"/>
+        </part>
+
+        <part set-type="mc">
             <frame number="0" assetpartdefinition="wlk"/>
             <frame number="1" assetpartdefinition="wlk"/>
             <frame number="2" assetpartdefinition="wlk"/>
@@ -124,11 +229,36 @@
 			 <frame number="1" assetpartdefinition="wav"/>
 		 </part>
 
+		<part set-type="mcl">
+			 <frame number="0" assetpartdefinition="wav"/>
+			 <frame number="1" assetpartdefinition="wav"/>
+		 </part>
+
         <part set-type="ch">
             <frame number="0" assetpartdefinition="wav"/>
             <frame number="1" assetpartdefinition="wav"/>
             <frame number="2" assetpartdefinition="wav"/>
             <frame number="3" assetpartdefinition="wav"/>
+        </part>
+
+        <part set-type="pt">
+            <frame number="0" assetpartdefinition="wav"/>
+            <frame number="1" assetpartdefinition="wav"/>
+        </part>
+
+        <part set-type="ptr">
+            <frame number="0" assetpartdefinition="wav"/>
+            <frame number="1" assetpartdefinition="wav"/>
+        </part>
+
+        <part set-type="ptl">
+            <frame number="0" assetpartdefinition="wav"/>
+            <frame number="1" assetpartdefinition="wav"/>
+        </part>
+
+        <part set-type="mc">
+            <frame number="0" assetpartdefinition="wav"/>
+            <frame number="1" assetpartdefinition="wav"/>
         </part>
 
     </action>
@@ -241,6 +371,9 @@
         <part set-type="lc">
             <frame number="0" assetpartdefinition="wav"/>
         </part>
+        <part set-type="mcl">
+            <frame number="0" assetpartdefinition="wav"/>
+        </part>
     </action>
 
     <action id="Respect">
@@ -253,6 +386,10 @@
             <frame number="1" assetpartdefinition="wav" repeats="15"/>
         </part>
         <part set-type="lc">
+            <frame number="0" assetpartdefinition="wav" repeats="15"/>
+            <frame number="1" assetpartdefinition="wav" repeats="15"/>
+        </part>
+        <part set-type="mcl">
             <frame number="0" assetpartdefinition="wav" repeats="15"/>
             <frame number="1" assetpartdefinition="wav" repeats="15"/>
         </part>
@@ -270,6 +407,10 @@
         </part>
 
 		<part set-type="rc">
+			 <frame number="0" assetpartdefinition="drk"/>
+		</part>
+
+		<part set-type="mcr">
 			 <frame number="0" assetpartdefinition="drk"/>
 		</part>
 
@@ -299,6 +440,10 @@
         </part>
 
         <part set-type="rc">
+             <frame number="0" assetpartdefinition="drk"/>
+        </part>
+
+        <part set-type="mcr">
              <frame number="0" assetpartdefinition="drk"/>
         </part>
 
@@ -343,8 +488,7 @@
 
         </offsets>
     </action>
-	
-	
+
     <action id="SnowWarRun">
 
          <part set-type="ch">
@@ -567,4 +711,630 @@
          </part>
 
     </action>
+
+    <action id="Default">
+        <part set-type="ch">
+            <frame number="0" assetpartdefinition="std"/>
+            <frame number="1" assetpartdefinition="std"/>
+            <frame number="2" assetpartdefinition="std"/>
+            <frame number="3" assetpartdefinition="std"/>
+            <frame number="4" assetpartdefinition="std"/>
+            <frame number="5" assetpartdefinition="std"/>
+            <frame number="6" assetpartdefinition="std"/>
+            <frame number="7" assetpartdefinition="std"/>
+        </part>
+
+        <part set-type="cc">
+            <frame number="0" assetpartdefinition="std"/>
+            <frame number="1" assetpartdefinition="std"/>
+            <frame number="2" assetpartdefinition="std"/>
+            <frame number="3" assetpartdefinition="std"/>
+            <frame number="4" assetpartdefinition="std"/>
+            <frame number="5" assetpartdefinition="std"/>
+            <frame number="6" assetpartdefinition="std"/>
+            <frame number="7" assetpartdefinition="std"/>
+        </part>
+
+        <part set-type="mc">
+            <frame number="0" assetpartdefinition="std"/>
+            <frame number="1" assetpartdefinition="std"/>
+            <frame number="2" assetpartdefinition="std"/>
+            <frame number="3" assetpartdefinition="std"/>
+            <frame number="4" assetpartdefinition="std"/>
+            <frame number="5" assetpartdefinition="std"/>
+            <frame number="6" assetpartdefinition="std"/>
+            <frame number="7" assetpartdefinition="std"/>
+        </part>
+
+        <part set-type="ls">
+            <frame number="0" assetpartdefinition="std"/>
+            <frame number="1" assetpartdefinition="std"/>
+            <frame number="2" assetpartdefinition="std"/>
+            <frame number="3" assetpartdefinition="std"/>
+            <frame number="4" assetpartdefinition="std"/>
+            <frame number="5" assetpartdefinition="std"/>
+            <frame number="6" assetpartdefinition="std"/>
+            <frame number="7" assetpartdefinition="std"/>
+        </part>
+
+        <part set-type="lc">
+            <frame number="0" assetpartdefinition="std"/>
+            <frame number="1" assetpartdefinition="std"/>
+            <frame number="2" assetpartdefinition="std"/>
+            <frame number="3" assetpartdefinition="std"/>
+            <frame number="4" assetpartdefinition="std"/>
+            <frame number="5" assetpartdefinition="std"/>
+            <frame number="6" assetpartdefinition="std"/>
+            <frame number="7" assetpartdefinition="std"/>
+        </part>
+
+        <part set-type="mcl">
+            <frame number="0" assetpartdefinition="std"/>
+            <frame number="1" assetpartdefinition="std"/>
+            <frame number="2" assetpartdefinition="std"/>
+            <frame number="3" assetpartdefinition="std"/>
+            <frame number="4" assetpartdefinition="std"/>
+            <frame number="5" assetpartdefinition="std"/>
+            <frame number="6" assetpartdefinition="std"/>
+            <frame number="7" assetpartdefinition="std"/>
+        </part>
+
+        <part set-type="rs">
+            <frame number="0" assetpartdefinition="std"/>
+            <frame number="1" assetpartdefinition="std"/>
+            <frame number="2" assetpartdefinition="std"/>
+            <frame number="3" assetpartdefinition="std"/>
+            <frame number="4" assetpartdefinition="std"/>
+            <frame number="5" assetpartdefinition="std"/>
+            <frame number="6" assetpartdefinition="std"/>
+            <frame number="7" assetpartdefinition="std"/>
+        </part>
+
+        <part set-type="rc">
+            <frame number="0" assetpartdefinition="std"/>
+            <frame number="1" assetpartdefinition="std"/>
+            <frame number="2" assetpartdefinition="std"/>
+            <frame number="3" assetpartdefinition="std"/>
+            <frame number="4" assetpartdefinition="std"/>
+            <frame number="5" assetpartdefinition="std"/>
+            <frame number="6" assetpartdefinition="std"/>
+            <frame number="7" assetpartdefinition="std"/>
+        </part>
+
+        <part set-type="mcr">
+            <frame number="0" assetpartdefinition="std"/>
+            <frame number="1" assetpartdefinition="std"/>
+            <frame number="2" assetpartdefinition="std"/>
+            <frame number="3" assetpartdefinition="std"/>
+            <frame number="4" assetpartdefinition="std"/>
+            <frame number="5" assetpartdefinition="std"/>
+            <frame number="6" assetpartdefinition="std"/>
+            <frame number="7" assetpartdefinition="std"/>
+        </part>
+
+        <part set-type="ha">
+            <frame number="0" assetpartdefinition="std"/>
+            <frame number="1" assetpartdefinition="std"/>
+            <frame number="2" assetpartdefinition="std"/>
+            <frame number="3" assetpartdefinition="std"/>
+            <frame number="4" assetpartdefinition="std"/>
+            <frame number="5" assetpartdefinition="std"/>
+            <frame number="6" assetpartdefinition="std"/>
+            <frame number="7" assetpartdefinition="std"/>
+        </part>
+
+        <part set-type="he">
+            <frame number="0" assetpartdefinition="std"/>
+            <frame number="1" assetpartdefinition="std"/>
+            <frame number="2" assetpartdefinition="std"/>
+            <frame number="3" assetpartdefinition="std"/>
+            <frame number="4" assetpartdefinition="std"/>
+            <frame number="5" assetpartdefinition="std"/>
+            <frame number="6" assetpartdefinition="std"/>
+            <frame number="7" assetpartdefinition="std"/>
+        </part>
+
+        <part set-type="wa">
+            <frame number="0" assetpartdefinition="std"/>
+            <frame number="1" assetpartdefinition="std"/>
+            <frame number="2" assetpartdefinition="std"/>
+            <frame number="3" assetpartdefinition="std"/>
+            <frame number="4" assetpartdefinition="std"/>
+            <frame number="5" assetpartdefinition="std"/>
+            <frame number="6" assetpartdefinition="std"/>
+            <frame number="7" assetpartdefinition="std"/>
+        </part>
+
+        <part set-type="pt">
+            <frame number="0" assetpartdefinition="std"/>
+            <frame number="1" assetpartdefinition="std"/>
+            <frame number="2" assetpartdefinition="std"/>
+            <frame number="3" assetpartdefinition="std"/>
+            <frame number="4" assetpartdefinition="std"/>
+            <frame number="5" assetpartdefinition="std"/>
+            <frame number="6" assetpartdefinition="std"/>
+            <frame number="7" assetpartdefinition="std"/>
+        </part>
+
+        <part set-type="ptl">
+            <frame number="0" assetpartdefinition="std"/>
+            <frame number="1" assetpartdefinition="std"/>
+            <frame number="2" assetpartdefinition="std"/>
+            <frame number="3" assetpartdefinition="std"/>
+            <frame number="4" assetpartdefinition="std"/>
+            <frame number="5" assetpartdefinition="std"/>
+            <frame number="6" assetpartdefinition="std"/>
+            <frame number="7" assetpartdefinition="std"/>
+        </part>
+
+        <part set-type="ptr">
+            <frame number="0" assetpartdefinition="std"/>
+            <frame number="1" assetpartdefinition="std"/>
+            <frame number="2" assetpartdefinition="std"/>
+            <frame number="3" assetpartdefinition="std"/>
+            <frame number="4" assetpartdefinition="std"/>
+            <frame number="5" assetpartdefinition="std"/>
+            <frame number="6" assetpartdefinition="std"/>
+            <frame number="7" assetpartdefinition="std"/>
+        </part>
+    </action>
+
+    <action id="Lay">
+        <part set-type="ch">
+            <frame number="0" assetpartdefinition="lay"/>
+            <frame number="1" assetpartdefinition="lay"/>
+            <frame number="2" assetpartdefinition="lay"/>
+            <frame number="3" assetpartdefinition="lay"/>
+            <frame number="4" assetpartdefinition="lay"/>
+            <frame number="5" assetpartdefinition="lay"/>
+            <frame number="6" assetpartdefinition="lay"/>
+            <frame number="7" assetpartdefinition="lay"/>
+        </part>
+
+        <part set-type="cc">
+            <frame number="0" assetpartdefinition="lay"/>
+            <frame number="1" assetpartdefinition="lay"/>
+            <frame number="2" assetpartdefinition="lay"/>
+            <frame number="3" assetpartdefinition="lay"/>
+            <frame number="4" assetpartdefinition="lay"/>
+            <frame number="5" assetpartdefinition="lay"/>
+            <frame number="6" assetpartdefinition="lay"/>
+            <frame number="7" assetpartdefinition="lay"/>
+        </part>
+
+        <part set-type="mc">
+            <frame number="0" assetpartdefinition="lay"/>
+            <frame number="1" assetpartdefinition="lay"/>
+            <frame number="2" assetpartdefinition="lay"/>
+            <frame number="3" assetpartdefinition="lay"/>
+            <frame number="4" assetpartdefinition="lay"/>
+            <frame number="5" assetpartdefinition="lay"/>
+            <frame number="6" assetpartdefinition="lay"/>
+            <frame number="7" assetpartdefinition="lay"/>
+        </part>
+
+        <part set-type="ls">
+            <frame number="0" assetpartdefinition="lay"/>
+            <frame number="1" assetpartdefinition="lay"/>
+            <frame number="2" assetpartdefinition="lay"/>
+            <frame number="3" assetpartdefinition="lay"/>
+            <frame number="4" assetpartdefinition="lay"/>
+            <frame number="5" assetpartdefinition="lay"/>
+            <frame number="6" assetpartdefinition="lay"/>
+            <frame number="7" assetpartdefinition="lay"/>
+        </part>
+
+        <part set-type="lc">
+            <frame number="0" assetpartdefinition="lay"/>
+            <frame number="1" assetpartdefinition="lay"/>
+            <frame number="2" assetpartdefinition="lay"/>
+            <frame number="3" assetpartdefinition="lay"/>
+            <frame number="4" assetpartdefinition="lay"/>
+            <frame number="5" assetpartdefinition="lay"/>
+            <frame number="6" assetpartdefinition="lay"/>
+            <frame number="7" assetpartdefinition="lay"/>
+        </part>
+
+        <part set-type="mcl">
+            <frame number="0" assetpartdefinition="lay"/>
+            <frame number="1" assetpartdefinition="lay"/>
+            <frame number="2" assetpartdefinition="lay"/>
+            <frame number="3" assetpartdefinition="lay"/>
+            <frame number="4" assetpartdefinition="lay"/>
+            <frame number="5" assetpartdefinition="lay"/>
+            <frame number="6" assetpartdefinition="lay"/>
+            <frame number="7" assetpartdefinition="lay"/>
+        </part>
+
+        <part set-type="rs">
+            <frame number="0" assetpartdefinition="lay"/>
+            <frame number="1" assetpartdefinition="lay"/>
+            <frame number="2" assetpartdefinition="lay"/>
+            <frame number="3" assetpartdefinition="lay"/>
+            <frame number="4" assetpartdefinition="lay"/>
+            <frame number="5" assetpartdefinition="lay"/>
+            <frame number="6" assetpartdefinition="lay"/>
+            <frame number="7" assetpartdefinition="lay"/>
+        </part>
+
+        <part set-type="rc">
+            <frame number="0" assetpartdefinition="lay"/>
+            <frame number="1" assetpartdefinition="lay"/>
+            <frame number="2" assetpartdefinition="lay"/>
+            <frame number="3" assetpartdefinition="lay"/>
+            <frame number="4" assetpartdefinition="lay"/>
+            <frame number="5" assetpartdefinition="lay"/>
+            <frame number="6" assetpartdefinition="lay"/>
+            <frame number="7" assetpartdefinition="lay"/>
+        </part>
+
+        <part set-type="mcr">
+            <frame number="0" assetpartdefinition="lay"/>
+            <frame number="1" assetpartdefinition="lay"/>
+            <frame number="2" assetpartdefinition="lay"/>
+            <frame number="3" assetpartdefinition="lay"/>
+            <frame number="4" assetpartdefinition="lay"/>
+            <frame number="5" assetpartdefinition="lay"/>
+            <frame number="6" assetpartdefinition="lay"/>
+            <frame number="7" assetpartdefinition="lay"/>
+        </part>
+
+        <part set-type="ha">
+            <frame number="0" assetpartdefinition="lay"/>
+            <frame number="1" assetpartdefinition="lay"/>
+            <frame number="2" assetpartdefinition="lay"/>
+            <frame number="3" assetpartdefinition="lay"/>
+            <frame number="4" assetpartdefinition="lay"/>
+            <frame number="5" assetpartdefinition="lay"/>
+            <frame number="6" assetpartdefinition="lay"/>
+            <frame number="7" assetpartdefinition="lay"/>
+        </part>
+
+        <part set-type="he">
+            <frame number="0" assetpartdefinition="lay"/>
+            <frame number="1" assetpartdefinition="lay"/>
+            <frame number="2" assetpartdefinition="lay"/>
+            <frame number="3" assetpartdefinition="lay"/>
+            <frame number="4" assetpartdefinition="lay"/>
+            <frame number="5" assetpartdefinition="lay"/>
+            <frame number="6" assetpartdefinition="lay"/>
+            <frame number="7" assetpartdefinition="lay"/>
+        </part>
+
+        <part set-type="wa">
+            <frame number="0" assetpartdefinition="lay"/>
+            <frame number="1" assetpartdefinition="lay"/>
+            <frame number="2" assetpartdefinition="lay"/>
+            <frame number="3" assetpartdefinition="lay"/>
+            <frame number="4" assetpartdefinition="lay"/>
+            <frame number="5" assetpartdefinition="lay"/>
+            <frame number="6" assetpartdefinition="lay"/>
+            <frame number="7" assetpartdefinition="lay"/>
+        </part>
+
+        <part set-type="pt">
+            <frame number="0" assetpartdefinition="lay"/>
+            <frame number="1" assetpartdefinition="lay"/>
+            <frame number="2" assetpartdefinition="lay"/>
+            <frame number="3" assetpartdefinition="lay"/>
+            <frame number="4" assetpartdefinition="lay"/>
+            <frame number="5" assetpartdefinition="lay"/>
+            <frame number="6" assetpartdefinition="lay"/>
+            <frame number="7" assetpartdefinition="lay"/>
+        </part>
+
+        <part set-type="ptr">
+            <frame number="0" assetpartdefinition="lay"/>
+            <frame number="1" assetpartdefinition="lay"/>
+            <frame number="2" assetpartdefinition="lay"/>
+            <frame number="3" assetpartdefinition="lay"/>
+            <frame number="4" assetpartdefinition="lay"/>
+            <frame number="5" assetpartdefinition="lay"/>
+            <frame number="6" assetpartdefinition="lay"/>
+            <frame number="7" assetpartdefinition="lay"/>
+        </part>
+
+        <part set-type="ptl">
+            <frame number="0" assetpartdefinition="lay"/>
+            <frame number="1" assetpartdefinition="lay"/>
+            <frame number="2" assetpartdefinition="lay"/>
+            <frame number="3" assetpartdefinition="lay"/>
+            <frame number="4" assetpartdefinition="lay"/>
+            <frame number="5" assetpartdefinition="lay"/>
+            <frame number="6" assetpartdefinition="lay"/>
+            <frame number="7" assetpartdefinition="lay"/>
+        </part>
+    </action>
+
+    <action id="Sleep">
+        <part set-type="ch">
+            <frame number="0" assetpartdefinition="std"/>
+            <frame number="1" assetpartdefinition="std"/>
+            <frame number="2" assetpartdefinition="std"/>
+            <frame number="3" assetpartdefinition="std"/>
+            <frame number="4" assetpartdefinition="std"/>
+            <frame number="5" assetpartdefinition="std"/>
+            <frame number="6" assetpartdefinition="std"/>
+            <frame number="7" assetpartdefinition="std"/>
+        </part>
+
+        <part set-type="cc">
+            <frame number="0" assetpartdefinition="std"/>
+            <frame number="1" assetpartdefinition="std"/>
+            <frame number="2" assetpartdefinition="std"/>
+            <frame number="3" assetpartdefinition="std"/>
+            <frame number="4" assetpartdefinition="std"/>
+            <frame number="5" assetpartdefinition="std"/>
+            <frame number="6" assetpartdefinition="std"/>
+            <frame number="7" assetpartdefinition="std"/>
+        </part>
+
+        <part set-type="mc">
+            <frame number="0" assetpartdefinition="std"/>
+            <frame number="1" assetpartdefinition="std"/>
+            <frame number="2" assetpartdefinition="std"/>
+            <frame number="3" assetpartdefinition="std"/>
+            <frame number="4" assetpartdefinition="std"/>
+            <frame number="5" assetpartdefinition="std"/>
+            <frame number="6" assetpartdefinition="std"/>
+            <frame number="7" assetpartdefinition="std"/>
+        </part>
+
+        <part set-type="ls">
+            <frame number="0" assetpartdefinition="std"/>
+            <frame number="1" assetpartdefinition="std"/>
+            <frame number="2" assetpartdefinition="std"/>
+            <frame number="3" assetpartdefinition="std"/>
+            <frame number="4" assetpartdefinition="std"/>
+            <frame number="5" assetpartdefinition="std"/>
+            <frame number="6" assetpartdefinition="std"/>
+            <frame number="7" assetpartdefinition="std"/>
+        </part>
+
+        <part set-type="lc">
+            <frame number="0" assetpartdefinition="std"/>
+            <frame number="1" assetpartdefinition="std"/>
+            <frame number="2" assetpartdefinition="std"/>
+            <frame number="3" assetpartdefinition="std"/>
+            <frame number="4" assetpartdefinition="std"/>
+            <frame number="5" assetpartdefinition="std"/>
+            <frame number="6" assetpartdefinition="std"/>
+            <frame number="7" assetpartdefinition="std"/>
+        </part>
+
+        <part set-type="mcl">
+            <frame number="0" assetpartdefinition="std"/>
+            <frame number="1" assetpartdefinition="std"/>
+            <frame number="2" assetpartdefinition="std"/>
+            <frame number="3" assetpartdefinition="std"/>
+            <frame number="4" assetpartdefinition="std"/>
+            <frame number="5" assetpartdefinition="std"/>
+            <frame number="6" assetpartdefinition="std"/>
+            <frame number="7" assetpartdefinition="std"/>
+        </part>
+
+        <part set-type="rs">
+            <frame number="0" assetpartdefinition="std"/>
+            <frame number="1" assetpartdefinition="std"/>
+            <frame number="2" assetpartdefinition="std"/>
+            <frame number="3" assetpartdefinition="std"/>
+            <frame number="4" assetpartdefinition="std"/>
+            <frame number="5" assetpartdefinition="std"/>
+            <frame number="6" assetpartdefinition="std"/>
+            <frame number="7" assetpartdefinition="std"/>
+        </part>
+
+        <part set-type="rc">
+            <frame number="0" assetpartdefinition="std"/>
+            <frame number="1" assetpartdefinition="std"/>
+            <frame number="2" assetpartdefinition="std"/>
+            <frame number="3" assetpartdefinition="std"/>
+            <frame number="4" assetpartdefinition="std"/>
+            <frame number="5" assetpartdefinition="std"/>
+            <frame number="6" assetpartdefinition="std"/>
+            <frame number="7" assetpartdefinition="std"/>
+        </part>
+
+        <part set-type="mcr">
+            <frame number="0" assetpartdefinition="std"/>
+            <frame number="1" assetpartdefinition="std"/>
+            <frame number="2" assetpartdefinition="std"/>
+            <frame number="3" assetpartdefinition="std"/>
+            <frame number="4" assetpartdefinition="std"/>
+            <frame number="5" assetpartdefinition="std"/>
+            <frame number="6" assetpartdefinition="std"/>
+            <frame number="7" assetpartdefinition="std"/>
+        </part>
+
+        <part set-type="ha">
+            <frame number="0" assetpartdefinition="std"/>
+            <frame number="1" assetpartdefinition="std"/>
+            <frame number="2" assetpartdefinition="std"/>
+            <frame number="3" assetpartdefinition="std"/>
+            <frame number="4" assetpartdefinition="std"/>
+            <frame number="5" assetpartdefinition="std"/>
+            <frame number="6" assetpartdefinition="std"/>
+            <frame number="7" assetpartdefinition="std"/>
+        </part>
+
+        <part set-type="he">
+            <frame number="0" assetpartdefinition="std"/>
+            <frame number="1" assetpartdefinition="std"/>
+            <frame number="2" assetpartdefinition="std"/>
+            <frame number="3" assetpartdefinition="std"/>
+            <frame number="4" assetpartdefinition="std"/>
+            <frame number="5" assetpartdefinition="std"/>
+            <frame number="6" assetpartdefinition="std"/>
+            <frame number="7" assetpartdefinition="std"/>
+        </part>
+
+        <part set-type="wa">
+            <frame number="0" assetpartdefinition="std"/>
+            <frame number="1" assetpartdefinition="std"/>
+            <frame number="2" assetpartdefinition="std"/>
+            <frame number="3" assetpartdefinition="std"/>
+            <frame number="4" assetpartdefinition="std"/>
+            <frame number="5" assetpartdefinition="std"/>
+            <frame number="6" assetpartdefinition="std"/>
+            <frame number="7" assetpartdefinition="std"/>
+        </part>
+
+        <part set-type="pt">
+            <frame number="0" assetpartdefinition="std"/>
+            <frame number="1" assetpartdefinition="std"/>
+            <frame number="2" assetpartdefinition="std"/>
+            <frame number="3" assetpartdefinition="std"/>
+            <frame number="4" assetpartdefinition="std"/>
+            <frame number="5" assetpartdefinition="std"/>
+            <frame number="6" assetpartdefinition="std"/>
+            <frame number="7" assetpartdefinition="std"/>
+        </part>
+
+        <part set-type="ptr">
+            <frame number="0" assetpartdefinition="std"/>
+            <frame number="1" assetpartdefinition="std"/>
+            <frame number="2" assetpartdefinition="std"/>
+            <frame number="3" assetpartdefinition="std"/>
+            <frame number="4" assetpartdefinition="std"/>
+            <frame number="5" assetpartdefinition="std"/>
+            <frame number="6" assetpartdefinition="std"/>
+            <frame number="7" assetpartdefinition="std"/>
+        </part>
+
+        <part set-type="ptl">
+            <frame number="0" assetpartdefinition="std"/>
+            <frame number="1" assetpartdefinition="std"/>
+            <frame number="2" assetpartdefinition="std"/>
+            <frame number="3" assetpartdefinition="std"/>
+            <frame number="4" assetpartdefinition="std"/>
+            <frame number="5" assetpartdefinition="std"/>
+            <frame number="6" assetpartdefinition="std"/>
+            <frame number="7" assetpartdefinition="std"/>
+        </part>
+    </action>
+
+    <action id ="Sit">
+        <part set-type="ch">
+            <frame number="0" assetpartdefinition="sit"/>
+            <frame number="1" assetpartdefinition="sit"/>
+            <frame number="2" assetpartdefinition="sit"/>
+            <frame number="3" assetpartdefinition="sit"/>
+            <frame number="4" assetpartdefinition="sit"/>
+            <frame number="5" assetpartdefinition="sit"/>
+            <frame number="6" assetpartdefinition="sit"/>
+            <frame number="7" assetpartdefinition="sit"/>
+        </part>
+
+        <part set-type="cc">
+            <frame number="0" assetpartdefinition="sit"/>
+            <frame number="1" assetpartdefinition="sit"/>
+            <frame number="2" assetpartdefinition="sit"/>
+            <frame number="3" assetpartdefinition="sit"/>
+            <frame number="4" assetpartdefinition="sit"/>
+            <frame number="5" assetpartdefinition="sit"/>
+            <frame number="6" assetpartdefinition="sit"/>
+            <frame number="7" assetpartdefinition="sit"/>
+        </part>
+
+        <part set-type="mc">
+            <frame number="0" assetpartdefinition="sit"/>
+            <frame number="1" assetpartdefinition="sit"/>
+            <frame number="2" assetpartdefinition="sit"/>
+            <frame number="3" assetpartdefinition="sit"/>
+            <frame number="4" assetpartdefinition="sit"/>
+            <frame number="5" assetpartdefinition="sit"/>
+            <frame number="6" assetpartdefinition="sit"/>
+            <frame number="7" assetpartdefinition="sit"/>
+        </part>
+
+        <part set-type="ls">
+            <frame number="0" assetpartdefinition="sit"/>
+            <frame number="1" assetpartdefinition="sit"/>
+            <frame number="2" assetpartdefinition="sit"/>
+            <frame number="3" assetpartdefinition="sit"/>
+            <frame number="4" assetpartdefinition="sit"/>
+            <frame number="5" assetpartdefinition="sit"/>
+            <frame number="6" assetpartdefinition="sit"/>
+            <frame number="7" assetpartdefinition="sit"/>
+        </part>
+
+        <part set-type="rs">
+            <frame number="0" assetpartdefinition="sit"/>
+            <frame number="1" assetpartdefinition="sit"/>
+            <frame number="2" assetpartdefinition="sit"/>
+            <frame number="3" assetpartdefinition="sit"/>
+            <frame number="4" assetpartdefinition="sit"/>
+            <frame number="5" assetpartdefinition="sit"/>
+            <frame number="6" assetpartdefinition="sit"/>
+            <frame number="7" assetpartdefinition="sit"/>
+        </part>
+
+        <part set-type="ha">
+            <frame number="0" assetpartdefinition="sit"/>
+            <frame number="1" assetpartdefinition="sit"/>
+            <frame number="2" assetpartdefinition="sit"/>
+            <frame number="3" assetpartdefinition="sit"/>
+            <frame number="4" assetpartdefinition="sit"/>
+            <frame number="5" assetpartdefinition="sit"/>
+            <frame number="6" assetpartdefinition="sit"/>
+            <frame number="7" assetpartdefinition="sit"/>
+        </part>
+
+        <part set-type="he">
+            <frame number="0" assetpartdefinition="sit"/>
+            <frame number="1" assetpartdefinition="sit"/>
+            <frame number="2" assetpartdefinition="sit"/>
+            <frame number="3" assetpartdefinition="sit"/>
+            <frame number="4" assetpartdefinition="sit"/>
+            <frame number="5" assetpartdefinition="sit"/>
+            <frame number="6" assetpartdefinition="sit"/>
+            <frame number="7" assetpartdefinition="sit"/>
+        </part>
+
+        <part set-type="wa">
+            <frame number="0" assetpartdefinition="sit"/>
+            <frame number="1" assetpartdefinition="sit"/>
+            <frame number="2" assetpartdefinition="sit"/>
+            <frame number="3" assetpartdefinition="sit"/>
+            <frame number="4" assetpartdefinition="sit"/>
+            <frame number="5" assetpartdefinition="sit"/>
+            <frame number="6" assetpartdefinition="sit"/>
+            <frame number="7" assetpartdefinition="sit"/>
+        </part>
+
+        <part set-type="pt">
+            <frame number="0" assetpartdefinition="sit"/>
+            <frame number="1" assetpartdefinition="sit"/>
+            <frame number="2" assetpartdefinition="sit"/>
+            <frame number="3" assetpartdefinition="sit"/>
+            <frame number="4" assetpartdefinition="sit"/>
+            <frame number="5" assetpartdefinition="sit"/>
+            <frame number="6" assetpartdefinition="sit"/>
+            <frame number="7" assetpartdefinition="sit"/>
+        </part>
+
+        <part set-type="ptr">
+            <frame number="0" assetpartdefinition="sit"/>
+            <frame number="1" assetpartdefinition="sit"/>
+            <frame number="2" assetpartdefinition="sit"/>
+            <frame number="3" assetpartdefinition="sit"/>
+            <frame number="4" assetpartdefinition="sit"/>
+            <frame number="5" assetpartdefinition="sit"/>
+            <frame number="6" assetpartdefinition="sit"/>
+            <frame number="7" assetpartdefinition="sit"/>
+        </part>
+
+        <part set-type="ptl">
+            <frame number="0" assetpartdefinition="sit"/>
+            <frame number="1" assetpartdefinition="sit"/>
+            <frame number="2" assetpartdefinition="sit"/>
+            <frame number="3" assetpartdefinition="sit"/>
+            <frame number="4" assetpartdefinition="sit"/>
+            <frame number="5" assetpartdefinition="sit"/>
+            <frame number="6" assetpartdefinition="sit"/>
+            <frame number="7" assetpartdefinition="sit"/>
+        </part>
+    </action>
+
+
 </animationSet>

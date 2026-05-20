@@ -224,5 +224,43 @@
         {
             return this._params;
         }
+
+        public function setGeometryType(k:String):void
+        {
+            this._geometryType = k;
+        }
+
+        public function setState(k:String):void
+        {
+            this._state = k;
+        }
+
+        public function setAssetPartDefinition(k:String):void
+        {
+            this._assetPartDefinition = k;
+        }
+
+        public function copy():ActionDefinition
+        {
+            var k:ActionDefinition = new ActionDefinition(<action/>);
+            k._id = this._id;
+            k._state = this._state;
+            k._precedence = this._precedence;
+            k._activePartSet = this._activePartSet;
+            k._assetPartDefinition = this._assetPartDefinition;
+            k._lay = this._lay;
+            k._geometryType = this._geometryType;
+            k._isMain = this._isMain;
+            k._isDefault = this._isDefault;
+            k._isAnimation = this._isAnimation;
+            k._startFromFrameZero = this._startFromFrameZero;
+            k._prevents = this._prevents;
+            k._preventHeadTurn = this._preventHeadTurn;
+            k._canvasOffsets = this._canvasOffsets;
+            k._types = this._types;
+            k._params = this._params;
+            k._defaultParameterValue = this._defaultParameterValue;
+            return k;
+        }
     }
 }

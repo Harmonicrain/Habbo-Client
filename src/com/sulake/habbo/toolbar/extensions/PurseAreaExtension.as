@@ -16,6 +16,7 @@
     import com.sulake.habbo.catalog.enum.CatalogPageName;
     import flash.external.ExternalInterface;
     import com.sulake.core.window.events.WindowEvent;
+    import com.sulake.habbo.utils.HabboWebTools;
 
     public class PurseAreaExtension implements IDisposable 
     {
@@ -193,6 +194,11 @@
                     this._catalog.openCatalogPage(CatalogPageName.LOYALTY_INFO);
                     return;
                 case "logout_button":
+                    if (HabboWebTools.isAirDesktop)
+                    {
+                        HabboWebTools.returnToAirLogin();
+                        return;
+                    }
                     if (ExternalInterface.available)
                     {
                         ExternalInterface.call("FlashExternalInterface.logout");

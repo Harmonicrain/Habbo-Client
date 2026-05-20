@@ -66,6 +66,8 @@
     import com.sulake.habbo.communication.messages.incoming.handshake.*;
     import com.sulake.habbo.communication.messages.outgoing.handshake.*;
     import com.sulake.iid.*;
+    import flash.utils.setTimeout;
+    import com.sulake.habbo.communication.messages.outgoing.room.session.QuitMessageComposer;
 
     public class HabboCommunicationDemo extends Component 
     {
@@ -201,6 +203,10 @@
             this._ssoTicket = getProperty("sso.ticket");
             this._flashClientUrl = getProperty("flash.client.url");
             this._externalVariablesUrl = getProperty("external.variables.txt");
+            if (HabboWebTools.isAirDesktop)
+            {
+                HabboWebTools.returnToAirLoginCallback = this.returnToAirLogin;
+            }
             if (this._ssoTicket)
             {
                 this._communication.mode = HabboConnectionType.NORMAL_MODE;
@@ -224,6 +230,10 @@
         override public function dispose():void
         {
             HabboWebTools.airDebug("HabboCommunicationDemo.dispose called! view=" + (this._view != null) + " stack=" + new Error().getStackTrace());
+            if (HabboWebTools.returnToAirLoginCallback == this.returnToAirLogin)
+            {
+                HabboWebTools.returnToAirLoginCallback = null;
+            }
             if (HabboWebTools.isAirDesktop)
             {
                 HabboWebTools.hideAirLoginBackground();
@@ -246,6 +256,61 @@
 
         public function sendTryLogin(k:String, _arg_2:String, _arg_3:int=0):void
         {
+        }
+
+        private function returnToAirLogin():void
+        {
+            var connection:IConnection;
+            if (((!(HabboWebTools.isAirDesktop)) || (this.isRoomViewerMode)))
+            {
+                return;
+            }
+            HabboWebTools.airDebug("returnToAirLogin requested");
+            this._ssoTicket = "";
+            this._authenticated = false;
+            this._airLoginInFlight = false;
+            this._handshakeInProgress = false;
+            this._logoutInProgress = true;
+            HabboWebTools.enterHomeRoomOnNextAirAuth = true;
+            if (this._view != null)
+            {
+                this._view.dispose();
+                this._view = null;
+            }
+            try
+            {
+                connection = ((this._communication != null) ? this._communication.connection : null);
+                if (((connection != null) && (connection.connected)))
+                {
+                    connection.send(new QuitMessageComposer());
+                    connection.send(new DisconnectMessageComposer());
+                    setTimeout(function ():void
+                    {
+                        try
+                        {
+                            if (((connection != null) && (connection.connected)))
+                            {
+                                connection.close();
+                            }
+                        }
+                        catch (error:Error)
+                        {
+                            HabboWebTools.airDebug("returnToAirLogin delayed close failed: " + error.message);
+                        }
+                    }, 250);
+                }
+            }
+            catch (error:Error)
+            {
+                HabboWebTools.airDebug("returnToAirLogin close failed: " + error.message);
+            }
+            HabboWebTools.showAirLoginBackground();
+            HabboWebTools.setAirLoadingScreenVisible(false);
+            if (this._windowManager != null)
+            {
+                this._view = new HabboLoginDemoView(this);
+                this._view.addEventListener(HabboLoginDemoView.INITCONNECTION, this.onInitConnection);
+            }
         }
 
         public function getXmlWindow(name:String, appendix:String="_xml", layer:uint=1):IWindow
@@ -719,7 +784,7 @@
             {
                 this.dispatchLoginStepEvent(HabboCommunicationEvent.HABBO_CONNECTION_EVENT_HANDSHAKE_FAIL);
             }
-            if (HabboWebTools.isAirDesktop && !this._authenticated && this._view != null)
+            if (HabboWebTools.isAirDesktop && !this._authenticated && !this._logoutInProgress && this._view != null)
             {
                 this.showAirLoginAlert("The server closed the connection while signing in. This usually means the SSO ticket is invalid or expired.");
                 return;

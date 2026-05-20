@@ -103,6 +103,7 @@
     import com.sulake.core.window.IWindow;
     import com.sulake.habbo.communication.messages.parser.room.session.CantConnectMessageParser;
     import com.sulake.habbo.communication.messages.outgoing.room.session.QuitMessageComposer;
+    import com.sulake.habbo.utils.HabboWebTools;
     import com.sulake.habbo.toolbar.events.HabboToolbarEvent;
     import com.sulake.habbo.toolbar.HabboToolbarIconEnum;
     import com.sulake.habbo.communication.messages.parser.roomsettings.ShowEnforceRoomCategoryDialogParser;
@@ -413,6 +414,14 @@
             this._navigator.data.homeRoomId = _local_2.homeRoomId;
             this._navigator.data._Str_17024 = true;
             this._navigator.mainViewCtrl.refresh();
+            if (((HabboWebTools.isAirDesktop) && (HabboWebTools.enterHomeRoomOnNextAirAuth)))
+            {
+                HabboWebTools.enterHomeRoomOnNextAirAuth = false;
+                if (this._navigator.goToHomeRoom())
+                {
+                    return;
+                }
+            }
             var _local_4:int = -1;
             var _local_5:int = -1;
             if (((_local_3) && (!(HabboComponentFlags.isRoomViewerMode(this._navigator.flags)))))

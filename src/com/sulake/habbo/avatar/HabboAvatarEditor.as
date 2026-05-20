@@ -13,6 +13,7 @@
     import com.sulake.habbo.avatar.head.HeadModel;
     import com.sulake.habbo.avatar.torso.TorsoModel;
     import com.sulake.habbo.avatar.legs.LegsModel;
+    import com.sulake.habbo.avatar.misc.MiscModel;
     import com.sulake.habbo.avatar.hotlooks.HotLooksModel;
     import com.sulake.habbo.avatar.effects.EffectsModel;
     import com.sulake.habbo.avatar.structure.figure.ISetType;
@@ -103,6 +104,28 @@
             this._categories = new Map();
             this._sideContents = new Map();
             this._sideContents.add(AvatarEditorSideCategory.WARDROBE, new WardrobeModel(this));
+            this._categories.add(AvatarEditorFigureCategory.GENERIC, new BodyModel(this));
+            this._categories.add(AvatarEditorFigureCategory.HEAD, new HeadModel(this));
+            this._categories.add(AvatarEditorFigureCategory.TORSO, new TorsoModel(this));
+            this._categories.add(AvatarEditorFigureCategory.LEGS, new LegsModel(this));
+            this._categories.add(AvatarEditorFigureCategory.MISC, new MiscModel(this));
+            if (((k == null) || (k.indexOf(AvatarEditorFigureCategory.HOTLOOKS) > -1)))
+            {
+                this._categories.add(AvatarEditorFigureCategory.HOTLOOKS, new HotLooksModel(this));
+            }
+            this._categories.add(AvatarEditorFigureCategory.EFFECTS, new EffectsModel(this));
+            if (k == null)
+            {
+                k = [AvatarEditorFigureCategory.GENERIC, AvatarEditorFigureCategory.HEAD, AvatarEditorFigureCategory.TORSO, AvatarEditorFigureCategory.LEGS, AvatarEditorFigureCategory.HOTLOOKS, AvatarEditorFigureCategory.WARDROBE];
+                if (this._manager.getBoolean("effects.in.avatar.editor"))
+                {
+                    k.push(AvatarEditorFigureCategory.EFFECTS);
+                }
+                if (this._manager.getBoolean("clothing.misc.tab.enabled"))
+                {
+                    k.push(AvatarEditorFigureCategory.MISC);
+                }
+            }
             this._view = new AvatarEditorView(this, k);
             this._figures = new Dictionary();
             this._figures[FigureData.M] = new FigureData(this);
@@ -111,15 +134,6 @@
             var _local_3:FigureData = this._figures[FigureData.F];
             _local_2.loadAvatarData(DEFAULT_MALE_FIGURE, FigureData.M);
             _local_3.loadAvatarData(DEFAULT_FEMALE_FIGURE, FigureData.F);
-            this._categories.add(AvatarEditorFigureCategory.GENERIC, new BodyModel(this));
-            this._categories.add(AvatarEditorFigureCategory.HEAD, new HeadModel(this));
-            this._categories.add(AvatarEditorFigureCategory.TORSO, new TorsoModel(this));
-            this._categories.add(AvatarEditorFigureCategory.LEGS, new LegsModel(this));
-            if (((k == null) || (k.indexOf(AvatarEditorFigureCategory.HOTLOOKS) > -1)))
-            {
-                this._categories.add(AvatarEditorFigureCategory.HOTLOOKS, new HotLooksModel(this));
-            }
-            this._categories.add(AvatarEditorFigureCategory.EFFECTS, new EffectsModel(this));
             this._isInitialized = true;
         }
 
