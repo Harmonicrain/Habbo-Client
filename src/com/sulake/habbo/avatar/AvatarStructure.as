@@ -3,6 +3,7 @@
     import com.sulake.core.runtime.events.EventDispatcherWrapper;
     import com.sulake.habbo.avatar.geometry.AvatarModelGeometry;
     import com.sulake.habbo.avatar.actions.AvatarActionManager;
+    import com.sulake.habbo.avatar.enum.GeometryType;
     import com.sulake.habbo.avatar.structure.FigureSetData;
     import com.sulake.habbo.avatar.structure.PartSetsData;
     import com.sulake.habbo.avatar.structure.AnimationData;
@@ -49,6 +50,7 @@
         private var _animationData:AnimationData;
         private var _animationManager:AnimationManager;
         private var _defaultAction:ActionDefinition;
+        private var _defaultLayAction:ActionDefinition;
         private var _mandatorySetTypeIds:Dictionary;
 
         public function AvatarStructure(k:AvatarRenderManager)
@@ -96,12 +98,14 @@
             }
             this._actionManager = new AvatarActionManager(k, _arg_2);
             this._defaultAction = this._actionManager.getDefaultAction();
+            this._defaultLayAction = this._actionManager.getDefaultLayAction();
         }
 
         public function updateActions(k:XML):void
         {
             this._actionManager.updateActions(k);
             this._defaultAction = this._actionManager.getDefaultAction();
+            this._defaultLayAction = this._actionManager.getDefaultLayAction();
         }
 
         public function initPartSets(k:XML):Boolean
@@ -467,7 +471,11 @@
                                     _local_34 = _arg_3.definition;
                                     if (_local_9.indexOf(_local_33.type) == -1)
                                     {
-                                        _local_34 = this._defaultAction;
+                                        _local_34 = ((_arg_3.definition.geometryType == GeometryType.HORIZONTAL) ? this._defaultLayAction : this._defaultAction);
+                                        if (_local_34 == null)
+                                        {
+                                            _local_34 = this._defaultAction;
+                                        }
                                     }
                                     _local_13 = this._partSetsData.getPartDefinition(_local_33.type);
                                     _local_35 = ((_local_13 == null) ? _local_33.type : _local_13._Str_1693);

@@ -6,6 +6,8 @@
          <part set-type="rhs" flipped-set-type="lhs"/>
 		 <part set-type="rs" swim="0" flipped-set-type="ls"/>
 		 <part set-type="rc" swim="0" flipped-set-type="lc"/>
+         <part set-type="mcr" flipped-set-type="mcl"/>
+         <part set-type="ptr" flipped-set-type="ptl"/>
          <part set-type="bd"/>
          <part set-type="bds"/>
          <part set-type="ss"/>
@@ -14,6 +16,8 @@
          <part set-type="ch"/>
          <part set-type="cp"/>
          <part set-type="cc"/>
+         <part set-type="pt"/>
+         <part set-type="mc"/>
          <part set-type="hd"/>
          <part set-type="fc"/>
          <part set-type="ey"/>
@@ -24,6 +28,8 @@
          <part set-type="lhs" flipped-set-type="rhs"/>
 		 <part set-type="ls" swim="0" flipped-set-type="rs"/>
 		 <part set-type="lc" swim="0" flipped-set-type="rc"/>
+         <part set-type="mcl" flipped-set-type="mcr"/>
+         <part set-type="ptl" flipped-set-type="ptr"/>
 		 <part set-type="wa" swim="0"/>
          <part set-type="ea"/>
          <part set-type="ca" swim="0"/>
@@ -38,6 +44,8 @@
          <activePart set-type="rhs"/>
 		 <activePart set-type="rs"/>
 		 <activePart set-type="rc"/>
+         <activePart set-type="mcr"/>
+         <activePart set-type="ptr"/>
          <activePart set-type="bd"/>
          <activePart set-type="bds"/>
          <activePart set-type="ss"/>
@@ -46,6 +54,8 @@
          <activePart set-type="ch"/>
          <activePart set-type="cp"/>
          <activePart set-type="cc"/>
+         <activePart set-type="pt"/>
+         <activePart set-type="mc"/>
          <activePart set-type="wa"/>
          <activePart set-type="hd"/>
          <activePart set-type="fc"/>
@@ -56,6 +66,8 @@
          <activePart set-type="lhs"/>
 		 <activePart set-type="ls"/>
 		 <activePart set-type="lc"/>
+         <activePart set-type="mcl"/>
+         <activePart set-type="ptl"/>
          <activePart set-type="ea"/>
          <activePart set-type="ca"/>
          <activePart set-type="fa"/>
@@ -98,6 +110,7 @@
         <activePart set-type="rhs"/>
 		<activePart set-type="rs"/>
 		<activePart set-type="rc"/>
+        <activePart set-type="mcr"/>
         <activePart set-type="ri"/>
     </activePartSet>
 
@@ -106,6 +119,7 @@
         <activePart set-type="rhs"/>
 		<activePart set-type="rs"/>
 		<activePart set-type="rc"/>
+        <activePart set-type="mcr"/>
         <activePart set-type="ri"/>
 		<activePart set-type="ey"/>
         <activePart set-type="fc"/>
@@ -117,7 +131,20 @@
         <activePart set-type="lhs"/>
 		<activePart set-type="ls"/>
 		<activePart set-type="lc"/>
+        <activePart set-type="mcl"/>
         <activePart set-type="li"/>
+    </activePartSet>
+
+    <activePartSet id="pet">
+        <activePart set-type="pt"/>
+        <activePart set-type="ptr"/>
+        <activePart set-type="ptl"/>
+    </activePartSet>
+
+    <activePartSet id="misc">
+        <activePart set-type="mc"/>
+        <activePart set-type="mcr"/>
+        <activePart set-type="mcl"/>
     </activePartSet>
 
     <activePartSet id="walk">
@@ -131,9 +158,23 @@
         <activePart set-type="rhs"/>
         <activePart set-type="ls"/>
 		<activePart set-type="lc"/>
+        <activePart set-type="mcl"/>
+        <activePart set-type="ptl"/>
         <activePart set-type="rs"/>
 		<activePart set-type="rc"/>
+        <activePart set-type="mcr"/>
+        <activePart set-type="ptr"/>
         <activePart set-type="sh"/>
+        <activePart set-type="cc"/>
+        <activePart set-type="pt"/>
+        <activePart set-type="ha"/>
+        <activePart set-type="he"/>
+        <activePart set-type="ca"/>
+        <activePart set-type="wa"/>
+        <activePart set-type="hr"/>
+        <activePart set-type="ea"/>
+        <activePart set-type="fa"/>
+        <activePart set-type="mc"/>
     </activePartSet>
 
     <activePartSet id="sit">
@@ -143,6 +184,10 @@
         <activePart set-type="lg"/>
         <activePart set-type="sh"/>
         <activePart set-type="cc"/>
+        <activePart set-type="pt"/>
+        <activePart set-type="ptr"/>
+        <activePart set-type="ptl"/>
+        <activePart set-type="mc"/>
     </activePartSet>
 
     <activePartSet id="itemRight">

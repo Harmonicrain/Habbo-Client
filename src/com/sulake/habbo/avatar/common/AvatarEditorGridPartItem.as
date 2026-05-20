@@ -47,6 +47,8 @@
             _Str_2983.push(AvatarFigurePartType.LEFT_HAND);
             _Str_2983.push(AvatarFigurePartType.LEFT_SLEEVE);
             _Str_2983.push(AvatarFigurePartType.LEFT_COAT_SLEEVE);
+            _Str_2983.push("mcl");
+            _Str_2983.push("ptl");
             _Str_2983.push(AvatarFigurePartType.BODY);
             _Str_2983.push(AvatarFigurePartType.SHOES);
             _Str_2983.push(AvatarFigurePartType.LEGS);
@@ -54,10 +56,14 @@
             _Str_2983.push(AvatarFigurePartType.CHEST_ACCESSORY);
             _Str_2983.push(AvatarFigurePartType.COAT_CHEST);
             _Str_2983.push(AvatarFigurePartType.CHEST_PRINT);
+            _Str_2983.push("mc");
+            _Str_2983.push("pt");
             _Str_2983.push(AvatarFigurePartType.WAIST_ACCESSORY);
             _Str_2983.push(AvatarFigurePartType.RIGHT_HAND);
             _Str_2983.push(AvatarFigurePartType.RIGHT_SLEEVE);
             _Str_2983.push(AvatarFigurePartType.RIGHT_COAT_SLEEVE);
+            _Str_2983.push("mcr");
+            _Str_2983.push("ptr");
             _Str_2983.push(AvatarFigurePartType.HEAD);
             _Str_2983.push(AvatarFigurePartType.FACE);
             _Str_2983.push(AvatarFigurePartType.EYES);

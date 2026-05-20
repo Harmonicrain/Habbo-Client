@@ -88,7 +88,19 @@
                         </static_bitmap>
                       </children>
                     </tab_container_button>
-                    <tab_container_button x="208" y="0" width="52" height="46" params="17" style="3" name="hotlooks">
+                    <tab_container_button x="208" y="0" width="52" height="46" params="17" style="3" name="misc">
+                      <children>
+                        <static_bitmap x="0" y="-4" width="52" height="42" params="16" style="3" name="bitmap" tags="BITMAP">
+                          <variables>
+                            <var key="asset_uri" value="avatar_editor_tabs_ae_tabs_misc" type="String"/>
+                            <var key="pivot_point" value="center" type="String"/>
+                            <var key="stretched_x" value="false" type="Boolean"/>
+                            <var key="stretched_y" value="false" type="Boolean"/>
+                          </variables>
+                        </static_bitmap>
+                      </children>
+                    </tab_container_button>
+                    <tab_container_button x="260" y="0" width="52" height="46" params="17" style="3" name="hotlooks">
                       <children>
                         <static_bitmap x="0" y="-7" width="52" height="42" params="16" style="3" name="bitmap" tags="BITMAP">
                           <variables>
@@ -100,7 +112,7 @@
                         </static_bitmap>
                       </children>
                     </tab_container_button>
-                    <tab_container_button x="260" y="0" width="52" height="46" params="17" style="3" name="effects">
+                    <tab_container_button x="312" y="0" width="52" height="46" params="17" style="3" name="effects">
                       <children>
                         <static_bitmap x="0" y="-5" width="52" height="42" params="16" style="3" name="bitmap" tags="BITMAP">
                           <variables>
@@ -367,6 +379,34 @@
                           </variables>
                         </text>
                         <region x="6" y="0" width="47" height="35" params="17" style="3" name="tab_effects" treshold="0"/>
+                      </children>
+                    </container>
+                    <container x="20" y="10" width="250" height="35" params="16" style="3" name="misc_content" visible="false">
+                      <children>
+                        <region x="6" y="0" width="47" height="35" params="17" style="3" name="tab_pets" treshold="0">
+                          <children>
+                            <static_bitmap x="0" y="0" width="47" height="35" params="16" style="3" name="tab_pets" tags="BITMAP">
+                              <variables>
+                                <var key="asset_uri" value="avatar_editor_tabs_icon_misc_pets_off" type="String"/>
+                                <var key="pivot_point" value="center" type="String"/>
+                                <var key="stretched_x" value="false" type="Boolean"/>
+                                <var key="stretched_y" value="false" type="Boolean"/>
+                              </variables>
+                            </static_bitmap>
+                          </children>
+                        </region>
+                        <region x="58" y="0" width="47" height="35" params="17" style="3" name="tab_misc" treshold="0">
+                          <children>
+                            <static_bitmap x="0" y="0" width="48" height="35" params="16" style="3" name="tab_misc" tags="BITMAP">
+                              <variables>
+                                <var key="asset_uri" value="avatar_editor_tabs_icon_misc_misc_off" type="String"/>
+                                <var key="pivot_point" value="center" type="String"/>
+                                <var key="stretched_x" value="false" type="Boolean"/>
+                                <var key="stretched_y" value="false" type="Boolean"/>
+                              </variables>
+                            </static_bitmap>
+                          </children>
+                        </region>
                       </children>
                     </container>
                   </children>

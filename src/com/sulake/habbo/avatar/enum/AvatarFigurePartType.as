@@ -16,6 +16,12 @@
         public static const HEAD_ACCESSORY_EXTRA:String = "he";
         public static const COAT_CHEST:String = "cc";
         public static const CHEST_PRINT:String = "cp";
+        public static const MISC:String = "mc";
+        public static const MISC_LEFT:String = "mcl";
+        public static const MISC_RIGHT:String = "mcr";
+        public static const PET:String = "pt";
+        public static const PET_LEFT:String = "ptl";
+        public static const PET_RIGHT:String = "ptr";
         public static const LEFT_HAND_ITEM:String = "li";
         public static const LEFT_HAND:String = "lh";
         public static const LEFT_SLEEVE:String = "ls";
@@ -27,6 +33,6 @@
         public static const RIGHT_HAND_ITEM:String = "ri";
         public static const LEFT_COAT_SLEEVE:String = "lc";
         public static const RIGHT_COAT_SLEEVE:String = "rc";
-        public static var FIGURE_SETS:Array = [SHOES, LEGS, CHEST, WAIST_ACCESSORY, CHEST_ACCESSORY, HEAD, HAIR, FACE_ACCESSORY, EYE_ACCESSORY, HEAD_ACCESSORY, HEAD_ACCESSORY_EXTRA, COAT_CHEST, CHEST_PRINT];
+        public static var FIGURE_SETS:Array = [SHOES, LEGS, CHEST, WAIST_ACCESSORY, CHEST_ACCESSORY, HEAD, HAIR, FACE_ACCESSORY, EYE_ACCESSORY, HEAD_ACCESSORY, HEAD_ACCESSORY_EXTRA, COAT_CHEST, CHEST_PRINT, PET, MISC];
     }
 }

@@ -32,7 +32,9 @@
 			<bodypart id="leftitem" />
             <bodypart id="rightitem" />
 			<bodypart id="leftarm" />
+			<bodypart id="petl" />
 			<bodypart id="rightarm" />
+			<bodypart id="petr" />
 		</avatarset>
 		<avatarset id="head">
 			<bodypart id="head" />
@@ -54,6 +56,8 @@
             <item id="cp"  x="0" y="0" z="0" radius="0.045" nx="0" ny="0" nz="-1" double="0" />
             <item id="wa"  x="0" y="0" z="0" radius="0.05"  nx="0" ny="0" nz="-1" double="0" />
 			<item id="cc"  x="0" y="0" z="0" radius="0.06"  nx="0" ny="0" nz="-1" double="0" />
+            <item id="mc"  x="0" y="0" z="0" radius="0.061"  nx="0" ny="0" nz="-1" double="0" />
+            <item id="pt"  x="0" y="0" z="0" radius="0.062"  nx="0" ny="0" nz="-1" double="0" />
             <item id="ca"  x="0" y="0" z="0" radius="0.07"  nx="0" ny="0" nz="-1" double="0" />
 		</bodypart>
 		<bodypart id="leftitem" x="0" y="0" z="-0.29" radius="0.3">
@@ -67,12 +71,20 @@
 			<item id="lhs" x="0" y="0" z="0" radius="0.01" nx="0" ny="0" nz="-1" double="0" />
 			<item id="ls"  x="0" y="0" z="0"  radius="0.02" nx="0" ny="0" nz="-1" double="0" />
 			<item id="lc"  x="0" y="0" z="0"  radius="0.025" nx="0" ny="0" nz="-1" double="0" />
+			<item id="mcl" x="0" y="0" z="0"  radius="0.026" nx="0" ny="0" nz="-1" double="0" />
+		</bodypart>
+		<bodypart id="petl" x="-1" y="0" z="-0.51" radius="0.5" order-before="leftarm">
+			<item id="ptl" x="0" y="0" z="0"  radius="0.027" nx="0" ny="0" nz="-1" double="0" />
 		</bodypart>
 		<bodypart id="rightarm" x="1" y="0" z="-0.51" radius="0.5">
 			<item id="rh" x="0" y="0" z="0" radius="0.01" nx="0" ny="0" nz="-1" double="0" />
 			<item id="rhs" x="0" y="0" z="0" radius="0.01" nx="0" ny="0" nz="-1" double="0" />
 			<item id="rs" x="0" y="0" z="0" radius="0.02" nx="0" ny="0" nz="-1" double="0" />
 			<item id="rc" x="0" y="0" z="0" radius="0.025" nx="0" ny="0" nz="-1" double="0" />
+			<item id="mcr" x="0" y="0" z="0" radius="0.026" nx="0" ny="0" nz="-1" double="0" />
+		</bodypart>
+		<bodypart id="petr" x="1" y="0" z="-0.51" radius="0.5" order-before="rightarm">
+			<item id="ptr" x="0" y="0" z="0" radius="0.027" nx="0" ny="0" nz="-1" double="0" />
 		</bodypart>
 		<bodypart id="head" x="0" y="0" z="0" radius="0.5">
 			<item id="hd"  x="0" y="0" z="0" radius="0.01" nx="0" ny="0" nz="-1" double="1" />
@@ -102,6 +114,8 @@
             <item id="cp" x="0" y="0" z="0"  radius="0.045" nx="0" ny="0" nz="-1" double="0" />
             <item id="wa" x="0" y="0" z="0"  radius="0.05"  nx="0" ny="0" nz="-1" double="0" />
             <item id="cc" x="0" y="0" z="0"  radius="0.06"  nx="0" ny="0" nz="-1" double="0" />
+            <item id="mc" x="0" y="0" z="0"  radius="0.061"  nx="0" ny="0" nz="-1" double="0" />
+            <item id="pt" x="0" y="0" z="0"  radius="0.062"  nx="0" ny="0" nz="-1" double="0" />
             <item id="ca" x="0" y="0" z="0"  radius="0.07"  nx="0" ny="0" nz="-1" double="0" />
         </bodypart>
         <bodypart id="leftitem" x="0" y="0" z="-0.29" radius="0.3">
@@ -115,13 +129,21 @@
             <item id="lhs" x="0" y="0" z="0" radius="0.01" nx="0" ny="0" nz="-1" double="0" />
             <item id="ls"  x="0" y="0" z="0"  radius="0.02" nx="0" ny="0" nz="-1" double="0" />
             <item id="lc"  x="0" y="0" z="0"  radius="0.025" nx="0" ny="0" nz="-1" double="0" />
+            <item id="mcl" x="0" y="0" z="0"  radius="0.026" nx="0" ny="0" nz="-1" double="0" />
         </bodypart>
+		<bodypart id="petl" x="-1" y="0" z="-0.51" radius="0.5" order-before="leftarm">
+			<item id="ptl"  x="0" y="0" z="0"  radius="0.027" nx="0" ny="0" nz="-1" double="0" />
+		</bodypart>
         <bodypart id="rightarm" x="1" y="0" z="-0.51" radius="0.5">
             <item id="rh" x="0" y="0" z="0" radius="0.01" nx="0" ny="0" nz="-1" double="0" />
             <item id="rhs" x="0" y="0" z="0" radius="0.01" nx="0" ny="0" nz="-1" double="0" />
             <item id="rs" x="0" y="0" z="0" radius="0.02" nx="0" ny="0" nz="-1" double="0" />
             <item id="rc" x="0" y="0" z="0" radius="0.025" nx="0" ny="0" nz="-1" double="0" />
+            <item id="mcr" x="0" y="0" z="0" radius="0.026" nx="0" ny="0" nz="-1" double="0" />
         </bodypart>
+		<bodypart id="petr" x="1" y="0" z="-0.51" radius="0.5" order-before="rightarm">
+			<item id="ptr" x="0" y="0" z="0" radius="0.027" nx="0" ny="0" nz="-1" double="0" />
+		</bodypart>
         <bodypart id="head" x="0" y="0" z="0" radius="0.5">
             <item id="hd"  x="0" y="0" z="0" radius="0.01" nx="0" ny="0" nz="-1" double="1" />
             <item id="fc"  x="0" y="0" z="0" radius="0.02" nx="0" ny="0" nz="-1" double="0" />
@@ -148,6 +170,8 @@
 			<item id="ss"  x="0" y="0" z="0" radius="0.03"  nx="0" ny="0" nz="-1" double="0" />
 			<item id="wa"  x="0" y="0" z="0" radius="0.05"  nx="0" ny="0" nz="-1" double="0" />
 			<item id="cc"  x="0" y="0" z="0" radius="0.06"  nx="0" ny="0" nz="-1" double="0" />
+            <item id="mc"  x="0" y="0" z="0" radius="0.061"  nx="0" ny="0" nz="-1" double="0" />
+            <item id="pt"  x="0" y="0" z="0" radius="0.062"  nx="0" ny="0" nz="-1" double="0" />
             <item id="ca"  x="0" y="0" z="0" radius="0.07"  nx="0" ny="0" nz="-1" double="0" />
 		</bodypart>
 		<bodypart id="leftitem" x="0" y="0" z="-0.29" radius="0.3">
@@ -161,12 +185,20 @@
 			<item id="lhs" x="0" y="0" z="0" radius="0.01" nx="0" ny="0" nz="-1" double="0" />
 			<item id="ls" x="0" y="0" z="0" radius="0.02" nx="0" ny="0" nz="-1" double="0" />
 			<item id="lc" x="0" y="0" z="0" radius="0.025" nx="0" ny="0" nz="-1" double="0" />
+			<item id="mcl" x="0" y="0" z="0" radius="0.026" nx="0" ny="0" nz="-1" double="0" />
+		</bodypart>
+		<bodypart id="petl" x="-1" y="0" z="0" radius="0.6" order-before="leftarm">
+			<item id="ptl" x="0" y="0" z="0" radius="0.027" nx="0" ny="0" nz="-1" double="0" />
 		</bodypart>
 		<bodypart id="rightarm" x="1" y="0" z="0" radius="0.6">
 			<item id="rh" x="0" y="0" z="0" radius="0.01" nx="0" ny="0" nz="-1" double="0" />
 			<item id="rhs" x="0" y="0" z="0" radius="0.01" nx="0" ny="0" nz="-1" double="0" />
 			<item id="rs" x="0" y="0" z="0" radius="0.02" nx="0" ny="0" nz="-1" double="0" />
 			<item id="rc" x="0" y="0" z="0" radius="0.025" nx="0" ny="0" nz="-1" double="0" />
+			<item id="mcr" x="0" y="0" z="0" radius="0.026" nx="0" ny="0" nz="-1" double="0" />
+		</bodypart>
+		<bodypart id="petr" x="1" y="0" z="0" radius="0.6" order-before="rightarm">
+			<item id="ptr" x="0" y="0" z="0" radius="0.027" nx="0" ny="0" nz="-1" double="0" />
 		</bodypart>
 		<bodypart id="head" x="0" y="0" z="0" radius="0.5">
 			<item id="hd"  x="0" y="0" z="0" radius="0.01" nx="0" ny="0" nz="-1" double="1" />
@@ -193,6 +225,8 @@
 			<item id="ss"  x="0" y="0" z="0" radius="0.03"  nx="0" ny="0" nz="-1" double="0" />
 			<item id="wa"  x="0" y="0" z="0" radius="0.05"  nx="0" ny="0" nz="-1" double="0" />
 			<item id="cc"  x="0" y="0" z="0" radius="0.06"  nx="0" ny="0" nz="-1" double="0" />
+			<item id="mc"  x="0" y="0" z="0" radius="0.061"  nx="0" ny="0" nz="-1" double="0" />
+            <item id="pt"  x="0" y="0" z="0" radius="0.062"  nx="0" ny="0" nz="-1" double="0" />
             <item id="ca"  x="0" y="0" z="0" radius="0.07"  nx="0" ny="0" nz="-1" double="0" />
 		</bodypart>
 		<bodypart id="leftitem" x="0" y="0" z="-0.29" radius="0.3">
@@ -206,12 +240,20 @@
 			<item id="lhs" x="0" y="0" z="0" radius="0.01" nx="0" ny="0" nz="-1" double="0" />
 			<item id="ls" x="0" y="0" z="0" radius="0.02" nx="0" ny="0" nz="-1" double="0" />
 			<item id="lc" x="0" y="0" z="0" radius="0.025" nx="0" ny="0" nz="-1" double="0" />
+			<item id="mcl" x="0" y="0" z="0" radius="0.026" nx="0" ny="0" nz="-1" double="0" />
+		</bodypart>
+		<bodypart id="petl" x="-1" y="0" z="0" radius="0.6" order-before="leftarm">
+			<item id="ptl" x="0" y="0" z="0" radius="0.027" nx="0" ny="0" nz="-1" double="0" />
 		</bodypart>
 		<bodypart id="rightarm" x="1" y="0" z="0" radius="0.6">
 			<item id="rh" x="0" y="0" z="0" radius="0.01" nx="0" ny="0" nz="-1" double="0" />
 			<item id="rhs" x="0" y="0" z="0" radius="0.01" nx="0" ny="0" nz="-1" double="0" />
 			<item id="rs" x="0" y="0" z="0" radius="0.02" nx="0" ny="0" nz="-1" double="0" />
 			<item id="rc" x="0" y="0" z="0" radius="0.025" nx="0" ny="0" nz="-1" double="0" />
+			<item id="mcr" x="0" y="0" z="0" radius="0.026" nx="0" ny="0" nz="-1" double="0" />
+		</bodypart>
+		<bodypart id="petr" x="1" y="0" z="0" radius="0.6" order-before="rightarm">
+			<item id="ptr" x="0" y="0" z="0" radius="0.027" nx="0" ny="0" nz="-1" double="0" />
 		</bodypart>
 		<bodypart id="head" x="0" y="0" z="0" radius="0.5">
 			<item id="hd"  x="0" y="0" z="0" radius="0.01" nx="0" ny="0" nz="-1" double="1" />

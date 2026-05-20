@@ -147,9 +147,22 @@
 
         public function set guestRoomSearchResults(k:GuestRoomSearchResultData):void
         {
+            var _local_2:OfficialRoomEntryData = this._adRoomData;
+            var _local_3:GuestRoomSearchResultData = this._lastMsg as GuestRoomSearchResultData;
+            if (((!(_local_3 == null)) && (_local_3.ad == this._adRoomData)))
+            {
+                _local_2 = _local_3.releaseAd();
+            }
             this._Str_12759();
             this._lastMsg = k;
-            this._adRoomData = k.ad;
+            if (k.ad != null)
+            {
+                this._adRoomData = k.ad;
+            }
+            else
+            {
+                this._adRoomData = _local_2;
+            }
             this._loading = false;
         }
 

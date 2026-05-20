@@ -8,6 +8,7 @@
         private var _assets:IAssetLibrary;
         private var _actions:Dictionary;
         private var _defaultAction:ActionDefinition;
+        private var _defaultLayAction:ActionDefinition;
 
         public function AvatarActionManager(k:IAssetLibrary, _arg_2:XML)
         {
@@ -21,6 +22,8 @@
             var _local_2:XML;
             var _local_3:String;
             var _local_4:ActionDefinition;
+            this._defaultAction = null;
+            this._defaultLayAction = null;
             for each (_local_2 in k.action)
             {
                 _local_3 = String(_local_2.@state);
@@ -98,6 +101,19 @@
                 }
             }
             return null;
+        }
+
+        public function getDefaultLayAction():ActionDefinition
+        {
+            if (this._defaultLayAction)
+            {
+                return this._defaultLayAction;
+            }
+            this._defaultLayAction = this.getDefaultAction().copy();
+            this._defaultLayAction.setGeometryType("horizontal");
+            this._defaultLayAction.setState("lay");
+            this._defaultLayAction.setAssetPartDefinition("lay");
+            return this._defaultLayAction;
         }
 
         public function _Str_781(k:Array, _arg_2:String, _arg_3:int):Array

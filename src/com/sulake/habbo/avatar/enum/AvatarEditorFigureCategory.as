@@ -3,6 +3,7 @@
     public class AvatarEditorFigureCategory 
     {
         public static const GENERIC:String = "generic";
+        public static const MISC:String = "misc";
         public static const HEAD:String = "head";
         public static const TORSO:String = "torso";
         public static const LEGS:String = "legs";

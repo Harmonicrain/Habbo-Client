@@ -320,6 +320,7 @@
 			<asset mimeType="image/png" name="avatar_editor_tabs_ae_tabs_head" />
 			<asset mimeType="image/png" name="avatar_editor_tabs_ae_tabs_hotlooks" />
 			<asset mimeType="image/png" name="avatar_editor_tabs_ae_tabs_legs" />
+			<asset mimeType="image/png" name="avatar_editor_tabs_ae_tabs_misc" />
 			<asset mimeType="image/png" name="avatar_editor_tabs_ae_tabs_torso" />
 			<asset mimeType="image/png" name="avatar_editor_tabs_ae_tabs_wardrobe" />
 			<asset mimeType="image/png" name="avatar_editor_tabs_bottom_accessories" />
@@ -343,6 +344,8 @@
 			<asset mimeType="image/png" name="avatar_editor_tabs_head_hair_on" />
 			<asset mimeType="image/png" name="avatar_editor_tabs_head_hats" />
 			<asset mimeType="image/png" name="avatar_editor_tabs_head_hats_on" />
+			<asset mimeType="image/png" name="avatar_editor_tabs_icon_misc_misc_off" />
+			<asset mimeType="image/png" name="avatar_editor_tabs_icon_misc_pets_off" />
 			<asset mimeType="image/png" name="avatar_editor_tabs_top_accessories" />
 			<asset mimeType="image/png" name="avatar_editor_tabs_top_accessories_on" />
 			<asset mimeType="image/png" name="avatar_editor_tabs_top_jacket" />

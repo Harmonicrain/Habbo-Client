@@ -238,9 +238,9 @@
             }
             if (((this._Str_1163.length == 1) && (this._Str_1668 == this._Str_1374)))
             {
-                if (this._Str_1708 == "std")
+                if (((this._currentActionsStr == "std") || (this._currentActionsStr == "lay")) || (this._currentActionsStr == "sit"))
                 {
-                    return this._Str_1668 + this._currentActionsStr;
+                    return (this._Str_1668 + this._currentActionsStr) + (this._frameCounter % 8);
                 }
                 return (this._Str_1668 + this._currentActionsStr) + (this._frameCounter % 4);
             }
