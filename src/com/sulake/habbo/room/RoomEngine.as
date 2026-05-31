@@ -150,6 +150,7 @@
     import com.sulake.habbo.communication.messages.outgoing.camera.RenderRoomThumbnailMessageComposer;
     import com.sulake.habbo.communication.messages.outgoing.camera.RenderRoomMessageComposer;
     import com.sulake.core.communication.messages.IMessageComposer;
+    import com.sulake.habbo.utils.StringUtil;
     import __AS3__.vec.*;
     import com.sulake.iid.*;
     import com.sulake.room.object.*;
@@ -205,6 +206,7 @@
         private var _cameraCentered:Boolean = false;
         private var _roomDatas:Map = null;
         private var _roomInstanceDatas:Map = null;
+        private var _pendingPublicRoomInit:Object = {};
         private var _skipFurnitureCreationForNextFrame:Boolean = false;
         private var _mouseCursorUpdate:Boolean;
         private var _badgeListenerObjects:Map = null;
@@ -502,12 +504,51 @@
             return null;
         }
 
-        public function setWorldType(k:int, _arg_2:String):void
+        public function loadRoomResources(k:String):Array
+        {
+            var _local_2:Array;
+            var _local_3:String;
+            var _local_4:Array = [];
+            var _local_5:int;
+            var _local_7:String;
+            if (((this._roomContentLoader == null) || (this._roomManager == null) || (k == null) || (k.length == 0)))
+            {
+                return _local_4;
+            }
+            _local_2 = k.split(",");
+            while (_local_5 < _local_2.length)
+            {
+                _local_3 = StringUtil.trim(_local_2[_local_5]);
+                if (_local_3.length > 0)
+                {
+                    _local_4.push(_local_3);
+                }
+                _local_5++;
+            }
+            if (_local_4.length > 0)
+            {
+                _local_7 = _local_4[0];
+                _local_5 = 1;
+                while (_local_5 < _local_4.length)
+                {
+                    _local_7 = ((_local_7 + ",") + _local_4[_local_5]);
+                    _local_5++;
+                }
+                if (this._roomContentLoader.loadObjectContent(_local_7, events))
+                {
+                    return [_local_4[0]];
+                }
+            }
+            return [];
+        }
+
+        public function setWorldType(k:int, _arg_2:String, _arg_3:Boolean=false):void
         {
             var _local_3:RoomInstanceData = this.getRoomInstanceData(k);
             if (_local_3 != null)
             {
                 _local_3._Str_17166 = _arg_2;
+                _local_3.isPublic = _arg_3;
             }
         }
 
@@ -519,6 +560,21 @@
                 return _local_2._Str_17166;
             }
             return null;
+        }
+
+        public function getPublicRoomContentType(k:String):String
+        {
+            if (this._roomContentLoader != null)
+            {
+                return this._roomContentLoader.getPublicRoomContentType(k);
+            }
+            return k;
+        }
+
+        public function isPublicRoom(k:int):Boolean
+        {
+            var _local_2:RoomInstanceData = this.getRoomInstanceData(k);
+            return (((_local_2 != null) && (_local_2.isPublic)));
         }
 
         public function getLegacyGeometry(k:int):LegacyWallGeometry
@@ -1364,7 +1420,7 @@
                     _local_7 = _local_4.landscapeType;
                 }
             }
-            var _local_8:IRoomInstance = this.createRoom(_local_3, _arg_2, _local_5, _local_6, _local_7, this.getWorldType(k));
+            var _local_8:IRoomInstance = this.createRoom(_local_3, _arg_2, _local_5, _local_6, _local_7, this.getWorldType(k), this.isPublicRoom(k));
             if (_local_8 == null)
             {
                 return;
@@ -1372,7 +1428,7 @@
             events.dispatchEvent(new RoomEngineEvent(RoomEngineEvent.INITIALIZED, k));
         }
 
-        private function createRoom(k:String, _arg_2:XML, _arg_3:String, _arg_4:String, _arg_5:String, _arg_6:String):IRoomInstance
+        private function createRoom(k:String, _arg_2:XML, _arg_3:String, _arg_4:String, _arg_5:String, _arg_6:String, _arg_7:Boolean=false):IRoomInstance
         {
             var _local_11:int;
             var _local_12:XML;
@@ -1393,6 +1449,9 @@
             var _local_27:String;
             var _local_28:String;
             var _local_29:Vector3d;
+            var _local_30:Boolean;
+            var _local_31:String;
+            var _local_32:int;
             if (!this._roomManagerInitialized)
             {
                 return null;
@@ -1405,8 +1464,20 @@
             var _local_8:int = RoomObjectCategoryEnum.OBJECT_CATEGORY_ROOM;
             var _local_9:IRoomObjectController;
             var _local_10:Number = 1;
-            _local_9 = (_local_7.createRoomObject(OBJECT_ID_ROOM, ROOM, _local_8) as IRoomObjectController);
-            _local_7.setNumber(RoomVariableEnum.ROOM_IS_PUBLIC, 0, true);
+            _local_30 = (((_arg_7) && (!(_arg_6 == null))) && (_arg_6.length > 0));
+            _local_31 = ((_local_30) ? this.getPublicRoomContentType(_arg_6) : ROOM);
+            _local_9 = (_local_7.createRoomObject(OBJECT_ID_ROOM, _local_31, _local_8) as IRoomObjectController);
+            _local_7.setNumber(RoomVariableEnum.ROOM_IS_PUBLIC, ((_local_30) ? 1 : 0), true);
+            if ((((_local_30) && (!(_local_9 == null))) && (!(_local_9.getModelController() == null))))
+            {
+                _local_9.getModelController().setString(RoomObjectVariableEnum.ROOM_WORLD_TYPE, _arg_6, true);
+                if (this._roomContentLoader != null)
+                {
+                    _local_10 = Number(this._roomContentLoader.getPublicRoomWorldHeightScale(_arg_6));
+                }
+                _local_32 = parseInt((propertyExists("ads.billboard.displayDelayMillis") ? getProperty("ads.billboard.displayDelayMillis") : "1000"));
+                _local_9.getModelController().setNumber(RoomVariableEnum.AD_DISPLAY_DELAY, _local_32, true);
+            }
             _local_7.setNumber(RoomVariableEnum.ROOM_Z_SCALE, _local_10, true);
             if (_arg_2 != null)
             {
@@ -1429,69 +1500,11 @@
                     }
                 }
             }
-            if (((!(_local_9 == null)) && (!(_local_9.getEventHandler() == null))))
+            if (!this.applyRoomObjectProperties(this.getRoomId(k), _arg_2, _arg_3, _arg_4, _arg_5))
             {
-                _local_9.getEventHandler().initialize(_arg_2);
-                _local_17 = null;
-                if (_arg_3 != null)
+                if (_local_30)
                 {
-                    _local_17 = new RoomObjectRoomUpdateMessage(RoomObjectRoomUpdateMessage.RORUM_ROOM_FLOOR_UPDATE, _arg_3);
-                    _local_9.getEventHandler().processUpdateMessage(_local_17);
-                    _local_7.setString(RoomObjectVariableEnum.ROOM_FLOOR_TYPE, _arg_3);
-                }
-                if (_arg_4 != null)
-                {
-                    _local_17 = new RoomObjectRoomUpdateMessage(RoomObjectRoomUpdateMessage.RORUM_ROOM_WALL_UPDATE, _arg_4);
-                    _local_9.getEventHandler().processUpdateMessage(_local_17);
-                    _local_7.setString(RoomObjectVariableEnum.ROOM_WALL_TYPE, _arg_4);
-                }
-                if (_arg_5 != null)
-                {
-                    _local_17 = new RoomObjectRoomUpdateMessage(RoomObjectRoomUpdateMessage.RORUM_ROOM_LANDSCAPE_UPDATE, _arg_5);
-                    _local_9.getEventHandler().processUpdateMessage(_local_17);
-                    _local_7.setString(RoomObjectVariableEnum.ROOM_LANDSCAPE_TYPE, _arg_5);
-                }
-                if (_arg_2 != null)
-                {
-                    if (_arg_2.doors.door.length() > 0)
-                    {
-                        _local_18 = _arg_2.doors.door;
-                        _local_19 = ["x", "y", "z", "dir"];
-                        _local_20 = null;
-                        _local_21 = 0;
-                        while (_local_21 < _local_18.length())
-                        {
-                            _local_22 = _local_18[_local_21];
-                            if (XMLValidator.checkRequiredAttributes(_local_22, _local_19))
-                            {
-                                _local_23 = Number(_local_22.@x);
-                                _local_24 = Number(_local_22.@y);
-                                _local_25 = Number(_local_22.@z);
-                                _local_26 = Number(_local_22.@dir);
-                                _local_27 = RoomObjectRoomMaskUpdateMessage.DOOR;
-                                _local_28 = ("door_" + _local_21);
-                                _local_29 = new Vector3d(_local_23, _local_24, _local_25);
-                                _local_20 = new RoomObjectRoomMaskUpdateMessage(RoomObjectRoomMaskUpdateMessage.RORMUM_ADD_MASK, _local_28, _local_27, _local_29, RoomObjectRoomMaskUpdateMessage.HOLE);
-                                _local_9.getEventHandler().processUpdateMessage(_local_20);
-                                if (((_local_26 == 90) || (_local_26 == 180)))
-                                {
-                                    if (_local_26 == 90)
-                                    {
-                                        _local_7.setNumber(RoomObjectVariableEnum.ROOM_DOOR_X, (_local_23 - 0.5), true);
-                                        _local_7.setNumber(RoomObjectVariableEnum.ROOM_DOOR_Y, _local_24, true);
-                                    }
-                                    if (_local_26 == 180)
-                                    {
-                                        _local_7.setNumber(RoomObjectVariableEnum.ROOM_DOOR_X, _local_23, true);
-                                        _local_7.setNumber(RoomObjectVariableEnum.ROOM_DOOR_Y, (_local_24 - 0.5), true);
-                                    }
-                                    _local_7.setNumber(RoomObjectVariableEnum.ROOM_DOOR_Z, _local_25, true);
-                                    _local_7.setNumber(RoomObjectVariableEnum.ROOM_DOOR_DIR, _local_26, true);
-                                }
-                            }
-                            _local_21++;
-                        }
-                    }
+                    this._pendingPublicRoomInit[_local_31] = {"roomId":this.getRoomId(k), "xml":_arg_2, "floor":_arg_3, "wall":_arg_4, "landscape":_arg_5};
                 }
             }
             _local_7.createRoomObject(OBJECT_ID_ROOM_HIGHLIGHTER, TILE_CURSOR, RoomObjectCategoryEnum.OBJECT_CATEGORY_CURSOR);
@@ -1500,6 +1513,90 @@
                 _local_7.createRoomObject(OBJECT_ID_SELECTION_ARROW, SELECTION_ARROW, RoomObjectCategoryEnum.OBJECT_CATEGORY_CURSOR);
             }
             return _local_7;
+        }
+
+        private function applyRoomObjectProperties(k:int, _arg_2:XML, _arg_3:String, _arg_4:String, _arg_5:String):Boolean
+        {
+            var _local_6:RoomObjectRoomUpdateMessage;
+            var _local_7:XMLList;
+            var _local_8:Array;
+            var _local_9:RoomObjectRoomMaskUpdateMessage;
+            var _local_10:int;
+            var _local_11:XML;
+            var _local_12:Number;
+            var _local_13:Number;
+            var _local_14:Number;
+            var _local_15:Number;
+            var _local_16:String;
+            var _local_17:String;
+            var _local_18:Vector3d;
+            var _local_19:IRoomInstance = this._roomManager.getRoom(this.getRoomIdentifier(k));
+            var _local_20:IRoomObjectController = this.getObjectRoom(k);
+            if (((_local_19 == null) || (_local_20 == null) || (_local_20.getEventHandler() == null)))
+            {
+                return false;
+            }
+            _local_20.getEventHandler().initialize(_arg_2);
+            if (_arg_3 != null)
+            {
+                _local_6 = new RoomObjectRoomUpdateMessage(RoomObjectRoomUpdateMessage.RORUM_ROOM_FLOOR_UPDATE, _arg_3);
+                _local_20.getEventHandler().processUpdateMessage(_local_6);
+                _local_19.setString(RoomObjectVariableEnum.ROOM_FLOOR_TYPE, _arg_3);
+            }
+            if (_arg_4 != null)
+            {
+                _local_6 = new RoomObjectRoomUpdateMessage(RoomObjectRoomUpdateMessage.RORUM_ROOM_WALL_UPDATE, _arg_4);
+                _local_20.getEventHandler().processUpdateMessage(_local_6);
+                _local_19.setString(RoomObjectVariableEnum.ROOM_WALL_TYPE, _arg_4);
+            }
+            if (_arg_5 != null)
+            {
+                _local_6 = new RoomObjectRoomUpdateMessage(RoomObjectRoomUpdateMessage.RORUM_ROOM_LANDSCAPE_UPDATE, _arg_5);
+                _local_20.getEventHandler().processUpdateMessage(_local_6);
+                _local_19.setString(RoomObjectVariableEnum.ROOM_LANDSCAPE_TYPE, _arg_5);
+            }
+            if (_arg_2 != null)
+            {
+                if (_arg_2.doors.door.length() > 0)
+                {
+                    _local_7 = _arg_2.doors.door;
+                    _local_8 = ["x", "y", "z", "dir"];
+                    _local_10 = 0;
+                    while (_local_10 < _local_7.length())
+                    {
+                        _local_11 = _local_7[_local_10];
+                        if (XMLValidator.checkRequiredAttributes(_local_11, _local_8))
+                        {
+                            _local_12 = Number(_local_11.@x);
+                            _local_13 = Number(_local_11.@y);
+                            _local_14 = Number(_local_11.@z);
+                            _local_15 = Number(_local_11.@dir);
+                            _local_16 = RoomObjectRoomMaskUpdateMessage.DOOR;
+                            _local_17 = ("door_" + _local_10);
+                            _local_18 = new Vector3d(_local_12, _local_13, _local_14);
+                            _local_9 = new RoomObjectRoomMaskUpdateMessage(RoomObjectRoomMaskUpdateMessage.RORMUM_ADD_MASK, _local_17, _local_16, _local_18, RoomObjectRoomMaskUpdateMessage.HOLE);
+                            _local_20.getEventHandler().processUpdateMessage(_local_9);
+                            if (((_local_15 == 90) || (_local_15 == 180)))
+                            {
+                                if (_local_15 == 90)
+                                {
+                                    _local_19.setNumber(RoomObjectVariableEnum.ROOM_DOOR_X, (_local_12 - 0.5), true);
+                                    _local_19.setNumber(RoomObjectVariableEnum.ROOM_DOOR_Y, _local_13, true);
+                                }
+                                if (_local_15 == 180)
+                                {
+                                    _local_19.setNumber(RoomObjectVariableEnum.ROOM_DOOR_X, _local_12, true);
+                                    _local_19.setNumber(RoomObjectVariableEnum.ROOM_DOOR_Y, (_local_13 - 0.5), true);
+                                }
+                                _local_19.setNumber(RoomObjectVariableEnum.ROOM_DOOR_Z, _local_14, true);
+                                _local_19.setNumber(RoomObjectVariableEnum.ROOM_DOOR_DIR, _local_15, true);
+                            }
+                        }
+                        _local_10++;
+                    }
+                }
+            }
+            return true;
         }
 
         public function getObjectRoom(k:int):IRoomObjectController
@@ -1680,7 +1777,12 @@
             }
             _local_8.roomObjectVariableAccurateZ = RoomObjectVariableEnum.OBJECT_ACCURATE_Z_VALUE;
             _local_7.setRenderer(_local_8);
-            var _local_9:IRoomRenderingCanvas = _local_8.createCanvas(_arg_2, _arg_3, _arg_4, _arg_5);
+            var _local_18:int = _arg_5;
+            if (_local_7.getNumber(RoomVariableEnum.ROOM_IS_PUBLIC) == 1)
+            {
+                _local_18 = RoomGeometry.SCALE_ZOOMED_OUT;
+            }
+            var _local_9:IRoomRenderingCanvas = _local_8.createCanvas(_arg_2, _arg_3, _arg_4, _local_18);
             if (_local_9 == null)
             {
                 return null;
@@ -2581,6 +2683,15 @@
             var _local_11:FurnitureData;
             var _local_9:String = this.getWorldType(k);
             var _local_10:RoomInstanceData = this.getRoomInstanceData(k);
+            var _local_12:String;
+            if (((this.isPublicRoom(k)) && (!(_local_9 == null)) && (!(_arg_3 == null))))
+            {
+                _local_12 = this.getPublicRoomContentType(_local_9);
+                if (((!(_local_12 == null)) && (_local_12.length > 0) && (!(_arg_3.indexOf((_local_12 + "_")) == 0))))
+                {
+                    _arg_3 = ((_local_12 + "_") + _arg_3);
+                }
+            }
             if (_local_10 != null)
             {
                 _local_11 = new FurnitureData(_arg_2, 0, _arg_3, _arg_4, _arg_5, _arg_6, _arg_7, _arg_8, 0);
@@ -3943,6 +4054,19 @@
             var _local_12:IRoomObjectSpriteVisualization;
             var _local_13:IGetImageListener;
             var _local_14:Number;
+            var _local_15:Object;
+            if (((this._pendingPublicRoomInit[k] != null) && (_arg_2)))
+            {
+                _local_15 = this._pendingPublicRoomInit[k];
+                delete this._pendingPublicRoomInit[k];
+                if (this.applyRoomObjectProperties(int(_local_15.roomId), (_local_15.xml as XML), (_local_15.floor as String), (_local_15.wall as String), (_local_15.landscape as String)))
+                {
+                    if (events != null)
+                    {
+                        events.dispatchEvent(new RoomEngineEvent(RoomEngineEvent.INITIALIZED, int(_local_15.roomId)));
+                    }
+                }
+            }
             var _local_3:IRoomInstance = this._roomManager.getRoom(TEMPORARY_ROOM);
             if (_local_3 == null)
             {

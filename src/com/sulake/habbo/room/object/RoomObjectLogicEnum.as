@@ -65,6 +65,7 @@
         public static const FURNITURE_EDITABLE_ROOM_LINK:String = "furniture_editable_room_link";
         public static const FURNITURE_CRAFTING_GIZMO:String = "furniture_crafting_gizmo";
         public static const ROOM:String = "room";
+        public static const PUBLIC_ROOM:String = "room_public";
         public static const USER:String = "user";
         public static const BOT:String = "bot";
         public static const RENTABLE_BOT:String = "rentable_bot";

@@ -27,7 +27,7 @@
     import com.sulake.habbo.room.events.RoomObjectWallMouseEvent;
     import com.sulake.room.utils.IRoomGeometry;
 
-    public class RoomLogic extends ObjectLogicBase 
+    public class RoomLogic extends ObjectLogicBase
     {
         protected var _Str_2550:RoomPlaneParser = null;
         private var _roomPlaneBitmapMaskParser:RoomPlaneBitmapMaskParser = null;

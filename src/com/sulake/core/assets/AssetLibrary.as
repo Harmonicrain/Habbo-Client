@@ -480,6 +480,10 @@
             }
             if (this._prepareAssets)
             {
+                if (((this._resource != null) && (!(this._resource[name] == null))))
+                {
+                    return this.fetchAssetFromResource(name);
+                }
                 return null;
             }
             return this.fetchAssetFromResource(name);
@@ -784,7 +788,6 @@
 
         private function fetchAssetFromResource(name:String):IAsset
         {
-            var _local_8:uint;
             if (!this._resource)
             {
                 return null;
@@ -807,8 +810,7 @@
                 {
                     for (var i:int; i < manifest.length(); i++)
                     {
-                        
-            			var xml:XML = manifest[_local_8];
+                        var xml:XML = manifest[i];
                         if (((xml.attribute(NAME)) && (xml.attribute(NAME).toString() == name)))
                         {
                             var typeDeclaration:AssetTypeDeclaration = this.getAssetTypeDeclarationByMimeType(xml.attribute(TYPE));

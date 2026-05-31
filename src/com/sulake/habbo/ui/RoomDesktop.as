@@ -688,7 +688,7 @@
         {
             if (((!(this._roomEngine == null)) && (!(this._session == null))))
             {
-                this._pendingResources = new Array();
+                this._pendingResources = this._roomEngine.loadRoomResources(this._session.roomResources);
                 if (this._pendingResources.length > 0)
                 {
                     this._loadingComplete = false;

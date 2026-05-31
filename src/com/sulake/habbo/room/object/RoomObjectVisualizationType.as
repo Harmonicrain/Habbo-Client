@@ -33,6 +33,7 @@
         public static const FURNITURE_YOUTUBE:String = "furniture_youtube";
         public static const FURNITURE_BUILDER_PLACEHOLDER:String = "furniture_builder_placeholder";
         public static const ROOM:String = "room";
+        public static const PUBLIC_ROOM:String = "room_public";
         public static const USER:String = "user";
         public static const PET_ANIMATED:String = "pet_animated";
         public static const BOT:String = "bot";

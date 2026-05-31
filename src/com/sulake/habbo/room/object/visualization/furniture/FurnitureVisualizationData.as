@@ -105,6 +105,10 @@
             var _local_2:XMLList = k.graphics.visualization;
             if (_local_2.length() == 0)
             {
+                _local_2 = k.visualization;
+            }
+            if (_local_2.length() == 0)
+            {
                 return false;
             }
             var _local_3:int;

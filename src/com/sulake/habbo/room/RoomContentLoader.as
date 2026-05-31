@@ -35,6 +35,7 @@
     import com.sulake.core.assets.BitmapDataAsset;
     import com.sulake.habbo.utils.HabboWebTools;
     import flash.utils.getTimer;
+    import com.sulake.habbo.room.utils.PublicRoomData;
 
     public class RoomContentLoader implements IRoomContentLoader, IFurniDataListener, IDisposable 
     {
@@ -52,6 +53,8 @@
         private static const SELECTION_ARROW:String = "selection_arrow";
         private static const PLACE_HOLDER_TYPES_GPU:Array = [PLACE_HOLDER, WALL_PLACE_HOLDER, PET_PLACE_HOLDER, ROOM, TILE_CURSOR, SELECTION_ARROW];
         private static const _Str_20672:Array = [PLACE_HOLDER, WALL_PLACE_HOLDER, PET_PLACE_HOLDER, ROOM, SELECTION_ARROW];
+        private static const RCL_PUBLICROOM_PREFIX:String = "RCL_PUBLICROOM_";
+        private static const PUBLIC_ROOM_VISUALIZATIONS:Array = ["room_public", "room_public_park", "room_public_pool"];
         private static const CONST_20000:int = 20000;
         private static const CONST_30000:int = 30000;
 
@@ -84,6 +87,8 @@
         private var _iconLoadNameTemplate:String;
         private var _assetUrlBase:String;
         private var _petLoadNameTemplate:String;
+        private var _publicRoomLoadUrlBase:String;
+        private var _publicRoomLoadNameTemplate:String;
         private var _waitingForSessionDataManager:Boolean = false;
         private var _lastAssetCompressionTime:uint;
         private var _sessionDataManager:ISessionDataManager;
@@ -91,6 +96,11 @@
         private var _iconListener:IRoomContentListener;
         private var _configuration:IHabboConfigurationManager;
         private var _ignoredFurniTypes:Array;
+        private var _publicRooms:Map = null;
+        private var _currentPublicRoom:PublicRoomData = null;
+        private var _publicRoomPreloadTypes:Array = [];
+        private var _publicRoomAssetSourceAliases:Map = null;
+        private var _publicRoomObjectLibraries:Map = null;
 
         public function RoomContentLoader(k:String)
         {
@@ -112,6 +122,9 @@
             this._objectOriginalNames = new Map();
             this._assetCollections = new Map();
             this._additionalObjectTypeLibraries = new Map();
+            this._publicRooms = new Map();
+            this._publicRoomAssetSourceAliases = new Map();
+            this._publicRoomObjectLibraries = new Map();
         }
 
         public function set sessionDataManager(k:ISessionDataManager):void
@@ -142,6 +155,13 @@
             this._iconLoadNameTemplate = _arg_2.getProperty("flash.dynamic.icon.download.name.template");
             this._assetUrlBase = _arg_2.getProperty("pet.dynamic.download.url");
             this._petLoadNameTemplate = _arg_2.getProperty("pet.dynamic.download.name.template");
+            this._publicRoomLoadUrlBase = _arg_2.getProperty("public.room.dynamic.download.url");
+            this._publicRoomLoadNameTemplate = _arg_2.getProperty("public.room.dynamic.download.name.template");
+            if (((this._publicRoomLoadNameTemplate == null) || (this._publicRoomLoadNameTemplate == "")))
+            {
+                this._publicRoomLoadNameTemplate = "%typeid%.swf";
+            }
+            this.initPublicRoomPreloadTypes(_arg_2.getProperty("public.room.preload.types"));
             this._configuration = _arg_2;
             this._state = CONST_ONE;
             this.initFurnitureData();
@@ -285,6 +305,21 @@
             {
                 this._additionalObjectTypeLibraries.dispose();
                 this._additionalObjectTypeLibraries = null;
+            }
+            if (this._publicRooms != null)
+            {
+                this._publicRooms.dispose();
+                this._publicRooms = null;
+            }
+            if (this._publicRoomAssetSourceAliases != null)
+            {
+                this._publicRoomAssetSourceAliases.dispose();
+                this._publicRoomAssetSourceAliases = null;
+            }
+            if (this._publicRoomObjectLibraries != null)
+            {
+                this._publicRoomObjectLibraries.dispose();
+                this._publicRoomObjectLibraries = null;
             }
             if (this._activeObjects != null)
             {
@@ -458,6 +493,8 @@
 
         public function getObjectCategory(k:String):int
         {
+            var _local_2:int;
+            var _local_3:PublicRoomData;
             if (k == null)
             {
                 return RoomObjectCategoryEnum.OBJECT_CATEGORY_UNKNOWN;
@@ -502,6 +539,23 @@
             {
                 return RoomObjectCategoryEnum.OBJECT_CATEGORY_CURSOR;
             }
+            if (((!(this._currentPublicRoom == null)) && (((this._currentPublicRoom.type == k) || (this._currentPublicRoom.hasWorldType(k))))))
+            {
+                return RoomObjectCategoryEnum.OBJECT_CATEGORY_ROOM;
+            }
+            if (this._publicRooms != null)
+            {
+                _local_2 = 0;
+                while (_local_2 < this._publicRooms.length)
+                {
+                    _local_3 = (this._publicRooms.getWithIndex(_local_2) as PublicRoomData);
+                    if (((!(_local_3 == null)) && (((_local_3.type == k) || (_local_3.hasWorldType(k))))))
+                    {
+                        return RoomObjectCategoryEnum.OBJECT_CATEGORY_ROOM;
+                    }
+                    _local_2++;
+                }
+            }
             return RoomObjectCategoryEnum.OBJECT_CATEGORY_UNKNOWN;
         }
 
@@ -522,9 +576,42 @@
             return DEFAULT_PLACE_HOLDER;
         }
 
+        private function initPublicRoomPreloadTypes(k:String):void
+        {
+            var _local_3:String;
+            var _local_4:String;
+            this._publicRoomPreloadTypes = [];
+            var _local_2:String = (((k == null) || (k == "")) ? "netcafe" : k);
+            for each (_local_3 in _local_2.split(","))
+            {
+                _local_4 = StringUtil.trim(_local_3);
+                if (_local_4.length > 0)
+                {
+                    this._publicRoomPreloadTypes.push(("hh_room_" + _local_4));
+                }
+            }
+        }
+
         public function getPlaceHolderTypes():Array
         {
-            return PLACE_HOLDER_TYPES_GPU;
+            return PLACE_HOLDER_TYPES_GPU.concat(this._publicRoomPreloadTypes);
+        }
+
+        private function isPreloadedPublicRoomAsset(k:String):Boolean
+        {
+            var _local_2:String;
+            if (k == null)
+            {
+                return false;
+            }
+            for each (_local_2 in this._publicRoomPreloadTypes)
+            {
+                if (((k == _local_2) || (k.indexOf((_local_2 + "_")) == 0)))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public function getActiveObjectType(k:int):String
@@ -730,6 +817,12 @@
                 case SELECTION_ARROW:
                     return [this.resolveLocalOrAssetBaseUrl("SelectionArrow.swf")];
                 default:
+                    if (this.isPublicRoomObjectType(_local_4))
+                    {
+                        _local_7 = this._publicRoomLoadNameTemplate;
+                        _local_7 = _local_7.replace(/%typeid%/, _local_4);
+                        return [this.resolvePublicRoomUrl(_local_7)];
+                    }
                     _local_5 = this.getObjectCategory(_local_4);
                     if (((_local_5 == RoomObjectCategoryEnum.OBJECT_CATEGORY_FURNITURE) || (_local_5 == RoomObjectCategoryEnum.OBJECT_CATEGORY_WALLITEM)))
                     {
@@ -767,6 +860,20 @@
                 return "app:/local_include/" + k;
             }
             return this.getAssetLibraryName(k);
+        }
+
+        private function isPublicRoomObjectType(k:String):Boolean
+        {
+            return (((!(k == null)) && (k.indexOf("hh_room_") == 0)) && (k.indexOf("_", 8) == -1));
+        }
+
+        private function resolvePublicRoomUrl(k:String):String
+        {
+            if (((this._publicRoomLoadUrlBase == null) || (this._publicRoomLoadUrlBase == "")))
+            {
+                return this.getAssetLibraryName(k);
+            }
+            return (this._publicRoomLoadUrlBase + k);
         }
 
         public function insertObjectContent(k:int, _arg_2:int, _arg_3:IAssetLibrary):Boolean
@@ -896,6 +1003,10 @@
                 _local_3 = k;
                 k = _local_3.split(",")[0];
             }
+            if (this._publicRooms.getValue(k) != null)
+            {
+                this._currentPublicRoom = (this._publicRooms.getValue(k) as PublicRoomData);
+            }
             if (((!(this.getAssetLibrary(k) == null)) || (!(this.getAssetLibraryEventDispatcher(k) == null))))
             {
                 return false;
@@ -986,6 +1097,10 @@
         {
             var _local_2:RoomContentLoadedEvent;
             var _local_3:Boolean;
+            var _local_6:XML;
+            var _local_7:PublicRoomData;
+            var _local_8:Array;
+            var _local_9:int;
             var _local_4:String = this.getAssetLibraryType(k);
             _local_4 = this.getRoomObjectOriginalName(_local_4);
             if (_local_4 != null)
@@ -998,6 +1113,14 @@
                 {
                     this.extractPetDataFromLoadedContent(_local_4);
                 }
+                if (PUBLIC_ROOM_VISUALIZATIONS.indexOf(this.getVisualizationType(_local_4)) >= 0)
+                {
+                    _local_6 = this.getVisualizationXML(_local_4);
+                    _local_7 = this.extractPublicRoomFromXML(_local_4, _local_6);
+                    this._publicRooms.add(_local_4, _local_7);
+                    this._currentPublicRoom = _local_7;
+                    _local_8 = this.extractPublicRoomFurnitures(_local_4, k);
+                }
                 _local_2 = new RoomContentLoadedEvent(RoomContentLoadedEvent.RCLE_SUCCESS, _local_4);
             }
             else
@@ -1008,6 +1131,15 @@
             if (((!(_local_5 == null)) && (!(_local_2 == null))))
             {
                 _local_5.dispatchEvent(_local_2);
+                if (((_local_8 != null) && (_local_2.type == RoomContentLoadedEvent.RCLE_SUCCESS)))
+                {
+                    _local_9 = 0;
+                    while (_local_9 < _local_8.length)
+                    {
+                        _local_5.dispatchEvent(new RoomContentLoadedEvent(RoomContentLoadedEvent.RCLE_SUCCESS, _local_8[_local_9]));
+                        _local_9++;
+                    }
+                }
             }
         }
 
@@ -1107,6 +1239,180 @@
             return false;
         }
 
+        private function extractPublicRoomFromXML(k:String, _arg_2:XML):PublicRoomData
+        {
+            var _local_6:XML;
+            var _local_7:String;
+            var _local_8:Number;
+            var _local_9:Number;
+            var _local_3:XMLList = _arg_2.layoutData;
+            var _local_4:PublicRoomData = new PublicRoomData(k);
+            var _local_5:int;
+            while (_local_5 < _local_3.length())
+            {
+                _local_6 = _local_3[_local_5];
+                _local_7 = (RCL_PUBLICROOM_PREFIX + String(_local_6.@name));
+                _local_8 = 32;
+                _local_9 = 1;
+                if (String(_local_6.@size) != "")
+                {
+                    _local_8 = Number(parseInt(_local_6.@size));
+                }
+                if (String(_local_6.@heightScale) != "")
+                {
+                    _local_9 = Number(parseFloat(_local_6.@heightScale));
+                }
+                _local_4.addWorld(_local_7, _local_8, _local_9);
+                _local_5++;
+            }
+            return _local_4;
+        }
+
+        private function extractPublicRoomFurnitures(k:String, _arg_2:IAssetLibrary):Array
+        {
+            var _local_8:IAsset;
+            var _local_9:XML;
+            var _local_10:String;
+            var _local_11:String;
+            var _local_6:String;
+            var _local_7:String;
+            var _local_4:Array = [];
+            if (_arg_2 == null)
+            {
+                return _local_4;
+            }
+            var _local_3:Array = _arg_2.nameArray;
+            var _local_5:int;
+            while (_local_5 < _local_3.length)
+            {
+                _local_6 = _local_3[_local_5];
+                if (_local_6.indexOf("_index") > 0)
+                {
+                    _local_7 = _local_6.slice(0, _local_6.indexOf("_index"));
+                    _local_10 = _local_7;
+                    _local_8 = _arg_2.getAssetByName(_local_6);
+                    if (_local_8 != null)
+                    {
+                        _local_9 = (_local_8.content as XML);
+                        if (((!(_local_9 == null)) && (String(_local_9.@type) != "")))
+                        {
+                            _local_10 = String(_local_9.@type);
+                            this.setRoomObjectAlias(_local_10, _local_7);
+                        }
+                    }
+                    this._publicRoomAssetSourceAliases.remove(_local_10);
+                    _local_11 = this.findPublicRoomAssetRoot(_arg_2, k, _local_10, _local_7);
+                    this._publicRoomAssetSourceAliases.add(_local_10, _local_11);
+                    this._publicRoomObjectLibraries.remove(_local_10);
+                    this._publicRoomObjectLibraries.add(_local_10, _arg_2);
+                    var _local_12:Boolean = this.extractObjectContent(k, _local_10);
+                    if (_local_12)
+                    {
+                        _local_4.push(_local_10);
+                    }
+                }
+                _local_5++;
+            }
+            return _local_4;
+        }
+
+        private function findPublicRoomAssetRoot(k:IAssetLibrary, _arg_2:String, _arg_3:String, _arg_4:String):String
+        {
+            var _local_6:String;
+            var _local_9:String;
+            var _local_10:String;
+            var _local_11:int;
+            if (k == null)
+            {
+                return _arg_4;
+            }
+            var _local_5:Array = [_arg_4, _arg_3, ((_arg_2 + "_") + _arg_3), ((_arg_2 + "_") + _arg_4)];
+            for each (_local_6 in _local_5)
+            {
+                if (((!(_local_6 == null)) && (k.hasAsset((_local_6 + "_assets")))))
+                {
+                    return _local_6;
+                }
+            }
+            var _local_7:String = (_arg_3 + "_assets");
+            var _local_8:Array = k.nameArray;
+            _local_11 = 0;
+            while (_local_11 < _local_8.length)
+            {
+                _local_9 = _local_8[_local_11];
+                if (_local_9.indexOf("_assets") > 0)
+                {
+                    _local_10 = _local_9.slice(0, _local_9.indexOf("_assets"));
+                    if (((_local_9 == _local_7) || (_local_9.indexOf(_local_7) == (_local_9.length - _local_7.length))))
+                    {
+                        return _local_10;
+                    }
+                }
+                _local_11++;
+            }
+            return _arg_4;
+        }
+
+        private function getPublicRoomDataForWorld(k:String):PublicRoomData
+        {
+            var _local_3:int;
+            var _local_4:PublicRoomData;
+            var _local_2:String = (RCL_PUBLICROOM_PREFIX + k);
+            if (((!(this._currentPublicRoom == null)) && (this._currentPublicRoom.hasWorldType(_local_2))))
+            {
+                return this._currentPublicRoom;
+            }
+            if (this._publicRooms != null)
+            {
+                _local_3 = 0;
+                while (_local_3 < this._publicRooms.length)
+                {
+                    _local_4 = (this._publicRooms.getWithIndex(_local_3) as PublicRoomData);
+                    if (((!(_local_4 == null)) && (_local_4.hasWorldType(_local_2))))
+                    {
+                        return _local_4;
+                    }
+                    _local_3++;
+                }
+            }
+            return null;
+        }
+
+        public function getPublicRoomContentType(k:String):String
+        {
+            var _local_2:PublicRoomData = this.getPublicRoomDataForWorld(k);
+            if (!(_local_2 == null))
+            {
+                return _local_2.type;
+            }
+            return k;
+        }
+
+        public function getPublicRoomWorldHeightScale(k:String):Number
+        {
+            var _local_2:PublicRoomData = this.getPublicRoomDataForWorld(k);
+            if (!(_local_2 == null))
+            {
+                return _local_2.getWorldHeightScale((RCL_PUBLICROOM_PREFIX + k));
+            }
+            return 1;
+        }
+
+        public function getPublicRoomWorldSize(k:String):int
+        {
+            var _local_2:PublicRoomData = this.getPublicRoomDataForWorld(k);
+            if (!(_local_2 == null))
+            {
+                return _local_2.getWorldScale((RCL_PUBLICROOM_PREFIX + k));
+            }
+            return 32;
+        }
+
+        public function isPublicRoomWorldType(k:String):Boolean
+        {
+            return (!(this.getPublicRoomDataForWorld(k) == null));
+        }
+
         private function _Str_10970(k:String):String
         {
             return RCL_PREFIX + k;
@@ -1202,10 +1508,15 @@
             {
                 return null;
             }
-            var _local_3:IAsset = _local_2.getAssetByName((k + "_index"));
+            var _local_6:String = this.getRoomObjectAlias(this.getContentType(k));
+            var _local_3:IAsset = _local_2.getAssetByName((_local_6 + "_index"));
             if (_local_3 == null)
             {
-                _local_3 = _local_2.getAssetByName("index");
+                _local_3 = _local_2.getAssetByName((k + "_index"));
+                if (_local_3 == null)
+                {
+                    _local_3 = _local_2.getAssetByName("index");
+                }
             }
             if (_local_3 == null)
             {
@@ -1231,10 +1542,15 @@
             {
                 return null;
             }
-            var _local_3:IAsset = _local_2.getAssetByName((k + "_index"));
+            var _local_6:String = this.getRoomObjectAlias(this.getContentType(k));
+            var _local_3:IAsset = _local_2.getAssetByName((_local_6 + "_index"));
             if (_local_3 == null)
             {
-                _local_3 = _local_2.getAssetByName("index");
+                _local_3 = _local_2.getAssetByName((k + "_index"));
+                if (_local_3 == null)
+                {
+                    _local_3 = _local_2.getAssetByName("index");
+                }
             }
             if (_local_3 == null)
             {
@@ -1281,14 +1597,26 @@
 
         private function getXML(k:String, _arg_2:String):XML
         {
-            var _local_3:IAssetLibrary = this.getAssetLibrary(k);
+            var _local_8:XML;
+            var _local_9:String;
+            var _local_10:String;
+            var _local_4:String = this.getContentType(k);
+            var _local_3:IAssetLibrary = (this._publicRoomObjectLibraries.getValue(_local_4) as IAssetLibrary);
             if (_local_3 == null)
             {
-                return null;
+                _local_3 = this.getAssetLibrary(k);
+                if (_local_3 == null)
+                {
+                    return null;
+                }
             }
-            var _local_4:String = this.getContentType(k);
             var _local_5:String = this.getRoomObjectAlias(_local_4);
+            _local_10 = (this._publicRoomAssetSourceAliases.getValue(_local_4) as String);
             var _local_6:IAsset = _local_3.getAssetByName((_local_5 + _arg_2));
+            if (((_local_6 == null) && (!(_local_10 == null)) && (!(_local_10 == _local_5))))
+            {
+                _local_6 = _local_3.getAssetByName((_local_10 + _arg_2));
+            }
             if (_local_6 == null)
             {
                 return null;
@@ -1297,6 +1625,25 @@
             if (_local_7 == null)
             {
                 return null;
+            }
+            if (_local_10 == null)
+            {
+                _local_10 = _local_5;
+            }
+            if (((_arg_2 == "_assets") && (!(_local_10 == _local_4))))
+            {
+                _local_7 = _local_7.copy();
+                for each (_local_8 in _local_7.asset)
+                {
+                    if (String(_local_8.@source) == "")
+                    {
+                        _local_9 = String(_local_8.@name);
+                        if (_local_9.indexOf(_local_4) == 0)
+                        {
+                            _local_8.@source = (_local_10 + _local_9.substr(_local_4.length));
+                        }
+                    }
+                }
             }
             return _local_7;
         }
@@ -1442,7 +1789,7 @@
             while (_local_5 > -1)
             {
                 _local_3 = this._assetCollections.getKey(_local_5);
-                if (PLACE_HOLDER_TYPES_GPU.indexOf(_local_3) < 0)
+                if (((PLACE_HOLDER_TYPES_GPU.indexOf(_local_3) < 0) && (!(this.isPreloadedPublicRoomAsset(_local_3)))))
                 {
                     _local_2 = this._assetCollections.getValue(_local_3);
                     if (((_local_2._Str_20679() < 1) && ((_local_4 - _local_2._Str_21431()) >= CONST_20000)))

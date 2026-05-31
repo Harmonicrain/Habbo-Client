@@ -7,6 +7,7 @@
     {
         private var _roomType:String = "";
         private var _roomId:int = 0;
+        private var _isPublic:Boolean = false;
 
 
         public function get roomType():String
@@ -19,10 +20,16 @@
             return this._roomId;
         }
 
+        public function get isPublic():Boolean
+        {
+            return this._isPublic;
+        }
+
         public function flush():Boolean
         {
             this._roomType = "";
             this._roomId = 0;
+            this._isPublic = false;
             return true;
         }
 
@@ -30,6 +37,7 @@
         {
             this._roomType = k.readString();
             this._roomId = k.readInteger();
+            this._isPublic = k.readBoolean();
             return true;
         }
     }

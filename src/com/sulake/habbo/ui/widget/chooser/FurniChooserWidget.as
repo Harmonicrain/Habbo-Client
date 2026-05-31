@@ -72,10 +72,10 @@ package com.sulake.habbo.ui.widget.chooser
             var _local_2:_Str_3405;
             for each (_local_2 in k.items)
             {
-                if (_local_2.id > 0)
+                if (_local_2.id != 0)
                 {
                     this._items.push(_local_2);
-                    this._itemIds[_local_2.id] = true;
+                    this._itemIds[(_local_2.category + "_" + _local_2.id)] = true;
                 }
             }
             this._items.sort(this._Str_22274);
@@ -93,10 +93,10 @@ package com.sulake.habbo.ui.widget.chooser
             _local_2 = false;
             for each (_local_3 in k.items)
             {
-                if (((_local_3.id > 0) && (!(this._itemIds[_local_3.id]))))
+                if (((_local_3.id != 0) && (!(this._itemIds[(_local_3.category + "_" + _local_3.id)]))))
                 {
                     this._items.push(_local_3);
-                    this._itemIds[_local_3.id] = true;
+                    this._itemIds[(_local_3.category + "_" + _local_3.id)] = true;
                     _local_2 = true;
                 }
             }
@@ -128,7 +128,7 @@ package com.sulake.habbo.ui.widget.chooser
                     if (((_local_3.id == k.id) && (_local_3.category == k.category)))
                     {
                         this._items.splice(_local_2, 1);
-                        delete this._itemIds[_local_3.id];
+                        delete this._itemIds[(_local_3.category + "_" + _local_3.id)];
                         this._furniChooser.onItemsChanged();
                         return;
                     }
