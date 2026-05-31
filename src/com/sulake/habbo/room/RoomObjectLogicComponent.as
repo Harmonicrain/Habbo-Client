@@ -257,6 +257,7 @@
                     classDefinition = FurnitureFloorHoleLogic;
                     break;
                 case RoomObjectLogicEnum.ROOM:
+                case RoomObjectLogicEnum.PUBLIC_ROOM:
                     classDefinition = RoomLogic;
                     break;
                 case RoomObjectLogicEnum.FURNITURE_MANNEQUIN:

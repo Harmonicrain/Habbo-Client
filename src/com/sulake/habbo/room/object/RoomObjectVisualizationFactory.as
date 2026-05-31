@@ -11,6 +11,8 @@
     import __AS3__.vec.Vector;
     import com.sulake.room.object.visualization.IRoomObjectVisualizationData;
     import com.sulake.habbo.room.object.visualization.room.RoomVisualization;
+    import com.sulake.habbo.room.object.visualization.room.publicroom.PublicRoomVisualization;
+    import com.sulake.habbo.room.object.visualization.room.publicroom.PublicRoomVisualizationData;
     import com.sulake.habbo.room.object.visualization.room.TileCursorVisualization;
     import com.sulake.habbo.room.object.visualization.avatar.AvatarVisualization;
     import com.sulake.habbo.room.object.visualization.pet.AnimatedPetVisualization;
@@ -112,6 +114,9 @@
             {
                 case RoomObjectVisualizationType.ROOM:
                     _local_2 = RoomVisualization;
+                    break;
+                case RoomObjectVisualizationType.PUBLIC_ROOM:
+                    _local_2 = PublicRoomVisualization;
                     break;
                 case RoomObjectVisualizationType.TILE_CURSOR:
                     _local_2 = TileCursorVisualization;
@@ -288,6 +293,9 @@
                     break;
                 case RoomObjectVisualizationType.ROOM:
                     _local_5 = RoomVisualizationData;
+                    break;
+                case RoomObjectVisualizationType.PUBLIC_ROOM:
+                    _local_5 = PublicRoomVisualizationData;
                     break;
                 case RoomObjectVisualizationType.USER:
                 case RoomObjectVisualizationType.BOT:

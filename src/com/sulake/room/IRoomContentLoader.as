@@ -14,6 +14,10 @@
         function hasInternalContent(_arg_1:String):Boolean;
         function loadObjectContent(_arg_1:String, _arg_2:IEventDispatcher):Boolean;
         function insertObjectContent(_arg_1:int, _arg_2:int, _arg_3:IAssetLibrary):Boolean;
+        function getPublicRoomContentType(_arg_1:String):String;
+        function getPublicRoomWorldHeightScale(_arg_1:String):Number;
+        function getPublicRoomWorldSize(_arg_1:String):int;
+        function isPublicRoomWorldType(_arg_1:String):Boolean;
         function getVisualizationType(_arg_1:String):String;
         function getLogicType(_arg_1:String):String;
         function hasVisualizationXML(_arg_1:String):Boolean;

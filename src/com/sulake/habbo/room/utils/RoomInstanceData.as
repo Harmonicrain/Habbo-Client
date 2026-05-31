@@ -12,6 +12,7 @@
         private var _selectedObject:SelectedRoomObjectData = null;
         private var _placedObject:SelectedRoomObjectData = null;
         private var _worldType:String = null;
+        private var _isPublic:Boolean = false;
         private var _furnitureStack:Map;
         private var _wallItemStack:Map;
         private var _mouseButtonCursorOwners:Array;
@@ -77,6 +78,16 @@
         public function set _Str_17166(k:String):void
         {
             this._worldType = k;
+        }
+
+        public function get isPublic():Boolean
+        {
+            return this._isPublic;
+        }
+
+        public function set isPublic(k:Boolean):void
+        {
+            this._isPublic = k;
         }
 
         public function get _Str_16852():SelectedRoomObjectData

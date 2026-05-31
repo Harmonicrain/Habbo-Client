@@ -1144,6 +1144,7 @@
             INCOMING_PACKETS[2024] = TradingItemListEvent;
             INCOMING_PACKETS[2030] = ModeratorMessageEvent;
             INCOMING_PACKETS[2031] = RoomReadyMessageEvent;
+            INCOMING_PACKETS[5202] = PublicRoomObjectsMessageEvent;
             INCOMING_PACKETS[2032] = MarketplaceBuyOfferResultEvent;
             INCOMING_PACKETS[2033] = AvailabilityStatusMessageEvent;
             INCOMING_PACKETS[2035] = MOTDNotificationEvent;

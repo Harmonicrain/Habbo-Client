@@ -1,4 +1,4 @@
-﻿package com.sulake.habbo.room
+package com.sulake.habbo.room
 {
     import com.sulake.core.communication.connection.IConnection;
     import com.sulake.habbo.room.object.RoomPlaneParser;
@@ -17,6 +17,8 @@
     import com.sulake.habbo.communication.messages.incoming.room.engine.ObjectDataUpdateMessageEvent;
     import com.sulake.habbo.communication.messages.incoming.room.engine.ObjectsDataUpdateMessageEvent;
     import com.sulake.habbo.communication.messages.incoming.room.engine.ObjectRemoveMessageEvent;
+    import com.sulake.habbo.communication.messages.incoming.room.engine.PublicRoomObjectMessageData;
+    import com.sulake.habbo.communication.messages.incoming.room.engine.PublicRoomObjectsMessageEvent;
     import com.sulake.habbo.communication.messages.incoming.room.engine.ItemsEvent;
     import com.sulake.habbo.communication.messages.incoming.room.engine.ItemAddMessageEvent;
     import com.sulake.habbo.communication.messages.incoming.room.engine.ItemRemoveMessageEvent;
@@ -71,6 +73,7 @@
     import com.sulake.habbo.communication.messages.incoming.room.engine.ObjectData;
     import com.sulake.habbo.communication.messages.parser.room.engine.ObjectsDataUpdateMessageParser;
     import com.sulake.habbo.communication.messages.parser.room.engine.ObjectRemoveMessageParser;
+    import com.sulake.habbo.communication.messages.parser.room.engine.PublicRoomObjectsMessageParser;
     import flash.utils.setTimeout;
     import com.sulake.habbo.communication.messages.incoming.room.engine.ItemMessageData;
     import com.sulake.habbo.communication.messages.parser.room.engine.ItemsMessageParser;
@@ -122,6 +125,8 @@
 
     public class RoomMessageHandler
     {
+        private static const PUBLIC_ROOM_OBJECT_RETRY_DELAY:int = 100;
+        private static const PUBLIC_ROOM_OBJECT_MAX_RETRIES:int = 50;
         private var _connection:IConnection = null;
         private var _roomCreator:IRoomCreator = null;
         private var _planeParser:RoomPlaneParser = null;
@@ -133,10 +138,16 @@
         private var _tempViralHolder:Object;
         private var _guideId:int = -1;
         private var _requesterId:int = -1;
+        private var _pendingPublicRoomObjects:Object;
+        private var _pendingPublicRoomObjectRetryCounts:Object;
+        private var _pendingPublicRoomObjectRetryScheduled:Object;
 
         public function RoomMessageHandler(k:IRoomCreator)
         {
             this._tempViralHolder = new Object();
+            this._pendingPublicRoomObjects = new Object();
+            this._pendingPublicRoomObjectRetryCounts = new Object();
+            this._pendingPublicRoomObjectRetryScheduled = new Object();
             super();
             this._roomCreator = k;
             this._planeParser = new RoomPlaneParser();
@@ -153,12 +164,16 @@
                 this._planeParser = null;
             }
             this._latestEntryTileEvent = null;
+            this._pendingPublicRoomObjects = null;
+            this._pendingPublicRoomObjectRetryCounts = null;
+            this._pendingPublicRoomObjectRetryScheduled = null;
         }
 
         public function setCurrentRoom(k:int):void
         {
             if (this._currentRoomId != 0)
             {
+                this.clearPendingPublicRoomObjects(this._currentRoomId);
                 if (this._roomCreator != null)
                 {
                     this._roomCreator.disposeRoom(this._currentRoomId);
@@ -170,6 +185,7 @@
 
         public function resetCurrentRoom():void
         {
+            this.clearPendingPublicRoomObjects(this._currentRoomId);
             this._currentRoomId = 0;
             this._latestEntryTileEvent = null;
         }
@@ -203,6 +219,7 @@
                 k.addMessageEvent(new ObjectDataUpdateMessageEvent(this.onObjectDataUpdate));
                 k.addMessageEvent(new ObjectsDataUpdateMessageEvent(this.onObjectsDataUpdate));
                 k.addMessageEvent(new ObjectRemoveMessageEvent(this.onObjectRemove));
+                k.addMessageEvent(new PublicRoomObjectsMessageEvent(this.onPublicRoomObjects));
                 k.addMessageEvent(new ItemsEvent(this.onItems));
                 k.addMessageEvent(new ItemAddMessageEvent(this.onItemAdd));
                 k.addMessageEvent(new ItemRemoveMessageEvent(this.onItemRemove));
@@ -308,7 +325,7 @@
             var _local_4:String = _local_3.roomType;
             if (this._roomCreator != null)
             {
-                this._roomCreator.setWorldType(_local_3.roomId, _local_4);
+                this._roomCreator.setWorldType(_local_3.roomId, _local_4, _local_3.isPublic);
             }
             if (this._initialConnection)
             {
@@ -351,6 +368,138 @@
                 }
             }
             k.connection.send(new GetRoomEntryDataMessageComposer());
+        }
+
+        private function onPublicRoomObjects(k:IMessageEvent):void
+        {
+            var _local_2:PublicRoomObjectsMessageEvent = (k as PublicRoomObjectsMessageEvent);
+            if ((((_local_2 == null) || (_local_2.getParser() == null)) || (this._roomCreator == null)))
+            {
+                return;
+            }
+            var _local_3:PublicRoomObjectsMessageParser = _local_2.getParser();
+            var _local_4:int = _local_3.roomId;
+            var _local_5:String = this._roomCreator.getWorldType(_local_4);
+            if (((_local_5 == null) || (_local_5.length == 0)))
+            {
+                return;
+            }
+            var _local_6:Vector.<PublicRoomObjectMessageData> = _local_3.objects;
+            if (_local_6 == null)
+            {
+                return;
+            }
+            this.clearPendingPublicRoomObjects(_local_4);
+            var _local_7:int;
+            var _local_8:PublicRoomObjectMessageData;
+            var _local_9:String;
+            var _local_10:String = this._roomCreator.getPublicRoomContentType(_local_5);
+            var _local_12:Array = [];
+            while (_local_7 < _local_6.length)
+            {
+                _local_8 = _local_6[_local_7];
+                _local_9 = (((_local_10 + "_") + _local_8.type));
+                _local_12.push({"id":this.getNextPassiveObjectId(), "data":_local_8, "clientType":_local_9});
+                _local_7++;
+            }
+            if (_local_12.length == 0)
+            {
+                return;
+            }
+            this._pendingPublicRoomObjects[_local_4] = _local_12;
+            this._pendingPublicRoomObjectRetryCounts[_local_4] = 0;
+            this._pendingPublicRoomObjectRetryScheduled[_local_4] = false;
+            this.flushPublicRoomObjects(_local_4);
+        }
+
+        private function getNextPassiveObjectId():int
+        {
+            if (this._passiveObjectRunningId > 0)
+            {
+                this._passiveObjectRunningId = -1000000000;
+            }
+            return --this._passiveObjectRunningId;
+        }
+
+        private function flushPublicRoomObjects(k:int):void
+        {
+            var _local_3:Object;
+            var _local_4:PublicRoomObjectMessageData;
+            var _local_5:String;
+            var _local_6:Vector3d;
+            var _local_7:Vector3d;
+            var _local_8:Array;
+            var _local_9:int;
+            var _local_10:int;
+            if (((this._roomCreator == null) || (this._pendingPublicRoomObjects == null)))
+            {
+                return;
+            }
+            var _local_2:Array = (this._pendingPublicRoomObjects[k] as Array);
+            if (_local_2 == null)
+            {
+                return;
+            }
+            this._pendingPublicRoomObjectRetryScheduled[k] = false;
+            _local_8 = [];
+            for each (_local_3 in _local_2)
+            {
+                _local_4 = (_local_3.data as PublicRoomObjectMessageData);
+                _local_5 = (_local_3.clientType as String);
+                if (((_local_4 == null) || (_local_5 == null)))
+                {
+                    continue;
+                }
+                if (!this._roomCreator.isRoomObjectContentAvailable(_local_5))
+                {
+                    _local_8.push(_local_3);
+                }
+                else
+                {
+                    _local_6 = new Vector3d(_local_4.x, _local_4.y, _local_4.z);
+                    _local_7 = new Vector3d(_local_4.direction, 0, 0);
+                    this._roomCreator.addObjectFurnitureByName(k, int(_local_3.id), _local_5, _local_6, _local_7, 0, null);
+                }
+            }
+            if (_local_8.length == 0)
+            {
+                this.clearPendingPublicRoomObjects(k);
+                return;
+            }
+            _local_9 = int(this._pendingPublicRoomObjectRetryCounts[k]);
+            if (_local_9 >= PUBLIC_ROOM_OBJECT_MAX_RETRIES)
+            {
+                this.clearPendingPublicRoomObjects(k);
+                return;
+            }
+            this._pendingPublicRoomObjects[k] = _local_8;
+            this._pendingPublicRoomObjectRetryCounts[k] = (_local_9 + 1);
+            if (this._pendingPublicRoomObjectRetryScheduled[k])
+            {
+                return;
+            }
+            this._pendingPublicRoomObjectRetryScheduled[k] = true;
+            _local_10 = k;
+            setTimeout(function ():void
+            {
+                flushPublicRoomObjects(_local_10);
+            }, PUBLIC_ROOM_OBJECT_RETRY_DELAY);
+        }
+
+        private function clearPendingPublicRoomObjects(k:int):void
+        {
+            if (this._pendingPublicRoomObjects != null)
+            {
+                delete this._pendingPublicRoomObjects[k];
+            }
+            if (this._pendingPublicRoomObjectRetryCounts != null)
+            {
+                delete this._pendingPublicRoomObjectRetryCounts[k];
+            }
+            if (this._pendingPublicRoomObjectRetryScheduled != null)
+            {
+                delete this._pendingPublicRoomObjectRetryScheduled[k];
+            }
         }
 
         private function onHeightMap(k:IMessageEvent):void
