@@ -388,10 +388,9 @@
             }
             else
             {
-                if (this._sessionData.isPerkAllowed(PerkEnum.NAVIGATOR_PHASE_TWO_2014))
-                {
-                    this._incomingMessages.addMessageListeners();
-                }
+                context.addLinkEventTracker(this);
+                this._incomingMessages.removeLegacyMessageListeners();
+                this._incomingMessages.addMessageListeners();
             }
         }
 

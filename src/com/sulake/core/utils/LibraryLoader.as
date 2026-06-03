@@ -21,6 +21,7 @@
     import flash.utils.ByteArray;
     import deng.fzip.FZipFile;
     import com.sulake.core.Core;
+    import com.sulake.habbo.utils.HabboWebTools;
 
     public class LibraryLoader extends EventDispatcherWrapper implements IDisposable 
     {
@@ -630,6 +631,10 @@
         protected function failure(failureMsg:String):void
         {
             Core.warning(failureMsg);
+            if (HabboWebTools.isAirDesktop)
+            {
+                HabboWebTools.airDebug("ASSET FAIL: " + failureMsg);
+            }
             this._errorMsg = failureMsg;
             throttle();
             dispatchEvent(new LibraryLoaderEvent(LibraryLoaderEvent.LIBRARY_LOADER_EVENT_ERROR, this._status, this.bytesTotal, this.bytesLoaded, this.elapsedTime));

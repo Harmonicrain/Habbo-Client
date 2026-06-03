@@ -170,6 +170,11 @@
                 if (!Habbo._crashed)
                 {
                     Habbo._crashed = true;
+                    if (HabboWebTools.isAirDesktop)
+                    {
+                        HabboWebTools.showAirError("The client stopped unexpectedly", "The app hit an internal error and could not continue. Restart NGHWin after fixing any startup or connection errors shown here.", "Technical error: " + errorMessage + " | Category: " + crashCategory);
+                        return;
+                    }
                     if (_isSpaWeb)
                     {
                         logSpaWeb("FlashExternalInterface.logCrash", variables);

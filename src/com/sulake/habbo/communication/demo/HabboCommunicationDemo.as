@@ -67,6 +67,7 @@
     import com.sulake.habbo.communication.messages.outgoing.handshake.*;
     import com.sulake.iid.*;
     import flash.utils.setTimeout;
+    import flash.utils.clearTimeout;
     import com.sulake.habbo.communication.messages.outgoing.room.session.QuitMessageComposer;
 
     public class HabboCommunicationDemo extends Component 
@@ -86,6 +87,8 @@
         private var _flashClientUrl:String;
         private var _authenticated:Boolean = false;
         private var _airLoginInFlight:Boolean = false;
+        private static const AIR_CONNECT_TIMEOUT_MS:int = 15000;
+        private var _airConnectWatchdog:uint = 0;
 
         public function HabboCommunicationDemo(k:IContext, _arg_2:uint=0, _arg_3:IAssetLibrary=null)
         {
@@ -206,6 +209,7 @@
             if (HabboWebTools.isAirDesktop)
             {
                 HabboWebTools.returnToAirLoginCallback = this.returnToAirLogin;
+                HabboWebTools.showAirLoginErrorCallback = this.showAirLoginAlert;
             }
             if (this._ssoTicket)
             {
@@ -230,9 +234,14 @@
         override public function dispose():void
         {
             HabboWebTools.airDebug("HabboCommunicationDemo.dispose called! view=" + (this._view != null) + " stack=" + new Error().getStackTrace());
+            this.clearAirConnectWatchdog();
             if (HabboWebTools.returnToAirLoginCallback == this.returnToAirLogin)
             {
                 HabboWebTools.returnToAirLoginCallback = null;
+            }
+            if (HabboWebTools.showAirLoginErrorCallback == this.showAirLoginAlert)
+            {
+                HabboWebTools.showAirLoginErrorCallback = null;
             }
             if (HabboWebTools.isAirDesktop)
             {
@@ -271,6 +280,7 @@
             this._airLoginInFlight = false;
             this._handshakeInProgress = false;
             this._logoutInProgress = true;
+            this.clearAirConnectWatchdog();
             HabboWebTools.enterHomeRoomOnNextAirAuth = true;
             if (this._view != null)
             {
@@ -356,6 +366,10 @@
             var _local_2:IConnection = this._communication.connection;
             if (_local_2 != null)
             {
+                if (HabboWebTools.isAirDesktop)
+                {
+                    this.clearAirConnectWatchdog();
+                }
                 this.updateRsaData();
                 this.dispatchLoginStepEvent(HabboCommunicationEvent.HABBO_CONNECTION_EVENT_ESTABLISHED);
                 this._handshakeInProgress = true;
@@ -491,6 +505,10 @@
             HabboWebTools.airDebug("onAuthenticationOK fired");
             this._authenticated = true;
             this._airLoginInFlight = false;
+            this.clearAirConnectWatchdog();
+            HabboWebTools.airLoginAttemptActive = false;
+            HabboWebTools.airLoginErrorShown = false;
+            HabboWebTools.lastAirBanMessage = null;
             this.dispatchLoginStepEvent(HabboCommunicationEvent.HABBO_CONNECTION_EVENT_AUTHENTICATED);
             var _local_4:InfoRetrieveMessageComposer = new InfoRetrieveMessageComposer();
             _local_2.send(_local_4);
@@ -542,10 +560,41 @@
         private function showAirLoginAlert(message:String):void
         {
             this._airLoginInFlight = false;
+            HabboWebTools.airLoginAttemptActive = false;
+            this.clearAirConnectWatchdog();
             if (this._view != null)
             {
                 this._view.showAirLoginError(message);
             }
+        }
+
+        private function startAirConnectWatchdog():void
+        {
+            this.clearAirConnectWatchdog();
+            this._airConnectWatchdog = setTimeout(this.onAirConnectTimeout, AIR_CONNECT_TIMEOUT_MS);
+        }
+
+        private function clearAirConnectWatchdog():void
+        {
+            if (this._airConnectWatchdog != 0)
+            {
+                clearTimeout(this._airConnectWatchdog);
+                this._airConnectWatchdog = 0;
+            }
+        }
+
+        private function onAirConnectTimeout():void
+        {
+            this._airConnectWatchdog = 0;
+            if (this._authenticated || this._handshakeInProgress || !this._airLoginInFlight)
+            {
+                return;
+            }
+            HabboWebTools.airDebug("AIR connect watchdog fired - no connection within " + AIR_CONNECT_TIMEOUT_MS + "ms");
+            // Fires the inline dialog error + the full-screen connect overlay. Same path the comm
+            // manager's later Core.error takes, and it sets airLoginErrorShown so that delayed
+            // Core.error does not stack a second, redundant overlay once its retry budget exhausts.
+            HabboWebTools.showAirLoginError("Could not connect to the hotel server. Make sure the server is running and that connection.info.host / connection.info.port are correct.");
         }
 
         private function showLoginAlert(messageKey:String):void
@@ -681,6 +730,22 @@
             {
                 return;
             }
+            if (HabboWebTools.isAirDesktop)
+            {
+                if (!this._logoutInProgress)
+                {
+                    if ((k != null) && ((k.reason == DisconnectReasonEvent.JUST_BANNED) || (k.reason == DisconnectReasonEvent.STILL_BANNED)))
+                    {
+                        HabboWebTools.showAirError((k.reason == DisconnectReasonEvent.JUST_BANNED) ? "You have been banned" : "You are still banned", this.getAirBanMessage(), "Reason: banned | Code: " + k.reason);
+                    }
+                    else
+                    {
+                        HabboWebTools.showAirError("Disconnected from the server", "The server closed the connection.", "Reason: " + ((k != null && k.reasonString != null && k.reasonString.length > 0) ? k.reasonString : "unknown") + " | Code: " + ((k != null) ? k.reason : -1));
+                    }
+                }
+                this._logoutInProgress = true;
+                return;
+            }
             this._logoutInProgress = true;
             var _local_2:String = getProperty("logout.url");
             if (_local_2.length > 0)
@@ -706,6 +771,15 @@
                 return k.replace("%reason%", _arg_2);
             }
             return k;
+        }
+
+        private function getAirBanMessage():String
+        {
+            if (((HabboWebTools.lastAirBanMessage != null) && (HabboWebTools.lastAirBanMessage.length > 0)))
+            {
+                return HabboWebTools.lastAirBanMessage;
+            }
+            return "Your account cannot enter the hotel right now. Please check your ban details or try again later.";
         }
 
         private function setOriginProperty(k:String):String
@@ -762,6 +836,8 @@
                 this._authenticated = false;
                 this._logoutInProgress = false;
                 this._handshakeInProgress = false;
+                HabboWebTools.lastAirBanMessage = null;
+                this.startAirConnectWatchdog();
             }
             this.dispatchLoginStepEvent(HabboCommunicationEvent.INIT);
             this._communication.mode = HabboConnectionType.NORMAL_MODE;
@@ -786,7 +862,15 @@
             }
             if (HabboWebTools.isAirDesktop && !this._authenticated && !this._logoutInProgress && this._view != null)
             {
-                this.showAirLoginAlert("The server closed the connection while signing in. This usually means the SSO ticket is invalid or expired.");
+                this.showAirLoginAlert("Could not connect to the hotel server. Make sure the server is running and that connection.info.host / connection.info.port are correct.");
+                return;
+            }
+            if (HabboWebTools.isAirDesktop)
+            {
+                if (!this._logoutInProgress && this._authenticated)
+                {
+                    HabboWebTools.showAirError("Disconnected from the server", "The connection to the server was lost.", "Event: " + ((k != null) ? k.type : "unknown"));
+                }
                 return;
             }
             if (ExternalInterface.available)

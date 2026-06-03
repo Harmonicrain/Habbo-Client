@@ -416,6 +416,8 @@
             if (HabboWebTools.isAirDesktop)
             {
                 this._habboLogin.setSSOTicket = this.name;
+                HabboWebTools.airLoginAttemptActive = true;
+                HabboWebTools.airLoginErrorShown = false;
                 try
                 {
                     so.data.air_sso = this.name;
