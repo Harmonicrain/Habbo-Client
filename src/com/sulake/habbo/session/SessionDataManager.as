@@ -326,6 +326,10 @@
             var _local_3:UserObjectMessageParser = _local_2.getParser();
             this._userId = _local_3.id;
             this._name = _local_3.name;
+            if (HabboWebTools.isAirDesktop)
+            {
+                HabboWebTools.setAirWindowTitleForUser(this._name);
+            }
             this._respectTotal = _local_3.respectTotal;
             this._respectLeft = _local_3.respectLeft;
             this._petRespectLeft = _local_3.petRespectLeft;
@@ -374,6 +378,10 @@
             if (_local_3.webId == this._userId)
             {
                 this._name = _local_3.newName;
+                if (HabboWebTools.isAirDesktop)
+                {
+                    HabboWebTools.setAirWindowTitleForUser(this._name);
+                }
                 this._nameChangeAllowed = false;
                 events.dispatchEvent(new UserNameUpdateEvent(this._name));
             }
@@ -385,6 +393,10 @@
             if (_local_2.resultCode == ChangeUserNameResultMessageEvent.NAME_OK)
             {
                 this._nameChangeAllowed = false;
+                if (HabboWebTools.isAirDesktop)
+                {
+                    HabboWebTools.setAirWindowTitleForUser(_local_2.name);
+                }
                 events.dispatchEvent(new UserNameUpdateEvent(_local_2.name));
             }
         }

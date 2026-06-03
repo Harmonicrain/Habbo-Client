@@ -41,6 +41,7 @@
         private var _airBinaryFallbackLoader:URLLoader;
         private var _airBinaryFallbackAttempted:Boolean = false;
         private var _airBinaryFallbackLoading:Boolean = false;
+        private var _lastRequestedUrl:String;
 
         public function BitmapFileLoader(type:String, urlRequest:URLRequest=null, cacheKey:String=null, cacheRevision:int=-1, buffer:ByteArray=null, id:int=-1)
         {
@@ -58,6 +59,7 @@
             this._cacheKey = cacheKey;
             this._cacheRevision = cacheRevision;
             this._id = id;
+            this._lastRequestedUrl = this._url;
             if (((!(buffer == null)) && (buffer.length > 0)))
             {
                 this._fromCache = true;
@@ -260,6 +262,20 @@
             loadEventHandler(event);
         }
 
+        override protected function loadEventHandler(event:Event):void
+        {
+            var finalFailure:Boolean = false;
+            if (((event != null) && ((event.type == IOErrorEvent.IO_ERROR) || (event.type == SecurityErrorEvent.SECURITY_ERROR))))
+            {
+                finalFailure = this._retries >= this._attempts;
+            }
+            super.loadEventHandler(event);
+            if (((finalFailure) && (HabboWebTools.isAirDesktop)))
+            {
+                HabboWebTools.airDebug((((("IMAGE FAIL: " + this.getFailureUrl(event)) + " status=") + this._status) + " event=") + event.type);
+            }
+        }
+
         private function loadPreparedRequest(urlRequest:URLRequest, label:String):void
         {
             var preparedRequest:URLRequest = this.prepareAirBitmapRequest(urlRequest);
@@ -271,6 +287,7 @@
         {
             try
             {
+                this.rememberRequestUrl(preparedRequest, originalRequest);
                 this._loader.load(preparedRequest, this._loaderContext);
             }
             catch (error:Error)
@@ -279,6 +296,7 @@
                 {
                     try
                     {
+                        this.rememberRequestUrl(originalRequest, preparedRequest);
                         this._loader.load(originalRequest, this._loaderContext);
                         return;
                     }
@@ -362,6 +380,7 @@
             this._airBinaryFallbackLoader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, this.airBinaryFallbackErrorHandler);
             try
             {
+                this.rememberRequestUrl(request, null);
                 this._airBinaryFallbackLoader.load(request);
             }
             catch (error:Error)
@@ -400,6 +419,57 @@
         {
             this.cleanupAirBinaryFallbackLoader(false);
             loadEventHandler(event);
+        }
+
+        private function rememberRequestUrl(primary:URLRequest, fallback:URLRequest):void
+        {
+            if (((primary != null) && (primary.url != null) && (primary.url.length > 0)))
+            {
+                this._lastRequestedUrl = primary.url;
+                this._url = primary.url;
+                return;
+            }
+            if (((fallback != null) && (fallback.url != null) && (fallback.url.length > 0)))
+            {
+                this._lastRequestedUrl = fallback.url;
+                this._url = fallback.url;
+            }
+        }
+
+        private function getFailureUrl(event:Event):String
+        {
+            var text:String;
+            if (((this._lastRequestedUrl != null) && (this._lastRequestedUrl.length > 0)))
+            {
+                return this._lastRequestedUrl;
+            }
+            if (((this._url != null) && (this._url.length > 0)))
+            {
+                return this._url;
+            }
+            try
+            {
+                if (((this._loader != null) && (this._loader.contentLoaderInfo != null) && (this._loader.contentLoaderInfo.url != null) && (this._loader.contentLoaderInfo.url.length > 0)))
+                {
+                    return this._loader.contentLoaderInfo.url;
+                }
+            }
+            catch (error:Error)
+            {
+            }
+            if (event is IOErrorEvent)
+            {
+                text = IOErrorEvent(event).text;
+            }
+            else if (event is SecurityErrorEvent)
+            {
+                text = SecurityErrorEvent(event).text;
+            }
+            if (((text != null) && (text.length > 0)))
+            {
+                return text;
+            }
+            return "(unknown)";
         }
 
         private function cleanupAirBinaryFallbackLoader(closeLoader:Boolean=true):void

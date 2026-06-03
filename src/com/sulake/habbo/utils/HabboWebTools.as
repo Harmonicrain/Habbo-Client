@@ -20,8 +20,15 @@
         public static var renderAirLoginBackgroundCallback:Function;
         public static var setAirLoadingScreenVisibleCallback:Function;
         public static var returnToAirLoginCallback:Function;
+        public static var showAirLoginErrorCallback:Function;
+        public static var showAirErrorCallback:Function;
+        public static var setAirWindowTitleCallback:Function;
         public static var airDebugLogCallback:Function;
         public static var enterHomeRoomOnNextAirAuth:Boolean = false;
+        public static var airLoginScreenVisible:Boolean = false;
+        public static var airLoginAttemptActive:Boolean = false;
+        public static var airLoginErrorShown:Boolean = false;
+        public static var lastAirBanMessage:String;
 
         public static function set isSpaWeb(isSpaWeb:Boolean):void
         {
@@ -106,6 +113,7 @@
 
         public static function showAirLoginBackground():void
         {
+            airLoginScreenVisible = true;
             if (showAirLoginBackgroundCallback != null)
             {
                 showAirLoginBackgroundCallback();
@@ -114,6 +122,7 @@
 
         public static function hideAirLoginBackground():void
         {
+            airLoginScreenVisible = false;
             if (hideAirLoginBackgroundCallback != null)
             {
                 hideAirLoginBackgroundCallback();
@@ -145,11 +154,49 @@
             }
         }
 
+        public static function showAirLoginError(message:String):void
+        {
+            airLoginAttemptActive = false;
+            airLoginErrorShown = true;
+            airDebug("LOGIN ERROR: " + message);
+            if (showAirLoginErrorCallback != null)
+            {
+                showAirLoginErrorCallback(message);
+            }
+            if (showAirErrorCallback != null)
+            {
+                showAirErrorCallback("Could not connect to the hotel server", message, "Check that the emulator/server is running and that connection.info.host / connection.info.port in config.ini are correct.");
+            }
+        }
+
         public static function airDebug(message:String):void
         {
             if (airDebugLogCallback != null)
             {
                 airDebugLogCallback(message);
+            }
+        }
+
+        public static function showAirError(title:String, message:String, details:String=null):void
+        {
+            airDebug("ERROR: " + title + " - " + message + ((details != null && details.length > 0) ? (" | " + details) : ""));
+            if (showAirErrorCallback != null)
+            {
+                showAirErrorCallback(title, message, details);
+            }
+        }
+
+        public static function rememberAirBanMessage(message:String):void
+        {
+            lastAirBanMessage = message;
+            airDebug("BAN MESSAGE: " + ((message != null && message.length > 0) ? message : "(empty)"));
+        }
+
+        public static function setAirWindowTitleForUser(userName:String):void
+        {
+            if (setAirWindowTitleCallback != null)
+            {
+                setAirWindowTitleCallback(userName);
             }
         }
 

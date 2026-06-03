@@ -19,6 +19,7 @@
     import com.sulake.iid.IIDRoomEngine;
     import com.sulake.habbo.room.events.RoomEngineEvent;
     import flash.utils.setInterval;
+    import flash.utils.setTimeout;
 
     public class HabboMain extends Sprite 
     {
@@ -34,6 +35,8 @@
         private var coreRunning:Boolean = false;
         private var _prepareCoreOnNextFrame:Boolean = true;
         private var _corePrepared:Boolean = false;
+        private var _startupErrorShown:Boolean = false;
+        private var _disposed:Boolean = false;
 
         public function HabboMain(k:IHabboLoadingScreen)
         {
@@ -45,6 +48,7 @@
 
         private function dispose():void
         {
+            this._disposed = true;
             removeEventListener(ProgressEvent.PROGRESS, this.onProgressEvent);
             removeEventListener(Event.COMPLETE, this.onCompleteEvent);
             removeEventListener(Event.ADDED_TO_STAGE, this.onAddedToStage);
@@ -121,7 +125,7 @@
             this._corePrepared = true;
 			try
 			{
-            var k:ICoreErrorLogger = ((Capabilities.playerType != "StandAlone") ? new HabboCoreErrorReporter() : null);
+            var k:ICoreErrorLogger = HabboWebTools.isAirDesktop ? new HabboAirCoreErrorReporter() : ((Capabilities.playerType != "StandAlone") ? new HabboCoreErrorReporter() : null);
             this._core = Core.instantiate(stage, Core.CORE_SETUP_FRAME_UPDATE_COMPLEX, k);
             this._core.prepareComponent(HabboTrackingLib);
             addEventListener(ProgressEvent.PROGRESS, this.onProgressEvent);
@@ -180,6 +184,10 @@
 			catch (error: Error)
 			{
 				Habbo.trackLoginStep("Error in HabboMain (" + error.message + "): " + error.getStackTrace());
+                if (HabboWebTools.isAirDesktop)
+                {
+                    HabboWebTools.showAirError("Client startup error", "The client could not finish preparing required files.", error.message + " | " + error.getStackTrace());
+                }
 			}
         }
 
@@ -288,6 +296,34 @@
             setInterval(this.sendHeartBeat, 10000);
         }
 
+        private function startAirStartupWatchdog():void
+        {
+            if (!HabboWebTools.isAirDesktop)
+            {
+                return;
+            }
+            setTimeout(this.checkAirStartupProgress, 12000);
+        }
+
+        private function checkAirStartupProgress():void
+        {
+            var details:String;
+            if (!HabboWebTools.isAirDesktop || HabboWebTools.airLoginScreenVisible || this._startupErrorShown || this._disposed)
+            {
+                return;
+            }
+            if (this.coreRunning || this._completedInitSteps >= INIT_STEPS)
+            {
+                return;
+            }
+            this._startupErrorShown = true;
+            details = "Client files URL: " + HabboWebTools.getParameter("flash.client.url");
+            details += "\nVariables URL: " + HabboWebTools.getParameter("external.variables.txt");
+            details += "\nTexts URL: " + HabboWebTools.getParameter("external.texts.txt");
+            details += "\nProgress: loaded files " + this._loadedFiles + "/" + this._totalSteps + ", startup steps " + this._completedInitSteps + "/" + INIT_STEPS;
+            HabboWebTools.showAirError("Startup files are not loading", "NGHWin is waiting for files from your configured base.url, but startup has not finished. Make sure config.ini points to the correct web folder and that the Gordon files are reachable in a browser.", details);
+        }
+
         private function sendHeartBeat():void
         {
             HabboWebTools.sendHeartBeat();
@@ -314,4 +350,47 @@ class HabboCoreErrorReporter implements ICoreErrorLogger
     }
 
 
+}
+
+class HabboAirCoreErrorReporter implements ICoreErrorLogger
+{
+    public function logError(k:String, _arg_2:Boolean, _arg_3:int=-1, _arg_4:Error=null):void
+    {
+        var url:String = this.extractQuotedUrl(k);
+        var details:String = (url != null) ? ("Missing or unreachable file: " + url) : ("Technical error: " + k);
+        if (com.sulake.habbo.utils.HabboWebTools.airLoginAttemptActive)
+        {
+            com.sulake.habbo.utils.HabboWebTools.airDebug("CORE ERROR DURING LOGIN: " + k);
+            com.sulake.habbo.utils.HabboWebTools.showAirLoginError("Could not connect to the hotel server. Make sure the server is running and that connection.info.host / connection.info.port are correct.");
+            return;
+        }
+        details += " | Category: " + _arg_3;
+        if (_arg_4 != null)
+        {
+            details += " | " + _arg_4.getStackTrace();
+        }
+        com.sulake.habbo.utils.HabboWebTools.showAirError("Required files could not load", "NGHWin could not download files it needs to start. Check config.ini, especially base.url and gordon.path, then confirm the shown file opens in your browser.", details);
+    }
+
+    private function extractQuotedUrl(value:String):String
+    {
+        var start:int;
+        var end:int;
+        if (value == null)
+        {
+            return null;
+        }
+        start = value.indexOf("\"http");
+        if (start < 0)
+        {
+            return null;
+        }
+        start++;
+        end = value.indexOf("\"", start);
+        if (end < 0)
+        {
+            return null;
+        }
+        return value.substring(start, end);
+    }
 }
