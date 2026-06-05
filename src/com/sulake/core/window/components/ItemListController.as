@@ -17,6 +17,7 @@
     import com.sulake.core.window.utils.IIterator;
     import com.sulake.core.window.events.WindowMouseEvent;
     import com.sulake.core.window.utils.PropertyStruct;
+    import com.sulake.core.window.utils.SmoothScroller;
 
     public class ItemListController extends WindowController implements IItemListWindow, IInputProcessorRoot 
     {
@@ -41,6 +42,8 @@
         protected var _dragStartScrollH:Number;
         protected var _dragStartScrollV:Number;
         protected var _dragging:Boolean;
+        protected var _horizontalSmoothScroller:SmoothScroller;
+        protected var _verticalSmoothScroller:SmoothScroller;
 
         public function ItemListController(k:String, _arg_2:uint, _arg_3:uint, _arg_4:uint, _arg_5:WindowContext, _arg_6:Rectangle, _arg_7:IWindow, _arg_8:Function=null, _arg_9:Array=null, _arg_10:Array=null, _arg_11:uint=0)
         {
@@ -126,7 +129,13 @@
 
         public function set scrollH(k:Number):void
         {
+            this.setScrollH(k, false);
+        }
+
+        private function setScrollH(k:Number, smooth:Boolean):void
+        {
             var _local_2:WindowEvent;
+            var _local_3:Number;
             if (k < 0)
             {
                 k = 0;
@@ -135,6 +144,7 @@
             {
                 k = 1;
             }
+            _local_3 = (k - this._scrollOffsetH);
             if (k != this._scrollOffsetH)
             {
                 this._scrollOffsetH = k;
@@ -147,11 +157,21 @@
                     _local_2.recycle();
                 }
             }
+            if (((!(smooth)) && (this._horizontalSmoothScroller != null) && (this._horizontalSmoothScroller.isScrolling)))
+            {
+                this._horizontalSmoothScroller.adjustStartPosition(_local_3);
+            }
         }
 
         public function set scrollV(k:Number):void
         {
+            this.setScrollV(k, false);
+        }
+
+        private function setScrollV(k:Number, smooth:Boolean):void
+        {
             var _local_2:WindowEvent;
+            var _local_3:Number;
             if (k < 0)
             {
                 k = 0;
@@ -160,6 +180,7 @@
             {
                 k = 1;
             }
+            _local_3 = (k - this._scrollOffsetV);
             if (k != this._scrollOffsetV)
             {
                 this._scrollOffsetV = k;
@@ -170,6 +191,10 @@
                     _events.dispatchEvent(_local_2);
                     _local_2.recycle();
                 }
+            }
+            if (((!(smooth)) && (this._verticalSmoothScroller != null) && (this._verticalSmoothScroller.isScrolling)))
+            {
+                this._verticalSmoothScroller.adjustStartPosition(_local_3);
             }
         }
 
@@ -275,6 +300,16 @@
         {
             if (!_disposed)
             {
+                if (this._horizontalSmoothScroller)
+                {
+                    this._horizontalSmoothScroller.dispose();
+                    this._horizontalSmoothScroller = null;
+                }
+                if (this._verticalSmoothScroller)
+                {
+                    this._verticalSmoothScroller.dispose();
+                    this._verticalSmoothScroller = null;
+                }
                 this._container.removeEventListener(WindowEvent.WINDOW_EVENT_RESIZED, this.containerEventHandler);
                 this._container.removeEventListener(WindowEvent.WINDOW_EVENT_CHILD_REMOVED, this.containerEventHandler);
                 this._container.removeEventListener(WindowEvent.WINDOW_EVENT_CHILD_RESIZED, this.containerEventHandler);
@@ -480,14 +515,7 @@
             switch (k.type)
             {
                 case WindowMouseEvent.WHEEL:
-                    if (this._horizontal)
-                    {
-                        this.scrollH = (this.scrollH - ((_local_5 * this.scrollStepH) / this.maxScrollH));
-                    }
-                    else
-                    {
-                        this.scrollV = (this.scrollV - ((_local_5 * this.scrollStepV) / this.maxScrollV));
-                    }
+                    this.scrollWithWheel(_local_5, ((this._horizontal) || (WindowMouseEvent(k).shiftKey)));
                     _local_2 = (!(this._isPartOfGridWindow));
                     break;
                 case WindowMouseEvent.DOWN:
@@ -522,6 +550,64 @@
                     break;
             }
             return _local_2;
+        }
+
+        public function scrollWithWheel(k:Number, _arg_2:Boolean):Boolean
+        {
+            return this.getSmoothScroller(_arg_2).scrollWithWheel(k);
+        }
+
+        private function getSmoothScroller(k:Boolean):SmoothScroller
+        {
+            return (k) ? this.horizontalSmoothScroller : this.verticalSmoothScroller;
+        }
+
+        private function get horizontalSmoothScroller():SmoothScroller
+        {
+            if (this._horizontalSmoothScroller == null)
+            {
+                this._horizontalSmoothScroller = new SmoothScroller(this.getHorizontalScrollPosition, this.setHorizontalSmoothScrollPosition, this.getHorizontalMaxScroll);
+            }
+            return this._horizontalSmoothScroller;
+        }
+
+        private function get verticalSmoothScroller():SmoothScroller
+        {
+            if (this._verticalSmoothScroller == null)
+            {
+                this._verticalSmoothScroller = new SmoothScroller(this.getVerticalScrollPosition, this.setVerticalSmoothScrollPosition, this.getVerticalMaxScroll);
+            }
+            return this._verticalSmoothScroller;
+        }
+
+        private function getHorizontalScrollPosition():Number
+        {
+            return this.scrollH;
+        }
+
+        private function setHorizontalSmoothScrollPosition(k:Number):void
+        {
+            this.setScrollH(k, true);
+        }
+
+        private function getHorizontalMaxScroll():Number
+        {
+            return this.maxScrollH;
+        }
+
+        private function getVerticalScrollPosition():Number
+        {
+            return this.scrollV;
+        }
+
+        private function setVerticalSmoothScrollPosition(k:Number):void
+        {
+            this.setScrollV(k, true);
+        }
+
+        private function getVerticalMaxScroll():Number
+        {
+            return this.maxScrollV;
         }
 
         private function scrollAnimationCallback(k:int, _arg_2:int):void

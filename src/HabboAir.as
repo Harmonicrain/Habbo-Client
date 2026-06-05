@@ -1,5 +1,6 @@
 package
 {
+    import com.sulake.core.Core;
     import com.sulake.habbo.utils.HabboWebTools;
     import flash.desktop.NativeApplication;
     import flash.display.Bitmap;
@@ -23,6 +24,8 @@ package
     import flash.filesystem.FileMode;
     import flash.filesystem.FileStream;
     import flash.geom.Matrix;
+    import flash.geom.Point;
+    import flash.geom.Rectangle;
     import flash.text.AntiAliasType;
     import flash.text.TextField;
     import flash.text.TextFieldAutoSize;
@@ -31,10 +34,13 @@ package
     import flash.utils.getDefinitionByName;
     import flash.utils.getQualifiedClassName;
     import flash.utils.getTimer;
+    import flash.utils.setTimeout;
     import fonts._Str_10940;
     import fonts._Str_11970;
     import images.HabboAir_LoginBackground;
+    import images.HabboAir_LoginForeground;
     import images.HabboWindowManagerCom_help_error_state;
+    import images.HabboWindowManagerCom_habbo_skin_ubuntu_png;
 
     public class HabboAir extends MovieClip
     {
@@ -43,8 +49,16 @@ package
         private static const DEFAULT_HOST:String = "109.122.1.113";
         private static const DEFAULT_PORT:String = "3000,3001";
         private static const DEFAULT_APP_NAME:String = "NGHWin";
+        private static const DEFAULT_VERSION_STRING:String = "0.0.0-beta";
+        private static const LOGIN_VERSION_MARGIN_LEFT:int = 16;
+        private static const LOGIN_VERSION_MARGIN_BOTTOM:int = 10;
+        private static const LOGIN_FOREGROUND_OFFSET_Y:int = 82;
         private static const CONSOLE_MAX_LINES:int = 500;
+        private static const F5_KEY_CODE:int = 116;
         private static const F12_KEY_CODE:int = 123;
+        private static const CONSOLE_CLOSE_DEFAULT:Rectangle = new Rectangle(140, 10, 19, 20);
+        private static const CONSOLE_CLOSE_PRESSED:Rectangle = new Rectangle(170, 10, 19, 20);
+        private static const CONSOLE_CLOSE_HOVER:Rectangle = new Rectangle(200, 10, 19, 20);
         private static const AIR_USER_AGENT:String = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0 Safari/537.36";
         private static const UBUNTU_REGULAR_FONT:Class = _Str_10940;
         private static const UBUNTU_BOLD_FONT:Class = _Str_11970;
@@ -58,8 +72,11 @@ package
         private var _loadingScreen:IHabboLoadingScreen;
         private var _main:HabboMain;
         private var _loginBackgroundData:BitmapData;
+        private var _loginForegroundData:BitmapData;
         private var _loginBackgroundLayer:Sprite;
         private var _loginBackgroundBitmap:Bitmap;
+        private var _loginForegroundBitmap:Bitmap;
+        private var _loginVersionText:TextField;
         private var _loginBackgroundVisible:Boolean = false;
         private var _errorOverlayLayer:Sprite;
         private var _errorTitle:String;
@@ -67,10 +84,16 @@ package
         private var _errorDetails:String;
         private var _consoleLayer:Sprite;
         private var _consoleText:TextField;
+        private var _consoleCloseButton:Sprite;
+        private var _consoleCloseBitmap:Bitmap;
+        private var _consoleCloseDefaultData:BitmapData;
+        private var _consoleCloseHoverData:BitmapData;
+        private var _consoleClosePressedData:BitmapData;
         private var _consoleVisible:Boolean = false;
         private var _logBuffer:Array;
         private var _configBaseUrl:String = DEFAULT_BASE_URL;
         private var _configGordonPath:String = GORDON_PATH;
+        private var _reloadInProgress:Boolean = false;
 
         public function HabboAir()
         {
@@ -80,6 +103,7 @@ package
             HabboWebTools.hideAirLoginBackgroundCallback = hideLoginBackground;
             HabboWebTools.renderAirLoginBackgroundCallback = renderLoginBackground;
             HabboWebTools.setAirLoadingScreenVisibleCallback = setLoadingScreenVisible;
+            HabboWebTools.reloadAirClientCallback = reloadClientFromCallback;
             HabboWebTools.showAirErrorCallback = showError;
             HabboWebTools.setAirWindowTitleCallback = setWindowTitleForUser;
             HabboWebTools.airDebugLogCallback = debugLog;
@@ -162,6 +186,14 @@ package
             }
         }
 
+        public static function reloadClientFromCallback():void
+        {
+            if (_instance != null)
+            {
+                _instance.reloadClient();
+            }
+        }
+
         private function debugLogInternal(message:String):void
         {
             var file:File;
@@ -207,6 +239,12 @@ package
 
         private function onConsoleHotkey(event:KeyboardEvent):void
         {
+            if (event.keyCode == F5_KEY_CODE)
+            {
+                event.preventDefault();
+                reloadClient();
+                return;
+            }
             if (event.keyCode != F12_KEY_CODE)
             {
                 return;
@@ -349,6 +387,7 @@ package
             setDefaultAirParameter("connection.info.host", DEFAULT_HOST);
             setDefaultAirParameter("connection.info.port", DEFAULT_PORT);
             setDefaultAirParameter("app.name", DEFAULT_APP_NAME);
+            setDefaultAirParameter("version.string", DEFAULT_VERSION_STRING);
             setDefaultAirParameter("site.url", _configBaseUrl);
             setDefaultAirParameter("url.prefix", _configBaseUrl);
             setDefaultAirParameter("client.reload.url", _configBaseUrl + "/index.php");
@@ -385,6 +424,93 @@ package
             createLoadingScreen();
             _main = new HabboMain(_loadingScreen);
             addChild(_main);
+        }
+
+        private function reloadClient():void
+        {
+            if (this._reloadInProgress)
+            {
+                return;
+            }
+            this._reloadInProgress = true;
+            try
+            {
+                resetAirReloadState();
+                disposeCurrentClient();
+                setTimeout(completeReloadClient, 250);
+            }
+            catch (error:Error)
+            {
+                debugLogInternal("AIR reload failed: " + error.message + " | " + error.getStackTrace());
+                showErrorInternal("Reload failed", "The client could not reload cleanly.", error.message);
+                this._reloadInProgress = false;
+            }
+        }
+
+        private function completeReloadClient():void
+        {
+            try
+            {
+                startClient();
+            }
+            catch (error:Error)
+            {
+                debugLogInternal("AIR reload failed: " + error.message + " | " + error.getStackTrace());
+                showErrorInternal("Reload failed", "The client could not reload cleanly.", error.message);
+            }
+            this._reloadInProgress = false;
+        }
+
+        private function resetAirReloadState():void
+        {
+            this._errorTitle = null;
+            this._errorMessage = null;
+            this._errorDetails = null;
+            if (stage != null)
+            {
+                stage.removeEventListener(Event.RESIZE, renderErrorOverlay);
+            }
+            if (this._errorOverlayLayer != null && this._errorOverlayLayer.parent != null)
+            {
+                this._errorOverlayLayer.parent.removeChild(this._errorOverlayLayer);
+            }
+            this._errorOverlayLayer = null;
+            this._consoleVisible = false;
+            removeConsoleOverlay();
+            hideLoginBackgroundInternal();
+            setWindowTitleForUserInternal(null);
+            setAirParameter("sso.ticket", "");
+            setAirParameter("sso.token", "");
+            HabboWebTools.airLoginScreenVisible = false;
+            HabboWebTools.airLoginAttemptActive = false;
+            HabboWebTools.airLoginErrorShown = false;
+            HabboWebTools.enterHomeRoomOnNextAirAuth = false;
+            HabboWebTools.lastAirBanMessage = null;
+        }
+
+        private function disposeCurrentClient():void
+        {
+            var loadingDisplay:DisplayObject;
+            if (this._main != null)
+            {
+                this._main.unloading();
+            }
+            Core.dispose();
+            if (this._main != null)
+            {
+                this._main.disposeForReload();
+                this._main = null;
+            }
+            if (this._loadingScreen != null)
+            {
+                loadingDisplay = this._loadingScreen as DisplayObject;
+                this._loadingScreen.dispose();
+                if (loadingDisplay != null && loadingDisplay.parent != null)
+                {
+                    loadingDisplay.parent.removeChild(loadingDisplay);
+                }
+                this._loadingScreen = null;
+            }
         }
 
         private function configureAirNetworkDefaults():void
@@ -425,11 +551,20 @@ package
             if (_loginBackgroundLayer == null)
             {
                 _loginBackgroundData = new HabboAir_LoginBackground().bitmapData;
+                _loginForegroundData = new HabboAir_LoginForeground().bitmapData;
                 _loginBackgroundBitmap = new Bitmap(_loginBackgroundData, "auto", true);
+                _loginForegroundBitmap = new Bitmap(_loginForegroundData, "auto", true);
                 _loginBackgroundLayer = new Sprite();
                 _loginBackgroundLayer.mouseEnabled = false;
                 _loginBackgroundLayer.mouseChildren = false;
                 _loginBackgroundLayer.addChild(_loginBackgroundBitmap);
+                _loginBackgroundLayer.addChild(_loginForegroundBitmap);
+                _loginVersionText = createLoginVersionText();
+                _loginBackgroundLayer.addChild(_loginVersionText);
+            }
+            if (((_loginVersionText != null) && (_loginVersionText.parent == _loginBackgroundLayer)))
+            {
+                _loginBackgroundLayer.setChildIndex(_loginVersionText, (_loginBackgroundLayer.numChildren - 1));
             }
             if (_loginBackgroundLayer.parent == null)
             {
@@ -483,9 +618,24 @@ package
             header = createConsoleText((appName + " Console - F12 to close - log: " + logPath), 13, 0xB8D8FF, true);
             header.x = 18;
             header.y = 14;
-            header.width = Math.max(100, stage.stageWidth - 36);
+            header.width = Math.max(100, stage.stageWidth - 72);
             header.height = 22;
             this._consoleLayer.addChild(header);
+
+            this._consoleCloseButton = new Sprite();
+            ensureConsoleCloseAssets();
+            this._consoleCloseBitmap = new Bitmap(this._consoleCloseDefaultData, "auto", true);
+            this._consoleCloseButton.addChild(this._consoleCloseBitmap);
+            this._consoleCloseButton.x = Math.max(18, stage.stageWidth - this._consoleCloseBitmap.width - 18);
+            this._consoleCloseButton.y = 14;
+            this._consoleCloseButton.buttonMode = true;
+            this._consoleCloseButton.useHandCursor = true;
+            this._consoleCloseButton.addEventListener(MouseEvent.CLICK, onConsoleCloseClick);
+            this._consoleCloseButton.addEventListener(MouseEvent.MOUSE_OVER, onConsoleCloseOver);
+            this._consoleCloseButton.addEventListener(MouseEvent.MOUSE_OUT, onConsoleCloseOut);
+            this._consoleCloseButton.addEventListener(MouseEvent.MOUSE_DOWN, onConsoleCloseDown);
+            this._consoleCloseButton.addEventListener(MouseEvent.MOUSE_UP, onConsoleCloseOver);
+            this._consoleLayer.addChild(this._consoleCloseButton);
 
             this._consoleText = createConsoleText("", 12, 0xE8E8E8, false);
             this._consoleText.x = 18;
@@ -512,11 +662,71 @@ package
                 this._consoleText.removeEventListener(MouseEvent.MOUSE_WHEEL, onConsoleMouseWheel);
                 this._consoleText = null;
             }
+            if (this._consoleCloseButton != null)
+            {
+                this._consoleCloseButton.removeEventListener(MouseEvent.CLICK, onConsoleCloseClick);
+                this._consoleCloseButton.removeEventListener(MouseEvent.MOUSE_OVER, onConsoleCloseOver);
+                this._consoleCloseButton.removeEventListener(MouseEvent.MOUSE_OUT, onConsoleCloseOut);
+                this._consoleCloseButton.removeEventListener(MouseEvent.MOUSE_DOWN, onConsoleCloseDown);
+                this._consoleCloseButton.removeEventListener(MouseEvent.MOUSE_UP, onConsoleCloseOver);
+                this._consoleCloseButton = null;
+            }
+            this._consoleCloseBitmap = null;
             if (((this._consoleLayer != null) && (this._consoleLayer.parent != null)))
             {
                 this._consoleLayer.parent.removeChild(this._consoleLayer);
             }
             this._consoleLayer = null;
+        }
+
+        private function ensureConsoleCloseAssets():void
+        {
+            var atlas:BitmapData;
+            if (this._consoleCloseDefaultData != null)
+            {
+                return;
+            }
+            atlas = new HabboWindowManagerCom_habbo_skin_ubuntu_png().bitmapData;
+            this._consoleCloseDefaultData = cropBitmapData(atlas, CONSOLE_CLOSE_DEFAULT);
+            this._consoleCloseHoverData = cropBitmapData(atlas, CONSOLE_CLOSE_HOVER);
+            this._consoleClosePressedData = cropBitmapData(atlas, CONSOLE_CLOSE_PRESSED);
+        }
+
+        private function cropBitmapData(source:BitmapData, rect:Rectangle):BitmapData
+        {
+            var result:BitmapData = new BitmapData(rect.width, rect.height, true, 0);
+            result.copyPixels(source, rect, new Point(0, 0));
+            return result;
+        }
+
+        private function onConsoleCloseClick(event:MouseEvent):void
+        {
+            this._consoleVisible = false;
+            removeConsoleOverlay();
+        }
+
+        private function onConsoleCloseOver(event:MouseEvent):void
+        {
+            if (this._consoleCloseBitmap != null)
+            {
+                this._consoleCloseBitmap.bitmapData = this._consoleCloseHoverData;
+            }
+        }
+
+        private function onConsoleCloseOut(event:MouseEvent):void
+        {
+            if (this._consoleCloseBitmap != null)
+            {
+                this._consoleCloseBitmap.bitmapData = this._consoleCloseDefaultData;
+            }
+        }
+
+        private function onConsoleCloseDown(event:MouseEvent):void
+        {
+            if (this._consoleCloseBitmap != null)
+            {
+                this._consoleCloseBitmap.bitmapData = this._consoleClosePressedData;
+            }
         }
 
         private function createConsoleText(text:String, size:int, color:uint, bold:Boolean):TextField
@@ -603,6 +813,51 @@ package
             _loginBackgroundBitmap.height = _loginBackgroundBitmap.bitmapData.height * scale;
             _loginBackgroundBitmap.x = Math.round((stage.stageWidth - _loginBackgroundBitmap.width) / 2);
             _loginBackgroundBitmap.y = Math.round((stage.stageHeight - _loginBackgroundBitmap.height) / 2);
+            positionLoginForeground();
+            positionLoginVersionText();
+        }
+
+        private function positionLoginForeground():void
+        {
+            var scale:Number;
+            if (((_loginForegroundBitmap == null) || (stage == null)))
+            {
+                return;
+            }
+            scale = Math.min(1, Math.min(stage.stageWidth / _loginForegroundBitmap.bitmapData.width, stage.stageHeight / _loginForegroundBitmap.bitmapData.height));
+            _loginForegroundBitmap.width = Math.round(_loginForegroundBitmap.bitmapData.width * scale);
+            _loginForegroundBitmap.height = Math.round(_loginForegroundBitmap.bitmapData.height * scale);
+            _loginForegroundBitmap.x = Math.round(stage.stageWidth - _loginForegroundBitmap.width);
+            _loginForegroundBitmap.y = Math.round((stage.stageHeight - _loginForegroundBitmap.height) + LOGIN_FOREGROUND_OFFSET_Y);
+        }
+
+        private function createLoginVersionText():TextField
+        {
+            var field:TextField = new TextField();
+            field.defaultTextFormat = new TextFormat("Ubuntu", 12, 0xFFFFFF, false);
+            field.embedFonts = true;
+            field.antiAliasType = AntiAliasType.ADVANCED;
+            field.selectable = false;
+            field.mouseEnabled = false;
+            field.autoSize = TextFieldAutoSize.LEFT;
+            return field;
+        }
+
+        private function positionLoginVersionText():void
+        {
+            var version:String;
+            if (((_loginVersionText == null) || (stage == null)))
+            {
+                return;
+            }
+            version = getAirParameter("version.string");
+            if (((version == null) || (version.length == 0)))
+            {
+                version = DEFAULT_VERSION_STRING;
+            }
+            _loginVersionText.text = version;
+            _loginVersionText.x = LOGIN_VERSION_MARGIN_LEFT;
+            _loginVersionText.y = Math.max(0, (stage.stageHeight - _loginVersionText.height - LOGIN_VERSION_MARGIN_BOTTOM));
         }
 
         private function renderLoginBackgroundInternal(target:BitmapData):Boolean
@@ -617,12 +872,53 @@ package
             {
                 _loginBackgroundData = new HabboAir_LoginBackground().bitmapData;
             }
+            if (_loginForegroundData == null)
+            {
+                _loginForegroundData = new HabboAir_LoginForeground().bitmapData;
+            }
             scale = Math.max(target.width / _loginBackgroundData.width, target.height / _loginBackgroundData.height);
             matrix = new Matrix();
             matrix.scale(scale, scale);
             matrix.translate(Math.round((target.width - (_loginBackgroundData.width * scale)) / 2), Math.round((target.height - (_loginBackgroundData.height * scale)) / 2));
             target.draw(_loginBackgroundData, matrix, null, null, null, true);
+            drawLoginForeground(target);
+            drawLoginVersionText(target);
             return true;
+        }
+
+        private function drawLoginForeground(target:BitmapData):void
+        {
+            var scale:Number;
+            var matrix:Matrix;
+            if (((target == null) || (_loginForegroundData == null)))
+            {
+                return;
+            }
+            scale = Math.min(1, Math.min(target.width / _loginForegroundData.width, target.height / _loginForegroundData.height));
+            matrix = new Matrix();
+            matrix.scale(scale, scale);
+            matrix.translate(Math.round(target.width - (_loginForegroundData.width * scale)), Math.round((target.height - (_loginForegroundData.height * scale)) + LOGIN_FOREGROUND_OFFSET_Y));
+            target.draw(_loginForegroundData, matrix, null, null, null, true);
+        }
+
+        private function drawLoginVersionText(target:BitmapData):void
+        {
+            var field:TextField;
+            var version:String;
+            var matrix:Matrix;
+            if (target == null)
+            {
+                return;
+            }
+            version = getAirParameter("version.string");
+            if (((version == null) || (version.length == 0)))
+            {
+                version = DEFAULT_VERSION_STRING;
+            }
+            field = createLoginVersionText();
+            field.text = version;
+            matrix = new Matrix(1, 0, 0, 1, LOGIN_VERSION_MARGIN_LEFT, Math.max(0, (target.height - field.height - LOGIN_VERSION_MARGIN_BOTTOM)));
+            target.draw(field, matrix, null, null, null, true);
         }
 
         private function showErrorInternal(title:String, message:String, details:String=null):void
@@ -828,6 +1124,7 @@ package
                 HabboWebTools.showAirLoginBackgroundCallback = null;
                 HabboWebTools.hideAirLoginBackgroundCallback = null;
                 HabboWebTools.renderAirLoginBackgroundCallback = null;
+                HabboWebTools.reloadAirClientCallback = null;
                 HabboWebTools.showAirErrorCallback = null;
                 HabboWebTools.setAirWindowTitleCallback = null;
             }

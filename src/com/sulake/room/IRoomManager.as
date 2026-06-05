@@ -15,5 +15,7 @@
         function getRoomWithIndex(_arg_1:int):IRoomInstance;
         function getRoomCount():int;
         function isContentAvailable(_arg_1:String):Boolean;
+        function resetObjectContentToPlaceHolder(_arg_1:String):Boolean;
+        function loadObjectContent(_arg_1:String):Boolean;
     }
 }

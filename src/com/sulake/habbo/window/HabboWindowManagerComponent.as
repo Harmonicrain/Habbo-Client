@@ -163,8 +163,13 @@
         {
 			try
 			{
+            WindowContext.resetStaticState();
             var k:int = getTimer();
             var _local_2:IAsset = assets.getAssetByName("habbo_element_description_xml");
+            if (_local_2 == null)
+            {
+                throw new Error("Missing habbo_element_description_xml");
+            }
             this._skinContainer = new SkinContainer();
             SkinParserUtil.parse((_local_2.content as XML), assets, this._skinContainer);
             this._themeManager = new ThemeManager(this._skinContainer);
@@ -179,8 +184,6 @@
                 this._windowContextArray[_local_4] = new WindowContext(("layer_" + _local_4), this._windowRenderer, this, this, this._resourceManager, this._localization, this, context.displayObjectContainer, _local_3, context.linkEventTrackers);
                 _local_4++;
             }
-            assets.removeAsset(_local_2);
-            _local_2.dispose();
             this._windowContext = this._windowContextArray[_Str_17369];
             this.addMouseEventTracker(this);
             registerUpdateReceiver(this, 0);
@@ -199,6 +202,11 @@
 			catch (error: Error)
 			{
 				Habbo.trackLoginStep("Error in initComponent; " + error.message + ", stacktrace: " + error.getStackTrace());
+                if (HabboWebTools.isAirDesktop)
+                {
+                    HabboWebTools.airDebug("Window manager init failed: " + error.message + " | " + error.getStackTrace());
+                }
+                throw error;
 			}
         }
 
@@ -258,6 +266,7 @@
                     this._habboPedia.dispose();
                     this._habboPedia = null;
                 }
+                ModalDialog.resetStaticState();
                 if (this._windowContextArray)
                 {
                     while (this._windowContextArray.length > 0)
@@ -352,6 +361,10 @@
 
         public function getWindowContext(k:uint):IWindowContext
         {
+            if (this._windowContextArray == null || this._windowContextArray[k] == null)
+            {
+                throw new Error("Window context " + k + " is not initialized");
+            }
             return this._windowContextArray[k];
         }
 

@@ -112,7 +112,7 @@
                     }
                     currentTileContainer.addEventListener(WindowMouseEvent.WHEEL, function (k:WindowMouseEvent):void
                     {
-                        _blockResultsView.itemList.scrollV = (_blockResultsView.itemList.scrollV - (k.delta * 0.01));
+                        _blockResultsView.itemList.scrollWithWheel(k.delta, false);
                     });
                     currentTileContainer.addListItem(this._roomEntryElementFactory._Str_22789(guestRoom, alternatingColor));
                     if (currentTileContainer.numListItems >= RoomEntryElementFactory._Str_17291)

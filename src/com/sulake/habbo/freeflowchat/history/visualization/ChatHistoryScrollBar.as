@@ -49,9 +49,25 @@
 
         public function _Str_20818():void
         {
-            var k:int = (this._scrollView._Str_7317 + (this._scrollView.viewPort.height - this._background.height));
-            this._thumbTrack.height = Math.min((this._background.height - 4), Math.max(5, int(((this._background.height - 4) * (this._background.height / this._scrollView._Str_18682)))));
-            this._thumbTrack.y = Math.min(((this._background.height - 2) - this._thumbTrack.height), Math.max(2, int((((this._background.height - 4) * (Math.max(1, k) / this._scrollView._Str_18682)) - (this._thumbTrack.height / 2)))));
+            var k:int;
+            var _local_2:int;
+            var _local_3:int;
+            var _local_4:Number;
+            if (((this._scrollView == null) || (this._scrollView.viewPort == null)))
+            {
+                return;
+            }
+            k = Math.max(1, this._scrollView._Str_18682);
+            _local_2 = Math.max(1, this._scrollView.viewPort.height);
+            _local_3 = Math.max(0, (k - _local_2));
+            this._thumbTrack.visible = (_local_3 > 0);
+            if (!this._thumbTrack.visible)
+            {
+                return;
+            }
+            this._thumbTrack.height = Math.min((this._background.height - 4), Math.max(5, int(((this._background.height - 4) * (_local_2 / k)))));
+            _local_4 = (_local_3 > 0) ? (this._scrollView._Str_7317 / _local_3) : 0;
+            this._thumbTrack.y = (2 + int((((this._background.height - 4) - this._thumbTrack.height) * _local_4)));
         }
 
         private function onAddedToStage(k:Event):void
@@ -82,7 +98,7 @@
             switch (_local_2.type)
             {
                 case MouseEvent.MOUSE_MOVE:
-                    _local_3 = (this._scrollView._Str_18682 / this._background.height);
+                    _local_3 = ((this._scrollView._Str_18682 - this._scrollView.viewPort.height) / Math.max(1, this._background.height));
                     _local_4 = ((_local_2.stageY - this._dragStartY) * _local_3);
                     this._scrollView._Str_7317 = (this._dragStartBufferTopY + _local_4);
                     break;

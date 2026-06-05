@@ -163,6 +163,27 @@
             }
         }
 
+        public static function resetStaticState():void
+        {
+            if (inputEventQueue)
+            {
+                if ((inputEventQueue is IDisposable))
+                {
+                    IDisposable(inputEventQueue).dispose();
+                }
+                inputEventQueue = null;
+            }
+            if (inputEventProcessor)
+            {
+                if ((inputEventProcessor is IDisposable))
+                {
+                    IDisposable(inputEventProcessor).dispose();
+                }
+                inputEventProcessor = null;
+            }
+            _renderer = null;
+        }
+
 
         public function get disposed():Boolean
         {

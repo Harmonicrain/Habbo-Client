@@ -6,6 +6,9 @@
     import com.sulake.core.assets.IAssetLibrary;
     import com.sulake.core.window.IWindow;
     import com.sulake.core.window.components.IItemListWindow;
+    import com.sulake.core.window.components.ITextWindow;
+    import com.sulake.core.runtime.Component;
+    import com.sulake.core.runtime.IUpdateReceiver;
     import flash.geom.Point;
     import com.sulake.core.window.motion.Motion;
     import com.sulake.core.window.motion.Queue;
@@ -20,12 +23,23 @@
     import com.sulake.core.window.components.IStaticBitmapWrapperWindow;
     import flash.system.System;
 
-    public class RoomToolsToolbarCtrl extends RoomToolsCtrlBase 
+    public class RoomToolsToolbarCtrl extends RoomToolsCtrlBase implements IUpdateReceiver
     {
         private static const _Str_18592:int = 1;
         private static const _Str_12959:int = -130;
+        private static const ANIMATION_DURATION_MS:int = 140;
 
         private var _roomToolsHistory:RoomToolsHistory;
+        private var _disposed:Boolean = false;
+        private var _isAnimating:Boolean = false;
+        private var _isRegisteredForUpdates:Boolean = false;
+        private var _expandedBranchOffset:Number = 0;
+        private var _animationStartOffset:Number = 0;
+        private var _animationTargetOffset:int = 0;
+        private var _animationElapsed:int = 0;
+        private var _lastZoomText:String = "";
+        private var _lastCanZoomIn:Boolean = false;
+        private var _lastCanZoomOut:Boolean = false;
 
         public function RoomToolsToolbarCtrl(k:RoomToolsWidget, _arg_2:IHabboWindowManager, _arg_3:IAssetLibrary)
         {
@@ -34,11 +48,18 @@
             _window.procedure = this.onWindowEvent;
             _window.addEventListener(WindowMouseEvent.OVER, this.onWindowEvent);
             _window.addEventListener(WindowMouseEvent.OUT, this.onWindowEvent);
+            this._expandedBranchOffset = this.getCollapsedExpandedOffsetX();
             this._Str_17459();
+            this.ensureUpdateRegistration();
         }
 
         override public function dispose():void
         {
+            if (this._disposed)
+            {
+                return;
+            }
+            this.removeUpdateRegistration();
             if (this._roomToolsHistory)
             {
                 this._roomToolsHistory.dispose();
@@ -50,6 +71,33 @@
                 k.dispose();
             }
             super.dispose();
+            this._disposed = true;
+        }
+
+        public function get disposed():Boolean
+        {
+            return this._disposed;
+        }
+
+        public function update(k:uint):void
+        {
+            var _local_2:Number;
+            var _local_3:Number;
+            if (this._isAnimating)
+            {
+                this._animationElapsed = (this._animationElapsed + k);
+                _local_2 = Math.min(1, (this._animationElapsed / ANIMATION_DURATION_MS));
+                _local_3 = (1 - Math.pow((1 - _local_2), 3));
+                this.applyExpandedBranchOffset((this._animationStartOffset + ((this._animationTargetOffset - this._animationStartOffset) * _local_3)));
+                this.updatePosition();
+                if (_local_2 >= 1)
+                {
+                    this._isAnimating = false;
+                    this.applyExpandedBranchOffset(this._animationTargetOffset);
+                    this._Str_17459();
+                }
+            }
+            this.updateZoomControls();
         }
 
         public function _Str_20713():void
@@ -127,6 +175,85 @@
             this.updatePosition();
         }
 
+        private function ensureUpdateRegistration():void
+        {
+            var k:Component = this.getUpdateComponent();
+            if (((!(this._isRegisteredForUpdates)) && (!(k == null))))
+            {
+                k.registerUpdateReceiver(this, 1);
+                this._isRegisteredForUpdates = true;
+            }
+        }
+
+        private function removeUpdateRegistration():void
+        {
+            var k:Component = this.getUpdateComponent();
+            if (((this._isRegisteredForUpdates) && (!(k == null))))
+            {
+                k.removeUpdateReceiver(this);
+            }
+            this._isRegisteredForUpdates = false;
+        }
+
+        private function getUpdateComponent():Component
+        {
+            if ((((!(_widget)) || (!(_widget.handler))) || (!(_widget.handler.container))))
+            {
+                return null;
+            }
+            return (_widget.handler.container.roomEngine as Component);
+        }
+
+        private function updateZoomControls():void
+        {
+            var k:ITextWindow;
+            var _local_2:IWindow;
+            var _local_3:IWindow;
+            if (!window)
+            {
+                return;
+            }
+            var _local_4:Boolean = _widget.canZoomRoom(1);
+            var _local_5:Boolean = _widget.canZoomRoom(-1);
+            var _local_6:String = _widget.getCurrentRoomZoomText();
+            if (((((this._lastZoomText == _local_6) && (this._lastCanZoomIn == _local_4)) && (this._lastCanZoomOut == _local_5)) && (!(this._lastZoomText == ""))))
+            {
+                return;
+            }
+            k = (window.findChildByName("zoom_text") as ITextWindow);
+            if (k != null)
+            {
+                k.caption = _widget.localizations.registerParameter("room.zoom.text", "zoom_level", _local_6);
+            }
+            _local_2 = window.findChildByName("zoom_in_btn");
+            if (_local_2 != null)
+            {
+                if (_local_4)
+                {
+                    _local_2.enable();
+                }
+                else
+                {
+                    _local_2.disable();
+                }
+            }
+            _local_3 = window.findChildByName("zoom_out_btn");
+            if (_local_3 != null)
+            {
+                if (_local_5)
+                {
+                    _local_3.enable();
+                }
+                else
+                {
+                    _local_3.disable();
+                }
+            }
+            this._lastZoomText = _local_6;
+            this._lastCanZoomIn = _local_4;
+            this._lastCanZoomOut = _local_5;
+        }
+
         public function updatePosition():void
         {
             var k:IWindow;
@@ -136,16 +263,22 @@
             var _local_5:int;
             var _local_6:int;
             var _local_7:IWindow;
-            if (_isCollapsed)
+            var _local_8:IWindow;
+            var _local_9:IWindow;
+            var _local_10:IWindow;
+            if (!window)
             {
-                k = window.findChildByName("side_bar_expand");
-                k.y = (window.height - k.height);
+                return;
             }
-            else
+            _local_3 = (window.findChildByName("itemlist_buttons") as IItemListWindow);
+            _local_2 = window.findChildByName("window_bg");
+            _local_4 = window.findChildByName("side_bar_collapse");
+            k = window.findChildByName("side_bar_expand");
+            _local_8 = window.findChildByName("button_collapse");
+            _local_9 = window.findChildByName("button_expand");
+            _local_10 = window.findChildByName("arrow_collapse");
+            if ((((!(_local_3 == null)) && (!(_local_2 == null))) && (!(_local_4 == null))))
             {
-                _local_2 = window.findChildByName("arrow_collapse");
-                _local_3 = (window.findChildByName("itemlist_buttons") as IItemListWindow);
-                _local_4 = window.findChildByName("side_bar_collapse");
                 _local_5 = 0;
                 _local_6 = 0;
                 while (_local_6 < _local_3.numListItems)
@@ -158,8 +291,31 @@
                     _local_6++;
                 }
                 _local_4.height = _local_5;
-                window.height = (_local_3.height = (window.findChildByName("window_bg").height = _local_5));
-                _local_2.y = ((_local_5 * 0.5) - (_local_2.height * 0.5));
+                _local_4.x = 0;
+                if (k != null)
+                {
+                    k.height = _local_5;
+                    k.x = 0;
+                    k.y = 0;
+                }
+                window.height = (_local_3.height = (_local_2.height = _local_5));
+                if (_local_8 != null)
+                {
+                    _local_8.height = _local_5;
+                }
+                if (_local_9 != null)
+                {
+                    _local_9.height = _local_5;
+                }
+                if (_local_10 != null)
+                {
+                    _local_10.y = ((_local_5 * 0.5) - (_local_10.height * 0.5));
+                }
+                _local_7 = window.findChildByName("arrow_expand");
+                if (_local_7 != null)
+                {
+                    _local_7.y = ((_local_5 * 0.5) - (_local_7.height * 0.5));
+                }
             }
             window.position = new Point(TOOLBAR_X, ((window.desktop.height - DISTANCE_FROM_BOTTOM) - window.height));
             if (this._roomToolsHistory)
@@ -170,33 +326,12 @@
 
         override public function setCollapsed(k:Boolean):void
         {
-            var _local_2:Motion;
             if (((_isCollapsed == k) || (!(window))))
             {
                 return;
             }
             _isCollapsed = k;
-            var _local_3:IWindow = window.findChildByName("window_bg");
-            if (!_local_3)
-            {
-                return;
-            }
-            if (_isCollapsed)
-            {
-                _local_2 = new Queue(new EaseOut(new MoveTo(_local_3, WINDOW_ANIM_SPEED, _Str_12959, _local_3.y), 1), new Callback(this.motionComplete));
-            }
-            else
-            {
-                _local_3.x = _Str_12959;
-                this._Str_17459();
-                _local_2 = new EaseOut(new MoveTo(_local_3, WINDOW_ANIM_SPEED, _Str_18592, _local_3.y), 1);
-            }
-            Motions._Str_4598(_local_2);
-        }
-
-        private function motionComplete(k:Motion):void
-        {
-            this._Str_17459();
+            this.beginAnimation((_isCollapsed) ? this.getCollapsedExpandedOffsetX() : 0);
         }
 
         private function _Str_17459():void
@@ -205,20 +340,75 @@
             {
                 return;
             }
-            window.findChildByName("window_bg").visible = (!(_isCollapsed));
+            window.findChildByName("window_bg").visible = ((!(_isCollapsed)) || this._isAnimating);
             window.findChildByName("side_bar_collapse").visible = (!(_isCollapsed));
             window.findChildByName("side_bar_expand").visible = _isCollapsed;
+            this.applyExpandedBranchOffset(this._expandedBranchOffset);
             this.updatePosition();
+            this.updateZoomControls();
+        }
+
+        private function beginAnimation(k:int):void
+        {
+            this._animationStartOffset = this._expandedBranchOffset;
+            this._animationTargetOffset = k;
+            this._animationElapsed = 0;
+            this._isAnimating = (this._animationStartOffset != this._animationTargetOffset);
+            this._Str_17459();
+            if (!this._isAnimating)
+            {
+                return;
+            }
+            this.ensureUpdateRegistration();
+            if (!this._isRegisteredForUpdates)
+            {
+                this._isAnimating = false;
+                this.applyExpandedBranchOffset(k);
+                this._Str_17459();
+            }
+        }
+
+        private function applyExpandedBranchOffset(k:Number):void
+        {
+            var _local_2:IWindow;
+            if (!window)
+            {
+                return;
+            }
+            _local_2 = window.findChildByName("window_bg");
+            if (_local_2 == null)
+            {
+                return;
+            }
+            this._expandedBranchOffset = k;
+            _local_2.x = (1 + k);
+        }
+
+        private function getCollapsedExpandedOffsetX():int
+        {
+            var k:IWindow;
+            var _local_2:IWindow;
+            if (!window)
+            {
+                return 0;
+            }
+            k = window.findChildByName("window_bg");
+            _local_2 = window.findChildByName("side_bar_expand");
+            if (((k == null) || (_local_2 == null)))
+            {
+                return 0;
+            }
+            return ((_local_2.width - k.width) - 1);
         }
 
         private function onWindowEvent(event:WindowEvent, target:IWindow):void
         {
             var link:String;
-            var window:IWindowContainer;
+            var shareWindow:IWindowContainer;
             var openCameraEvent:HabboToolbarEvent;
             var message:RoomWidgetZoomToggleMessage;
             var asset:XML;
-            if (((((event.type == WindowEvent.WINDOW_EVENT_PARENT_RESIZED) && (window)) && (window.parent)) && (event.target == window.parent)))
+            if (((((event.type == WindowEvent.WINDOW_EVENT_PARENT_RESIZED) && (this.window)) && (this.window.parent)) && (event.target == this.window.parent)))
             {
                 return this.updatePosition();
             }
@@ -238,6 +428,14 @@
                                 _widget.messageListener.processWidgetMessage(message);
                             }
                             break;
+                        case "zoom_in_btn":
+                            _widget.zoomRoom(1);
+                            this.updateZoomControls();
+                            break;
+                        case "zoom_out_btn":
+                            _widget.zoomRoom(-1);
+                            this.updateZoomControls();
+                            break;
                         case "button_collapse":
                         case "button_expand":
                             _widget.setCollapsed((!(_isCollapsed)));
@@ -256,6 +454,7 @@
                             if (_widget.freeFlowChat)
                             {
                                 _widget.freeFlowChat.toggleVisibility();
+                                _widget.setCollapsed(true);
                             }
                             break;
                         case "button_like":
@@ -264,27 +463,27 @@
                             break;
                         case "button_share":
                             link = this.getEmbedData();
-                            window = (_widget.windowManager.getWindowByName("share_room_link") as IWindowContainer);
-                            if (window == null)
+                            shareWindow = (_widget.windowManager.getWindowByName("share_room_link") as IWindowContainer);
+                            if (shareWindow == null)
                             {
                                 asset = (_assets.getAssetByName("share_room_xml").content as XML);
                                 if (asset)
                                 {
-                                    window = (_widget.windowManager.buildFromXML(asset) as IWindowContainer);
+                                    shareWindow = (_widget.windowManager.buildFromXML(asset) as IWindowContainer);
                                 }
                             }
-                            if (window)
+                            if (shareWindow)
                             {
                                 HabboTracking.getInstance().trackEventLog("RoomLink", "click", "client.room_link.clicked");
-                                window.name = "share_room_link";
-                                window.center();
-                                window.findChildByTag("close").addEventListener(WindowMouseEvent.CLICK, function (k:WindowMouseEvent, _arg_2:IWindow=null):void
+                                shareWindow.name = "share_room_link";
+                                shareWindow.center();
+                                shareWindow.findChildByTag("close").addEventListener(WindowMouseEvent.CLICK, function (k:WindowMouseEvent, _arg_2:IWindow=null):void
                                 {
-                                    window.dispose();
+                                    shareWindow.dispose();
                                 });
-                                window.findChildByName("embed_src_txt").caption = this.getEmbedData();
-                                window.findChildByName("embed_src_direct_txt").caption = this.getEmbedData("embed_src_direct_txt", "${url.prefix}/room/%roomId%");
-                                IStaticBitmapWrapperWindow(window.findChildByName("thumbnail_image")).assetUri = this._Str_24878();
+                                shareWindow.findChildByName("embed_src_txt").caption = this.getEmbedData();
+                                shareWindow.findChildByName("embed_src_direct_txt").caption = this.getEmbedData("embed_src_direct_txt", "${url.prefix}/room/%roomId%");
+                                IStaticBitmapWrapperWindow(shareWindow.findChildByName("thumbnail_image")).assetUri = this._Str_24878();
                             }
                             try
                             {
@@ -359,16 +558,50 @@
         public function get right():int
         {
             var k:IWindow;
+            var _local_2:IWindow;
+            var _local_3:IWindow;
+            var _local_4:int;
             if (!window)
             {
                 return 0;
             }
-            if (_isCollapsed)
+            if (((_isCollapsed) && (!(this._isAnimating))))
             {
                 k = window.findChildByName("side_bar_expand");
                 return (k) ? (k.width + TOOLBAR_X) : 0;
             }
-            return window.width + TOOLBAR_X;
+            k = window.findChildByName("window_bg");
+            _local_2 = window.findChildByName("side_bar_expand");
+            _local_3 = window.findChildByName("side_bar_collapse");
+            if (((k != null) && (k.visible)))
+            {
+                _local_4 = Math.max(_local_4, Math.round((k.x + k.width)));
+            }
+            if (((_local_2 != null) && (_local_2.visible)))
+            {
+                _local_4 = Math.max(_local_4, Math.round((_local_2.x + _local_2.width)));
+            }
+            if (((_local_3 != null) && (_local_3.visible)))
+            {
+                _local_4 = Math.max(_local_4, Math.round((_local_3.x + _local_3.width)));
+            }
+            return (_local_4 + TOOLBAR_X);
+        }
+
+        public function get collapsedRight():int
+        {
+            var k:IWindow;
+            if (!window)
+            {
+                return 0;
+            }
+            k = window.findChildByName("side_bar_expand");
+            return (k) ? (k.width + TOOLBAR_X) : 0;
+        }
+
+        public function get top():int
+        {
+            return (window) ? window.y : 0;
         }
     }
 }

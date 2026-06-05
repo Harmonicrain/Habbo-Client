@@ -366,6 +366,102 @@
             return false;
         }
 
+        public function resetObjectContentToPlaceHolder(k:String):Boolean
+        {
+            var _local_2:String;
+            var _local_3:XML;
+            var _local_4:XML;
+            var _local_5:IGraphicAssetCollection;
+            var _local_6:String;
+            var _local_7:String;
+            var _local_8:IRoomObjectVisualizationData;
+            var _local_9:RoomInstance;
+            var _local_10:Array;
+            var _local_11:int;
+            var _local_12:int;
+            var _local_14:IRoomObjectController;
+            var _local_15:IRoomObjectGraphicVisualization;
+            var _local_16:IRoomObjectEventHandler;
+            var _local_17:Boolean;
+            if (k == null)
+            {
+                return false;
+            }
+            if ((((this._contentLoader == null) || (this._visualizationFactory == null)) || (this._objectFactory == null)))
+            {
+                return false;
+            }
+            _local_2 = this._contentLoader.getPlaceHolderType(k);
+            if (_local_2 == null)
+            {
+                return false;
+            }
+            _local_3 = this._contentLoader.getVisualizationXML(_local_2);
+            _local_4 = this._contentLoader.getLogicXML(_local_2);
+            _local_5 = this._contentLoader.getGraphicAssetCollection(_local_2);
+            if (((_local_3 == null) || (_local_5 == null)))
+            {
+                return false;
+            }
+            _local_6 = this._contentLoader.getVisualizationType(_local_2);
+            _local_7 = this._contentLoader.getLogicType(_local_2);
+            _local_8 = this._visualizationFactory.getRoomObjectVisualizationData(_local_2, _local_6, _local_3);
+            var _local_18:int = (this._rooms.length - 1);
+            while (_local_18 >= 0)
+            {
+                _local_9 = (this._rooms.getWithIndex(_local_18) as RoomInstance);
+                if (_local_9 != null)
+                {
+                    _local_10 = _local_9.getObjectManagerIds();
+                    for each (_local_11 in _local_10)
+                    {
+                        _local_12 = (_local_9.getObjectCountForType(k, _local_11) - 1);
+                        while (_local_12 >= 0)
+                        {
+                            _local_14 = (_local_9.getObjectWithIndexAndType(_local_12, k, _local_11) as IRoomObjectController);
+                            if (_local_14 != null)
+                            {
+                                _local_15 = this._visualizationFactory.createRoomObjectVisualization(_local_6);
+                                if (_local_15 != null)
+                                {
+                                    _local_15.assetCollection = _local_5;
+                                    _local_15.setExternalBaseUrls(context.configuration.getProperty("stories.image_url_base"), context.configuration.getProperty("extra_data_service_url"), context.configuration.getBoolean("extra_data_batches_enabled"));
+                                    if (_local_15.initialize(_local_8))
+                                    {
+                                        _local_14.setVisualization(_local_15);
+                                        _local_16 = this._objectFactory.createRoomObjectLogic(_local_7);
+                                        _local_14.setEventHandler(_local_16);
+                                        if (((_local_16 != null) && (_local_4 != null)))
+                                        {
+                                            _local_16.initialize(_local_4);
+                                        }
+                                        _local_14.setInitialized(false);
+                                        _local_17 = true;
+                                    }
+                                    else
+                                    {
+                                        _local_15.dispose();
+                                    }
+                                }
+                            }
+                            _local_12--;
+                        }
+                    }
+                }
+                _local_18--;
+            }
+            return _local_17;
+        }
+
+        public function loadObjectContent(k:String):Boolean
+        {
+            if (((k == null) || (this._contentLoader == null)))
+            {
+                return false;
+            }
+            return this._contentLoader.loadObjectContent(k, events);
+        }
+
         private function processInitialContentLoad(k:String):void
         {
             var _local_2:int;

@@ -50,6 +50,11 @@
             return this._cachedItemList;
         }
 
+        public function scrollWithWheel(k:Number, _arg_2:Boolean):Boolean
+        {
+            return this._itemList.scrollWithWheel(k, _arg_2);
+        }
+
         public function get scrollableWindow():IWindow
         {
             return this._itemList;

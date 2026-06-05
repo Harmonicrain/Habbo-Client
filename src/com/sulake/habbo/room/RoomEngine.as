@@ -358,6 +358,7 @@
             registerUpdateReceiver(this, 1);
             this._roomObjectFactory.addObjectEventListener(this.roomObjectEventHandler);
             this._roomContentLoader.visualizationFactory = this._visualizationFactory;
+            this._roomContentLoader.roomManager = this._roomManager;
             this._roomManager.addObjectUpdateCategory(RoomObjectCategoryEnum.OBJECT_CATEGORY_FURNITURE);
             this._roomManager.addObjectUpdateCategory(RoomObjectCategoryEnum.OBJECT_CATEGORY_WALLITEM);
             this._roomManager.addObjectUpdateCategory(RoomObjectCategoryEnum.OBJECT_CATEGORY_USER);
@@ -1823,8 +1824,6 @@
 
         public function setRoomCanvasScale(k:int, _arg_2:int, _arg_3:Number, _arg_4:Point=null, _arg_5:Point=null, _arg_6:Boolean=false, _arg_7:Boolean=false, _arg_8:Boolean=false):void
         {
-            var _local_10:RoomInstanceData;
-            var _local_11:RoomCamera;
             if (!getBoolean("zoom.enabled"))
             {
                 return;
@@ -1837,11 +1836,7 @@
             if (_local_9 != null)
             {
                 _local_9.setScale(_arg_3, _arg_4, _arg_5, _arg_8);
-                _local_10 = this.getRoomInstanceData(this._activeRoomId);
-                if (_local_10 != null)
-                {
-                    _local_11 = _local_10.roomCamera;
-                }
+                this.syncRoomCameraLocationToCanvasOffset(k, _local_9);
                 events.dispatchEvent(new RoomEngineEvent(RoomEngineEvent.ROOM_ZOOMED, k));
             }
         }
@@ -2012,7 +2007,7 @@
                                             _local_11._Str_8564 = false;
                                             _local_11._Str_8690 = false;
                                         }
-                                        _local_11.resetLocation(new Vector3d(-(k.screenOffsetX), -(k.screenOffsetY)));
+                                        _local_11.resetLocation(new Vector3d(-(this.normalizeScreenOffsetForScale(k.screenOffsetX, k.width, k.scale)), -(this.normalizeScreenOffsetForScale(k.screenOffsetY, k.height, k.scale))));
                                     }
                                     if (this._cameraCentered)
                                     {
@@ -2074,6 +2069,34 @@
                 }
             }
             return false;
+        }
+
+        private function normalizeScreenOffsetForScale(k:Number, _arg_2:Number, _arg_3:Number):Number
+        {
+            var _local_4:Number;
+            var _local_5:Number;
+            if (((_arg_3 == 0) || (_arg_3 == 1)))
+            {
+                return k;
+            }
+            _local_4 = (_arg_2 / _arg_3);
+            _local_5 = (_local_4 / 2);
+            return (_local_5 - ((_local_5 - k) / _arg_3));
+        }
+
+        private function syncRoomCameraLocationToCanvasOffset(k:int, _arg_2:IRoomRenderingCanvas):void
+        {
+            var _local_3:RoomInstanceData;
+            if ((((!(this.useOffsetScrolling)) || (_arg_2 == null)) || (_arg_2.scale <= 0)))
+            {
+                return;
+            }
+            _local_3 = this.getRoomInstanceData(k);
+            if (((_local_3 == null) || (_local_3.roomCamera == null)))
+            {
+                return;
+            }
+            _local_3.roomCamera.resetLocation(new Vector3d(-(this.normalizeScreenOffsetForScale(_arg_2.screenOffsetX, _arg_2.width, _arg_2.scale)), -(this.normalizeScreenOffsetForScale(_arg_2.screenOffsetY, _arg_2.height, _arg_2.scale))));
         }
 
         public function handleRoomCanvasMouseEvent(k:int, _arg_2:int, _arg_3:int, _arg_4:String, _arg_5:Boolean, _arg_6:Boolean, _arg_7:Boolean, _arg_8:Boolean):void

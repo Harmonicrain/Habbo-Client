@@ -5,6 +5,7 @@
     import flash.external.ExternalInterface;
     import flash.net.URLRequest;
     import flash.net.navigateToURL;
+    import flash.utils.setTimeout;
 
     public class HabboWebTools
     {
@@ -19,6 +20,7 @@
         public static var hideAirLoginBackgroundCallback:Function;
         public static var renderAirLoginBackgroundCallback:Function;
         public static var setAirLoadingScreenVisibleCallback:Function;
+        public static var reloadAirClientCallback:Function;
         public static var returnToAirLoginCallback:Function;
         public static var showAirLoginErrorCallback:Function;
         public static var showAirErrorCallback:Function;
@@ -148,6 +150,11 @@
 
         public static function returnToAirLogin():void
         {
+            if (reloadAirClientCallback != null)
+            {
+                setTimeout(reloadAirClientCallback, 1);
+                return;
+            }
             if (returnToAirLoginCallback != null)
             {
                 returnToAirLoginCallback();

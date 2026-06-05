@@ -47,11 +47,15 @@
 
         private function set visible(k:Boolean):void
         {
+            var _local_2:HTMLTextController;
             if (((this._window == null) || (this._window.disposed)))
             {
                 this._window = this.createWindow(_Str_18774, this.windowProcedure);
-                (this._window.findChildByName("content") as ITextWindow).styleSheet = styleSheet;
-                (this._window.findChildByName("content") as ITextWindow).addEventListener(WindowEvent.WINDOW_EVENT_CHANGE, this._Str_24991);
+                _local_2 = (this._window.findChildByName("content") as HTMLTextController);
+                _local_2.styleSheet = styleSheet;
+                _local_2.textField.mouseWheelEnabled = false;
+                _local_2.addEventListener(WindowEvent.WINDOW_EVENT_CHANGE, this._Str_24991);
+                _local_2.addEventListener(WindowMouseEvent.WHEEL, this.onContentWheel);
             }
             this._window.visible = k;
         }
@@ -89,6 +93,20 @@
                 case "close":
                     this._window.visible = false;
                     return;
+            }
+        }
+
+        private function onContentWheel(k:WindowMouseEvent):void
+        {
+            var _local_2:IScrollbarWindow;
+            if (((this._window == null) || (this._window.disposed)))
+            {
+                return;
+            }
+            _local_2 = (this._window.findChildByName("scroller") as IScrollbarWindow);
+            if (((!(_local_2 == null)) && (_local_2.scrollWithWheel(k.delta))))
+            {
+                k.stopPropagation();
             }
         }
 

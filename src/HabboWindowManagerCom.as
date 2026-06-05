@@ -696,6 +696,8 @@
         public static var roomtools_minimizebutton:Class = HabboWindowManagerCom_roomtools_minimizebutton;
         public static var roomtools_photo_icon:Class = HabboWindowManagerCom_roomtools_photo_icon;
         public static var roomtools_unlike:Class = HabboWindowManagerCom_roomtools_unlike;
+        public static var roomtools_zoom_in:Class = HabboWindowManagerCom_roomtools_zoom_in;
+        public static var roomtools_zoom_out:Class = HabboWindowManagerCom_roomtools_zoom_out;
         public static var talent_achieved_div:Class = HabboWindowManagerCom_talent_achieved_div;
         public static var talent_achieved_left:Class = HabboWindowManagerCom_talent_achieved_left;
         public static var talent_achieved_mid:Class = HabboWindowManagerCom_talent_achieved_mid;

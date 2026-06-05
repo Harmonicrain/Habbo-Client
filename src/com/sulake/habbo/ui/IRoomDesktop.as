@@ -6,6 +6,7 @@
     import com.sulake.habbo.ui.widget.messages.RoomWidgetMessage;
     import com.sulake.habbo.ui.widget.events.RoomWidgetUpdateEvent;
     import com.sulake.habbo.ui.widget.IRoomWidget;
+    import flash.geom.Rectangle;
 
     public interface IRoomDesktop 
     {
@@ -14,5 +15,12 @@
         function get roomSession():IRoomSession;
         function processWidgetMessage(_arg_1:RoomWidgetMessage):RoomWidgetUpdateEvent;
         function getWidget(_arg_1:String):IRoomWidget;
+        function createWidget(_arg_1:String):void;
+        function disposeWidget(_arg_1:String):void;
+        function getFirstCanvasId():int;
+        function getRoomViewRect():Rectangle;
+        function getCurrentRoomCanvasZoomScale():Number;
+        function canZoomRoomCanvas(_arg_1:int):Boolean;
+        function zoomRoomCanvas(_arg_1:int):void;
     }
 }

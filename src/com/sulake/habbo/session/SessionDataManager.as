@@ -37,6 +37,7 @@
     import com.sulake.habbo.communication.messages.incoming.users.InClientLinkMessageEvent;
     import com.sulake.habbo.communication.messages.incoming.preferences.AccountPreferencesEvent;
     import com.sulake.habbo.communication.messages.incoming.users.EmailStatusResultEvent;
+    import com.sulake.habbo.communication.messages.incoming.session.FurniDataReloadMessageEvent;
     import com.sulake.habbo.session.furniture.IFurniDataListener;
     import com.sulake.habbo.communication.enum.NoobnessLevelEnum;
     import com.sulake.habbo.communication.messages.parser.handshake.UserObjectMessageParser;
@@ -50,6 +51,7 @@
     import com.sulake.habbo.communication.messages.parser.preferences.AccountPreferencesParser;
     import com.sulake.habbo.session.events.SessionDataPreferencesEvent;
     import com.sulake.habbo.communication.messages.parser.users.EmailStatusParser;
+    import com.sulake.habbo.communication.messages.parser.session.FurniDataReloadMessageParser;
     import com.sulake.habbo.communication.messages.parser.availability.AvailabilityStatusMessageParser;
     import com.sulake.habbo.communication.messages.parser.users.AccountSafetyLockStatusChangeMessageParser;
     import com.sulake.habbo.communication.messages.outgoing.preferences.SetUIFlagsMessageComposer;
@@ -112,6 +114,7 @@
         private var _productDataReady:Boolean = false;
         private var _Str_8233:Array;
         private var _Str_6042:Array;
+        private var _furniReloadListeners:Array;
         private var _clubLevel:int;
         private var _securityLevel:int;
         private var _topSecurityLevel:int = 0;
@@ -128,6 +131,8 @@
         private var _Str_12845:Boolean = false;
         private var _Str_8108:Timer = null;
         private var _Str_8546:String = null;
+        private var _furniReloadToken:String = null;
+        private var _furniReloadInProgress:Boolean = false;
 
         public function SessionDataManager(k:IContext, _arg_2:uint=0, _arg_3:IAssetLibrary=null)
         {
@@ -186,6 +191,7 @@
                 this._communicationManager.addHabboConnectionMessageEvent(new InClientLinkMessageEvent(this.onInClientLink));
                 this._communicationManager.addHabboConnectionMessageEvent(new AccountPreferencesEvent(this.onAccountPreferences));
                 this._communicationManager.addHabboConnectionMessageEvent(new EmailStatusResultEvent(this.onEmailStatus));
+                this._communicationManager.addHabboConnectionMessageEvent(new FurniDataReloadMessageEvent(this.onFurniDataReload));
             }
             this._rights = [];
             this._Str_7432 = new _Str_8883(this);
@@ -194,6 +200,7 @@
             this._perkManager = new PerkManager(this);
             this._Str_8233 = [];
             this._Str_6042 = [];
+            this._furniReloadListeners = [];
         }
 
         override public function dispose():void
@@ -266,13 +273,22 @@
                 {
                     _local_2 = k.lastIndexOf("/");
                     _local_3 = k.substring(0, _local_2);
-                    this._furnitureParser.loadData(((_local_3 + "/") + this._Str_8546));
+                    this._furnitureParser.loadData(this.appendFurniReloadToken(((_local_3 + "/") + this._Str_8546)));
                 }
                 else
                 {
-                    this._furnitureParser.loadData(k);
+                    this._furnitureParser.loadData(this.appendFurniReloadToken(k));
                 }
             }
+        }
+
+        private function appendFurniReloadToken(k:String):String
+        {
+            if (((this._furniReloadToken == null) || (this._furniReloadToken.length == 0)))
+            {
+                return k;
+            }
+            return (k + ((k.indexOf("?") == -1) ? "?" : "&") + "furni_reload=" + encodeURIComponent(this._furniReloadToken));
         }
 
         private function initProductData():void
@@ -290,16 +306,47 @@
         private function onFurnitureReady(k:Event=null):void
         {
             var _local_2:IFurniDataListener;
+            var _local_3:Boolean = this._furniReloadInProgress;
             this._furnitureParser.removeEventListener(FurnitureDataParser.FDP_FURNITURE_DATA_READY, this.onFurnitureReady);
             this._Str_20020 = true;
-            if (((this.isAuthenticHabbo) && (!(this._Str_12845))))
+            if (((this.isAuthenticHabbo) && (_local_3)))
+            {
+                for each (_local_2 in this._furniReloadListeners)
+                {
+                    if (((!(_local_2 == null)) && (!(_local_2.disposed))))
+                    {
+                        _local_2.furniDataReady();
+                    }
+                }
+            }
+            else if (((this.isAuthenticHabbo) && (!(this._Str_12845))))
             {
                 this._Str_12845 = true;
                 for each (_local_2 in this._Str_6042)
                 {
-                    _local_2.furniDataReady();
+                    if (((!(_local_2 == null)) && (!(_local_2.disposed))))
+                    {
+                        _local_2.furniDataReady();
+                    }
                 }
             }
+            if (_local_3)
+            {
+                this._furniReloadInProgress = false;
+            }
+        }
+
+        private function onFurniDataReload(k:IMessageEvent):void
+        {
+            var _local_2:FurniDataReloadMessageEvent = (k as FurniDataReloadMessageEvent);
+            if (((_local_2 == null) || (_local_2.getParser() == null)))
+            {
+                return;
+            }
+            var _local_3:FurniDataReloadMessageParser = _local_2.getParser();
+            this._furniReloadToken = _local_3.reloadToken;
+            this._furniReloadInProgress = true;
+            this._Str_18167(null);
         }
 
         private function onUserRights(k:IMessageEvent):void
@@ -1059,6 +1106,14 @@
 
         public function getFurniData(k:IFurniDataListener):Vector.<IFurnitureData>
         {
+            if (this._furniReloadListeners == null)
+            {
+                this._furniReloadListeners = [];
+            }
+            if (((k) && (this._furniReloadListeners.indexOf(k) == -1)))
+            {
+                this._furniReloadListeners.push(k);
+            }
             if (((this._floorItems == null) || (this._floorItems.length == 0)))
             {
                 if (this._Str_6042.indexOf(k) == -1)
@@ -1068,6 +1123,11 @@
                 return null;
             }
             return Vector.<IFurnitureData>(this._floorItems.getValues().concat(this._wallItems.getValues()));
+        }
+
+        public function get furniDataReloadToken():String
+        {
+            return this._furniReloadToken;
         }
 
         public function getXmlWindow(k:String):IWindow

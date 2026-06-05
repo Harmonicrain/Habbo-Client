@@ -743,6 +743,8 @@
 			<asset mimeType="image/png" name="roomtools_minimizebutton" />
 			<asset mimeType="image/png" name="roomtools_photo_icon" />
 			<asset mimeType="image/png" name="roomtools_unlike" />
+			<asset mimeType="image/png" name="roomtools_zoom_in" />
+			<asset mimeType="image/png" name="roomtools_zoom_out" />
 			<asset mimeType="image/png" name="talent_achieved_div" />
 			<asset mimeType="image/png" name="talent_achieved_left" />
 			<asset mimeType="image/png" name="talent_achieved_mid" />

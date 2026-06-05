@@ -233,7 +233,6 @@
 
         override public function dispose():void
         {
-            HabboWebTools.airDebug("HabboCommunicationDemo.dispose called! view=" + (this._view != null) + " stack=" + new Error().getStackTrace());
             this.clearAirConnectWatchdog();
             if (HabboWebTools.returnToAirLoginCallback == this.returnToAirLogin)
             {

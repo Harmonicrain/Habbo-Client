@@ -216,38 +216,23 @@
 
         public function setScale(k:Number, _arg_2:Point=null, _arg_3:Point=null, _arg_4:Boolean=false):void
         {
+            var _local_5:Point;
             if ((((!(this._master)) || (!(this._master.stage))) || (!(this._display))))
             {
                 return;
             }
             if (_arg_2 == null)
             {
-                _arg_2 = new Point((this._master.stage.stageWidth / 2), (this._master.stage.stageHeight / 2));
+                _arg_2 = new Point((this._wd / 2), (this._ht / 2));
             }
             if (_arg_3 == null)
             {
                 _arg_3 = _arg_2;
             }
-            _arg_2 = this._display.globalToLocal(_arg_2);
+            _local_5 = new Point(((_arg_2.x - this._screenOffsetX) / this._scale), ((_arg_2.y - this._screenOffsetY) / this._scale));
             this._scale = k;
-            if (this._scale < 1)
-            {
-                this._display.stage.quality = ((this._scale == 0.5) ? StageQuality.BEST : this._display.stage.quality);
-                if (!_arg_4)
-                {
-                    this._display.rotationX = 0;
-                }
-            }
-            else
-            {
-                this._display.stage.quality = StageQuality.LOW;
-                if (!_arg_4)
-                {
-                    this._display.rotationX = NaN;
-                }
-            }
-            this.screenOffsetX = (_arg_3.x - (_arg_2.x * k));
-            this.screenOffsetY = (_arg_3.y - (_arg_2.y * k));
+            this.screenOffsetX = (_arg_3.x - (_local_5.x * k));
+            this.screenOffsetY = (_arg_3.y - (_local_5.y * k));
         }
 
         public function get scale():Number
