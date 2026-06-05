@@ -48,7 +48,7 @@ package
         private static const GORDON_PATH:String = "/gordon/PRODUCTION-201611291003-338511768/";
         private static const DEFAULT_HOST:String = "109.122.1.113";
         private static const DEFAULT_PORT:String = "3000,3001";
-        private static const DEFAULT_APP_NAME:String = "NGHWin";
+        private static const DEFAULT_APP_NAME:String = "Habbo";
         private static const DEFAULT_VERSION_STRING:String = "0.0.0-beta";
         private static const LOGIN_VERSION_MARGIN_LEFT:int = 16;
         private static const LOGIN_VERSION_MARGIN_BOTTOM:int = 10;
