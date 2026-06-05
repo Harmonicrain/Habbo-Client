@@ -203,6 +203,44 @@
             return (this._toolbarView) ? this._toolbarView.right : 0;
         }
 
+        public function getRoomToolbarCollapsedRight():int
+        {
+            return (this._toolbarView) ? this._toolbarView.collapsedRight : 0;
+        }
+
+        public function getRoomToolbarTop():int
+        {
+            return (this._toolbarView) ? this._toolbarView.top : 0;
+        }
+
+        public function get isRoomToolbarCollapsed():Boolean
+        {
+            return (this._toolbarView) ? this._toolbarView.isCollapsed : true;
+        }
+
+        public function getCurrentRoomZoomText():String
+        {
+            var k:Number = ((this._desktop != null) ? this._desktop.getCurrentRoomCanvasZoomScale() : NaN);
+            if (((isNaN(k)) || (k <= 0)))
+            {
+                k = 1;
+            }
+            return (Math.round((Math.log(k) / Math.LN2)) + 1).toString();
+        }
+
+        public function canZoomRoom(k:int):Boolean
+        {
+            return ((this._desktop != null) && this._desktop.canZoomRoomCanvas(k));
+        }
+
+        public function zoomRoom(k:int):void
+        {
+            if (this._desktop != null)
+            {
+                this._desktop.zoomRoomCanvas(k);
+            }
+        }
+
         public function goToNextRoom():void
         {
             var k:int = (_currentRoomIndex + 1);

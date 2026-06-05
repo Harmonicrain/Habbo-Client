@@ -167,6 +167,11 @@
         public static const STATE_UNDEFINED:int = -1;
         private static const RESIZE_UPDATE_TIMEOUT_MS:int = 1000;
         private static const SCALE_UPDATE_TIMEOUT_MS:int = 1000;
+        private static const ZOOM_ANIMATION_BASE_FRAME_MS:Number = 16.666666666666668;
+        private static const ROOM_ZOOM_EPSILON:Number = 0.001;
+        private static const ROOM_ZOOM_SCROLL_COOLDOWN_MS:int = 400;
+        private static const ROOM_ZOOM_SCROLL_MOUSE_DELTA_BYPASS_THRESHOLD:int = 2;
+        private static const ROOM_ZOOM_SCALES:Array = [0.5, 1, 2, 4, 8, 16];
 
         private var _events:EventDispatcherWrapper;
         private var _windowManager:IHabboWindowManager = null;
@@ -217,9 +222,9 @@
         private var _botSkillListUpdateMessageEvent:IMessageEvent;
         private var _botForceOpenContextMenuMessageEvent:IMessageEvent;
         private var _pivot:Point;
+        private var _targetRoomCanvasScale:Number = NaN;
         private var _scaleFactor:Number = 0;
-        private var _mouseWheelSpeed:Number = 0;
-        private var _shouldSmartScale:Boolean;
+        private var _lastZoomScrollMillis:int = 0;
 
         public function RoomDesktop(k:IRoomSession, _arg_2:IAssetLibrary, _arg_3:IConnection)
         {
@@ -1450,15 +1455,53 @@
             var _local_2:Point;
             var _local_3:int;
             var _local_4:int;
+            var _local_5:int;
+            var _local_6:int;
+            var _local_7:Number;
+            var _local_8:Number;
             if ((((k.ctrlKey) && (!(k.altKey))) && (!(k.shiftKey))))
             {
-                this._mouseWheelSpeed = (this._mouseWheelSpeed + ((k.delta == 0) ? 0 : ((k.delta < 0) ? -20 : 20)));
+                if (k.delta == 0)
+                {
+                    return;
+                }
+                _local_5 = getTimer();
+                _local_6 = ((k.delta < 0) ? -1 : 1);
+                if (!this.shouldProcessZoomScroll(k.delta, _local_5))
+                {
+                    k.preventDefault();
+                    return;
+                }
                 _local_2 = new Point();
                 this._roomCanvasWrapper.getGlobalPosition(_local_2);
                 _local_3 = (k.stageX - _local_2.x);
                 _local_4 = (k.stageY - _local_2.y);
                 this._pivot = new Point(_local_3, _local_4);
+                _local_7 = this.getCurrentRoomCanvasZoomScale();
+                _local_8 = this.getNextZoomScale(_local_7, _local_6);
+                if (Math.abs((_local_8 - _local_7)) <= ROOM_ZOOM_EPSILON)
+                {
+                    k.preventDefault();
+                    return;
+                }
+                this.animateRoomCanvasScale(_local_8, this._pivot);
+                this.markZoomScroll(_local_5);
+                k.preventDefault();
             }
+        }
+
+        private function shouldProcessZoomScroll(k:int, _arg_2:int):Boolean
+        {
+            if (Math.abs(k) >= ROOM_ZOOM_SCROLL_MOUSE_DELTA_BYPASS_THRESHOLD)
+            {
+                return true;
+            }
+            return ((this._lastZoomScrollMillis <= 0) || ((_arg_2 - this._lastZoomScrollMillis) > ROOM_ZOOM_SCROLL_COOLDOWN_MS));
+        }
+
+        private function markZoomScroll(k:int):void
+        {
+            this._lastZoomScrollMillis = k;
         }
 
         private function resizeColorizer(k:WindowEvent):void
@@ -1729,9 +1772,9 @@
             {
                 if ((this._roomEngine as Component).getBoolean("zoom.enabled"))
                 {
-                    k = this._roomEngine.getRoomCanvasScale(this._roomEngine.activeRoomId);
+                    k = this.getCurrentRoomCanvasZoomScale();
                     _local_2 = ((k == 1) ? 0.5 : 1);
-                    this._roomEngine.setRoomCanvasScale(this._roomEngine.activeRoomId, this.getFirstCanvasId(), _local_2);
+                    this.animateRoomCanvasScale(_local_2);
                 }
                 else
                 {
@@ -1745,13 +1788,32 @@
             }
         }
 
-        public function update():void
+        public function update(k:uint=0):void
         {
-            var k:Number;
             var _local_4:IRoomWidgetHandler;
             var _local_5:Number;
             var _local_6:Number;
             var _local_7:Number;
+            var _local_8:Number;
+            var _local_9:Number;
+            if (!isNaN(this._targetRoomCanvasScale))
+            {
+                _local_5 = this._roomEngine.getRoomCanvasScale(this._session.roomId, this.getFirstCanvasId());
+                _local_6 = this.scaleToZoomAnimationValue(_local_5);
+                _local_7 = this.scaleToZoomAnimationValue(this._targetRoomCanvasScale);
+                _local_8 = (_local_7 - _local_6);
+                if (Math.abs(_local_8) <= 0.01)
+                {
+                    this._roomEngine.setRoomCanvasScale(this._session.roomId, this.getFirstCanvasId(), this._targetRoomCanvasScale, this._pivot, null, false, true);
+                    this._targetRoomCanvasScale = NaN;
+                }
+                else
+                {
+                    _local_9 = this.getZoomAnimationStep(_local_6, _local_7, k);
+                    _local_6 = (_local_6 + ((_local_8 < 0) ? -(Math.min(_local_9, -(_local_8))) : Math.min(_local_9, _local_8)));
+                    this._roomEngine.setRoomCanvasScale(this._session.roomId, this.getFirstCanvasId(), this.zoomLevelToScale(_local_6), this._pivot, null, false, true);
+                }
+            }
             if (this._updateListeners == null)
             {
                 return;
@@ -1767,43 +1829,142 @@
                 }
                 _local_3++;
             }
-            if (Math.abs(this._mouseWheelSpeed) > 0.01)
-            {
-                k = this._roomEngine.getRoomCanvasScale(this._roomEngine.activeRoomId);
-                _local_5 = this.hibit(k);
-                _local_6 = (((_local_5 > 1) ? (_local_5 << 1) : 1) / 10);
-                _local_7 = ((this._mouseWheelSpeed > 0) ? (k - _local_6) : (k + _local_6));
-                _local_7 = Math.max(0.5, _local_7);
-                this._shouldSmartScale = true;
-                this._mouseWheelSpeed = (this._mouseWheelSpeed * 0.05);
-                this._roomEngine.setRoomCanvasScale(this._session.roomId, this.getFirstCanvasId(), _local_7, this._pivot, null, false, true);
-            }
-            else
-            {
-                if (this._shouldSmartScale)
-                {
-                    this._shouldSmartScale = false;
-                    k = this._roomEngine.getRoomCanvasScale(this._roomEngine.activeRoomId);
-                    if (k < 0.75)
-                    {
-                        this._roomEngine.setRoomCanvasScale(this._session.roomId, this.getFirstCanvasId(), 0.5, this._pivot, null, false, true);
-                    }
-                    else
-                    {
-                        this._roomEngine.setRoomCanvasScale(this._session.roomId, this.getFirstCanvasId(), Math.round(k), this._pivot, null, false, true);
-                    }
-                }
-            }
         }
 
-        private function hibit(k:int):int
+        public function animateRoomCanvasScale(k:Number, _arg_2:Point=null):void
         {
-            k = (k | (k >> 1));
-            k = (k | (k >> 2));
-            k = (k | (k >> 4));
-            k = (k | (k >> 8));
-            k = (k | (k >> 16));
-            return k - (k >> 1);
+            if (((((this._session == null) || (this._roomEngine == null)) || isNaN(k)) || !((this._roomEngine as Component).getBoolean("zoom.enabled"))))
+            {
+                return;
+            }
+            this._targetRoomCanvasScale = this.clampRoomCanvasZoomScale(k);
+            this._pivot = _arg_2;
+        }
+
+        public function getCurrentRoomCanvasZoomScale():Number
+        {
+            var k:Number = this.getCurrentControllableRoomCanvasScale();
+            return (isNaN(k) ? 1 : this.getNearestZoomScale(k));
+        }
+
+        public function canZoomRoomCanvas(k:int):Boolean
+        {
+            var _local_2:Number;
+            if (((!(this.canUseAnimatedRoomZoom())) || (k == 0)))
+            {
+                return false;
+            }
+            _local_2 = this.getCurrentRoomCanvasZoomScale();
+            return Math.abs((this.getNextZoomScale(_local_2, k) - _local_2)) > ROOM_ZOOM_EPSILON;
+        }
+
+        public function zoomRoomCanvas(k:int):void
+        {
+            var _local_2:Number;
+            var _local_3:Number;
+            if (((!(this.canUseAnimatedRoomZoom())) || (k == 0)))
+            {
+                return;
+            }
+            _local_2 = this.getCurrentRoomCanvasZoomScale();
+            _local_3 = this.getNextZoomScale(_local_2, k);
+            if (Math.abs((_local_3 - _local_2)) <= ROOM_ZOOM_EPSILON)
+            {
+                return;
+            }
+            this.animateRoomCanvasScale(_local_3);
+        }
+
+        private function getNextZoomScale(k:Number, _arg_2:int):Number
+        {
+            var _local_3:int;
+            if (((isNaN(k)) || (_arg_2 == 0)))
+            {
+                return k;
+            }
+            if (_arg_2 > 0)
+            {
+                if (k >= (ROOM_ZOOM_SCALES[(ROOM_ZOOM_SCALES.length - 1)] - ROOM_ZOOM_EPSILON))
+                {
+                    return k;
+                }
+                _local_3 = 0;
+                while (_local_3 < ROOM_ZOOM_SCALES.length)
+                {
+                    if (ROOM_ZOOM_SCALES[_local_3] > (k + ROOM_ZOOM_EPSILON))
+                    {
+                        return ROOM_ZOOM_SCALES[_local_3];
+                    }
+                    _local_3++;
+                }
+                return ROOM_ZOOM_SCALES[(ROOM_ZOOM_SCALES.length - 1)];
+            }
+            if (k <= (ROOM_ZOOM_SCALES[0] + ROOM_ZOOM_EPSILON))
+            {
+                return k;
+            }
+            _local_3 = (ROOM_ZOOM_SCALES.length - 1);
+            while (_local_3 >= 0)
+            {
+                if (ROOM_ZOOM_SCALES[_local_3] < (k - ROOM_ZOOM_EPSILON))
+                {
+                    return ROOM_ZOOM_SCALES[_local_3];
+                }
+                _local_3--;
+            }
+            return ROOM_ZOOM_SCALES[0];
+        }
+
+        private function canUseAnimatedRoomZoom():Boolean
+        {
+            return (((!(this._session == null)) && (!(this._roomEngine == null))) && ((this._roomEngine as Component).getBoolean("zoom.enabled")));
+        }
+
+        private function getCurrentControllableRoomCanvasScale():Number
+        {
+            if (!(this.canUseAnimatedRoomZoom()))
+            {
+                return NaN;
+            }
+            return (!(isNaN(this._targetRoomCanvasScale)) ? this._targetRoomCanvasScale : this._roomEngine.getRoomCanvasScale(this._session.roomId, this.getFirstCanvasId()));
+        }
+
+        private function clampRoomCanvasZoomScale(k:Number):Number
+        {
+            return Math.max(ROOM_ZOOM_SCALES[0], Math.min(ROOM_ZOOM_SCALES[(ROOM_ZOOM_SCALES.length - 1)], k));
+        }
+
+        private function getNearestZoomScale(k:Number):Number
+        {
+            var _local_4:Number;
+            var _local_2:Number = Number(ROOM_ZOOM_SCALES[0]);
+            var _local_3:Number = Math.abs((k - _local_2));
+            for each (_local_4 in ROOM_ZOOM_SCALES)
+            {
+                if (Math.abs((k - _local_4)) < _local_3)
+                {
+                    _local_2 = _local_4;
+                    _local_3 = Math.abs((k - _local_4));
+                }
+            }
+            return _local_2;
+        }
+
+        private function getZoomAnimationStep(k:Number, _arg_2:Number, _arg_3:uint):Number
+        {
+            var _local_4:Number = Math.abs((_arg_2 - k));
+            var _local_5:Number = ((_arg_3 > 0) ? Math.min(_arg_3, 50) : ZOOM_ANIMATION_BASE_FRAME_MS);
+            return Math.min(_local_4, ((0.14 * _local_5) / ZOOM_ANIMATION_BASE_FRAME_MS));
+        }
+
+        private function scaleToZoomAnimationValue(k:Number):Number
+        {
+            return Math.log(k) / Math.LN2;
+        }
+
+        private function zoomLevelToScale(k:Number):Number
+        {
+            return Math.pow(2, k);
         }
 
         private function getWindowName(k:int):String

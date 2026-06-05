@@ -44,6 +44,10 @@
 
         private static function _Str_22219(k:HabboWindowManagerComponent):void
         {
+            if (((_windowManager != null) && (_windowManager != k)))
+            {
+                resetStaticState();
+            }
             if (_Str_2691 == null)
             {
                 _windowManager = k;
@@ -52,6 +56,29 @@
                 _Str_2691.addEventListener(Event.RESIZE, onResize);
                 _Str_2691.addEventListener(Event.ENTER_FRAME, _Str_749);
             }
+        }
+
+        public static function resetStaticState():void
+        {
+            if (_Str_2691 != null)
+            {
+                _Str_2691.removeEventListener(Event.RESIZE, onResize);
+                _Str_2691.removeEventListener(Event.ENTER_FRAME, _Str_749);
+            }
+            if (_container != null)
+            {
+                try
+                {
+                    _container.dispose();
+                }
+                catch (error:Error)
+                {
+                }
+            }
+            _Str_2691 = null;
+            _windowManager = null;
+            _container = null;
+            _Str_7821 = 0;
         }
 
         private static function get _Str_20664():IWindowContext

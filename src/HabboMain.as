@@ -48,6 +48,10 @@
 
         private function dispose():void
         {
+            if (this._disposed)
+            {
+                return;
+            }
             this._disposed = true;
             removeEventListener(ProgressEvent.PROGRESS, this.onProgressEvent);
             removeEventListener(Event.COMPLETE, this.onCompleteEvent);
@@ -58,10 +62,11 @@
                 this._loadingScreen.dispose();
                 this._loadingScreen = null;
             }
-            if (this._core != null)
+            if (this._core != null && !this._core.disposed && this._core.events != null)
             {
                 this._core.events.removeEventListener(Component.COMPONENT_EVENT_RUNNING, this.onCoreRunning);
             }
+            this._core = null;
             if (parent)
             {
                 try
@@ -70,6 +75,11 @@
                 }
                 catch (e:Error) {}
             }
+        }
+
+        public function disposeForReload():void
+        {
+            this.dispose();
         }
 
         public function unloading():void

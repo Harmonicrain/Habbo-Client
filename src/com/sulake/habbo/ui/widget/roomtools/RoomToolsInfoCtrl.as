@@ -18,6 +18,7 @@
     public class RoomToolsInfoCtrl extends RoomToolsCtrlBase 
     {
         private static const MARGIN:int = 12;
+        private static const COLLAPSED_INFO_LIFT:int = 28;
         private static const TAG_COLOR:uint = 1800619;
         private static const TAG_COLOR_HOVER:uint = 4696294;
 
@@ -65,13 +66,8 @@
             {
                 return;
             }
-            var k:int = ((((_isCollapsed) ? -(_window.width) : 0) + _widget.getRoomToolbarRight()) + MARGIN);
-            var _local_2:int = ((_window.desktop.height - DISTANCE_FROM_BOTTOM) - _window.height);
-            var _local_3:int = _widget.getChatInputY();
-            if (_local_3 < (_local_2 + _window.height))
-            {
-                _local_2 = ((_local_3 - _window.height) - MARGIN);
-            }
+            var k:int = this.getTargetX();
+            var _local_2:int = this.getTargetY(_widget.isRoomToolbarCollapsed);
             _window.position = new Point(k, _local_2);
         }
 
@@ -92,27 +88,81 @@
                 return;
             }
             _window.visible = true;
-            var _local_2:int = ((((_isCollapsed) ? -(_window.width) : 0) + _widget.getRoomToolbarRight()) + MARGIN);
+            var _local_2:int = this.getTargetX();
             if (_isCollapsed)
             {
-                _local_3 = new Queue(new EaseOut(new MoveTo(_window, WINDOW_ANIM_SPEED, _local_2, _window.y), 1), new Callback(this.motionComplete));
+                _local_3 = new Queue(new EaseOut(new MoveTo(_window, WINDOW_ANIM_SPEED, _local_2, this.getTargetY(_widget.isRoomToolbarCollapsed)), 1), new Callback(this.motionComplete));
             }
             else
             {
-                _local_3 = new Queue(new EaseOut(new MoveTo(_window, WINDOW_ANIM_SPEED, _local_2, _window.y), 1), new Callback(this.motionComplete));
+                _local_3 = new Queue(new EaseOut(new MoveTo(_window, WINDOW_ANIM_SPEED, _local_2, this.getTargetY(_widget.isRoomToolbarCollapsed)), 1), new Callback(this.motionComplete));
             }
             Motions._Str_4598(_local_3);
         }
 
         public function setToolbarCollapsed(k:Boolean):void
         {
+            var _local_2:Motion;
+            var _local_3:int;
             if (!_window)
             {
                 return;
             }
-            this.setCollapsed(k);
-            var _local_2:Motion = new EaseOut(new MoveTo(_window, WINDOW_ANIM_SPEED, (_widget.getRoomToolbarRight() + MARGIN), _window.y), 1);
+            if (!k)
+            {
+                if (((this._isCollapsed) || (!(this._window.visible))))
+                {
+                    this.setCollapsed(false);
+                    return;
+                }
+                this.collapseAfterDelay();
+            }
+            if (((this._isCollapsed) || (!(this._window.visible))))
+            {
+                return;
+            }
+            _local_3 = this.getTargetX();
+            _local_2 = new EaseOut(new MoveTo(_window, WINDOW_ANIM_SPEED, _local_3, this.getTargetY(k)), 1);
             Motions._Str_4598(_local_2);
+        }
+
+        private function getTargetX():int
+        {
+            var k:int;
+            if (!_window)
+            {
+                return 0;
+            }
+            k = (_widget.getRoomToolbarCollapsedRight() + MARGIN);
+            return (((_isCollapsed) ? -(_window.width) : 0) + k);
+        }
+
+        private function getTargetY(k:Boolean):int
+        {
+            var _local_2:int;
+            var _local_3:int;
+            if (!_window)
+            {
+                return 0;
+            }
+            if (k)
+            {
+                _local_2 = (((_window.desktop.height - DISTANCE_FROM_BOTTOM) - _window.height) - COLLAPSED_INFO_LIFT);
+            }
+            else
+            {
+                _local_2 = ((_widget.getRoomToolbarTop() - _window.height) - MARGIN);
+            }
+            if (_local_2 < MARGIN)
+            {
+                _local_2 = MARGIN;
+            }
+            _local_3 = _widget.getChatInputY();
+            if (_local_3 < (_local_2 + _window.height))
+            {
+                _local_2 = ((_local_3 - _window.height) - MARGIN);
+            }
+            return _local_2;
         }
 
         private function motionComplete(k:Motion):void

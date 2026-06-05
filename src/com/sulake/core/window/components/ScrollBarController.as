@@ -12,9 +12,11 @@
     import com.sulake.core.window.events.WindowMouseEvent;
     import com.sulake.core.window.events.WindowTouchEvent;
     import com.sulake.core.window.IWindowContainer;
+    import com.sulake.core.window.utils.SmoothScroller;
 
     public class ScrollBarController extends InteractiveController implements IScrollbarWindow, ITouchAwareWindow 
     {
+        private static const SCROLL_STEP_SIZE:Number = 15;
         private static const INCREMENT:String = "increment";
         private static const DECREMENT:String = "decrement";
         private static const SLIDER_TRACK:String = "slider_track";
@@ -26,6 +28,7 @@
         private var _horizontal:Boolean;
         private var _targetName:String;
         private var _handlingButtonEvent:Boolean = false;
+        private var _smoothScroller:SmoothScroller;
 
         public function ScrollBarController(k:String, _arg_2:uint, _arg_3:uint, _arg_4:uint, _arg_5:WindowContext, _arg_6:Rectangle, _arg_7:IWindow, _arg_8:Function, _arg_9:Array=null, _arg_10:Array=null, _arg_11:uint=0, _arg_12:IScrollableWindow=null)
         {
@@ -34,6 +37,7 @@
             _drawable = false;
             this._scrollable = _arg_12;
             this._horizontal = (_arg_2 == WindowType.WINDOW_TYPE_SCROLLBAR_HORIZONTAL);
+            this._smoothScroller = new SmoothScroller(this.getScrollOffset, this.setSmoothScrollOffset, this.getSmoothScrollAxisSize, 200, 60, true, null, SCROLL_STEP_SIZE);
             var _local_13:Array = new Array();
             groupChildrenWithTag(TAG_INTERNAL, _local_13, -1);
             for each (_local_14 in _local_13)
@@ -92,6 +96,7 @@
             {
                 this._scrollable.addEventListener(WindowEvent.WINDOW_EVENT_RESIZED, this.onScrollableResized);
                 this._scrollable.addEventListener(WindowEvent.WINDOW_EVENT_SCROLL, this.onScrollableScrolled);
+                this.setScrollPosition((this._horizontal) ? this._scrollable.scrollH : this._scrollable.scrollV, false);
                 this.updateLiftSizeAndPosition();
             }
         }
@@ -161,6 +166,11 @@
         override public function dispose():void
         {
             this.scrollable = null;
+            if (this._smoothScroller != null)
+            {
+                this._smoothScroller.dispose();
+                this._smoothScroller = null;
+            }
             super.dispose();
         }
 
@@ -202,7 +212,7 @@
             return false;
         }
 
-        protected function setScrollPosition(k:Number):Boolean
+        protected function setScrollPosition(k:Number, applyToScrollable:Boolean=true, smooth:Boolean=false):Boolean
         {
             var _local_2:Boolean;
             if (((this._scrollable == null) || (this._scrollable.disposed)))
@@ -220,22 +230,30 @@
             {
                 k = 1;
             }
+            var _local_3:Number = k - this._offset;
             this._offset = k;
-            if (this._horizontal)
+            if (applyToScrollable)
             {
-                _local_2 = (!(this._scrollable.scrollH == this._offset));
-                if (_local_2)
+                if (this._horizontal)
                 {
-                    this._scrollable.scrollH = this._offset;
+                    _local_2 = (!(this._scrollable.scrollH == this._offset));
+                    if (_local_2)
+                    {
+                        this._scrollable.scrollH = this._offset;
+                    }
+                }
+                else
+                {
+                    _local_2 = (!(this._scrollable.scrollV == this._offset));
+                    if (_local_2)
+                    {
+                        this._scrollable.scrollV = this._offset;
+                    }
                 }
             }
-            else
+            if (((!(smooth)) && (this._smoothScroller != null) && (this._smoothScroller.isScrolling)))
             {
-                _local_2 = (!(this._scrollable.scrollV == this._offset));
-                if (_local_2)
-                {
-                    this._scrollable.scrollV = this._offset;
-                }
+                this._smoothScroller.adjustStartPosition(_local_3);
             }
             return _local_2;
         }
@@ -279,28 +297,7 @@
                 {
                     if (_arg_2.type == WindowMouseEvent.WHEEL)
                     {
-                        if (WindowMouseEvent(_arg_2).delta > 0)
-                        {
-                            if (this._horizontal)
-                            {
-                                this.scrollH = (this.scrollH - this._scrollStep);
-                            }
-                            else
-                            {
-                                this.scrollV = (this.scrollV - this._scrollStep);
-                            }
-                        }
-                        else
-                        {
-                            if (this._horizontal)
-                            {
-                                this.scrollH = (this.scrollH + this._scrollStep);
-                            }
-                            else
-                            {
-                                this.scrollV = (this.scrollV + this._scrollStep);
-                            }
-                        }
+                        this.scrollWithWheel(WindowMouseEvent(_arg_2).delta);
                         _local_3 = true;
                     }
                 }
@@ -375,11 +372,11 @@
                         this._handlingButtonEvent = true;
                         if (this._horizontal)
                         {
-                            this.scrollH = (this.scrollH + (this._scrollable.scrollStepH / this._scrollable.maxScrollH));
+                            this.scrollH = (this.scrollH + (SCROLL_STEP_SIZE / this._scrollable.maxScrollH));
                         }
                         else
                         {
-                            this.scrollV = (this.scrollV + (this._scrollable.scrollStepV / this._scrollable.maxScrollV));
+                            this.scrollV = (this.scrollV + (SCROLL_STEP_SIZE / this._scrollable.maxScrollV));
                         }
                         this._handlingButtonEvent = false;
                     }
@@ -393,11 +390,11 @@
                             this._handlingButtonEvent = true;
                             if (this._horizontal)
                             {
-                                this.scrollH = (this.scrollH - (this._scrollable.scrollStepH / this._scrollable.maxScrollH));
+                                this.scrollH = (this.scrollH - (SCROLL_STEP_SIZE / this._scrollable.maxScrollH));
                             }
                             else
                             {
-                                this.scrollV = (this.scrollV - (this._scrollable.scrollStepV / this._scrollable.maxScrollV));
+                                this.scrollV = (this.scrollV - (SCROLL_STEP_SIZE / this._scrollable.maxScrollV));
                             }
                             this._handlingButtonEvent = false;
                         }
@@ -424,13 +421,13 @@
                             {
                                 if (_local_4 < _local_6.x)
                                 {
-                                    this.scrollH = (this.scrollH - ((this._scrollable.visibleRegion.width - this._scrollable.scrollStepH) / this._scrollable.maxScrollH));
+                                    this.scrollH = (this.scrollH - ((this._scrollable.visibleRegion.width - SCROLL_STEP_SIZE) / this._scrollable.maxScrollH));
                                 }
                                 else
                                 {
                                     if (_local_4 > _local_6.right)
                                     {
-                                        this.scrollH = (this.scrollH + ((this._scrollable.visibleRegion.width - this._scrollable.scrollStepH) / this._scrollable.maxScrollH));
+                                        this.scrollH = (this.scrollH + ((this._scrollable.visibleRegion.width - SCROLL_STEP_SIZE) / this._scrollable.maxScrollH));
                                     }
                                 }
                             }
@@ -438,13 +435,13 @@
                             {
                                 if (_local_5 < _local_6.y)
                                 {
-                                    this.scrollV = (this.scrollV - ((this._scrollable.visibleRegion.height - this._scrollable.scrollStepV) / this._scrollable.maxScrollV));
+                                    this.scrollV = (this.scrollV - ((this._scrollable.visibleRegion.height - SCROLL_STEP_SIZE) / this._scrollable.maxScrollV));
                                 }
                                 else
                                 {
                                     if (_local_5 > _local_6.bottom)
                                     {
-                                        this.scrollV = (this.scrollV + ((this._scrollable.visibleRegion.height - this._scrollable.scrollStepV) / this._scrollable.maxScrollV));
+                                        this.scrollV = (this.scrollV + ((this._scrollable.visibleRegion.height - SCROLL_STEP_SIZE) / this._scrollable.maxScrollV));
                                     }
                                 }
                             }
@@ -455,28 +452,7 @@
             }
             if (k.type == WindowMouseEvent.WHEEL)
             {
-                if (WindowMouseEvent(k).delta > 0)
-                {
-                    if (this._horizontal)
-                    {
-                        this.scrollH = (this.scrollH - this._scrollStep);
-                    }
-                    else
-                    {
-                        this.scrollV = (this.scrollV - this._scrollStep);
-                    }
-                }
-                else
-                {
-                    if (this._horizontal)
-                    {
-                        this.scrollH = (this.scrollH + this._scrollStep);
-                    }
-                    else
-                    {
-                        this.scrollV = (this.scrollV + this._scrollStep);
-                    }
-                }
+                this.scrollWithWheel(WindowMouseEvent(k).delta);
                 _local_3 = true;
             }
             if (_local_3)
@@ -537,12 +513,41 @@
         private function onScrollableResized(k:WindowEvent):void
         {
             this.updateLiftSizeAndPosition();
-            this.setScrollPosition(this._offset);
         }
 
         private function onScrollableScrolled(k:WindowEvent):void
         {
             this.updateLiftSizeAndPosition();
+        }
+
+        public function scrollWithWheel(k:int):Boolean
+        {
+            return (this._smoothScroller != null) && this._smoothScroller.scrollWithWheel(k);
+        }
+
+        private function getScrollOffset():Number
+        {
+            return this._offset;
+        }
+
+        private function setSmoothScrollOffset(k:Number):void
+        {
+            if (this.setScrollPosition(k, true, true))
+            {
+                this.updateLiftSizeAndPosition();
+            }
+        }
+
+        private function getSmoothScrollAxisSize():Number
+        {
+            if (((this._scrollable == null) || (this._scrollable.disposed)))
+            {
+                if (!this.resolveScrollTarget())
+                {
+                    return 0;
+                }
+            }
+            return (this._horizontal) ? this._scrollable.maxScrollH : this._scrollable.maxScrollV;
         }
     }
 }

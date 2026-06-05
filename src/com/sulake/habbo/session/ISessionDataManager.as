@@ -65,6 +65,7 @@
         function ejectPets(_arg_1:int):void;
         function loadProductData(_arg_1:IProductDataListener=null):Boolean;
         function getFurniData(_arg_1:IFurniDataListener):Vector.<IFurnitureData>;
+        function get furniDataReloadToken():String;
         function addProductsReadyEventListener(_arg_1:IProductDataListener):void;
         function get perksReady():Boolean;
         function isPerkAllowed(_arg_1:String):Boolean;

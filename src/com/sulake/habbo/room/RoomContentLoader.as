@@ -7,6 +7,7 @@
     import com.sulake.room.object.IRoomObjectVisualizationFactory;
     import flash.events.IEventDispatcher;
     import flash.utils.Dictionary;
+    import com.sulake.room.IRoomManager;
     import com.sulake.habbo.session.ISessionDataManager;
     import com.sulake.core.assets.IAssetLibrary;
     import com.sulake.core.runtime.IHabboConfigurationManager;
@@ -96,6 +97,9 @@
         private var _iconListener:IRoomContentListener;
         private var _configuration:IHabboConfigurationManager;
         private var _ignoredFurniTypes:Array;
+        private var _furniReloadToken:String = null;
+        private var _roomManager:IRoomManager;
+        private var _pendingFurnitureContentRefresh:Array = null;
         private var _publicRooms:Map = null;
         private var _currentPublicRoom:PublicRoomData = null;
         private var _publicRoomPreloadTypes:Array = [];
@@ -145,6 +149,11 @@
         public function set visualizationFactory(k:IRoomObjectVisualizationFactory):void
         {
             this._visualizationFactory = k;
+        }
+
+        public function set roomManager(k:IRoomManager):void
+        {
+            this._roomManager = k;
         }
 
         public function initialize(k:IEventDispatcher, _arg_2:IHabboConfigurationManager):void
@@ -836,7 +845,7 @@
                             _local_9 = (((!(_arg_2 == null)) && (!(_arg_2 == ""))) && (this._activeObjectTypeIds.hasKey(((k + "*") + _arg_2))));
                             _local_7 = _local_7.replace(/%param%/, ((_local_9) ? ("_" + _arg_2) : ""));
                         }
-                        return [(this._furniLoadUrlBase + _local_7)];
+                        return [this.appendFurniReloadToken(this._furniLoadUrlBase + _local_7)];
                     }
                     if (_local_5 == RoomObjectCategoryEnum.OBJECT_CATEGORY_USER)
                     {
@@ -846,6 +855,15 @@
                     }
             }
             return [];
+        }
+
+        private function appendFurniReloadToken(k:String):String
+        {
+            if (((this._furniReloadToken == null) || (this._furniReloadToken.length == 0)))
+            {
+                return k;
+            }
+            return (k + ((k.indexOf("?") == -1) ? "?" : "&") + "furni_reload=" + encodeURIComponent(this._furniReloadToken));
         }
 
         private function getAssetLibraryName(k:String):String
@@ -1723,7 +1741,146 @@
 
         public function furniDataReady():void
         {
+            this.reloadFurnitureAssets((this._sessionDataManager == null) ? null : this._sessionDataManager.furniDataReloadToken);
             this.initFurnitureData();
+            this.loadPendingFurnitureContent();
+        }
+
+        private function reloadFurnitureAssets(k:String):void
+        {
+            if (((k == null) || (k.length == 0)))
+            {
+                return;
+            }
+            this._furniReloadToken = k;
+            this._pendingFurnitureContentRefresh = this.getLoadedFurnitureAssetTypes();
+            this.resetLoadedFurnitureObjectsToPlaceHolders(this._pendingFurnitureContentRefresh);
+            this.purgeFurnitureAssetTypes(this._pendingFurnitureContentRefresh);
+            this.resetFurnitureDataMaps();
+        }
+
+        private function getLoadedFurnitureAssetTypes():Array
+        {
+            var _local_2:String;
+            var k:Array = [];
+            var _local_4:int = (this._assetCollections.length - 1);
+            while (_local_4 > -1)
+            {
+                _local_2 = this._assetCollections.getKey(_local_4);
+                if (this.isReloadableFurnitureAsset(_local_2))
+                {
+                    k.push(_local_2);
+                }
+                _local_4--;
+            }
+            return k;
+        }
+
+        private function isReloadableFurnitureAsset(k:String):Boolean
+        {
+            var _local_2:int;
+            if (((k == null) || (PLACE_HOLDER_TYPES_GPU.indexOf(k) >= 0)))
+            {
+                return false;
+            }
+            if (this.isPreloadedPublicRoomAsset(k))
+            {
+                return false;
+            }
+            _local_2 = this.getObjectCategory(k);
+            return ((_local_2 == RoomObjectCategoryEnum.OBJECT_CATEGORY_FURNITURE) || (_local_2 == RoomObjectCategoryEnum.OBJECT_CATEGORY_WALLITEM));
+        }
+
+        private function resetLoadedFurnitureObjectsToPlaceHolders(k:Array):void
+        {
+            var _local_2:String;
+            if (((k == null) || (this._roomManager == null)))
+            {
+                return;
+            }
+            for each (_local_2 in k)
+            {
+                this._roomManager.resetObjectContentToPlaceHolder(_local_2);
+            }
+        }
+
+        private function purgeFurnitureAssetTypes(k:Array):void
+        {
+            var _local_2:String;
+            if (k == null)
+            {
+                return;
+            }
+            for each (_local_2 in k)
+            {
+                this.purgeFurnitureAssetType(_local_2);
+            }
+        }
+
+        private function purgeFurnitureAssetType(k:String):void
+        {
+            var _local_2:String;
+            var _local_3:IGraphicAssetCollection;
+            var _local_4:String;
+            var _local_5:IAssetLibrary;
+            if (k == null)
+            {
+                return;
+            }
+            _local_2 = this.getContentType(k);
+            _local_3 = (this._assetCollections.remove(_local_2) as IGraphicAssetCollection);
+            if (_local_3 != null)
+            {
+                _local_3.dispose();
+            }
+            _local_4 = this._Str_10970(_local_2);
+            _local_5 = (this._libraries.remove(_local_4) as IAssetLibrary);
+            if (_local_5 != null)
+            {
+                _local_5.dispose();
+            }
+            this._events.remove(_local_2);
+        }
+
+        private function loadPendingFurnitureContent():void
+        {
+            var _local_2:String;
+            if (this._pendingFurnitureContentRefresh == null)
+            {
+                return;
+            }
+            for each (_local_2 in this._pendingFurnitureContentRefresh)
+            {
+                if (this.isReloadableFurnitureAsset(_local_2))
+                {
+                    if (this._roomManager != null)
+                    {
+                        this._roomManager.loadObjectContent(_local_2);
+                    }
+                }
+            }
+            this._pendingFurnitureContentRefresh = null;
+        }
+
+        private function resetFurnitureDataMaps():void
+        {
+            var k:String;
+            this._activeObjectTypes.reset();
+            this._activeObjectTypeIds.reset();
+            this._wallItemTypes.reset();
+            this._wallItemTypeIds.reset();
+            this._furniRevisions.reset();
+            this._objectAliases.reset();
+            this._objectOriginalNames.reset();
+            this._objectTypeAdURLs.reset();
+            for (k in this._activeObjects)
+            {
+                delete this._activeObjects[k];
+            }
+            for (k in this._wallItems)
+            {
+                delete this._wallItems[k];
+            }
         }
 
         public function setActiveObjectType(k:int, _arg_2:String):void

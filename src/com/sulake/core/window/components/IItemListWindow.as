@@ -32,6 +32,7 @@
         function destroyListItems():void;
         function arrangeListItems():void;
         function populate(_arg_1:Array):void;
+        function scrollWithWheel(_arg_1:Number, _arg_2:Boolean):Boolean;
         function stopDragging():void;
         function set disableAutodrag(_arg_1:Boolean):void;
         function get isPartOfGridWindow():Boolean;

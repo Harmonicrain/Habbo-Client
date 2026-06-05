@@ -418,6 +418,7 @@
 	import com.sulake.habbo.communication.messages.incoming.catalog.GiftReceiverNotFoundEvent;
 	import com.sulake.habbo.communication.messages.incoming.catalog.VoucherRedeemErrorMessageEvent;
 	import com.sulake.habbo.communication.messages.incoming.catalog.CatalogPageMessageEvent;
+	import com.sulake.habbo.communication.messages.incoming.session.FurniDataReloadMessageEvent;
 	import com.sulake.habbo.communication.messages.incoming.catalog.LimitedEditionSoldOutEvent;
 	import com.sulake.habbo.communication.messages.incoming.catalog.SellablePetPalettesMessageEvent;
 	import com.sulake.habbo.communication.messages.incoming.catalog.VoucherRedeemOkMessageEvent;
@@ -1390,6 +1391,7 @@
             INCOMING_PACKETS[3988] = GuildEditFailedMessageEvent;
             INCOMING_PACKETS[3990] = RoomOccupiedTilesMessageEvent;
             INCOMING_PACKETS[4000] = DisconnectReasonEvent;
+            INCOMING_PACKETS[4001] = FurniDataReloadMessageEvent;
             INCOMING_PACKETS[411] = UserRightsMessageEvent;
             INCOMING_PACKETS[416] = _Str_17054;
             INCOMING_PACKETS[420] = GuildMembershipsMessageEvent;

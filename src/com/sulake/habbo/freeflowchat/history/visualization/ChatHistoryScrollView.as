@@ -141,6 +141,7 @@
             this._Str_15425();
             this._rootDisplayObject.stage.addEventListener(MouseEvent.MOUSE_DOWN, this._Str_4596);
             this._registeredStage = this._rootDisplayObject.stage;
+            this._registeredStage.addEventListener(MouseEvent.MOUSE_WHEEL, this._Str_4596);
             this._registeredStage.addEventListener(Event.RESIZE, this._Str_11094);
         }
 
@@ -151,6 +152,7 @@
                 this._registeredStage.removeEventListener(MouseEvent.MOUSE_DOWN, this._Str_4596);
                 this._registeredStage.removeEventListener(MouseEvent.MOUSE_MOVE, this._Str_4596, true);
                 this._registeredStage.removeEventListener(MouseEvent.MOUSE_UP, this._Str_4596);
+                this._registeredStage.removeEventListener(MouseEvent.MOUSE_WHEEL, this._Str_4596);
                 this._registeredStage.removeEventListener(Event.RESIZE, this._Str_11094);
             }
         }
@@ -170,6 +172,7 @@
             var _local_2:int;
             var _local_3:int;
             var _local_4:IChatHistoryEntryBitmap;
+            k = this.clampTopY(k);
             this._topY = k;
             if (this._bufferDisplays)
             {
@@ -204,6 +207,7 @@
             _local_2.userName = k.userName;
             this._bufferDisplays.push(_local_2);
             this._rootDisplayObject.addChild(this._bufferDisplays[(this._bufferDisplays.length - 1)]);
+            this._Str_7317 = this._topY;
         }
 
         public function _Str_25251(k:int):void
@@ -217,6 +221,7 @@
                 {
                     _local_2.y = (_local_2.y - k);
                 }
+                this._Str_7317 = (this._topY - k);
             }
         }
 
@@ -243,6 +248,7 @@
             this._rootDisplayObject.mask = this._clipMask;
             this._scrollBar.displayObject.x = (this._viewPort.width - ChatHistoryScrollBar._Str_14287);
             this._Str_12498 = k.height;
+            this._Str_7317 = this._topY;
         }
 
         public function set _Str_12498(k:int):void
@@ -260,7 +266,7 @@
 
         public function _Str_24783():void
         {
-            this._Str_7317 = ((this._historyBuffer.totalHeight - this.viewPort.height) + 100);
+            this._Str_7317 = 0;
         }
 
         public function get isActive():Boolean
@@ -309,6 +315,13 @@
                     this._Str_7317 = (this._dragStartTopY - _local_3);
                     k.stopImmediatePropagation();
                     return;
+                case MouseEvent.MOUSE_WHEEL:
+                    if (((((_local_2.stageY >= this._rootDisplayObject.y) && (_local_2.stageY < (this._rootDisplayObject.y + this._viewPort.height))) && (_local_2.stageX >= this._rootDisplayObject.x)) && (_local_2.stageX < (this._rootDisplayObject.x + this._scrollBar.displayObject.x))))
+                    {
+                        this._Str_7317 = (this._topY - (_local_2.delta * 40));
+                        k.stopImmediatePropagation();
+                    }
+                    return;
                 case MouseEvent.MOUSE_UP:
                     this._registeredStage.removeEventListener(MouseEvent.MOUSE_MOVE, this._Str_4596, true);
                     this._registeredStage.removeEventListener(MouseEvent.MOUSE_UP, this._Str_4596);
@@ -328,6 +341,17 @@
                     }
                     return;
             }
+        }
+
+        private function clampTopY(k:int):int
+        {
+            var _local_2:int;
+            if (((this._historyBuffer == null) || (this._viewPort == null)))
+            {
+                return Math.max(0, k);
+            }
+            _local_2 = Math.max(0, (this._historyBuffer.totalHeight - this._viewPort.height));
+            return Math.max(0, Math.min(_local_2, k));
         }
 
         private function onAddedToStage(k:Event):void

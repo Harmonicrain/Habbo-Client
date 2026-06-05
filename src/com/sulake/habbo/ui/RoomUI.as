@@ -896,6 +896,7 @@
             var _local_5:RoomBackgroundColorEvent;
             var _local_6:RoomZoomEvent;
             var _local_7:RoomObjectHSLColorEnabledEvent;
+            var _local_8:Number;
             if (this._roomEngine == null)
             {
                 return;
@@ -1025,7 +1026,15 @@
                     {
                         return;
                     }
-                    this._roomEngine.setRoomCanvasScale(this._roomEngine.activeRoomId, this.getActiveCanvasId(this._roomEngine.activeRoomId), ((_local_6.level < 1) ? 0.5 : (1 << (Math.floor(_local_6.level) - 1))), null, null, _local_6.isFlipForced);
+                    _local_8 = ((_local_6.level < 1) ? 0.5 : (1 << (Math.min(5, Math.floor(_local_6.level)) - 1)));
+                    if (((!(_local_3 == null)) && (!(_local_6.isFlipForced))))
+                    {
+                        _local_3.animateRoomCanvasScale(_local_8);
+                    }
+                    else
+                    {
+                        this._roomEngine.setRoomCanvasScale(this._roomEngine.activeRoomId, this.getActiveCanvasId(this._roomEngine.activeRoomId), _local_8, null, null, _local_6.isFlipForced);
+                    }
                     return;
                 case RoomEngineDimmerStateEvent.REDSE_ROOM_COLOR:
                     _local_3.processEvent(k);
@@ -1177,7 +1186,7 @@
                 _local_3 = (this._desktops.getWithIndex(_local_2) as RoomDesktop);
                 if (_local_3 != null)
                 {
-                    _local_3.update();
+                    _local_3.update(k);
                 }
                 _local_2++;
             }
