@@ -1,66 +1,81 @@
-﻿package com.sulake.habbo.window.utils.floorplaneditor
+package com.sulake.habbo.window.utils.floorplaneditor
 {
-    import flash.display.BitmapData;
-    import __AS3__.vec.Vector;
-    import com.sulake.core.window.components.IBitmapWrapperWindow;
-    import flash.geom.Point;
-    import flash.display.Bitmap;
-    import com.sulake.core.window.events.WindowMouseEvent;
-    import com.sulake.core.window.events.WindowEvent;
     import com.sulake.core.window.IWindow;
-    import flash.geom.ColorTransform;
-    import __AS3__.vec.*;
+    import com.sulake.core.window.components.IBitmapWrapperWindow;
+    import com.sulake.core.window.events.WindowEvent;
+    import com.sulake.core.window.events.WindowMouseEvent;
     import com.sulake.habbo.window.utils.floorplaneditor.images.*;
+    import flash.display.Bitmap;
+    import flash.display.BitmapData;
+    import flash.geom.ColorTransform;
+    import flash.geom.Point;
+    import flash.utils.Dictionary;
 
-    public class HeightMapEditor 
+    public class HeightMapEditor
     {
-        public static var _Str_9308:Class = HeightMapEditor__Str_9308;
-        public static var _Str_8636:Class = HeightMapEditor__Str_8636;
-        public static var _Str_14896:Class = HeightMapEditor__Str_14896;
-        public static var _Str_14803:Class = HeightMapEditor__Str_14803;
-        public static const _Str_7283:int = 30;
+        public static const LEVELS:int = 30;
 
-        private var _Str_2594:BCFloorPlanEditor;
+        public static var floor_editor_tile_base:Class = FloorEditorTileBase;
+        public static var floor_editor_tile_entry:Class = FloorEditorTileEntry;
+        public static var floor_editor_tile_base_large:Class = FloorEditorTileBaseLarge;
+        public static var floor_editor_tile_entry_large:Class = FloorEditorTileEntryLarge;
+
+        private var _bcFloorPlanEditor:BCFloorPlanEditor;
         private var _drawing:Boolean = false;
-        private var _Str_12032:int = 0;
-        private var _Str_12507:BitmapData;
-        private var _Str_14705:BitmapData;
-        private var _Str_14480:Vector.<Array>;
-        private var _Str_18797:Vector.<Array>;
-        private var _Str_23079:IBitmapWrapperWindow;
-        private var _Str_4248:Point;
-        private var _Str_3390:FloorPlanCache;
-        private var _Str_17828:Boolean = false;
-        private var _Str_9022:int = 1;
-        private var _Str_14057:Boolean = false;
+        private var _drawingHeight:int = 0;
+        private var _tileImageBase:BitmapData;
+        private var _tileImageEntry:BitmapData;
+        private var _tileImageBaseLarge:BitmapData;
+        private var _tileImageEntryLarge:BitmapData;
+        private var _heigthColorMap:Vector.<Array>;
+        private var _occupiedHeigthColorMap:Vector.<Array>;
+        private var _bitmapElement:IBitmapWrapperWindow;
+        private var _lastDrawAddress:Point;
+        private var _floorPlan:FloorPlanCache;
+        private var _colorPickMode:Boolean = false;
+        private var _zoomLevel:int = 1;
+        private var _coloredTiles:Dictionary;
+        private var _coloredOccupiedTiles:Dictionary;
+        private var _coloredTilesLarge:Dictionary;
+        private var _coloredOccupiedTilesLarge:Dictionary;
+        private var _selectionStartPoint:Point;
+        private var _isRectSelect:Boolean = false;
 
         public function HeightMapEditor(k:BCFloorPlanEditor)
         {
-            var _local_3:Number;
-            this._Str_4248 = new Point(-1000, -1000);
+            var index:int;
+            var hue:Number;
+            this._lastDrawAddress = new Point(-1000, -1000);
+            this._selectionStartPoint = new Point(-1000, -1000);
             super();
-            this._Str_2594 = k;
-            this._Str_2594._Str_4964.procedure = this._Str_16600;
-            this._Str_3390 = k._Str_4134;
-            this._Str_12507 = Bitmap(new _Str_9308()).bitmapData;
-            this._Str_14705 = Bitmap(new _Str_8636()).bitmapData;
-            this._Str_14480 = new Vector.<Array>();
-            this._Str_18797 = new Vector.<Array>();
-            var _local_2:int;
-            while (_local_2 < _Str_7283)
+            this._bcFloorPlanEditor = k;
+            this._bcFloorPlanEditor.heightMapBitmapElement.procedure = this.editorWindowProcedure;
+            this._bcFloorPlanEditor.heightMapMouseCapturer.procedure = this.editorWindowProcedure;
+            this._floorPlan = k.floorPlanCache;
+            this._tileImageBase = Bitmap(new floor_editor_tile_base()).bitmapData;
+            this._tileImageEntry = Bitmap(new floor_editor_tile_entry()).bitmapData;
+            this._tileImageBaseLarge = Bitmap(new floor_editor_tile_base_large()).bitmapData;
+            this._tileImageEntryLarge = Bitmap(new floor_editor_tile_entry_large()).bitmapData;
+            this._heigthColorMap = new Vector.<Array>();
+            this._occupiedHeigthColorMap = new Vector.<Array>();
+            this._coloredOccupiedTiles = new Dictionary();
+            this._coloredTiles = new Dictionary();
+            this._coloredTilesLarge = new Dictionary();
+            this._coloredOccupiedTilesLarge = new Dictionary();
+            while (index < LEVELS)
             {
-                _local_3 = (0.6 - ((_local_2 / Number(_Str_7283)) * 0.85));
-                if (_local_3 < 0)
+                hue = 0.6 - ((index / Number(LEVELS)) * 0.85);
+                if (hue < 0)
                 {
-                    _local_3 = (1 + _local_3);
+                    hue = 1 + hue;
                 }
-                this._Str_14480.push(_Str_14174(_local_3, 1, 0.5));
-                this._Str_18797.push(_Str_14174(_local_3, 0.33, 0.4));
-                _local_2++;
+                this._heigthColorMap.push(hslToRgb(hue, 1, 0.5));
+                this._occupiedHeigthColorMap.push(hslToRgb(hue, 0.33, 0.4));
+                index++;
             }
         }
 
-        public static function _Str_14174(h:Number, s:Number, l:Number):Array
+        public static function hslToRgb(h:Number, s:Number, l:Number):Array
         {
             var r:Number;
             var g:Number;
@@ -73,29 +88,29 @@
             }
             else
             {
-                var hue2rgb:Function = function (k:Number, _arg_2:Number, _arg_3:Number):Number
+                var hue2rgb:Function = function (p:Number, q:Number, t:Number):Number
                 {
-                    if (_arg_3 < 0)
+                    if (t < 0)
                     {
-                        _arg_3 = (_arg_3 + 1);
+                        t += 1;
                     }
-                    if (_arg_3 > 1)
+                    if (t > 1)
                     {
-                        _arg_3--;
+                        t -= 1;
                     }
-                    if (_arg_3 < (1 / 6))
+                    if (t < (1 / 6))
                     {
-                        return k + (((_arg_2 - k) * 6) * _arg_3);
+                        return p + (((q - p) * 6) * t);
                     }
-                    if (_arg_3 < (1 / 2))
+                    if (t < (1 / 2))
                     {
-                        return _arg_2;
+                        return q;
                     }
-                    if (_arg_3 < (2 / 3))
+                    if (t < (2 / 3))
                     {
-                        return k + (((_arg_2 - k) * ((2 / 3) - _arg_3)) * 6);
+                        return p + (((q - p) * ((2 / 3) - t)) * 6);
                     }
-                    return k;
+                    return p;
                 }
                 q = ((l < 0.5) ? (l * (1 + s)) : ((l + s) - (l * s)));
                 p = ((2 * l) - q);
@@ -106,20 +121,39 @@
             return [r, g, b];
         }
 
+        public function get heigthColorMap():Vector.<Array>
+        {
+            return this._heigthColorMap;
+        }
 
         public function get _Str_17977():Vector.<Array>
         {
-            return this._Str_14480;
+            return this._heigthColorMap;
+        }
+
+        public function set drawingHeight(k:int):void
+        {
+            this._drawingHeight = Math.min(LEVELS, Math.max(0, k));
+        }
+
+        public function get drawingHeight():int
+        {
+            return this._drawingHeight;
         }
 
         public function set _Str_9167(k:int):void
         {
-            this._Str_12032 = Math.min(_Str_7283, Math.max(0, k));
+            this.drawingHeight = k;
         }
 
         public function get _Str_9167():int
         {
-            return this._Str_12032;
+            return this._drawingHeight;
+        }
+
+        public function set drawing(k:Boolean):void
+        {
+            this._drawing = k;
         }
 
         public function set _Str_22137(k:Boolean):void
@@ -127,233 +161,350 @@
             this._drawing = k;
         }
 
-        public function _Str_9032():void
+        public function refreshFromCache():void
         {
-            this._Str_23079 = this._Str_2594._Str_4964;
-            this._Str_4248 = new Point(-1000, -1000);
+            this._bitmapElement = this._bcFloorPlanEditor.heightMapBitmapElement;
+            this._lastDrawAddress = new Point(-1000, -1000);
             this.updateView();
         }
 
-        private function _Str_16600(k:WindowEvent, _arg_2:IWindow):void
+        public function _Str_9032():void
         {
-            var _local_3:int;
-            var _local_4:int;
-            var _local_5:Point;
-            var _local_6:Object;
-            if (this._Str_17828)
+            this.refreshFromCache();
+        }
+
+        private function editorWindowProcedure(k:WindowEvent, window:IWindow):void
+        {
+            var tile:Point;
+            var maxX:int;
+            var minX:int;
+            var minY:int;
+            var maxY:int;
+            var canExpandColumns:Boolean;
+            var canExpandRows:Boolean;
+            var drawX:int;
+            var drawY:int;
+            var delta:Object;
+            var mouseEvent:WindowMouseEvent = k as WindowMouseEvent;
+            if (mouseEvent == null)
+            {
+                return;
+            }
+            if (this._colorPickMode)
             {
                 if (k.type == WindowMouseEvent.CLICK)
                 {
-                    _local_3 = ((this._Str_2594._Str_4964.width / 2) - (this._Str_2594._Str_4964.bitmap.width / 2));
-                    _local_4 = ((this._Str_2594._Str_4964.height / 2) - (this._Str_2594._Str_4964.bitmap.height / 2));
-                    _local_5 = this._Str_21037((WindowMouseEvent(k).localX - _local_3), (WindowMouseEvent(k).localY - _local_4));
-                    this._Str_12032 = this._Str_2594._Str_4134._Str_4203(_local_5.x, _local_5.y);
-                    this._Str_2594._Str_19677(this._Str_12032);
+                    tile = this.getTileAddressFromMousePoint(mouseEvent, window);
+                    this._drawingHeight = this._bcFloorPlanEditor.floorPlanCache.getHeightAt(tile.x, tile.y);
+                    this._bcFloorPlanEditor.updateColorSliderTrack(this._drawingHeight);
                 }
             }
-            else
+            else if (((((k.type == WindowMouseEvent.UP) || (k.type == WindowMouseEvent.UP_OUTSIDE)) || (k.type == WindowMouseEvent.DOWN)) || ((this._drawing) && (k.type == WindowMouseEvent.MOVE))))
             {
+                tile = this.getTileAddressFromMousePoint(mouseEvent, window);
                 if (((k.type == WindowMouseEvent.UP) || (k.type == WindowMouseEvent.UP_OUTSIDE)))
                 {
                     this._drawing = false;
+                    if (this._isRectSelect)
+                    {
+                        this._isRectSelect = false;
+                        this._bcFloorPlanEditor.floorPlanCache.submitTemporaryCache();
+                    }
                 }
                 if (k.type == WindowMouseEvent.DOWN)
                 {
                     this._drawing = true;
-                    this._Str_14057 = true;
-                    this._Str_4248 = new Point(-1000, -1000);
-                }
-                if (((k.type == WindowMouseEvent.CLICK) || ((this._drawing) && (k.type == WindowMouseEvent.MOVE))))
-                {
-                    _local_3 = ((this._Str_2594._Str_4964.width / 2) - (this._Str_2594._Str_4964.bitmap.width / 2));
-                    _local_4 = ((this._Str_2594._Str_4964.height / 2) - (this._Str_2594._Str_4964.bitmap.height / 2));
-                    _local_5 = this._Str_21037((WindowMouseEvent(k).localX - _local_3), (WindowMouseEvent(k).localY - _local_4));
-                    if (k.type == WindowMouseEvent.MOVE)
+                    this._lastDrawAddress = new Point(-1000, -1000);
+                    if (mouseEvent.shiftKey)
                     {
-                        if ((((this._Str_14057) || (!(this._Str_4248.x == _local_5.x))) || (!(this._Str_4248.y == _local_5.y))))
+                        this._isRectSelect = true;
+                        this._selectionStartPoint = tile;
+                        this._bcFloorPlanEditor.floorPlanCache.initTemporaryCache();
+                    }
+                    this.applyDraw(tile.x, tile.y);
+                    this.updateView();
+                    this._lastDrawAddress = tile;
+                }
+                if (((this._drawing) && (k.type == WindowMouseEvent.MOVE)))
+                {
+                    if (this._isRectSelect)
+                    {
+                        minX = Math.min(this._selectionStartPoint.x, tile.x);
+                        maxX = Math.max(this._selectionStartPoint.x, tile.x);
+                        minY = Math.min(this._selectionStartPoint.y, tile.y);
+                        maxY = Math.max(this._selectionStartPoint.y, tile.y);
+                        canExpandColumns = this._bcFloorPlanEditor.floorPlanCache.attemptExpandColumns(maxX);
+                        canExpandRows = this._bcFloorPlanEditor.floorPlanCache.attemptExpandRows(maxY);
+                        if (((!canExpandColumns) && (!canExpandRows)))
                         {
-                            this._Str_14762(_local_5.x, _local_5.y);
+                            return;
                         }
-                        _local_6 = this._Str_23087(_local_5);
-                        if ((((this._Str_14057) || (Math.abs(_local_6.x) > 0)) || (Math.abs(_local_6.y) > 0)))
+                        while (((maxY >= minY) && (!canExpandRows)))
                         {
-                            this.updateView();
+                            maxY--;
+                            canExpandRows = this._bcFloorPlanEditor.floorPlanCache.attemptExpandRows(maxY);
                         }
-                        this._Str_14057 = false;
+                        while (((maxX >= minX) && (!canExpandColumns)))
+                        {
+                            maxX--;
+                            canExpandColumns = this._bcFloorPlanEditor.floorPlanCache.attemptExpandColumns(maxX);
+                        }
+                        if (((!canExpandColumns) || (!canExpandRows)))
+                        {
+                            return;
+                        }
+                        this._bcFloorPlanEditor.floorPlanCache.clearTemporaryCache();
+                        this._bcFloorPlanEditor.floorPlanCache.attemptExpandRows(maxY);
+                        this._bcFloorPlanEditor.floorPlanCache.attemptExpandColumns(maxX);
+                        drawX = minX;
+                        while (drawX <= maxX)
+                        {
+                            drawY = minY;
+                            while (drawY <= maxY)
+                            {
+                                this.applyDraw(drawX, drawY);
+                                drawY++;
+                            }
+                            drawX++;
+                        }
+                        this.updateView();
                     }
                     else
                     {
-                        this._Str_14762(_local_5.x, _local_5.y);
-                        this.updateView();
+                        if (((!(this._lastDrawAddress.x == tile.x)) || (!(this._lastDrawAddress.y == tile.y))))
+                        {
+                            this.applyDraw(tile.x, tile.y);
+                        }
+                        delta = this.interpolateBetweenLastPointAndDrawPoint(tile);
+                        if (((Math.abs(delta.x) > 0) || (Math.abs(delta.y) > 0)))
+                        {
+                            this.updateView();
+                        }
                     }
-                    this._Str_4248 = _local_5;
+                    this._lastDrawAddress = tile;
                 }
             }
         }
 
-        private function _Str_23087(k:Point):Object
+        private function getMousePositionRelativeToBitmap(k:WindowMouseEvent, window:IWindow):Point
         {
-            var _local_4:int;
-            var _local_5:int;
-            var _local_6:int;
-            if (((this._Str_4248.x == -1000) && (this._Str_4248.y == -1000)))
+            var point:Point = new Point(k.localX, k.localY);
+            window.convertPointFromLocalToGlobalSpace(point);
+            this._bcFloorPlanEditor.heightMapBitmapElement.convertPointFromGlobalToLocalSpace(point);
+            return point;
+        }
+
+        private function getTileAddressFromMousePoint(k:WindowMouseEvent, window:IWindow):Point
+        {
+            var point:Point = this.getMousePositionRelativeToBitmap(k, window);
+            return this.transformFromScreenSpace(point.x, point.y);
+        }
+
+        private function interpolateBetweenLastPointAndDrawPoint(k:Point):Object
+        {
+            var points:Array;
+            var point:Point;
+            if (((this._lastDrawAddress.x == -1000) && (this._lastDrawAddress.y == -1000)))
             {
-                this._Str_4248.x = k.x;
-                this._Str_4248.y = k.y;
+                this._lastDrawAddress.x = k.x;
+                this._lastDrawAddress.y = k.y;
             }
-            var _local_2:int = (k.x - this._Str_4248.x);
-            var _local_3:int = (k.y - this._Str_4248.y);
-            _local_4 = 0;
-            _local_5 = this._Str_4248.x;
-            while (_local_5 != k.x)
+            var deltaX:int = k.x - this._lastDrawAddress.x;
+            var deltaY:int = k.y - this._lastDrawAddress.y;
+            points = interpolationPoints(this._lastDrawAddress.x, this._lastDrawAddress.y, k.x, k.y);
+            for each (point in points)
             {
-                if (((_local_4 > 0) && (_local_4 < Math.abs(_local_2))))
+                if ((!((this._lastDrawAddress.x == point.x) && (this._lastDrawAddress.y == point.y))) && (!((k.x == point.x) && (k.y == point.y))))
                 {
-                    this._Str_14762(_local_5, k.y);
+                    this.applyDraw(point.x, point.y);
                 }
-                _local_5 = (_local_5 + ((_local_2 > 0) ? 1 : -1));
-                _local_4++;
-            }
-            _local_4 = 0;
-            _local_6 = this._Str_4248.y;
-            while (_local_6 != k.y)
-            {
-                if (((_local_4 > 0) && (_local_4 < Math.abs(_local_3))))
-                {
-                    this._Str_14762(k.x, _local_6);
-                }
-                _local_6 = (_local_6 + ((_local_3 > 0) ? 1 : -1));
-                _local_4++;
             }
             return ({
-                "x":_local_2,
-                "y":_local_3
+                "x":deltaX,
+                "y":deltaY
             });
         }
 
-        private function _Str_14762(k:int, _arg_2:int):void
+        private static function interpolationPoints(x0:int, y0:int, x1:int, y1:int):Array
         {
-            var _local_3:int;
-            switch (this._Str_2594._Str_25243)
+            var points:Array = [];
+            var dx:int = Math.abs(x1 - x0);
+            var dy:int = Math.abs(y1 - y0);
+            var sx:int = x0 < x1 ? 1 : -1;
+            var sy:int = y0 < y1 ? 1 : -1;
+            var err:int = dx - dy;
+            var e2:int;
+            while (true)
             {
-                case this._Str_2594._Str_11016[0]:
-                    this._Str_2594._Str_4134._Str_13296(k, _arg_2, this._Str_12032);
-                    return;
-                case this._Str_2594._Str_11016[1]:
-                    this._Str_2594._Str_4134._Str_13296(k, _arg_2, -1);
-                    return;
-                case this._Str_2594._Str_11016[2]:
-                    _local_3 = this._Str_2594._Str_4134._Str_4203(k, _arg_2);
-                    if (_local_3 >= 0)
+                points.push(new Point(x0, y0));
+                if (((x0 == x1) && (y0 == y1)))
+                {
+                    break;
+                }
+                e2 = 2 * err;
+                if (e2 > -dy)
+                {
+                    err -= dy;
+                    x0 += sx;
+                }
+                if (e2 < dx)
+                {
+                    err += dx;
+                    y0 += sy;
+                }
+            }
+            return points;
+        }
+
+        private function applyDraw(x:int, y:int):void
+        {
+            var height:int;
+            switch (this._bcFloorPlanEditor.drawMode)
+            {
+                case this._bcFloorPlanEditor.drawModes[0]:
+                    this._bcFloorPlanEditor.floorPlanCache.setHeightAt(x, y, this._drawingHeight);
+                    break;
+                case this._bcFloorPlanEditor.drawModes[1]:
+                    this._bcFloorPlanEditor.floorPlanCache.setHeightAt(x, y, -1);
+                    break;
+                case this._bcFloorPlanEditor.drawModes[2]:
+                    height = this._bcFloorPlanEditor.floorPlanCache.getHeightAt(x, y);
+                    if (height >= 0)
                     {
-                        this._Str_2594._Str_4134._Str_13296(k, _arg_2, Math.min((_Str_7283 - 1), (_local_3 + 1)));
+                        this._bcFloorPlanEditor.floorPlanCache.setHeightAt(x, y, Math.min((LEVELS - 1), (height + 1)));
                     }
-                    return;
-                case this._Str_2594._Str_11016[3]:
-                    _local_3 = this._Str_2594._Str_4134._Str_4203(k, _arg_2);
-                    if (_local_3 >= 0)
+                    break;
+                case this._bcFloorPlanEditor.drawModes[3]:
+                    height = this._bcFloorPlanEditor.floorPlanCache.getHeightAt(x, y);
+                    if (height >= 0)
                     {
-                        this._Str_2594._Str_4134._Str_13296(k, _arg_2, Math.max(0, (_local_3 - 1)));
+                        this._bcFloorPlanEditor.floorPlanCache.setHeightAt(x, y, Math.max(0, (height - 1)));
                     }
-                    return;
-                case this._Str_2594._Str_11016[4]:
-                    _local_3 = this._Str_2594._Str_4134._Str_4203(k, _arg_2);
-                    if (_local_3 >= 0)
+                    break;
+                case this._bcFloorPlanEditor.drawModes[4]:
+                    height = this._bcFloorPlanEditor.floorPlanCache.getHeightAt(x, y);
+                    if (height >= 0)
                     {
-                        this._Str_2594._Str_4134._Str_7642 = new Point(k, _arg_2);
+                        this._bcFloorPlanEditor.floorPlanCache.entryPoint = new Point(x, y);
                     }
-                    return;
+                    break;
             }
         }
 
         private function updateView():void
         {
-            var _local_6:int;
-            var _local_7:int;
-            var _local_8:Array;
-            var _local_9:BitmapData;
-            var _local_12:Object;
-            var _local_13:Point;
-            var _local_14:int;
-            var k:Array = [];
-            var _local_2:int = int.MAX_VALUE;
-            var _local_3:int = int.MAX_VALUE;
-            var _local_4:int = int.MIN_VALUE;
-            var _local_5:int = int.MIN_VALUE;
-            _local_7 = 0;
-            while (_local_7 < this._Str_3390.floorHeight)
+            var x:int;
+            var y:int;
+            var image:BitmapData;
+            var point:Point;
+            var height:int;
+            var item:Object;
+            var tiles:Array = [];
+            var minX:int = int.MAX_VALUE;
+            var minY:int = int.MAX_VALUE;
+            var maxX:int = int.MIN_VALUE;
+            var maxY:int = int.MIN_VALUE;
+            y = 0;
+            while (y < this._floorPlan.floorHeight)
             {
-                _local_6 = 0;
-                while (_local_6 < this._Str_3390._Str_17437)
+                x = 0;
+                while (x < this._floorPlan.floorWidth)
                 {
-                    _local_13 = this._Str_24652(_local_6, _local_7);
-                    _local_2 = Math.min(_local_2, _local_13.x);
-                    _local_3 = Math.min(_local_3, _local_13.y);
-                    _local_4 = Math.max(_local_4, _local_13.x);
-                    _local_5 = Math.max(_local_5, _local_13.y);
-                    if (this._Str_3390._Str_21855(_local_6, _local_7))
+                    point = this.transformToScreenSpace(x, y);
+                    minX = Math.min(minX, point.x);
+                    minY = Math.min(minY, point.y);
+                    maxX = Math.max(maxX, point.x);
+                    maxY = Math.max(maxY, point.y);
+                    if (this._floorPlan.isEntryPoint(x, y))
                     {
-                        _local_9 = this._Str_14705.clone();
-                        k.push({
-                            "point":_local_13,
-                            "image":_local_9
+                        image = this.getEntryTile();
+                        tiles.push({
+                            "point":point,
+                            "image":image
                         });
                     }
                     else
                     {
-                        _local_14 = Math.min(this._Str_3390._Str_4203(_local_6, _local_7), (_Str_7283 - 1));
-                        if (_local_14 >= 0)
+                        height = Math.min(this._floorPlan.getHeightAt(x, y), (LEVELS - 1));
+                        if (height >= 0)
                         {
-                            _local_8 = ((this._Str_3390._Str_19261(_local_6, _local_7)) ? this._Str_18797[_local_14] : this._Str_14480[_local_14]);
-                            _local_9 = this._Str_12507.clone();
-                            _local_9.colorTransform(this._Str_12507.rect, new ColorTransform(_local_8[0], _local_8[1], _local_8[2]));
-                            k.push({
-                                "point":_local_13,
-                                "image":_local_9
+                            image = this.getColoredTile(height, this._floorPlan.isTileReserved(x, y));
+                            tiles.push({
+                                "point":point,
+                                "image":image
                             });
                         }
                     }
-                    _local_6++;
+                    x++;
                 }
-                _local_7++;
+                y++;
             }
-            var _local_10:BitmapData = new BitmapData(((_local_4 - _local_2) + 18), ((_local_5 - _local_3) + 9), false, 0);
-            var _local_11:Point = new Point(-(_local_2), -(_local_3));
-            for each (_local_12 in k)
+            var bitmap:BitmapData = new BitmapData(((maxX - minX) + 18), ((maxY - minY) + 27), false, 0);
+            var offset:Point = new Point(-minX, -minY);
+            for each (item in tiles)
             {
-                _local_10.copyPixels(_local_12.image, _local_12.image.rect, _local_12.point.add(_local_11));
+                bitmap.copyPixels(item.image, item.image.rect, item.point.add(offset));
             }
-            this._Str_2594._Str_4964.bitmap = _local_10;
+            this._bcFloorPlanEditor.heightMapBitmapElement.bitmap = bitmap;
         }
 
-        private function _Str_21037(k:int, _arg_2:int):Point
+        private function getColoredTile(height:int, occupied:Boolean):BitmapData
         {
-            var _local_3:Number = ((k / 16) / this._Str_9022);
-            var _local_4:Number = ((_arg_2 / 8) / this._Str_9022);
-            var _local_5:Number = this._Str_3390.floorHeight;
-            var _local_6:int = (_local_4 + (_local_3 - (_local_5 / 2)));
-            var _local_7:int = (_local_4 - (_local_3 - (_local_5 / 2)));
-            return new Point(_local_6, _local_7);
+            var cache:Dictionary = occupied ? ((this._zoomLevel == 1) ? this._coloredOccupiedTiles : this._coloredOccupiedTilesLarge) : ((this._zoomLevel == 1) ? this._coloredTiles : this._coloredTilesLarge);
+            if (cache[height] != null)
+            {
+                return cache[height];
+            }
+            var color:Array = occupied ? this._occupiedHeigthColorMap[height] : this._heigthColorMap[height];
+            var bitmap:BitmapData = ((this._zoomLevel == 1) ? this._tileImageBase : this._tileImageBaseLarge).clone();
+            bitmap.colorTransform(bitmap.rect, new ColorTransform(color[0], color[1], color[2]));
+            cache[height] = bitmap;
+            return bitmap;
         }
 
-        private function _Str_24652(k:int, _arg_2:int):Point
+        private function getEntryTile():BitmapData
         {
-            return new Point(((this._Str_9022 * 8) * (k - _arg_2)), ((this._Str_9022 * 4) * (k + _arg_2)));
+            return (this._zoomLevel == 1) ? this._tileImageEntry : this._tileImageEntryLarge;
+        }
+
+        private function transformFromScreenSpace(x:int, y:int):Point
+        {
+            var localX:Number = ((x / 16) / this._zoomLevel);
+            var localY:Number = ((y / 8) / this._zoomLevel);
+            var height:Number = this._floorPlan.floorHeight;
+            var tileX:int = localY + (localX - (height / 2));
+            var tileY:int = localY - (localX - (height / 2));
+            return new Point(tileX, tileY);
+        }
+
+        private function transformToScreenSpace(x:int, y:int):Point
+        {
+            return new Point(((this._zoomLevel * 8) * (x - y)), ((this._zoomLevel * 4) * (x + y)));
+        }
+
+        public function get colorPickMode():Boolean
+        {
+            return this._colorPickMode;
+        }
+
+        public function set colorPickMode(k:Boolean):void
+        {
+            this._colorPickMode = k;
         }
 
         public function get _Str_12874():Boolean
         {
-            return this._Str_17828;
+            return this._colorPickMode;
         }
 
         public function set _Str_12874(k:Boolean):void
         {
-            this._Str_17828 = k;
+            this._colorPickMode = k;
         }
 
         public function get zoomLevel():int
         {
-            return this._Str_9022;
+            return this._zoomLevel;
         }
 
         public function set zoomLevel(k:int):void
@@ -362,18 +513,7 @@
             {
                 return;
             }
-            switch (k)
-            {
-                case 1:
-                    this._Str_12507 = Bitmap(new _Str_9308()).bitmapData;
-                    this._Str_14705 = Bitmap(new _Str_8636()).bitmapData;
-                    break;
-                case 2:
-                    this._Str_12507 = Bitmap(new _Str_14896()).bitmapData;
-                    this._Str_14705 = Bitmap(new _Str_14803()).bitmapData;
-                    break;
-            }
-            this._Str_9022 = k;
+            this._zoomLevel = k;
         }
     }
 }
