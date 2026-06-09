@@ -34,6 +34,7 @@
     import com.sulake.habbo.communication.messages.parser.perk.PerkAllowancesMessageParser;
     import com.sulake.habbo.communication.enum.perk.PerkEnum;
     import com.sulake.core.window.components.IBitmapWrapperWindow;
+    import com.sulake.core.window.components.IRegionWindow;
     import flash.display.BitmapData;
     import flash.geom.Rectangle;
     import __AS3__.vec.Vector;
@@ -400,6 +401,11 @@
             this._editorWindow.findChildByName("tile_height_slider_track").x = (k * (Number(this._editorWindow.findChildByName("tile_height_colormap").width) / this._heightMapEditor._Str_17977.length));
         }
 
+        public function updateColorSliderTrack(k:uint):void
+        {
+            this._Str_19677(k);
+        }
+
         private function _Str_24859(k:WindowEvent, _arg_2:IWindow):void
         {
             var _local_3:WindowMouseEvent;
@@ -534,6 +540,11 @@
             _local_2.bitmap = k;
         }
 
+        public function updatePreviewBitmap(k:BitmapData):void
+        {
+            this._Str_22370(k);
+        }
+
         private function _Str_23811(k:Vector.<Array>):void
         {
             var _local_5:int;
@@ -609,7 +620,22 @@
             return this._editorWindow.findChildByName("heightmap_bitmap") as IBitmapWrapperWindow;
         }
 
+        public function get heightMapBitmapElement():IBitmapWrapperWindow
+        {
+            return this._Str_4964;
+        }
+
+        public function get heightMapMouseCapturer():IRegionWindow
+        {
+            return this._editorWindow.findChildByName("mouse_capturer") as IRegionWindow;
+        }
+
         public function get _Str_4134():FloorPlanCache
+        {
+            return this._floorPlanCache;
+        }
+
+        public function get floorPlanCache():FloorPlanCache
         {
             return this._floorPlanCache;
         }
@@ -619,7 +645,17 @@
             return this._drawModes;
         }
 
+        public function get drawModes():Array
+        {
+            return this._drawModes;
+        }
+
         public function get _Str_25243():String
+        {
+            return this._drawMode;
+        }
+
+        public function get drawMode():String
         {
             return this._drawMode;
         }
@@ -629,7 +665,17 @@
             return this._heightMapEditor;
         }
 
+        public function get heightMapEditor():HeightMapEditor
+        {
+            return this._heightMapEditor;
+        }
+
         public function get _Str_22461():Boolean
+        {
+            return this._largeFloorPlansAllowed;
+        }
+
+        public function get largeFloorPlansAllowed():Boolean
         {
             return this._largeFloorPlansAllowed;
         }

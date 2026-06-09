@@ -1,13 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?><layout name="floor_plan_editor_bc" width="662" height="609" version="0.1" uid="37F6C3C3-5265-A95D-763D-694DACE5CAFF">
+<?xml version="1.0" encoding="UTF-8"?><layout name="floor_plan_editor_bc" width="662" height="600" version="0.1" uid="420BD4CE-A996-888B-61DE-61A19833B25E">
   <window>
-    <frame x="0" y="0" width="662" height="609" params="33025" style="3" caption="%24%7Bfloor.plan.editor.title%7D" color="0xff67a3bf">
+    <frame x="23" y="16" width="662" height="600" params="98305" style="3" caption="%24%7Bfloor.plan.editor.title%7D" color="0x0ff8d00" width_min="662" width_max="1380" height_min="600" height_max="900">
       <filters>
         <DropShadowFilter distance="4" alpha="0.34901960784313724" blurX="4" blurY="4"/>
       </filters>
       <children>
-        <container x="0" y="0" width="662" height="50" params="16" style="1" color="0xffff4e4844" background="true">
+        <container x="0" y="0" width="662" height="50" params="144" style="1" color="0xffff4e4844" background="true">
           <children>
-            <container x="3" y="2" width="656" height="45" params="16" style="1" color="0xffff2d2724" background="true">
+            <container x="3" y="2" width="656" height="45" params="144" style="1" color="0xffff2d2724" background="true">
               <children>
                 <static_bitmap x="9" y="5" width="38" height="38" params="16" style="3">
                   <variables>
@@ -28,9 +28,9 @@
             </container>
           </children>
         </container>
-        <border x="10" y="57" width="344" height="448" params="16" style="3" name="heightmap_border" color="0x0bdbdb5">
+        <border x="10" y="57" width="344" height="448" params="2192" style="3" name="heightmap_border" color="0x0bdbdb5">
           <children>
-            <itemlist_vertical x="8" y="4" width="322" height="127" params="16" style="3" name="controls_container">
+            <itemlist_vertical x="8" y="4" width="322" height="127" params="144" style="3" name="controls_container">
               <children>
                 <container x="0" y="0" width="318" height="24" params="16" style="3">
                   <children>
@@ -121,6 +121,8 @@
                   </children>
                   <variables>
                     <var key="spacing" value="10" type="int"/>
+                    <var key="scroll_step_h" value="25" type="Number"/>
+                    <var key="scroll_step_v" value="25" type="Number"/>
                   </variables>
                 </itemlist_horizontal>
                 <container x="0" y="76" width="317" height="48" params="16" style="3" name="tileheight_controller_container">
@@ -153,11 +155,14 @@
               </children>
               <variables>
                 <var key="scale_to_fit_items" value="true" type="Boolean"/>
+                <var key="scroll_step_h" value="25" type="Number"/>
+                <var key="scroll_step_v" value="25" type="Number"/>
               </variables>
             </itemlist_vertical>
-            <border x="0" y="132" width="332" height="304" params="16" style="3" name="heightmap_bg" color="0x00"/>
-            <itemlist_horizontal x="0" y="132" width="331" height="304" params="16" style="3" name="heightmap_wrapper">
+            <border x="0" y="132" width="332" height="304" params="2192" style="3" name="heightmap_bg" color="0x00"/>
+            <itemlist_vertical x="0" y="132" width="331" height="304" params="2192" style="3" name="heightmap_wrapper">
               <children>
+                <container x="0" y="0" width="30" height="29" params="16" style="3"/>
                 <bitmap x="0" y="29" width="331" height="304" params="17" style="3" name="heightmap_bitmap">
                   <variables>
                     <var key="pivot_point" value="center" type="String"/>
@@ -166,24 +171,30 @@
                     <var key="fit_size_to_contents" value="true" type="Boolean"/>
                   </variables>
                 </bitmap>
+                <container x="0" y="333" width="15" height="29" params="16" style="3"/>
               </children>
               <variables>
                 <var key="scale_to_fit_items" value="true" type="Boolean"/>
-                <var key="scroll_step_h" value="1" type="Number"/>
-                <var key="scroll_step_v" value="1" type="Number"/>
+                <var key="scroll_step_h" value="25" type="Number"/>
+                <var key="scroll_step_v" value="25" type="Number"/>
               </variables>
-            </itemlist_horizontal>
-            <scrollbar_vertical x="331" y="132" width="13" height="304" params="17" style="3" name="heightmap_scroll_vertical">
+            </itemlist_vertical>
+            <region x="0" y="132" width="331" height="304" params="2193" style="3" name="mouse_capturer" treshold="0">
+              <variables>
+                <var key="interactive_cursor_disabled" value="true" type="Boolean"/>
+              </variables>
+            </region>
+            <scrollbar_vertical x="331" y="132" width="13" height="304" params="2129" style="3" name="heightmap_scroll_vertical">
               <variables>
                 <var key="scrollable" value="heightmap_wrapper" type="String"/>
               </variables>
             </scrollbar_vertical>
-            <scrollbar_horizontal x="0" y="435" width="332" height="13" params="17" style="3" name="heightmap_scroll_horizontal">
+            <scrollbar_horizontal x="0" y="435" width="332" height="13" params="1169" style="3" name="heightmap_scroll_horizontal">
               <variables>
                 <var key="scrollable" value="heightmap_wrapper" type="String"/>
               </variables>
             </scrollbar_horizontal>
-            <region x="12" y="400" width="20" height="26" params="17" style="3" name="zoom" treshold="0">
+            <region x="12" y="400" width="20" height="26" params="1041" style="3" name="zoom" treshold="0">
               <children>
                 <static_bitmap x="-4" y="-3" width="30" height="30" params="16" style="3" name="zoom">
                   <variables>
@@ -195,9 +206,16 @@
                 </static_bitmap>
               </children>
             </region>
+            <text x="1034" y="108" width="30" height="30" params="16" style="3" caption="hi%20%3A%29" blend="0.2">
+              <variables>
+                <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                <var key="spacing" value="0" type="Number"/>
+                <var key="leading" value="0" type="Number"/>
+              </variables>
+            </text>
           </children>
         </border>
-        <border x="366" y="57" width="289" height="449" params="16" style="3" name="preview_border" color="0x0bdbdb5">
+        <border x="366" y="57" width="289" height="449" params="2128" style="3" name="preview_border" color="0x0bdbdb5">
           <children>
             <itemlist_horizontal x="3" y="3" width="271" height="98" params="16" style="3" name="room_controls_itemlist">
               <children>
@@ -231,7 +249,7 @@
                 <container x="142" y="0" width="128" height="99" params="16" style="3">
                   <children>
                     <label x="14" y="4" width="110" height="17" params="16" style="3" caption="%24%7Bfloor.plan.editor.room.options%7D" width_max="110"/>
-                    <dropmenu x="16" y="30" width="104" height="21" params="17" style="3" name="wall_thickness_drop">
+                    <dropmenu x="14" y="30" width="114" height="25" params="17" style="3" name="wall_thickness_drop">
                       <variables>
                         <var key="item_array">
                           <value>
@@ -245,7 +263,7 @@
                         </var>
                       </variables>
                     </dropmenu>
-                    <dropmenu x="16" y="58" width="104" height="21" params="17" style="3" name="floor_thickness_drop">
+                    <dropmenu x="14" y="61" width="114" height="25" params="17" style="3" name="floor_thickness_drop">
                       <variables>
                         <var key="item_array">
                           <value>
@@ -262,6 +280,10 @@
                   </children>
                 </container>
               </children>
+              <variables>
+                <var key="scroll_step_h" value="25" type="Number"/>
+                <var key="scroll_step_v" value="25" type="Number"/>
+              </variables>
             </itemlist_horizontal>
             <itemlist_horizontal x="7" y="97" width="269" height="30" params="16" style="3" name="wall_height_controls">
               <children>
@@ -276,7 +298,6 @@
                 <text x="123" y="6" width="25" height="17" params="16" style="3" name="wall_height_number" caption="1" width_max="25">
                   <variables>
                     <var key="auto_size" value="center" type="String"/>
-                    <var key="grid_fit_type" value="subpixel" type="String"/>
                     <var key="text_color" value="0x5f5f5f" type="hex"/>
                     <var key="text_style" value="u_bold" type="String"/>
                     <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
@@ -302,11 +323,15 @@
                   </children>
                 </container>
               </children>
+              <variables>
+                <var key="scroll_step_h" value="25" type="Number"/>
+                <var key="scroll_step_v" value="25" type="Number"/>
+              </variables>
             </itemlist_horizontal>
-            <border x="0" y="133" width="275" height="302" params="16" style="3" name="preview_bitmap_border"/>
-            <itemlist_horizontal x="1" y="135" width="273" height="300" params="16" style="3" name="preview_wrapper">
+            <border x="0" y="133" width="275" height="302" params="2064" style="3" name="preview_bitmap_border"/>
+            <itemlist_vertical x="1" y="135" width="273" height="300" params="2064" style="3" name="preview_wrapper">
               <children>
-                <bitmap x="0" y="0" width="273" height="300" params="16" style="3" name="preview_bitmap">
+                <bitmap x="0" y="0" width="273" height="300" params="17" style="3" name="preview_bitmap">
                   <variables>
                     <var key="pivot_point" value="center" type="String"/>
                     <var key="stretched_x" value="false" type="Boolean"/>
@@ -317,16 +342,16 @@
               </children>
               <variables>
                 <var key="scale_to_fit_items" value="true" type="Boolean"/>
-                <var key="scroll_step_h" value="1" type="Number"/>
-                <var key="scroll_step_v" value="1" type="Number"/>
+                <var key="scroll_step_h" value="25" type="Number"/>
+                <var key="scroll_step_v" value="25" type="Number"/>
               </variables>
-            </itemlist_horizontal>
-            <scrollbar_horizontal x="0" y="435" width="280" height="14" params="17" style="3" name="preview_scroll_horizontal">
+            </itemlist_vertical>
+            <scrollbar_horizontal x="0" y="435" width="280" height="14" params="1041" style="3" name="preview_scroll_horizontal">
               <variables>
                 <var key="scrollable" value="preview_wrapper" type="String"/>
               </variables>
             </scrollbar_horizontal>
-            <scrollbar_vertical x="274" y="135" width="20" height="299" params="17" style="3" name="preview_scroll_vertical">
+            <scrollbar_vertical x="274" y="135" width="20" height="299" params="2065" style="3" name="preview_scroll_vertical">
               <variables>
                 <var key="scrollable" value="preview_wrapper" type="String"/>
               </variables>
@@ -341,28 +366,48 @@
             </static_bitmap>
           </children>
         </border>
-        <container x="10" y="530" width="643" height="40" params="16" style="3" name="main_buttons">
+        <container x="10" y="518" width="643" height="40" params="1168" style="3" name="main_buttons">
           <children>
-            <itemlist_horizontal x="0" y="0" width="120" height="40" params="16" style="3" name="left_buttons">
+            <itemlist_horizontal x="2" y="0" width="120" height="40" params="16" style="3" name="left_buttons">
               <children>
-                <button_thick x="0" y="0" width="120" height="35" params="131089" style="3" name="reload" caption="%24%7Bfloor.plan.editor.reload%7D" width_min="100" width_max="120"/>
+                <button_thick x="0" y="0" width="120" height="35" params="131089" style="3" name="reload" caption="%24%7Bfloor.plan.editor.reload%7D" width_min="100" width_max="120">
+                  <variables>
+                    <var key="text_style" value="button_shiny_bold" type="String"/>
+                  </variables>
+                </button_thick>
               </children>
               <variables>
                 <var key="spacing" value="5" type="int"/>
                 <var key="scale_to_fit_items" value="true" type="Boolean"/>
                 <var key="resize_on_item_update" value="true" type="Boolean"/>
+                <var key="scroll_step_h" value="25" type="Number"/>
+                <var key="scroll_step_v" value="25" type="Number"/>
               </variables>
             </itemlist_horizontal>
-            <itemlist_horizontal x="273" y="0" width="370" height="40" params="262160" style="3" name="right_buttons">
+            <itemlist_horizontal x="265" y="0" width="376" height="40" params="262224" style="3" name="right_buttons">
               <children>
-                <button_thick x="0" y="0" width="120" height="35" params="131089" style="3" name="import_export" caption="%24%7Bfloor.plan.editor.import.export%7D" width_min="90" width_max="120"/>
-                <button_thick x="125" y="0" width="120" height="35" params="131089" style="3" name="cancel" caption="%24%7Bfloor.plan.editor.cancel%7D" width_min="90" width_max="120"/>
-                <button_thick x="250" y="0" width="120" height="35" params="131089" style="5" name="save" caption="%24%7Bfloor.plan.editor.save%7D" color="0x0bb3e3" width_min="90" width_max="120"/>
+                <button_thick x="0" y="0" width="120" height="35" params="131089" style="3" name="import_export" caption="%24%7Bfloor.plan.editor.import.export%7D" width_min="90" width_max="120">
+                  <variables>
+                    <var key="text_style" value="button_shiny_bold" type="String"/>
+                  </variables>
+                </button_thick>
+                <button_thick x="128" y="0" width="120" height="35" params="131089" style="3" name="cancel" caption="%24%7Bfloor.plan.editor.cancel%7D" width_min="90" width_max="120">
+                  <variables>
+                    <var key="text_style" value="button_shiny_bold" type="String"/>
+                  </variables>
+                </button_thick>
+                <button_thick x="256" y="0" width="120" height="35" params="131089" style="5" name="save" caption="%24%7Bfloor.plan.editor.save%7D" color="0x0bb3e3" width_min="90" width_max="120">
+                  <variables>
+                    <var key="text_style" value="button_shiny_bold" type="String"/>
+                  </variables>
+                </button_thick>
               </children>
               <variables>
-                <var key="spacing" value="5" type="int"/>
+                <var key="spacing" value="8" type="int"/>
                 <var key="scale_to_fit_items" value="true" type="Boolean"/>
                 <var key="resize_on_item_update" value="true" type="Boolean"/>
+                <var key="scroll_step_h" value="25" type="Number"/>
+                <var key="scroll_step_v" value="25" type="Number"/>
               </variables>
             </itemlist_horizontal>
           </children>
