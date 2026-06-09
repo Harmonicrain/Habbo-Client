@@ -9,6 +9,7 @@ package
     import flash.display.MovieClip;
     import flash.display.Sprite;
     import flash.display.StageAlign;
+    import flash.display.StageDisplayState;
     import flash.display.StageQuality;
     import flash.display.StageScaleMode;
     import flash.events.BrowserInvokeEvent;
@@ -30,6 +31,8 @@ package
     import flash.text.TextField;
     import flash.text.TextFieldAutoSize;
     import flash.text.TextFormat;
+    import flash.net.URLLoader;
+    import flash.net.URLRequest;
     import flash.utils.Dictionary;
     import flash.utils.getDefinitionByName;
     import flash.utils.getQualifiedClassName;
@@ -55,6 +58,8 @@ package
         private static const LOGIN_FOREGROUND_OFFSET_Y:int = 82;
         private static const CONSOLE_MAX_LINES:int = 500;
         private static const F5_KEY_CODE:int = 116;
+        private static const F10_KEY_CODE:int = 121;
+        private static const F11_KEY_CODE:int = 122;
         private static const F12_KEY_CODE:int = 123;
         private static const CONSOLE_CLOSE_DEFAULT:Rectangle = new Rectangle(140, 10, 19, 20);
         private static const CONSOLE_CLOSE_PRESSED:Rectangle = new Rectangle(170, 10, 19, 20);
@@ -90,6 +95,13 @@ package
         private var _consoleCloseHoverData:BitmapData;
         private var _consoleClosePressedData:BitmapData;
         private var _consoleVisible:Boolean = false;
+        private var _changelogLayer:Sprite;
+        private var _changelogText:TextField;
+        private var _changelogCloseButton:Sprite;
+        private var _changelogCloseBitmap:Bitmap;
+        private var _changelogVisible:Boolean = false;
+        private var _changelogLoader:URLLoader;
+        private var _changelogHtml:String;
         private var _logBuffer:Array;
         private var _configBaseUrl:String = DEFAULT_BASE_URL;
         private var _configGordonPath:String = GORDON_PATH;
@@ -245,6 +257,26 @@ package
                 reloadClient();
                 return;
             }
+            if (event.keyCode == F10_KEY_CODE)
+            {
+                event.preventDefault();
+                this._changelogVisible = !this._changelogVisible;
+                if (this._changelogVisible)
+                {
+                    showChangelogOverlay();
+                }
+                else
+                {
+                    removeChangelogOverlay();
+                }
+                return;
+            }
+            if (event.keyCode == F11_KEY_CODE)
+            {
+                event.preventDefault();
+                toggleFullscreen();
+                return;
+            }
             if (event.keyCode != F12_KEY_CODE)
             {
                 return;
@@ -258,6 +290,22 @@ package
             else
             {
                 removeConsoleOverlay();
+            }
+        }
+
+        private function toggleFullscreen():void
+        {
+            if (stage == null)
+            {
+                return;
+            }
+            if (stage.displayState == StageDisplayState.NORMAL)
+            {
+                stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
+            }
+            else
+            {
+                stage.displayState = StageDisplayState.NORMAL;
             }
         }
 
@@ -679,6 +727,242 @@ package
             this._consoleLayer = null;
         }
 
+        private function showChangelogOverlay():void
+        {
+            this._changelogHtml = '<font color="#B8D8FF">Loading latest changelog...</font>';
+            renderChangelogOverlay();
+            fetchLatestChangelog();
+        }
+
+        private function fetchLatestChangelog():void
+        {
+            var feedUrl:String = getAirParameter("update.feed.url");
+            var request:URLRequest;
+            if (((feedUrl == null) || (feedUrl.length == 0)))
+            {
+                this._changelogHtml = '<font color="#FF8080">No update feed is configured.</font>';
+                renderChangelogOverlay();
+                return;
+            }
+            try
+            {
+                if (this._changelogLoader != null)
+                {
+                    try { this._changelogLoader.close(); } catch (_:Error) {}
+                }
+                request = new URLRequest(feedUrl + ((feedUrl.indexOf("?") >= 0) ? "&" : "?") + "t=" + getTimer());
+                this._changelogLoader = new URLLoader();
+                this._changelogLoader.addEventListener(Event.COMPLETE, onChangelogLoaded);
+                this._changelogLoader.addEventListener(IOErrorEvent.IO_ERROR, onChangelogLoadError);
+                this._changelogLoader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, onChangelogLoadError);
+                this._changelogLoader.load(request);
+            }
+            catch (error:Error)
+            {
+                this._changelogHtml = '<font color="#FF8080">Could not load changelog: ' + escapeConsoleHtml(error.message) + "</font>";
+                renderChangelogOverlay();
+            }
+        }
+
+        private function onChangelogLoaded(event:Event):void
+        {
+            var raw:String;
+            var manifest:Object;
+            cleanupChangelogLoader();
+            try
+            {
+                raw = String(URLLoader(event.target).data);
+                raw = stripManifestPrefix(raw);
+                manifest = JSON.parse(raw);
+                this._changelogHtml = buildChangelogHtml(manifest);
+            }
+            catch (error:Error)
+            {
+                this._changelogHtml = '<font color="#FF8080">Could not parse changelog: ' + escapeConsoleHtml(error.message) + "</font>";
+            }
+            renderChangelogOverlay();
+        }
+
+        private function onChangelogLoadError(event:ErrorEvent):void
+        {
+            cleanupChangelogLoader();
+            this._changelogHtml = '<font color="#FF8080">Could not load changelog: ' + escapeConsoleHtml(event.text) + "</font>";
+            renderChangelogOverlay();
+        }
+
+        private function cleanupChangelogLoader():void
+        {
+            if (this._changelogLoader == null)
+            {
+                return;
+            }
+            this._changelogLoader.removeEventListener(Event.COMPLETE, onChangelogLoaded);
+            this._changelogLoader.removeEventListener(IOErrorEvent.IO_ERROR, onChangelogLoadError);
+            this._changelogLoader.removeEventListener(SecurityErrorEvent.SECURITY_ERROR, onChangelogLoadError);
+            this._changelogLoader = null;
+        }
+
+        private function stripManifestPrefix(value:String):String
+        {
+            if (value == null)
+            {
+                return "";
+            }
+            if (((value.length > 0) && (value.charCodeAt(0) == 0xFEFF)))
+            {
+                value = value.substr(1);
+            }
+            if (value.indexOf("ï»¿") == 0)
+            {
+                value = value.substr(3);
+            }
+            return value;
+        }
+
+        private function buildChangelogHtml(manifest:Object):String
+        {
+            var html:String = "";
+            var version:String = manifest.version != null ? String(manifest.version) : "unknown";
+            var notes:String = manifest.notes != null ? String(manifest.notes) : "";
+            var item:*;
+            html += '<font color="#B8D8FF"><b>Latest version: ' + escapeConsoleHtml(version) + "</b></font><br/><br/>";
+            if (((manifest.changelog is Array) && (manifest.changelog.length > 0)))
+            {
+                for each (item in manifest.changelog)
+                {
+                    if (item != null && String(item).length > 0)
+                    {
+                        html += '<font color="#E8E8E8">- ' + escapeConsoleHtml(String(item)) + "</font><br/>";
+                    }
+                }
+            }
+            else if (notes.length > 0)
+            {
+                html += '<font color="#E8E8E8">' + escapeConsoleHtml(notes).split("\n").join("<br/>") + "</font><br/>";
+            }
+            else
+            {
+                html += '<font color="#E8E8E8">No changelog has been published for this release.</font><br/>';
+            }
+            return html;
+        }
+
+        private function renderChangelogOverlay(event:Event=null):void
+        {
+            var backing:Sprite;
+            var header:TextField;
+            var appName:String;
+            if (((stage == null) || (!this._changelogVisible)))
+            {
+                return;
+            }
+            removeChangelogOverlay(false);
+            this._changelogLayer = new Sprite();
+            backing = new Sprite();
+            backing.graphics.beginFill(0x050505, 0.88);
+            backing.graphics.drawRect(0, 0, stage.stageWidth, stage.stageHeight);
+            backing.graphics.endFill();
+            this._changelogLayer.addChild(backing);
+
+            appName = getAirParameter("app.name");
+            if (((appName == null) || (appName.length == 0)))
+            {
+                appName = DEFAULT_APP_NAME;
+            }
+            header = createConsoleText((appName + " Changelog - F10 to close"), 13, 0xB8D8FF, true);
+            header.x = 18;
+            header.y = 14;
+            header.width = Math.max(100, stage.stageWidth - 72);
+            header.height = 22;
+            this._changelogLayer.addChild(header);
+
+            this._changelogCloseButton = new Sprite();
+            ensureConsoleCloseAssets();
+            this._changelogCloseBitmap = new Bitmap(this._consoleCloseDefaultData, "auto", true);
+            this._changelogCloseButton.addChild(this._changelogCloseBitmap);
+            this._changelogCloseButton.x = Math.max(18, stage.stageWidth - this._changelogCloseBitmap.width - 18);
+            this._changelogCloseButton.y = 14;
+            this._changelogCloseButton.buttonMode = true;
+            this._changelogCloseButton.useHandCursor = true;
+            this._changelogCloseButton.addEventListener(MouseEvent.CLICK, onChangelogCloseClick);
+            this._changelogCloseButton.addEventListener(MouseEvent.MOUSE_OVER, onChangelogCloseOver);
+            this._changelogCloseButton.addEventListener(MouseEvent.MOUSE_OUT, onChangelogCloseOut);
+            this._changelogCloseButton.addEventListener(MouseEvent.MOUSE_DOWN, onChangelogCloseDown);
+            this._changelogCloseButton.addEventListener(MouseEvent.MOUSE_UP, onChangelogCloseOver);
+            this._changelogLayer.addChild(this._changelogCloseButton);
+
+            this._changelogText = createConsoleText("", 12, 0xE8E8E8, false);
+            this._changelogText.x = 18;
+            this._changelogText.y = 44;
+            this._changelogText.width = Math.max(100, stage.stageWidth - 36);
+            this._changelogText.height = Math.max(80, stage.stageHeight - 62);
+            this._changelogText.htmlText = this._changelogHtml;
+            this._changelogText.addEventListener(MouseEvent.MOUSE_WHEEL, onChangelogMouseWheel);
+            this._changelogLayer.addChild(this._changelogText);
+
+            stage.addChild(this._changelogLayer);
+            stage.addEventListener(Event.RESIZE, renderChangelogOverlay);
+        }
+
+        private function removeChangelogOverlay(removeResize:Boolean=true):void
+        {
+            if (((removeResize) && (stage != null)))
+            {
+                stage.removeEventListener(Event.RESIZE, renderChangelogOverlay);
+            }
+            cleanupChangelogLoader();
+            if (this._changelogText != null)
+            {
+                this._changelogText.removeEventListener(MouseEvent.MOUSE_WHEEL, onChangelogMouseWheel);
+                this._changelogText = null;
+            }
+            if (this._changelogCloseButton != null)
+            {
+                this._changelogCloseButton.removeEventListener(MouseEvent.CLICK, onChangelogCloseClick);
+                this._changelogCloseButton.removeEventListener(MouseEvent.MOUSE_OVER, onChangelogCloseOver);
+                this._changelogCloseButton.removeEventListener(MouseEvent.MOUSE_OUT, onChangelogCloseOut);
+                this._changelogCloseButton.removeEventListener(MouseEvent.MOUSE_DOWN, onChangelogCloseDown);
+                this._changelogCloseButton.removeEventListener(MouseEvent.MOUSE_UP, onChangelogCloseOver);
+                this._changelogCloseButton = null;
+            }
+            this._changelogCloseBitmap = null;
+            if (((this._changelogLayer != null) && (this._changelogLayer.parent != null)))
+            {
+                this._changelogLayer.parent.removeChild(this._changelogLayer);
+            }
+            this._changelogLayer = null;
+        }
+
+        private function onChangelogCloseClick(event:MouseEvent):void
+        {
+            this._changelogVisible = false;
+            removeChangelogOverlay();
+        }
+
+        private function onChangelogCloseOver(event:MouseEvent):void
+        {
+            if (this._changelogCloseBitmap != null)
+            {
+                this._changelogCloseBitmap.bitmapData = this._consoleCloseHoverData;
+            }
+        }
+
+        private function onChangelogCloseOut(event:MouseEvent):void
+        {
+            if (this._changelogCloseBitmap != null)
+            {
+                this._changelogCloseBitmap.bitmapData = this._consoleCloseDefaultData;
+            }
+        }
+
+        private function onChangelogCloseDown(event:MouseEvent):void
+        {
+            if (this._changelogCloseBitmap != null)
+            {
+                this._changelogCloseBitmap.bitmapData = this._consoleClosePressedData;
+            }
+        }
+
         private function ensureConsoleCloseAssets():void
         {
             var atlas:BitmapData;
@@ -781,6 +1065,15 @@ package
                 return;
             }
             this._consoleText.scrollV -= event.delta;
+        }
+
+        private function onChangelogMouseWheel(event:MouseEvent):void
+        {
+            if (this._changelogText == null)
+            {
+                return;
+            }
+            this._changelogText.scrollV -= event.delta;
         }
 
         private function hideLoginBackgroundInternal():void
@@ -1121,6 +1414,7 @@ package
                     stage.removeEventListener(KeyboardEvent.KEY_DOWN, onConsoleHotkey);
                 }
                 removeConsoleOverlay();
+                removeChangelogOverlay();
                 HabboWebTools.showAirLoginBackgroundCallback = null;
                 HabboWebTools.hideAirLoginBackgroundCallback = null;
                 HabboWebTools.renderAirLoginBackgroundCallback = null;
