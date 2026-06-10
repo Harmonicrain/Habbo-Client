@@ -1,7 +1,7 @@
 package com.sulake.habbo.roomevents.wired_setup.uibuilder.presets
 {
     import com.sulake.core.window.IWindow;
-    import com.sulake.core.window.IWindowContainer;
+    import com.sulake.core.window.WindowController;
     import com.sulake.core.window.components.IItemListWindow;
     import com.sulake.core.window.components.IRadioButtonWindow;
     import com.sulake.core.window.components.ISelectorWindow;
@@ -91,7 +91,7 @@ package com.sulake.habbo.roomevents.wired_setup.uibuilder.presets
 
         public function set selected(_arg_1:int):void
         {
-            var _local_2:IRadioButtonWindow = (this._container as IWindowContainer).findChildByName(RadioButtonPreset.OPTION_PREFIX + _arg_1) as IRadioButtonWindow;
+            var _local_2:IRadioButtonWindow = (this._container as WindowController).findChildByName(RadioButtonPreset.OPTION_PREFIX + _arg_1) as IRadioButtonWindow;
             this._container.setSelected(_local_2);
         }
 
@@ -146,7 +146,7 @@ package com.sulake.habbo.roomevents.wired_setup.uibuilder.presets
 
         private function get itemList():ItemListController
         {
-            return (this._container as IWindowContainer).findChildByName("radio_button_list") as ItemListController;
+            return (this._container as WindowController).findChildByName("radio_button_list") as ItemListController;
         }
 
         override public function get window():IWindow
