@@ -783,6 +783,8 @@
         public static var wired_styles_illumina_move_vrt:Class = HabboWindowManagerCom_wired_styles_illumina_move_vrt;
         public static var wired_styles_illumina_rotate_ccw:Class = HabboWindowManagerCom_wired_styles_illumina_rotate_ccw;
         public static var wired_styles_illumina_rotate_cw:Class = HabboWindowManagerCom_wired_styles_illumina_rotate_cw;
+        public static var wired_volter_uparrow:Class = HabboWindowManagerCom_wired_volter_uparrow;
+        public static var wired_volter_downarrow:Class = HabboWindowManagerCom_wired_volter_downarrow;
         public static var tools_black_pixel:Class = HabboWindowManagerCom_tools_black_pixel;
         public static var tools_file_icon:Class = HabboWindowManagerCom_tools_file_icon;
         public static var tools_folder_icon:Class = HabboWindowManagerCom_tools_folder_icon;

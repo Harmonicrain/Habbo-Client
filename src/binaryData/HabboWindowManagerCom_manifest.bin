@@ -830,6 +830,8 @@
 			<asset mimeType="image/png" name="wired_styles_illumina_move_vrt" />
 			<asset mimeType="image/png" name="wired_styles_illumina_rotate_ccw" />
 			<asset mimeType="image/png" name="wired_styles_illumina_rotate_cw" />
+			<asset mimeType="image/png" name="wired_volter_uparrow" />
+			<asset mimeType="image/png" name="wired_volter_downarrow" />
 			<asset mimeType="image/png" name="tools_black_pixel" />
 			<asset mimeType="image/png" name="tools_file_icon" />
 			<asset mimeType="image/png" name="tools_folder_icon" />
