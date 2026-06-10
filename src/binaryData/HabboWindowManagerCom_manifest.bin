@@ -236,6 +236,12 @@
 
             <asset mimeType="text/xml" name="illumina_light_frame_xml"/>
             <asset mimeType="text/xml" name="illumina_light_frame_modal_xml"/>
+            <asset mimeType="text/xml" name="illumina_light_frame_wired_xml"/>
+            <asset mimeType="text/xml" name="illumina_light_skin_button_frame_close_xml"/>
+            <asset mimeType="text/xml" name="illumina_light_skin_button_frame_menu_xml"/>
+            <asset mimeType="image/png" name="illumina_light_button_frame_menu_png"/>
+            <asset mimeType="image/png" name="illumina_wired_bg_left"/>
+            <asset mimeType="image/png" name="illumina_wired_bg_right"/>
             <asset mimeType="text/xml" name="illumina_light_skin_frame_xml"/>
             <asset mimeType="text/xml" name="illumina_purple_frame_xml"/>
             <asset mimeType="text/xml" name="illumina_purple_skin_frame_xml"/>

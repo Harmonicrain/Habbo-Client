@@ -211,7 +211,13 @@
         public static var illumina_light_skin_border_infobox_xml:Class = HabboWindowManagerCom_illumina_light_skin_border_infobox_xml;
         public static var illumina_light_frame_xml:Class = HabboWindowManagerCom_illumina_light_frame_xml;
         public static var illumina_light_frame_modal_xml:Class = HabboWindowManagerCom_illumina_light_frame_modal_xml;
+        public static var illumina_light_frame_wired_xml:Class = HabboWindowManagerCom_illumina_light_frame_wired_xml;
         public static var illumina_light_skin_frame_xml:Class = HabboWindowManagerCom_illumina_light_skin_frame_xml;
+        public static var illumina_light_skin_button_frame_close_xml:Class = HabboWindowManagerCom_illumina_light_skin_button_frame_close_xml;
+        public static var illumina_light_skin_button_frame_menu_xml:Class = HabboWindowManagerCom_illumina_light_skin_button_frame_menu_xml;
+        public static var illumina_light_button_frame_menu_png:Class = HabboWindowManagerCom_illumina_light_button_frame_menu_png;
+        public static var illumina_wired_bg_left:Class = HabboWindowManagerCom_illumina_wired_bg_left;
+        public static var illumina_wired_bg_right:Class = HabboWindowManagerCom_illumina_wired_bg_right;
         public static var illumina_light_button_xml:Class = HabboWindowManagerCom_illumina_light_button_xml;
         public static var illumina_light_button_plain_xml:Class = HabboWindowManagerCom_illumina_light_button_plain_xml;
         public static var illumina_light_skin_button_xml:Class = HabboWindowManagerCom_illumina_light_skin_button_xml;

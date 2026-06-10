@@ -189,6 +189,7 @@
 	<!-- Illumina light -->
     <window type="frame" intent="default" 	style="100" renderer="skin" asset="illumina_light_skin_frame_xml" window_layout="illumina_light_frame_xml" layout="illumina_light_frame" />
     <window type="frame" intent="modal" 	style="101" renderer="null" window_layout="illumina_light_frame_modal_xml" />
+<window type="frame" intent="wired" 	style="102" renderer="skin" asset="illumina_light_skin_frame_xml" window_layout="illumina_light_frame_wired_xml" layout="illumina_light_frame" />
     <window type="frame" intent="purple"    style="103" renderer="skin" asset="illumina_purple_skin_frame_xml" window_layout="illumina_purple_frame_xml" layout="illumina_purple_frame" />
     <window type="scaler" intent="default" style="100" renderer="null" />
 
@@ -208,6 +209,8 @@
     <window type="button" intent="unetched"     style="103" renderer="skin" asset="illumina_light_skin_button_unetched_xml" window_layout="illumina_light_button_plain_xml" layout="illumina_light_button_unetched"/>
     <window type="button" intent="purple window" style="104" renderer="skin" asset="illumina_purple_skin_button_xml" window_layout="illumina_purple_button_xml" layout="illumina_purple_button" />
     <window type="button" intent="purple plain"  style="105" renderer="skin" asset="illumina_purple_skin_button_plain_xml" window_layout="illumina_purple_button_plain_xml" layout="illumina_purple_button_plain" />
+<window type="closebutton"			intent="close" style="100"	    renderer="skin"	asset="illumina_light_skin_button_frame_close_xml"			layout="illumina_light_button_frame_close"		treshold="0" background="true" />
+<window type="closebutton"			intent="menu" style="101"	    renderer="skin"	asset="illumina_light_skin_button_frame_menu_xml"			    layout="illumina_light_button_frame_menu"		treshold="0" background="true" />
     <window type="closebutton" intent="close"    style="103" renderer="skin" asset="illumina_purple_skin_button_frame_close_xml" layout="illumina_purple_button_frame_close" treshold="0" background="true" />
 
     <window type="container_button" intent="landing view" style="100" renderer="skin" asset="illumina_light_skin_button_xml" layout="illumina_light_button"/>
