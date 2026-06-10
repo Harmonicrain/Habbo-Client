@@ -39,7 +39,7 @@ package com.sulake.habbo.roomevents.wired_setup.actiontypes
         override public function buildInputs(_arg_1:PresetManager, _arg_2:WiredStyle, _arg_3:WiredUIBuilder):void
         {
             this._tiles = _arg_1.createSliderSection("wiredfurni.params.emptytiles", "tiles", new SliderValueEcho(), 1, 5, 1);
-            this._direction = _arg_1.createRadioGroup([new RadioButtonParam(0, "N"), new RadioButtonParam(2, "E"), new RadioButtonParam(4, "S"), new RadioButtonParam(6, "W")], null, 4);
+            this._direction = _arg_1.createRadioGroup([this.iconButton(0, "move_0"), this.iconButton(2, "move_2"), this.iconButton(4, "move_4"), this.iconButton(6, "move_6")], null, 4);
             _arg_3.addElements(this._tiles, _arg_1.createSection(l("placetodirection"), this._direction));
         }
 
@@ -52,6 +52,13 @@ package com.sulake.habbo.roomevents.wired_setup.actiontypes
         {
             this._direction.selected = (_arg_1.intData.length > 0) ? _arg_1.intData[0] : 0;
             this._tiles.value = (_arg_1.intData.length > 1) ? _arg_1.intData[1] : 1;
+        }
+
+        private function iconButton(_arg_1:int, _arg_2:String):RadioButtonParam
+        {
+            var _local_3:RadioButtonParam = new RadioButtonParam(_arg_1, "");
+            _local_3.iconAssetName = _arg_2;
+            return _local_3;
         }
     }
 }

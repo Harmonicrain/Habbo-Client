@@ -160,12 +160,12 @@
             this._builderConditionHolder.register(new StackedFurnisConditionElement(ConditionCodes.HAS_STACKED_FURNIS, -1, "requireall", "requireall"));
             this._builderConditionHolder.register(new SimpleConditionElement(ConditionCodes.STUFF_TYPE_MATCHES, ConditionCodes.NOT_FURNI_IS_OF_TYPE));
             this._builderConditionHolder.register(new StuffsInFormationElement());
-            this._builderConditionHolder.register(new SimpleConditionElement(ConditionCodes.ACTOR_IS_GROUP_MEMBER, ConditionCodes.NOT_ACTOR_IN_GROUP));
+            this._builderConditionHolder.register(new ActorIsInGroupConditionElement());
             this._builderConditionHolder.register(new StringConditionElement(ConditionCodes.ACTOR_IS_WEARING_BADGE, ConditionCodes.NOT_ACTOR_WEARS_BADGE, "${wiredfurni.params.badgecode}"));
             this._builderConditionHolder.register(new NumberConditionElement(ConditionCodes.ACTOR_IS_WEARING_EFFECT, ConditionCodes.NOT_ACTOR_WEARING_EFFECT, "${wiredfurni.params.effectid}"));
             this._builderConditionHolder.register(new StackedFurnisConditionElement(ConditionCodes.NOT_HAS_STACKED_FURNIS, -1, "not_requireall", "not_requireall"));
             this._builderConditionHolder.register(new DateRangeActiveElement());
-            this._builderConditionHolder.register(new NumberConditionElement(ConditionCodes.ACTOR_HAS_HANDITEM, -1, "${wiredfurni.params.handitem}"));
+            this._builderConditionHolder.register(new ActorHasHandItemConditionElement());
         }
 
         public function get wiredStyle():WiredStyle
@@ -404,6 +404,14 @@
                 return 0;
             }
             return this._delayPreset.value;
+        }
+
+        public function onGuildMemberships(k:Array):void
+        {
+            if (this._builderElement != null)
+            {
+                this._builderElement.onGuildMemberships(k);
+            }
         }
 
         private function closeBuilder():void

@@ -22,7 +22,7 @@ package com.sulake.habbo.roomevents.wired_setup.actiontypes
         {
             this._botName = _arg_1.createTextInput(new TextInputParam("", 32, null, -1, null, true, loc("wiredfurni.tooltip.bot.name")));
             this._followMode = _arg_1.createRadioGroup([new RadioButtonParam(1, l("start.following")), new RadioButtonParam(0, l("stop.following"))]);
-            _arg_3.addElements(_arg_1.createSection(l("bot.name"), this._botName), _arg_1.createSection("", this._followMode));
+            _arg_3.addElements(_arg_1.createSection(l("bot.name"), _arg_1.createSimpleListView(true, [this._botName, this._followMode])));
         }
 
         override public function readIntParamsFromForm():Array

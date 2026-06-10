@@ -33,6 +33,7 @@ package com.sulake.habbo.roomevents.wired_setup
 
         function get hasStateSnapshot():Boolean;
         function get requiresFurniSelection():Boolean;
+        function onGuildMemberships(_arg_1:Array):void;
         function validate():String; // null = valid
         function get requireConfirmation():Object;
 

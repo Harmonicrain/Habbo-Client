@@ -14,6 +14,7 @@
     import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.WiredEffectDataEvent;
     import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.WiredValidationErrorEvent;
     import com.sulake.habbo.communication.messages.incoming.handshake.UserObjectEvent;
+    import com.sulake.habbo.communication.messages.incoming.users.GuildMembershipsMessageEvent;
     import com.sulake.habbo.communication.messages.parser.userdefinedroomevents.OpenMessageParser;
     import com.sulake.habbo.communication.messages.outgoing.userdefinedroomevents.OpenMessageComposer;
     import com.sulake.habbo.communication.messages.parser.userdefinedroomevents.WiredTriggerDataMessageParser;
@@ -45,6 +46,12 @@
             this.addMessageEvent(new WiredEffectDataEvent(this._Str_23979));
             this.addMessageEvent(new WiredValidationErrorEvent(this._Str_25729));
             this.addMessageEvent(new UserObjectEvent(this.onUserObject));
+            this.addMessageEvent(new GuildMembershipsMessageEvent(this.onGuildMemberships));
+        }
+
+        private function onGuildMemberships(k:IMessageEvent):void
+        {
+            this._roomEvents._Str_7247.onGuildMemberships((k as GuildMembershipsMessageEvent).guilds);
         }
 
         private function addMessageEvent(k:IMessageEvent):void

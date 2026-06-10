@@ -4,15 +4,15 @@ package com.sulake.habbo.roomevents.wired_setup.actiontypes
     import com.sulake.habbo.roomevents.wired_setup.DefaultElement;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.PresetManager;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.WiredUIBuilder;
-    import com.sulake.habbo.roomevents.wired_setup.uibuilder.params.TextInputParam;
-    import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.TextInputPreset;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.params.TextAreaParam;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.TextAreaPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.styles.WiredStyle;
 
     public class TextActionElement extends DefaultElement
     {
         private var _code:int;
         private var _section:String;
-        private var _input:TextInputPreset;
+        private var _input:TextAreaPreset;
 
         public function TextActionElement(_arg_1:int, _arg_2:String)
         {
@@ -33,7 +33,7 @@ package com.sulake.habbo.roomevents.wired_setup.actiontypes
 
         override public function buildInputs(_arg_1:PresetManager, _arg_2:WiredStyle, _arg_3:WiredUIBuilder):void
         {
-            this._input = _arg_1.createTextInput(new TextInputParam("", 100));
+            this._input = _arg_1.createTextArea(new TextAreaParam(40, -1, 4, -1, 100, "", null, null, true, true));
             _arg_3.addElements(_arg_1.createSection(this._section, this._input));
         }
 

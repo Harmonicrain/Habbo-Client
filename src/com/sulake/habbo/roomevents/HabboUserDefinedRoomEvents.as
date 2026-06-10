@@ -194,6 +194,11 @@
             return this._userDefinedRoomEventsCtrl;
         }
 
+        public function get roomSession():IRoomSession
+        {
+            return this._roomSession;
+        }
+
         public function get roomEngine():IRoomEngine
         {
             return this._roomEngine;

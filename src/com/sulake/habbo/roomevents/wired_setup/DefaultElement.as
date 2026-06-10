@@ -49,6 +49,10 @@ package com.sulake.habbo.roomevents.wired_setup
             return false;
         }
 
+        public function onGuildMemberships(_arg_1:Array):void
+        {
+        }
+
         public function readIntParamsFromForm():Array
         {
             return [];

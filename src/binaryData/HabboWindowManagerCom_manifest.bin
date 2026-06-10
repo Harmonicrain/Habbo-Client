@@ -817,6 +817,19 @@
 			<asset mimeType="image/png" name="wired_styles_volter_slider_bg" />
 			<asset mimeType="image/png" name="wired_styles_volter_slider_obj" />
 			<asset mimeType="image/png" name="wired_styles_illumina_slider_obj" />
+			<asset mimeType="image/png" name="wired_styles_illumina_move_0" />
+			<asset mimeType="image/png" name="wired_styles_illumina_move_1" />
+			<asset mimeType="image/png" name="wired_styles_illumina_move_2" />
+			<asset mimeType="image/png" name="wired_styles_illumina_move_3" />
+			<asset mimeType="image/png" name="wired_styles_illumina_move_4" />
+			<asset mimeType="image/png" name="wired_styles_illumina_move_5" />
+			<asset mimeType="image/png" name="wired_styles_illumina_move_6" />
+			<asset mimeType="image/png" name="wired_styles_illumina_move_7" />
+			<asset mimeType="image/png" name="wired_styles_illumina_move_diag" />
+			<asset mimeType="image/png" name="wired_styles_illumina_move_rnd" />
+			<asset mimeType="image/png" name="wired_styles_illumina_move_vrt" />
+			<asset mimeType="image/png" name="wired_styles_illumina_rotate_ccw" />
+			<asset mimeType="image/png" name="wired_styles_illumina_rotate_cw" />
 			<asset mimeType="image/png" name="tools_black_pixel" />
 			<asset mimeType="image/png" name="tools_file_icon" />
 			<asset mimeType="image/png" name="tools_folder_icon" />

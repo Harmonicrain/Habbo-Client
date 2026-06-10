@@ -4,8 +4,10 @@ package com.sulake.habbo.roomevents.wired_setup.actiontypes
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.PresetManager;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.WiredUIBuilder;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.params.RadioButtonParam;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.params.TextAreaParam;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.params.TextInputParam;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.RadioGroupPreset;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.TextAreaPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.TextInputPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.styles.WiredStyle;
 
@@ -13,7 +15,7 @@ package com.sulake.habbo.roomevents.wired_setup.actiontypes
     {
         private static const SEPARATOR:String = "\t";
 
-        private var _message:TextInputPreset;
+        private var _message:TextAreaPreset;
         private var _mode:RadioGroupPreset;
         private var _firstLabel:String;
         private var _firstId:int;
@@ -32,9 +34,9 @@ package com.sulake.habbo.roomevents.wired_setup.actiontypes
         override public function buildInputs(_arg_1:PresetManager, _arg_2:WiredStyle, _arg_3:WiredUIBuilder):void
         {
             this._botName = _arg_1.createTextInput(new TextInputParam("", 32, null, -1, null, true, loc("wiredfurni.tooltip.bot.name")));
-            this._message = _arg_1.createTextInput(new TextInputParam("", 100, null, -1, null, true, loc("wiredfurni.tooltip.bot.chatmessage")));
+            this._message = _arg_1.createTextArea(new TextAreaParam(40, -1, 4, -1, 100, "", null, null, true, true, loc("wiredfurni.tooltip.bot.chatmessage")));
             this._mode = _arg_1.createRadioGroup([new RadioButtonParam(this._firstId, this._firstLabel), new RadioButtonParam(this._secondId, this._secondLabel)]);
-            _arg_3.addElements(_arg_1.createSection(l("bot.name"), this._botName), _arg_1.createSection(l("message"), this._message), _arg_1.createSection("", this._mode));
+            _arg_3.addElements(_arg_1.createSection(l("bot.name"), this._botName), _arg_1.createSection(l("message"), _arg_1.createSimpleListView(true, [this._message, this._mode])));
         }
 
         override public function readStringParamFromForm():String
