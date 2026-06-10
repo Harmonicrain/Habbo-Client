@@ -18,6 +18,8 @@
         <asset mimeType="image/png" name="rotate_cw_png"/>
         <asset mimeType="image/png" name="slider_bg_png"/>
         <asset mimeType="image/png" name="slider_obj_png"/>
+        <asset mimeType="image/png" name="wired_styles_volter_slider_bg"/>
+        <asset mimeType="image/png" name="wired_styles_illumina_slider_obj"/>
 
         <asset mimeType="text/xml" name="ude_main_xml" />
         <asset mimeType="text/xml" name="ude_help_xml" />

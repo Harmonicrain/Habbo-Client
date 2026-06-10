@@ -24,6 +24,10 @@ package com.sulake.habbo.roomevents.wired_setup
         public function register(_arg_1:IWiredElement):void
         {
             this._elements.add(_arg_1.code, _arg_1);
+            if (_arg_1.negativeCode != -1)
+            {
+                this._elements.add(_arg_1.negativeCode, _arg_1);
+            }
         }
 
         public function getElementByCode(_arg_1:int):IWiredElement

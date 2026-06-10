@@ -767,6 +767,9 @@
         public static var toolbar_room_icon_0:Class = HabboWindowManagerCom_toolbar_room_icon_0;
         public static var toolbar_room_icon_1:Class = HabboWindowManagerCom_toolbar_room_icon_1;
         public static var toolbar_room_icon_2:Class = HabboWindowManagerCom_toolbar_room_icon_2;
+        public static var wired_styles_volter_slider_bg:Class = HabboWindowManagerCom_wired_styles_volter_slider_bg;
+        public static var wired_styles_volter_slider_obj:Class = HabboWindowManagerCom_wired_styles_volter_slider_obj;
+        public static var wired_styles_illumina_slider_obj:Class = HabboWindowManagerCom_wired_styles_illumina_slider_obj;
         public static var tools_black_pixel:Class = HabboWindowManagerCom_tools_black_pixel;
         public static var tools_file_icon:Class = HabboWindowManagerCom_tools_file_icon;
         public static var tools_folder_icon:Class = HabboWindowManagerCom_tools_folder_icon;

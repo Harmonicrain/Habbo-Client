@@ -44,6 +44,11 @@ package com.sulake.habbo.roomevents.wired_setup
             return false;
         }
 
+        public function get requiresFurniSelection():Boolean
+        {
+            return false;
+        }
+
         public function readIntParamsFromForm():Array
         {
             return [];

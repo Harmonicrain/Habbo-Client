@@ -6,7 +6,9 @@
 	import com.sulake.habbo.roomevents.userdefinedroomevents.IUserDefinedRoomEventsCtrl;
     import com.sulake.habbo.roomevents.userdefinedroomevents.triggerconfs.UserDefinedRoomEventsTriggersCtrl;
     import com.sulake.habbo.roomevents.userdefinedroomevents.actiontypes.ActionTypes;
+    import com.sulake.habbo.roomevents.userdefinedroomevents.actiontypes.ActionTypeCodes;
     import com.sulake.habbo.roomevents.userdefinedroomevents.conditions.UserDefinedRoomEventsConditionsCtrl;
+    import com.sulake.habbo.roomevents.userdefinedroomevents.conditions.ConditionCodes;
     import flash.utils.Dictionary;
     import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.Triggerable;
     import com.sulake.habbo.roomevents.userdefinedroomevents.help.UserDefinedRoomEventsHelp;
@@ -40,7 +42,9 @@
     import com.sulake.habbo.roomevents.wired_setup.IWiredTypeHolder;
     import com.sulake.habbo.roomevents.wired_setup.WiredConfigurationCache;
     import com.sulake.habbo.roomevents.wired_setup.DefaultElement;
-    import com.sulake.habbo.roomevents.wired_setup.triggerconfs.AvatarSaysSomethingElement;
+    import com.sulake.habbo.roomevents.wired_setup.actiontypes.*;
+    import com.sulake.habbo.roomevents.wired_setup.conditions.*;
+    import com.sulake.habbo.roomevents.wired_setup.triggerconfs.*;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.PresetManager;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.WiredUIBuilder;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.params.TextParam;
@@ -108,6 +112,60 @@
             this._builderActionHolder = new BuilderTypeHolder("action", function(t:Triggerable):Boolean { return (t as ActionDefinition) != null; });
             this._builderConditionHolder = new BuilderTypeHolder("condition", function(t:Triggerable):Boolean { return (t as ConditionDefinition) != null; });
             this._builderTriggerHolder.register(new AvatarSaysSomethingElement());
+            this._builderTriggerHolder.register(new AvatarWalksOnFurniElement());
+            this._builderTriggerHolder.register(new AvatarWalksOffFurniElement());
+            this._builderTriggerHolder.register(new TriggerOnceElement());
+            this._builderTriggerHolder.register(new ToggleFurniElement());
+            this._builderTriggerHolder.register(new TriggerPeriodicallyElement());
+            this._builderTriggerHolder.register(new AvatarEnterRoomElement());
+            this._builderTriggerHolder.register(new GameStartsElement());
+            this._builderTriggerHolder.register(new GameEndsElement());
+            this._builderTriggerHolder.register(new ScoreAchievedElement());
+            this._builderTriggerHolder.register(new CollisionElement());
+            this._builderTriggerHolder.register(new TriggerPeriodicallyLongElement());
+            this._builderTriggerHolder.register(new BotReachedStuffElement());
+            this._builderTriggerHolder.register(new BotReachedAvatarElement());
+            this._builderActionHolder.register(new ToggleFurniStateElement());
+            this._builderActionHolder.register(new SimpleActionElement(ActionTypeCodes.RESET));
+            this._builderActionHolder.register(new SetFurniStateToElement());
+            this._builderActionHolder.register(new MoveFurniElement());
+            this._builderActionHolder.register(new ScoreActionElement(ActionTypeCodes.GIVE_SCORE));
+            this._builderActionHolder.register(new ShowMessageActionElement());
+            this._builderActionHolder.register(new SimpleActionElement(ActionTypeCodes.TELEPORT));
+            this._builderActionHolder.register(new JoinTeamActionElement());
+            this._builderActionHolder.register(new SimpleActionElement(ActionTypeCodes.LEAVE_TEAM));
+            this._builderActionHolder.register(new SimpleActionElement(ActionTypeCodes.CHASE));
+            this._builderActionHolder.register(new SimpleActionElement(ActionTypeCodes.FLEE));
+            this._builderActionHolder.register(new MoveToDirectionElement());
+            this._builderActionHolder.register(new ScoreActionElement(ActionTypeCodes.GIVE_SCORE_TO_PREDEFINED_TEAM, true));
+            this._builderActionHolder.register(new SimpleActionElement(ActionTypeCodes.TOGGLE_TO_RANDOM_STATE));
+            this._builderActionHolder.register(new MoveFurniToElement());
+            this._builderActionHolder.register(new SimpleActionElement(ActionTypeCodes.CALL_ANOTHER_STACK));
+            this._builderActionHolder.register(new TextActionElement(ActionTypeCodes.KICK_FROM_ROOM, "${wiredfurni.params.message}"));
+            this._builderActionHolder.register(new MuteUserElement());
+            this._builderActionHolder.register(new BotNameActionElement(ActionTypeCodes.BOT_TELEPORT));
+            this._builderActionHolder.register(new BotNameActionElement(ActionTypeCodes.BOT_MOVE));
+            this._builderActionHolder.register(new BotMessageActionElement(ActionTypeCodes.BOT_TALK, "${wiredfurni.params.talk}", 0, "${wiredfurni.params.shout}", 1));
+            this._builderActionHolder.register(new BotGiveHandItemElement());
+            this._builderActionHolder.register(new BotFollowAvatarElement());
+            this._builderActionHolder.register(new BotChangeFigureElement());
+            this._builderActionHolder.register(new BotMessageActionElement(ActionTypeCodes.BOT_TALK_DIRECT_TO_AVTR, "${wiredfurni.params.whisper}", 1, "${wiredfurni.params.talk}", 0));
+            this._builderConditionHolder.register(new SimpleConditionElement(ConditionCodes.TRIGGERER_IS_ON_FURNI, ConditionCodes.NOT_ACTOR_ON_FURNI));
+            this._builderConditionHolder.register(new FurnisHaveAvatarsConditionElement());
+            this._builderConditionHolder.register(new MatchSnapshotConditionElement());
+            this._builderConditionHolder.register(new TimeElapsedConditionElement(ConditionCodes.TIME_ELAPSED_MORE, "wiredfurni.params.allowafter"));
+            this._builderConditionHolder.register(new TimeElapsedConditionElement(ConditionCodes.TIME_ELAPSED_LESS, "wiredfurni.params.allowbefore"));
+            this._builderConditionHolder.register(new UserCountInConditionElement());
+            this._builderConditionHolder.register(new TeamConditionElement());
+            this._builderConditionHolder.register(new StackedFurnisConditionElement(ConditionCodes.HAS_STACKED_FURNIS, -1, "requireall", "requireall"));
+            this._builderConditionHolder.register(new SimpleConditionElement(ConditionCodes.STUFF_TYPE_MATCHES, ConditionCodes.NOT_FURNI_IS_OF_TYPE));
+            this._builderConditionHolder.register(new StuffsInFormationElement());
+            this._builderConditionHolder.register(new SimpleConditionElement(ConditionCodes.ACTOR_IS_GROUP_MEMBER, ConditionCodes.NOT_ACTOR_IN_GROUP));
+            this._builderConditionHolder.register(new StringConditionElement(ConditionCodes.ACTOR_IS_WEARING_BADGE, ConditionCodes.NOT_ACTOR_WEARS_BADGE, "${wiredfurni.params.badgecode}"));
+            this._builderConditionHolder.register(new NumberConditionElement(ConditionCodes.ACTOR_IS_WEARING_EFFECT, ConditionCodes.NOT_ACTOR_WEARING_EFFECT, "${wiredfurni.params.effectid}"));
+            this._builderConditionHolder.register(new StackedFurnisConditionElement(ConditionCodes.NOT_HAS_STACKED_FURNIS, -1, "not_requireall", "not_requireall"));
+            this._builderConditionHolder.register(new DateRangeActiveElement());
+            this._builderConditionHolder.register(new NumberConditionElement(ConditionCodes.ACTOR_HAS_HANDITEM, -1, "${wiredfurni.params.handitem}"));
         }
 
         public function get wiredStyle():WiredStyle
@@ -272,7 +330,7 @@
             _local_3.addElements(this._headerPreset);
             _arg_2.setRoomEvents(this._roomEvents);
             _arg_2.buildInputs(this.presetManager, this.wiredStyle, _local_3);
-            if (this._updated.maximumItemSelectionCount > 0)
+            if (_arg_2.requiresFurniSelection && this._updated.maximumItemSelectionCount > 0)
             {
                 _local_4 = new TextParam(1, false);
                 _local_4.textColor = this.wiredStyle.softTextColor;

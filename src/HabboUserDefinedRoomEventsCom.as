@@ -22,6 +22,8 @@
         public static var rotate_cw_png:Class = HabboUserDefinedRoomEventsCom_rotate_cw_png;
         public static var slider_bg_png:Class = HabboUserDefinedRoomEventsCom_slider_bg_png;
         public static var slider_obj_png:Class = HabboUserDefinedRoomEventsCom_slider_obj_png;
+        public static var wired_styles_volter_slider_bg:Class = HabboUserDefinedRoomEventsCom_slider_bg_png;
+        public static var wired_styles_illumina_slider_obj:Class = HabboUserDefinedRoomEventsCom_slider_obj_png;
         public static var manifest:Class = HabboUserDefinedRoomEventsCom_manifest;
         public static var ude_main_xml:Class = HabboUserDefinedRoomEventsCom_ude_main_xml;
         public static var ude_help_xml:Class = HabboUserDefinedRoomEventsCom_ude_help_xml;

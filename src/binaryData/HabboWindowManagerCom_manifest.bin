@@ -814,6 +814,9 @@
 			<asset mimeType="image/png" name="toolbar_room_icon_0" />
 			<asset mimeType="image/png" name="toolbar_room_icon_1" />
 			<asset mimeType="image/png" name="toolbar_room_icon_2" />
+			<asset mimeType="image/png" name="wired_styles_volter_slider_bg" />
+			<asset mimeType="image/png" name="wired_styles_volter_slider_obj" />
+			<asset mimeType="image/png" name="wired_styles_illumina_slider_obj" />
 			<asset mimeType="image/png" name="tools_black_pixel" />
 			<asset mimeType="image/png" name="tools_file_icon" />
 			<asset mimeType="image/png" name="tools_folder_icon" />

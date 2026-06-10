@@ -32,6 +32,7 @@ package com.sulake.habbo.roomevents.wired_setup
         function readStringParamFromForm():String;
 
         function get hasStateSnapshot():Boolean;
+        function get requiresFurniSelection():Boolean;
         function validate():String; // null = valid
         function get requireConfirmation():Object;
 
