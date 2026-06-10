@@ -144,6 +144,11 @@
             return this._autoHideScrollBar;
         }
 
+        public function get isScrollBarVisible():Boolean
+        {
+            return (this._scrollBar) && (this._scrollBar.visible);
+        }
+
         public function get iterator():IIterator
         {
             return (this.isConstructionReady()) ? this._itemList.iterator : null;

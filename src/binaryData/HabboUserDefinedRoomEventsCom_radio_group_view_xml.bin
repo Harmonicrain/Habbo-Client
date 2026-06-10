@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?><layout name="radio_group_view" width="30" height="0" version="0.1" uid="F4B499D1-C252-65D9-5F54-0C67439C75A2">
+  <window>
+    <selector x="0" y="0" width="30" height="0" params="147473" style="0" name="radio_selector_view">
+      <children>
+        <itemlist_vertical x="0" y="0" width="30" height="0" params="149648" style="3" name="radio_button_list"/>
+      </children>
+    </selector>
+  </window>
+</layout>

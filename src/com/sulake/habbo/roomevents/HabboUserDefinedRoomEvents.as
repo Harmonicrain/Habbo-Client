@@ -189,6 +189,11 @@
             return this._userDefinedRoomEventsCtrl;
         }
 
+        public function get wiredCtrl():UserDefinedRoomEventsCtrl
+        {
+            return this._userDefinedRoomEventsCtrl;
+        }
+
         public function get roomEngine():IRoomEngine
         {
             return this._roomEngine;

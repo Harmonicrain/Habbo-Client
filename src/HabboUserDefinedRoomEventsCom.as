@@ -65,6 +65,14 @@
         public static var ude_condition_inputs_18_xml:Class = HabboUserDefinedRoomEventsCom_ude_condition_inputs_18_xml;
         public static var ude_condition_inputs_24_xml:Class = HabboUserDefinedRoomEventsCom_ude_condition_inputs_24_xml;
         public static var ude_condition_inputs_25_xml:Class = HabboUserDefinedRoomEventsCom_ude_condition_inputs_25_xml;
+        public static var container_view_xml:Class = HabboUserDefinedRoomEventsCom_container_view_xml;
+        public static var growing_container_view_xml:Class = HabboUserDefinedRoomEventsCom_growing_container_view_xml;
+        public static var horizontal_list_view_xml:Class = HabboUserDefinedRoomEventsCom_horizontal_list_view_xml;
+        public static var vertical_list_view_xml:Class = HabboUserDefinedRoomEventsCom_vertical_list_view_xml;
+        public static var radio_group_view_xml:Class = HabboUserDefinedRoomEventsCom_radio_group_view_xml;
+        public static var vertical_scroll_list_view_xml:Class = HabboUserDefinedRoomEventsCom_vertical_scroll_list_view_xml;
+        public static var static_bitmap_view_xml:Class = HabboUserDefinedRoomEventsCom_static_bitmap_view_xml;
+        public static var wired_style_illumina_xml:Class = HabboUserDefinedRoomEventsCom_wired_style_illumina_xml;
         public static var requiredClasses:Array = new Array(HabboUserDefinedRoomEventsBootstrap, IIDHabboUserDefinedRoomEvents);
     }
 }

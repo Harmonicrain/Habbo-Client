@@ -65,6 +65,14 @@
         <asset mimeType="text/xml" name="ude_condition_inputs_24_xml" />
         <asset mimeType="text/xml" name="ude_condition_inputs_25_xml" />
 
+        <asset mimeType="text/xml" name="container_view_xml" />
+        <asset mimeType="text/xml" name="growing_container_view_xml" />
+        <asset mimeType="text/xml" name="horizontal_list_view_xml" />
+        <asset mimeType="text/xml" name="vertical_list_view_xml" />
+        <asset mimeType="text/xml" name="radio_group_view_xml" />
+        <asset mimeType="text/xml" name="vertical_scroll_list_view_xml" />
+        <asset mimeType="text/xml" name="static_bitmap_view_xml" />
+        <asset mimeType="text/xml" name="wired_style_illumina_xml" />
 	   </assets>	
 	 </component> 
 	

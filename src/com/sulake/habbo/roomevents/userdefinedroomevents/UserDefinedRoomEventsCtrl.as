@@ -34,6 +34,26 @@
     import com.sulake.room.object.IRoomObjectModel;
     import com.sulake.habbo.room.object.RoomObjectVariableEnum;
     import com.sulake.core.window.events.*;
+    import com.sulake.core.window.components.IDesktopWindow;
+    import com.sulake.habbo.roomevents.wired_setup.BuilderTypeHolder;
+    import com.sulake.habbo.roomevents.wired_setup.IWiredElement;
+    import com.sulake.habbo.roomevents.wired_setup.IWiredTypeHolder;
+    import com.sulake.habbo.roomevents.wired_setup.WiredConfigurationCache;
+    import com.sulake.habbo.roomevents.wired_setup.DefaultElement;
+    import com.sulake.habbo.roomevents.wired_setup.triggerconfs.AvatarSaysSomethingElement;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.PresetManager;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.WiredUIBuilder;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.params.TextParam;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.CheckboxGroupPreset;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.RadioGroupPreset;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.SectionPreset;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.main_layout.AdvancedSettingsWrapperPreset;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.main_layout.FooterPreset;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.main_layout.FramePreset;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.main_layout.HeaderPreset;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.sections.SliderSection;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.styles.IlluminaWiredStyle;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.styles.WiredStyle;
 
     public class UserDefinedRoomEventsCtrl 
     {
@@ -54,6 +74,26 @@
         private var _help:UserDefinedRoomEventsHelp;
         private var _delaySlider:SliderWindowController;
 
+        // Wired 2.0 UI builder (Phase 2): dual-mode state. Builder-based types render
+        // through the wired_setup pipeline; XML-based legacy types keep the old path.
+        private var _wiredStyle:WiredStyle;
+        private var _presetManager:PresetManager;
+        private var _builderTriggerHolder:BuilderTypeHolder;
+        private var _builderActionHolder:BuilderTypeHolder;
+        private var _builderConditionHolder:BuilderTypeHolder;
+        private var _builderHolder:IWiredTypeHolder;
+        private var _builderElement:IWiredElement;
+        private var _configurationCache:Dictionary = new Dictionary();
+        private var _frame:FramePreset;
+        private var _headerPreset:HeaderPreset;
+        private var _selectorOptionsPreset:CheckboxGroupPreset;
+        private var _furniPicksSectionPreset:SectionPreset;
+        private var _delayPreset:SliderSection;
+        private var _advancedSettingsWrapperPreset:AdvancedSettingsWrapperPreset;
+        private var _conditionQuantifierOptions:RadioGroupPreset;
+        private var _footerPreset:FooterPreset;
+        private var _initialWidth:int;
+
         public function UserDefinedRoomEventsCtrl(k:HabboUserDefinedRoomEvents)
         {
             this._triggerConfs = new UserDefinedRoomEventsTriggersCtrl();
@@ -64,10 +104,282 @@
             this._roomEvents = k;
             this._furniHighLighter = new UserDefinedRoomEventsVisualizer(k);
             this._help = new UserDefinedRoomEventsHelp(k);
+            this._builderTriggerHolder = new BuilderTypeHolder("trigger", function(t:Triggerable):Boolean { return (t as TriggerDefinition) != null; });
+            this._builderActionHolder = new BuilderTypeHolder("action", function(t:Triggerable):Boolean { return (t as ActionDefinition) != null; });
+            this._builderConditionHolder = new BuilderTypeHolder("condition", function(t:Triggerable):Boolean { return (t as ConditionDefinition) != null; });
+            this._builderTriggerHolder.register(new AvatarSaysSomethingElement());
+        }
+
+        public function get wiredStyle():WiredStyle
+        {
+            if (this._wiredStyle == null)
+            {
+                this._wiredStyle = new IlluminaWiredStyle(this._roomEvents);
+            }
+            return this._wiredStyle;
+        }
+
+        public function get presetManager():PresetManager
+        {
+            if (this._presetManager == null)
+            {
+                this._presetManager = new PresetManager(this._roomEvents);
+            }
+            return this._presetManager;
+        }
+
+        private function get useCache():Boolean
+        {
+            return true;
+        }
+
+        public function clearCache():void
+        {
+            var _local_1:WiredConfigurationCache;
+            for each (_local_1 in this._configurationCache)
+            {
+                _local_1.frame.dispose();
+            }
+            this._configurationCache = new Dictionary();
+        }
+
+        private function getCacheKey(k:IWiredTypeHolder, _arg_2:Triggerable):String
+        {
+            return ((k.getKey() + "-" + this.wiredStyle.name) + "-" + k.getElementByCode(_arg_2.code).code);
+        }
+
+        private function loadFromCache(k:IWiredTypeHolder, _arg_2:Triggerable):Boolean
+        {
+            var _local_3:WiredConfigurationCache;
+            var _local_4:String = this.getCacheKey(k, _arg_2);
+            if (_local_4 in this._configurationCache)
+            {
+                _local_3 = this._configurationCache[_local_4];
+                this._frame = _local_3.frame;
+                this._headerPreset = _local_3.headerPreset;
+                this._selectorOptionsPreset = _local_3.selectorOptionsPreset;
+                this._furniPicksSectionPreset = _local_3.furniPicksSectionPreset;
+                this._delayPreset = _local_3.delayPreset;
+                this._advancedSettingsWrapperPreset = _local_3.advancedSettingsWrapperPreset;
+                this._conditionQuantifierOptions = _local_3.conditionQuantifierOptions;
+                this._footerPreset = _local_3.footerPreset;
+                this._initialWidth = _local_3.initialWidth;
+                return true;
+            }
+            return false;
+        }
+
+        private function storeInCache(k:IWiredTypeHolder, _arg_2:Triggerable):void
+        {
+            var _local_4:String = this.getCacheKey(k, _arg_2);
+            var _local_3:WiredConfigurationCache = new WiredConfigurationCache(this._frame, this._headerPreset, this._selectorOptionsPreset, this._furniPicksSectionPreset, this._delayPreset, this._advancedSettingsWrapperPreset, this._conditionQuantifierOptions, null, this._footerPreset, this._initialWidth);
+            this._configurationCache[_local_4] = _local_3;
+        }
+
+        private function resolveBuilderHolder(k:Triggerable):IWiredTypeHolder
+        {
+            if ((k as TriggerDefinition) != null)
+            {
+                return this._builderTriggerHolder;
+            }
+            if ((k as ActionDefinition) != null)
+            {
+                return this._builderActionHolder;
+            }
+            if ((k as ConditionDefinition) != null)
+            {
+                return this._builderConditionHolder;
+            }
+            return null;
+        }
+
+        private function get builderEditorVisible():Boolean
+        {
+            return (this._frame != null) && (this._frame.window != null) && this._frame.window.visible && (this._frame.window.parent != null);
+        }
+
+        private function showBuilderFrame():void
+        {
+            var _local_1:IDesktopWindow = this._roomEvents.windowManager.getDesktop(1);
+            if (_local_1 != null)
+            {
+                _local_1.addChild(this._frame.window);
+            }
+            this._frame.window.center();
+            this._frame.window.activate();
+        }
+
+        private function hideBuilderFrame():void
+        {
+            var _local_1:IDesktopWindow;
+            if (this._frame != null)
+            {
+                _local_1 = this._roomEvents.windowManager.getDesktop(1);
+                if (_local_1 != null)
+                {
+                    _local_1.removeChild(this._frame.window);
+                }
+            }
+        }
+
+        private function openBuilderEditor(k:Triggerable, _arg_2:IWiredTypeHolder, _arg_3:IWiredElement):void
+        {
+            var _local_4:int;
+            if ((this._window != null) && this._window.visible)
+            {
+                this._window.visible = false;
+            }
+            this._updated = k;
+            this._builderHolder = _arg_2;
+            this._builderElement = _arg_3;
+            this._furniHighLighter._Str_21701(this._stuffs);
+            this._stuffs = new Dictionary();
+            for each (_local_4 in this._updated.selectedItems)
+            {
+                this._stuffs[_local_4] = "yes";
+            }
+            this._furniHighLighter._Str_25313(this._stuffs);
+            this.createBuilderWindow(_arg_2, _arg_3);
+            this._builderElement.onEditStart(k);
+            this._headerPreset.updateName(this._Str_16874(k.spriteId));
+            if ((this._delayPreset != null) && ((k as ActionDefinition) != null))
+            {
+                this._delayPreset.value = ActionDefinition(k).delayInPulses;
+            }
+            this.refreshBuilderPickCount();
+            this._builderElement.onEditInitialized();
+        }
+
+        private function createBuilderWindow(k:IWiredTypeHolder, _arg_2:IWiredElement):void
+        {
+            var _local_4:TextParam;
+            this.hideBuilderFrame();
+            this._frame = null;
+            this._headerPreset = null;
+            this._selectorOptionsPreset = null;
+            this._furniPicksSectionPreset = null;
+            this._delayPreset = null;
+            this._advancedSettingsWrapperPreset = null;
+            this._conditionQuantifierOptions = null;
+            this._footerPreset = null;
+            if (this.useCache && this.loadFromCache(k, this._updated))
+            {
+                this.showBuilderFrame();
+                return;
+            }
+            var _local_3:WiredUIBuilder = new WiredUIBuilder(this.presetManager, this.closeBuilder, k.getKey(), _arg_2.code, false);
+            this._headerPreset = this.presetManager.createHeaderPreset(this._Str_16874(this._updated.spriteId), k, (_arg_2.hasStateSnapshot) ? HeaderPreset.BUTTON_MODE_APPLY_SNAPSHOT : HeaderPreset.BUTTON_MODE_NONE, this.onBuilderApplySnapshot, null, null);
+            _local_3.addElements(this._headerPreset);
+            _arg_2.setRoomEvents(this._roomEvents);
+            _arg_2.buildInputs(this.presetManager, this.wiredStyle, _local_3);
+            if (this._updated.maximumItemSelectionCount > 0)
+            {
+                _local_4 = new TextParam(1, false);
+                _local_4.textColor = this.wiredStyle.softTextColor;
+                this._furniPicksSectionPreset = this.presetManager.createSection("${wiredfurni.pickfurnis.caption}", this.presetManager.createText("${wiredfurni.pickfurnis.desc}", _local_4));
+                _local_3.addElements(this._furniPicksSectionPreset);
+            }
+            if ((this._updated as ActionDefinition) != null)
+            {
+                this._delayPreset = this.presetManager.createSliderSection("wiredfurni.params.delay", "seconds", SliderSection.CONVERTER_PULSES, 0, 20, 1, false);
+                _local_3.addElements(this._delayPreset);
+            }
+            // Advanced sections (quantifier/input sources) are deferred: Phase 1 data
+            // always serializes advancedMode = false, so May's createAdvancedSections
+            // would return early anyway.
+            this._footerPreset = this.presetManager.createFooterPreset(this.saveBuilder, this.closeBuilder);
+            _local_3.addElements(this._footerPreset);
+            _local_3.build(_arg_2.widthModifier, _arg_2.allowScrolling);
+            this._frame = _local_3.frame;
+            this._initialWidth = _local_3.initialWidth;
+            _arg_2.onInit(this._roomEvents);
+            this.showBuilderFrame();
+            if (this.useCache)
+            {
+                this.storeInCache(k, this._updated);
+            }
+        }
+
+        private function refreshBuilderPickCount():void
+        {
+            var _local_1:int = this._Str_10656().length;
+            var _local_2:int = this._updated.maximumItemSelectionCount;
+            this._roomEvents.localization.registerParameter("wiredfurni.pickfurnis.caption", "count", ("" + _local_1));
+            this._roomEvents.localization.registerParameter("wiredfurni.pickfurnis.caption", "limit", ("" + _local_2));
+        }
+
+        private function onBuilderApplySnapshot():void
+        {
+            this._roomEvents.send(new ApplySnapshotMessageComposer(this._updated.id));
+        }
+
+        private function saveBuilder():void
+        {
+            var _local_1:String = this._builderElement.validate();
+            if (_local_1 != null)
+            {
+                this._roomEvents.windowManager.alert("${wiredfurni.error.title}", _local_1, 0, null);
+                return;
+            }
+            var _local_2:Array = this._builderElement.readIntParamsFromForm();
+            var _local_3:String = this._builderElement.readStringParamFromForm();
+            var _local_4:Array = this._Str_10656();
+            var _local_5:int = (this._updated.stuffTypeSelectionEnabled) ? this._updated._Str_6040 : 0;
+            if ((this._updated as TriggerDefinition) != null)
+            {
+                this._roomEvents.send(new UpdateTriggerMessageComposer(this._updated.id, _local_2, _local_3, _local_4, _local_5));
+            }
+            else if ((this._updated as ActionDefinition) != null)
+            {
+                this._roomEvents.send(new UpdateActionMessageComposer(this._updated.id, _local_2, _local_3, _local_4, this.getBuilderDelay(), _local_5));
+            }
+            else if ((this._updated as ConditionDefinition) != null)
+            {
+                this._roomEvents.send(new UpdateConditionMessageComposer(this._updated.id, _local_2, _local_3, _local_4, _local_5));
+            }
+        }
+
+        private function getBuilderDelay():int
+        {
+            if (this._delayPreset == null)
+            {
+                return 0;
+            }
+            return this._delayPreset.value;
+        }
+
+        private function closeBuilder():void
+        {
+            this.hideBuilderFrame();
+            this._furniHighLighter._Str_21701(this._stuffs);
+            if (this._builderElement != null)
+            {
+                this._builderElement.onEditEnd();
+            }
         }
 
         public function _Str_15677(k:int, _arg_2:String):void
         {
+            // Wired 2.0 dual mode: builder editor handles its own furni picking.
+            if (this.builderEditorVisible)
+            {
+                if (this._updated.maximumItemSelectionCount <= 0)
+                {
+                    return;
+                }
+                if (this._stuffs[k])
+                {
+                    delete this._stuffs[k];
+                    this._furniHighLighter.hide(k);
+                }
+                else if (this._Str_10656().length < this._updated.maximumItemSelectionCount)
+                {
+                    this._stuffs[k] = _arg_2;
+                    this._furniHighLighter.show(k);
+                }
+                this.refreshBuilderPickCount();
+                return;
+            }
             if (((this._window == null) || (!(this._window.visible))))
             {
                 return;
@@ -182,6 +494,10 @@
 
         public function close():void
         {
+            if (this.builderEditorVisible)
+            {
+                this.closeBuilder();
+            }
             if (this._window)
             {
                 this._window.visible = false;
@@ -205,6 +521,15 @@
             var _local_4:IWindowContainer;
             var _local_5:ActionDefinition;
             var _local_6:int;
+            // Wired 2.0 dual mode: builder-based types take the wired_setup pipeline.
+            var _local_7:IWiredTypeHolder = this.resolveBuilderHolder(k);
+            var _local_8:IWiredElement = (_local_7 != null) ? _local_7.getElementByCode(k.code) : null;
+            if ((_local_8 != null) && (_local_8.inputMode == DefaultElement.INPUTS_TYPE_UI_BUILDER))
+            {
+                this.openBuilderEditor(k, _local_7, _local_8);
+                return;
+            }
+            this.hideBuilderFrame();
             this.prepareWindow();
             this._updated = k;
             Logger.log(((("Received: " + this._updated) + ", ") + k.code));
@@ -268,6 +593,21 @@
 
         public function _Str_25654(k:int):void
         {
+            // Wired 2.0 dual mode: builder editor branch.
+            if (this.builderEditorVisible)
+            {
+                if (this._updated.id == k)
+                {
+                    this.closeBuilder();
+                    return;
+                }
+                if (this._stuffs[k])
+                {
+                    delete this._stuffs[k];
+                    this.refreshBuilderPickCount();
+                }
+                return;
+            }
             if (this._window == null)
             {
                 return;

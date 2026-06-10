@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?><layout name="vertical_scroll_list_view" width="100" height="100" version="0.1" uid="CD30A2BE-CD62-3261-A3BA-D1D1F95B1132">
+  <window>
+    <scrollable_itemlist_vertical x="0" y="0" width="100" height="100" params="16" style="100" name="scroll_view">
+      <variables>
+        <var key="scale_to_fit_items" value="true" type="Boolean"/>
+      </variables>
+    </scrollable_itemlist_vertical>
+  </window>
+</layout>

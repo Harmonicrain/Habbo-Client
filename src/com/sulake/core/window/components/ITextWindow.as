@@ -28,8 +28,10 @@
         function get length():int;
         function get margins():IMargins;
         function get maxChars():int;
+        function get maxLines():int;
         function get multiline():Boolean;
         function get numLines():int;
+        function get overflowReplace():String;
         function get sharpness():Number;
         function get spacing():Number;
         function get text():String;
@@ -58,7 +60,9 @@
         function set italic(_arg_1:Boolean):void;
         function set kerning(_arg_1:Boolean):void;
         function set maxChars(_arg_1:int):void;
+        function set maxLines(_arg_1:int):void;
         function set multiline(_arg_1:Boolean):void;
+        function set overflowReplace(_arg_1:String):void;
         function set sharpness(_arg_1:Number):void;
         function set spacing(_arg_1:Number):void;
         function set text(_arg_1:String):void;

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout name="vertical_list_view" width="1000" height="0" version="0.1" uid="7BDF3B15-2939-A1A1-D98C-3B63C1191697">
+    <window>
+        <itemlist x="0" y="0" width="1000" height="0" params="147472" style="3" name="vertical_list_view">
+            <variables>
+                <var key="resize_on_item_update" value="true" type="Boolean"/>
+            </variables>
+        </itemlist>
+    </window>
+</layout>
