@@ -73,7 +73,7 @@ package com.sulake.habbo.roomevents.wired_setup.uibuilder.presets
             // sourceTypeSelectorParam branch is intentionally omitted.
             if (_arg_6.expandMode != SectionParam.EXPAND_MODE_EXPANDED)
             {
-                _local_9 = _arg_2.createCollapseExpandSectionButton(this.onExpandCollapseClicked, (_arg_6.expandMode == SectionParam.EXPAND_MODE_HIDDEN));
+                _local_9 = _arg_2.createCollapseExpandSectionButton(this.onExpandCollapseClicked, (_arg_6.expandMode == SectionParam.EXPAND_MODE_EXPANDED_WITH_TOGGLE));
                 this.addHeaderOption(_local_9);
             }
         }

@@ -6,11 +6,11 @@ package com.sulake.habbo.roomevents.wired_setup.uibuilder.params
     {
         public static var EXPAND_MODE_EXPANDED:int = 0;
         public static var EXPAND_MODE_COLLAPSED:int = 1;
-        public static var EXPAND_MODE_HIDDEN:int = 2;
+        public static var EXPAND_MODE_EXPANDED_WITH_TOGGLE:int = 2;
 
         public static var DEFAULT:SectionParam = new SectionParam(null, 0);
         public static var COLLAPSED:SectionParam = new SectionParam(null, 1);
-        public static var HIDDEN:SectionParam = new SectionParam(null, 2);
+        public static var EXPANDED_WITH_TOGGLE:SectionParam = new SectionParam(null, 2);
 
         private var _miscHeaderOptions:Array = [];
         private var _expandMode:int;

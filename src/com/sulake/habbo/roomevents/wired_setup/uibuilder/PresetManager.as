@@ -54,6 +54,7 @@ package com.sulake.habbo.roomevents.wired_setup.uibuilder
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.main_layout.IlluminaHeaderPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.sections.BorderSection;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.sections.SliderSection;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.sections.UsageInfoSection;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.styles.WiredStyle;
 
     /**
@@ -102,6 +103,11 @@ package com.sulake.habbo.roomevents.wired_setup.uibuilder
         public function createBorderSection(_arg_1:String, _arg_2:WiredUIPreset, _arg_3:SectionParam = null):BorderSection
         {
             return new BorderSection(this._roomEvents, this, this.wiredStyle, _arg_1, _arg_2, _arg_3);
+        }
+
+        public function createUsageInfoSection(_arg_1:String, _arg_2:Boolean = false, _arg_3:String = null):UsageInfoSection
+        {
+            return new UsageInfoSection(this._roomEvents, this, this.wiredStyle, _arg_1, _arg_2, _arg_3);
         }
 
         public function createCollapseExpandSectionButton(_arg_1:Function = null, _arg_2:Boolean = true):CollapseExpandSectionButtonPreset

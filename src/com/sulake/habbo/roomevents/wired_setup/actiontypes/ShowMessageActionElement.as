@@ -46,7 +46,7 @@ package com.sulake.habbo.roomevents.wired_setup.actiontypes
             this._style = _arg_1.createDropdown(new DropdownParam("${wiredfurni.params.show_message.style_selection.title}", _local_2));
 
             _arg_3.addElements(
-                _arg_1.createSection("${wiredfurni.params.show_message.usage_info}", _arg_1.createText("${wiredfurni.params.show_message.usage_info}")),
+                _arg_1.createUsageInfoSection("${wiredfurni.params.show_message.usage_info}", true),
                 _arg_1.createSection("${wiredfurni.params.message}", this._message),
                 _arg_1.createSection("${wiredfurni.params.show_message.visibility_selection.title}", this._visibility, SectionParam.COLLAPSED),
                 _arg_1.createSection("${wiredfurni.params.show_message.style_selection.title}", this._style, SectionParam.COLLAPSED)
