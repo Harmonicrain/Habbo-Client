@@ -5,6 +5,7 @@
     import com.sulake.core.window.IWindowContainer;
 	import com.sulake.habbo.roomevents.userdefinedroomevents.IUserDefinedRoomEventsCtrl;
     import com.sulake.habbo.roomevents.userdefinedroomevents.triggerconfs.UserDefinedRoomEventsTriggersCtrl;
+    import com.sulake.habbo.roomevents.userdefinedroomevents.triggerconfs.WiredTriggerType;
     import com.sulake.habbo.roomevents.userdefinedroomevents.actiontypes.ActionTypes;
     import com.sulake.habbo.roomevents.userdefinedroomevents.actiontypes.ActionTypeCodes;
     import com.sulake.habbo.roomevents.userdefinedroomevents.conditions.UserDefinedRoomEventsConditionsCtrl;
@@ -125,6 +126,12 @@
             this._builderTriggerHolder.register(new TriggerPeriodicallyLongElement());
             this._builderTriggerHolder.register(new BotReachedStuffElement());
             this._builderTriggerHolder.register(new BotReachedAvatarElement());
+            this._builderTriggerHolder.register(new ClockReachTimeElement());
+            this._builderTriggerHolder.register(new FurniTriggerElement(WiredTriggerType.AVATAR_CLICKS_FURNI));
+            this._builderTriggerHolder.register(new PeriodicShortElement());
+            this._builderTriggerHolder.register(new FurniTriggerElement(WiredTriggerType.STATE_CHANGE));
+            this._builderTriggerHolder.register(new SimpleTriggerElement(WiredTriggerType.AVATAR_LEAVES_ROOM));
+            this._builderTriggerHolder.register(new UserClicksUserElement());
             this._builderActionHolder.register(new ToggleFurniStateElement());
             this._builderActionHolder.register(new SimpleActionElement(ActionTypeCodes.RESET));
             this._builderActionHolder.register(new SetFurniStateToElement());
@@ -150,6 +157,22 @@
             this._builderActionHolder.register(new BotFollowAvatarElement());
             this._builderActionHolder.register(new BotChangeFigureElement());
             this._builderActionHolder.register(new BotMessageActionElement(ActionTypeCodes.BOT_TALK_DIRECT_TO_AVTR, "${wiredfurni.params.whisper}", 1, "${wiredfurni.params.talk}", 0));
+            this._builderActionHolder.register(new ControlClockActionElement());
+            this._builderActionHolder.register(new SetFurniAltitudeActionElement());
+            this._builderActionHolder.register(new FreezeUserActionElement());
+            this._builderActionHolder.register(new SimpleActionElement(ActionTypeCodes.UNFREEZE_USER));
+            this._builderActionHolder.register(new RelativeFurniMoveActionElement());
+            this._builderActionHolder.register(new FurniPickingActionElement(ActionTypeCodes.MOVE_FURNI_TO_FURNI));
+            this._builderActionHolder.register(new FurniPickingActionElement(ActionTypeCodes.MOVE_FURNI_TO_USER));
+            this._builderActionHolder.register(new MoveUserActionElement());
+            this._builderActionHolder.register(new MoveUserToFurniActionElement());
+            this._builderActionHolder.register(new SimpleActionElement(ActionTypeCodes.TELEPORT_TO_ROOM));
+            this._builderActionHolder.register(new TextActionElement(ActionTypeCodes.PROGRESS_ACHIEVEMENT, "${wiredfurni.params.progress_achievement.name}"));
+            this._builderActionHolder.register(new GiveEffectActionElement());
+            this._builderActionHolder.register(new SetFurniAltitudeActionElement(ActionTypeCodes.OVERRIDE_HEIGHT));
+            this._builderActionHolder.register(new NumberActionElement(ActionTypeCodes.PLACE_FURNI, "${wiredfurni.params.place_furni.furni_type}"));
+            this._builderActionHolder.register(new FurniPickingActionElement(ActionTypeCodes.REMOVE_FURNI));
+            this._builderActionHolder.register(new MoveAsGroupActionElement());
             this._builderConditionHolder.register(new SimpleConditionElement(ConditionCodes.TRIGGERER_IS_ON_FURNI, ConditionCodes.NOT_ACTOR_ON_FURNI));
             this._builderConditionHolder.register(new FurnisHaveAvatarsConditionElement());
             this._builderConditionHolder.register(new MatchSnapshotConditionElement());
@@ -166,6 +189,17 @@
             this._builderConditionHolder.register(new StackedFurnisConditionElement(ConditionCodes.NOT_HAS_STACKED_FURNIS, -1, "not_requireall", "not_requireall"));
             this._builderConditionHolder.register(new DateRangeActiveElement());
             this._builderConditionHolder.register(new ActorHasHandItemConditionElement());
+            this._builderConditionHolder.register(new TriggererMatchesConditionElement());
+            this._builderConditionHolder.register(new TimeMatchesConditionElement());
+            this._builderConditionHolder.register(new DateMatchesConditionElement());
+            this._builderConditionHolder.register(new NumberConditionElement(ConditionCodes.NOT_HAS_HANDITEM, -1, "${wiredfurni.params.handitem}"));
+            this._builderConditionHolder.register(new TeamIsWinningConditionElement());
+            this._builderConditionHolder.register(new PerformingActionConditionElement());
+            this._builderConditionHolder.register(new TeamHasScoreConditionElement());
+            this._builderConditionHolder.register(new ClockTimeMatchesConditionElement());
+            this._builderConditionHolder.register(new FurniHasAltitudeConditionElement());
+            this._builderConditionHolder.register(new UserDirectionConditionElement());
+            this._builderConditionHolder.register(new FurniPickingConditionElement(ConditionCodes.CAN_PERFORM_MOVE));
         }
 
         public function get wiredStyle():WiredStyle
@@ -383,17 +417,25 @@
             var _local_3:String = this._builderElement.readStringParamFromForm();
             var _local_4:Array = this._Str_10656();
             var _local_5:int = (this._updated.stuffTypeSelectionEnabled) ? this._updated._Str_6040 : 0;
+            var _local_6:Array = this._builderElement.readFurniSourceTypesFromForm();
+            var _local_7:Array = this._builderElement.readUserSourceTypesFromForm();
+            var _local_8:Array = this._builderElement.readVariableIdsFromForm();
+            var _local_9:Array = this._builderElement.readFurniIds2FromForm();
+            if (_local_6 == null) { _local_6 = this._updated.furniSourceTypes.concat(); }
+            if (_local_7 == null) { _local_7 = this._updated.userSourceTypes.concat(); }
+            if (_local_8 == null) { _local_8 = this._updated.variableIds.concat(); }
+            if (_local_9 == null) { _local_9 = this._updated.selectedItems2.concat(); }
             if ((this._updated as TriggerDefinition) != null)
             {
-                this._roomEvents.send(new UpdateTriggerMessageComposer(this._updated.id, _local_2, _local_3, _local_4, _local_5));
+                this._roomEvents.send(new UpdateTriggerMessageComposer(this._updated.id, _local_2, _local_3, _local_4, _local_5, _local_6, _local_7, _local_8, _local_9));
             }
             else if ((this._updated as ActionDefinition) != null)
             {
-                this._roomEvents.send(new UpdateActionMessageComposer(this._updated.id, _local_2, _local_3, _local_4, this.getBuilderDelay(), _local_5));
+                this._roomEvents.send(new UpdateActionMessageComposer(this._updated.id, _local_2, _local_3, _local_4, this.getBuilderDelay(), _local_5, _local_6, _local_7, _local_8, _local_9));
             }
             else if ((this._updated as ConditionDefinition) != null)
             {
-                this._roomEvents.send(new UpdateConditionMessageComposer(this._updated.id, _local_2, _local_3, _local_4, _local_5));
+                this._roomEvents.send(new UpdateConditionMessageComposer(this._updated.id, _local_2, _local_3, _local_4, _local_5, _local_6, _local_7, _local_8, _local_9));
             }
         }
 

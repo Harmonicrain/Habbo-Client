@@ -16,5 +16,11 @@
         public static var TRIGGER_PERIODICALLY_LONG:int = 12;
         public static var BOT_REACHED_STUFF:int = 13;
         public static var BOT_REACHED_AVATAR:int = 14;
+        public static var CLOCK_REACH_TIME:int = 15;
+        public static var AVATAR_CLICKS_FURNI:int = 18;
+        public static var PERIODIC_SHORT:int = 19;
+        public static var STATE_CHANGE:int = 20;
+        public static var AVATAR_LEAVES_ROOM:int = 23;
+        public static var USER_CLICKS_USER:int = 24;
     }
 }

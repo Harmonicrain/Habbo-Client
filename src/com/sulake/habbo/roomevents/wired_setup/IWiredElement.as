@@ -29,6 +29,9 @@ package com.sulake.habbo.roomevents.wired_setup
 
         function readIntParamsFromForm():Array;
         function readVariableIdsFromForm():Array;
+        function readFurniSourceTypesFromForm():Array;
+        function readUserSourceTypesFromForm():Array;
+        function readFurniIds2FromForm():Array;
         function readStringParamFromForm():String;
 
         function get hasStateSnapshot():Boolean;

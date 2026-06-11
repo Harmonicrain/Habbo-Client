@@ -60,7 +60,22 @@ package com.sulake.habbo.roomevents.wired_setup
 
         public function readVariableIdsFromForm():Array
         {
-            return [];
+            return null;
+        }
+
+        public function readFurniSourceTypesFromForm():Array
+        {
+            return null;
+        }
+
+        public function readUserSourceTypesFromForm():Array
+        {
+            return null;
+        }
+
+        public function readFurniIds2FromForm():Array
+        {
+            return null;
         }
 
         public function readStringParamFromForm():String

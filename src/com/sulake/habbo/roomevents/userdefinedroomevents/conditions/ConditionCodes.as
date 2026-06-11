@@ -28,5 +28,19 @@
         public static var NOT_ACTOR_WEARING_EFFECT:int = 23;
         public static var DATE_RANGE_ACTIVE:int = 24;
         public static var ACTOR_HAS_HANDITEM:int = 25;
+        public static var TRIGGERER_MATCHES:int = 26;
+        public static var NOT_TRIGGERER_MATCHES:int = 27;
+        public static var TIME_MATCHES:int = 28;
+        public static var DATE_MATCHES:int = 29;
+        public static var NOT_HAS_HANDITEM:int = 30;
+        public static var TEAM_IS_WINNING:int = 31;
+        public static var PERFORMING_ACTION:int = 32;
+        public static var NOT_PERFORMING_ACTION:int = 33;
+        public static var TEAM_HAS_SCORE:int = 34;
+        public static var CLOCK_TIME_MATCHES:int = 35;
+        public static var FURNI_HAS_ALTITUDE:int = 36;
+        public static var USER_DIRECTION:int = 37;
+        public static var INPUT_SOURCE_QUANTITY:int = 38;
+        public static var CAN_PERFORM_MOVE:int = 39;
     }
 }

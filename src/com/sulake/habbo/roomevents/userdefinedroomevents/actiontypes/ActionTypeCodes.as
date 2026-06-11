@@ -28,5 +28,21 @@
         public static var BOT_FOLLOW_AVATAR:int = 25;
         public static var BOT_CHANGE_FIGURE:int = 26;
         public static var BOT_TALK_DIRECT_TO_AVTR:int = 27;
+        public static var CONTROL_CLOCK:int = 28;
+        public static var SET_FURNI_ALTITUDE:int = 29;
+        public static var FREEZE_USER:int = 31;
+        public static var UNFREEZE_USER:int = 32;
+        public static var RELATIVE_FURNI_MOVE:int = 33;
+        public static var MOVE_FURNI_TO_FURNI:int = 34;
+        public static var MOVE_FURNI_TO_USER:int = 35;
+        public static var MOVE_USER:int = 42;
+        public static var MOVE_USER_TO_FURNI:int = 43;
+        public static var TELEPORT_TO_ROOM:int = 44;
+        public static var PROGRESS_ACHIEVEMENT:int = 51;
+        public static var GIVE_EFFECT:int = 52;
+        public static var OVERRIDE_HEIGHT:int = 53;
+        public static var PLACE_FURNI:int = 55;
+        public static var REMOVE_FURNI:int = 56;
+        public static var MOVE_AS_GROUP:int = 57;
     }
 }
