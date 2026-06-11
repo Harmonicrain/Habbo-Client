@@ -280,6 +280,7 @@
         public static var costumehopper_costumerequired_xml:Class = HabboRoomUICom_costumehopper_costumerequired_xml;
         public static var respect_giving_failed_notification_xml:Class = HabboRoomUICom_respect_giving_failed_notification_xml;
         public static var chatinput_chatstyle_template_xml:Class = HabboRoomUICom_chatinput_chatstyle_template_xml;
+        public static var chatinput_chatfontsize_template_xml:Class = HabboRoomUICom_chatinput_chatfontsize_template_xml;
         public static var roomchat_styles_chatstyles_xml:Class = HabboRoomUICom_roomchat_styles_chatstyles_xml;
         public static var roomchat_styles_normal_style_xml:Class = HabboRoomUICom_roomchat_styles_normal_style_xml;
         public static var roomchat_styles_normal_bubble_shout_xml:Class = HabboRoomUICom_roomchat_styles_normal_bubble_shout_xml;

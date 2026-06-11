@@ -8,6 +8,7 @@
     import com.sulake.habbo.room.IRoomEngine;
     import com.sulake.habbo.session.IRoomSession;
     import com.sulake.habbo.session.ISessionDataManager;
+    import com.sulake.habbo.communication.messages.outgoing.userdefinedroomevents.WiredClickUserMessageComposer;
     import com.sulake.core.runtime.IContext;
     import com.sulake.core.assets.IAssetLibrary;
     import com.sulake.core.runtime.ComponentDependency;
@@ -41,6 +42,7 @@
         private var _roomSession:IRoomSession;
         private var _sessionDataManager:ISessionDataManager;
         private var _userName:String;
+        private var _hasClickUserWired:Boolean = false;
 
         public function HabboUserDefinedRoomEvents(k:IContext, _arg_2:uint=0, _arg_3:IAssetLibrary=null)
         {
@@ -125,6 +127,24 @@
         public function send(k:IMessageComposer, _arg_2:Boolean=false):void
         {
             this._communication.connection.send(k);
+        }
+
+        public function userSelected(k:int):void
+        {
+            if (this.hasClickUserWired())
+            {
+                this.send(new WiredClickUserMessageComposer(k));
+            }
+        }
+
+        public function setWiredEnvironment(k:Boolean):void
+        {
+            this._hasClickUserWired = k;
+        }
+
+        public function hasClickUserWired():Boolean
+        {
+            return this._hasClickUserWired;
         }
 
         public function getXmlWindow(k:String):IWindow
@@ -215,6 +235,7 @@
                 case RoomSessionEvent.CREATED:
                 case RoomSessionEvent.STARTED:
                 case RoomSessionEvent.ENDED:
+                    this._hasClickUserWired = false;
                     this._roomSession = k.session;
                     return;
             }

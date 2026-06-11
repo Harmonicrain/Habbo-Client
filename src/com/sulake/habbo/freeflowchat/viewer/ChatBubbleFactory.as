@@ -99,7 +99,7 @@
             _local_4 = this._component.roomSessionManager.getSession(k.roomId).userDataManager.getUserDataByIndex(k.userId);
             var _local_5:String = "";
             var _local_6:uint;
-            var _local_7:BitmapData = _local_3.icon;
+            var _local_7:BitmapData = _local_3.iconImage;
             if (((k._Str_15251) || (k._Str_14270)))
             {
                 if (!_local_7)
@@ -234,8 +234,8 @@
             _local_3 = this._component.roomSessionManager.getSession(k.roomId).userDataManager.getUserDataByIndex(k.userId);
             var _local_4:String = "";
             var _local_5:uint;
-            var _local_6:BitmapData = _local_2.icon;
-            var _local_7:* = (!((_local_3 == null) || (_local_3.id == this._accountId)));
+            var _local_6:BitmapData = _local_2.iconImage;
+            var _local_7:* = (((!(_local_2.isNotification)) && (!(_local_3 == null))) && (!(_local_3.id == this._accountId)));
             if (((k._Str_15251) || (k._Str_14270)))
             {
                 if (!_local_6)
@@ -325,6 +325,10 @@
 
         private function _Str_20462(k:ChatItem, _arg_2:ChatStyle):void
         {
+            if (_arg_2.isNotification)
+            {
+                return;
+            }
             if (!_arg_2.allowHTML)
             {
                 k.text = k.text.replace(/</g, "&lt;").replace(/>/g, "&gt;");

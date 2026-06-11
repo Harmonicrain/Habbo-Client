@@ -69,6 +69,7 @@
     import com.sulake.habbo.communication.messages.outgoing.inventory.pets.CancelPetBreedingComposer;
     import com.sulake.habbo.communication.messages.outgoing.inventory.pets.ConfirmPetBreedingComposer;
     import com.sulake.habbo.friendlist.IHabboFriendsList;
+    import com.sulake.habbo.roomevents.events.WiredUserClickHandledEvent;
 
     public class AvatarInfoWidget extends RoomWidgetBase implements IUpdateReceiver, IContextMenuParentWidget
     {
@@ -116,6 +117,13 @@
         private var _botSkillConfigurationViews:Map;
         private var _botSkillsWithCommandsMap:Map;
         private var _nestBreedingSuccessView:NestBreedingSuccessView;
+        private var _pendingWiredClickUserId:int = -1;
+        private var _pendingWiredClickUserName:String;
+        private var _pendingWiredClickUserType:int;
+        private var _pendingWiredClickRoomIndex:int = -1;
+        private var _pendingWiredClickAllowNameChange:Boolean;
+        private var _pendingWiredClickAvatarInfoData:AvatarInfoData;
+        private var _openingWiredClickMenu:Boolean = false;
 
         public function AvatarInfoWidget(k:IRoomWidgetHandler, _arg_2:IHabboWindowManager, _arg_3:IAssetLibrary, _arg_4:IHabboConfigurationManager, _arg_5:IHabboLocalizationManager, _arg_6:Component, _arg_7:IHabboCatalog)
         {
@@ -134,6 +142,10 @@
             this.handler.roomEngine.events.addEventListener(RoomEngineObjectEvent.ADDED, this.onRoomObjectAdded);
             this.handler.roomEngine.events.addEventListener(RoomEngineObjectEvent.REMOVED, this._Str_4159);
             this.handler.container.inventory.events.addEventListener(HabboInventoryEffectsEvent.HIEE_EFFECTS_CHANGED, this._Str_10320);
+            if (this.handler.container.userDefinedRoomEvents != null)
+            {
+                this.handler.container.userDefinedRoomEvents.events.addEventListener(WiredUserClickHandledEvent.WIRED_USER_CLICK_HANDLED, this.onUserClickHandledEvent);
+            }
             this.handler.widget = this;
         }
 
@@ -405,6 +417,10 @@
             this.handler.roomEngine.events.removeEventListener(RoomEngineObjectEvent.ADDED, this.onRoomObjectAdded);
             this.handler.roomEngine.events.removeEventListener(RoomEngineObjectEvent.REMOVED, this._Str_4159);
             this.handler.container.inventory.events.removeEventListener(HabboInventoryEffectsEvent.HIEE_EFFECTS_CHANGED, this._Str_10320);
+            if (this.handler.container.userDefinedRoomEvents != null)
+            {
+                this.handler.container.userDefinedRoomEvents.events.removeEventListener(WiredUserClickHandledEvent.WIRED_USER_CLICK_HANDLED, this.onUserClickHandledEvent);
+            }
             this._view = null;
             this._configuration = null;
             super.dispose();
@@ -1027,6 +1043,10 @@
                 {
                     this.removeView(this._view, false);
                 }
+                if (((!this._openingWiredClickMenu) && (_local_7)) && this.shouldDelayWiredClickMenu(k, _arg_2, _arg_3, _arg_4, _arg_5, _arg_6))
+                {
+                    return;
+                }
                 if (!this._isGameMode)
                 {
                     if (_local_7)
@@ -1114,6 +1134,51 @@
                     }
                 }
             }
+        }
+
+        private function shouldDelayWiredClickMenu(k:int, _arg_2:String, _arg_3:int, _arg_4:int, _arg_5:Boolean, _arg_6:AvatarInfoData):Boolean
+        {
+            if (((this.handler == null) || (this.handler.container == null)) || (this.handler.container.userDefinedRoomEvents == null))
+            {
+                return false;
+            }
+            if (!this.handler.container.userDefinedRoomEvents.hasClickUserWired())
+            {
+                return false;
+            }
+            this._pendingWiredClickUserId = k;
+            this._pendingWiredClickUserName = _arg_2;
+            this._pendingWiredClickUserType = _arg_3;
+            this._pendingWiredClickRoomIndex = _arg_4;
+            this._pendingWiredClickAllowNameChange = _arg_5;
+            this._pendingWiredClickAvatarInfoData = _arg_6;
+            return true;
+        }
+
+        private function onUserClickHandledEvent(k:WiredUserClickHandledEvent):void
+        {
+            if (k.index != this._pendingWiredClickRoomIndex)
+            {
+                return;
+            }
+            if (k.openMenu)
+            {
+                this._openingWiredClickMenu = true;
+                this.updateUserView(this._pendingWiredClickUserId, this._pendingWiredClickUserName, this._pendingWiredClickUserType, this._pendingWiredClickRoomIndex, this._pendingWiredClickAllowNameChange, this._pendingWiredClickAvatarInfoData);
+                this._openingWiredClickMenu = false;
+                this.checkUpdateNeed();
+            }
+            this.clearPendingWiredClick();
+        }
+
+        private function clearPendingWiredClick():void
+        {
+            this._pendingWiredClickUserId = -1;
+            this._pendingWiredClickUserName = null;
+            this._pendingWiredClickUserType = 0;
+            this._pendingWiredClickRoomIndex = -1;
+            this._pendingWiredClickAllowNameChange = false;
+            this._pendingWiredClickAvatarInfoData = null;
         }
 
         public function removeView(k:ContextInfoView, _arg_2:Boolean):void

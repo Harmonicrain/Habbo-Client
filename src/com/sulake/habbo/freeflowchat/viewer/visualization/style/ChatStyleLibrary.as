@@ -28,6 +28,8 @@
             var isStaffOverrideable:Boolean;
             var allowHtml:Boolean;
             var isAmbassadorOnly:Boolean;
+            var purchasable:Boolean;
+            var isNotification:Boolean;
             var style:ChatStyle;
             this._styles = new Map();
             super();
@@ -38,13 +40,15 @@
                 styleId = child.@id[0];
                 assetId = child.@assetId[0];
                 isSystemStyle = (child.@systemStyle[0] == "true");
+                purchasable = (child.@purchasable[0] == "true");
                 isHcOnly = (child.@hcOnly[0] == "true");
                 isStaffOverrideable = (child.@staffOverrideable[0] == "true");
                 allowHtml = (child.@allowHTML[0] == "true");
                 isAmbassadorOnly = (child.@ambassadorOnly[0] == "true");
+                isNotification = (child.@notification[0] == "true");
                 try
                 {
-                    style = this._Str_22503(assetId, isSystemStyle, isHcOnly, isStaffOverrideable, allowHtml, isAmbassadorOnly);
+                    style = this._Str_22503(assetId, isSystemStyle, purchasable, isHcOnly, isStaffOverrideable, allowHtml, isAmbassadorOnly, isNotification);
                     this._styles.add(styleId, style);
                 }
                 catch(e:Error)
@@ -66,9 +70,10 @@
             return this._assets == null;
         }
 
-        private function _Str_22503(k:String, _arg_2:Boolean, _arg_3:Boolean, _arg_4:Boolean, _arg_5:Boolean, _arg_6:Boolean):ChatStyle
+        private function _Str_22503(k:String, _arg_2:Boolean, _arg_3:Boolean, _arg_4:Boolean, _arg_5:Boolean, _arg_6:Boolean, _arg_7:Boolean, _arg_8:Boolean):ChatStyle
         {
             var _local_11:BitmapData;
+            var _local_31:Array;
             var _local_7:String = String(this._assets.getAssetByName((("style_" + k) + "_regpoints")).content);
             var _local_8:BitmapData = (this._assets.getAssetByName((("style_" + k) + "_chat_bubble_base")).content as BitmapData);
             var _local_9:Rectangle = new Rectangle(this._Str_8491(_local_7, "9sliceXY").x, this._Str_8491(_local_7, "9sliceXY").y, this._Str_8491(_local_7, "9sliceWH").x, this._Str_8491(_local_7, "9sliceWH").y);
@@ -79,6 +84,21 @@
             {
                 _local_11 = (this._assets.getAssetByName((("style_" + k) + "_chat_bubble_pointer")).content as BitmapData);
                 _local_12 = int(this._Str_4292(_local_7, "pointerY")[0]);
+                _local_31 = ((this._Str_5585(_local_7, "pointerXMargins")) ? this._Str_10570(_local_7, "pointerXMargins") : null);
+            }
+            var _local_32:BitmapData;
+            var _local_33:Point;
+            if (((this._Str_5585(_local_7, "emblemXY")) && (this._assets.hasAsset((("style_" + k) + "_chat_bubble_emblem")))))
+            {
+                _local_32 = (this._assets.getAssetByName((("style_" + k) + "_chat_bubble_emblem")).content as BitmapData);
+                _local_33 = this._Str_8491(_local_7, "emblemXY");
+            }
+            var _local_34:BitmapData;
+            var _local_35:Point;
+            if (((this._Str_5585(_local_7, "emblemMultilineXY")) && (this._assets.hasAsset((("style_" + k) + "_chat_bubble_emblem_multiline")))))
+            {
+                _local_34 = (this._assets.getAssetByName((("style_" + k) + "_chat_bubble_emblem_multiline")).content as BitmapData);
+                _local_35 = this._Str_8491(_local_7, "emblemMultilineXY");
             }
             var _local_14:BitmapData = ((this._assets.hasAsset((("style_" + k) + "_icon"))) ? (this._assets.getAssetByName((("style_" + k) + "_icon")).content as BitmapData) : null);
             var _local_15:Rectangle = this._Str_19117(_local_7, "textFieldMargins");
@@ -108,7 +128,8 @@
             var _local_30:Object = new Object();
             _local_30.color = this._Str_5520(_local_25);
             _local_27.setStyle("a:hover", _local_30);
-            return new ChatStyle(_local_8, _local_9, _local_11, _local_12, _local_15, _local_23, _local_13, _local_10, _local_14, _local_16, _arg_2, _arg_3, _arg_4, _arg_6, _local_17, _local_18, _local_19, _arg_5, _local_27);
+            var _local_36:Boolean = ((this._Str_5585(_local_7, "usePixelPerfectNineSlice")) ? this._Str_22452(_local_7, "usePixelPerfectNineSlice") : false);
+            return new ChatStyle(_local_8, _local_9, _local_11, _local_12, _local_31, _local_15, _local_23, _local_13, _local_32, _local_33, _local_34, _local_35, _local_10, _local_14, _local_16, _arg_2, _arg_3, _arg_4, _arg_5, _arg_7, _arg_8, _local_17, _local_18, _local_19, _arg_6, _local_27, _local_36);
         }
 
         private function _Str_5520(k:uint):String
@@ -136,7 +157,11 @@
             if (_local_3 != -1)
             {
                 _local_4 = k.indexOf("=", _local_3);
-                _local_5 = k.indexOf("\n", _local_4);
+                _local_5 = k.indexOf("\r\n", _local_4);
+                if (_local_5 == -1)
+                {
+                    _local_5 = k.indexOf("\n", _local_4);
+                }
                 if (_local_5 == -1)
                 {
                     _local_5 = k.length;
@@ -151,6 +176,17 @@
         private function _Str_8491(k:String, _arg_2:String):Point
         {
             return new Point(int(this._Str_4292(k, _arg_2)[0]), int(this._Str_4292(k, _arg_2)[1]));
+        }
+
+        private function _Str_10570(k:String, _arg_2:String):Array
+        {
+            var _local_4:String;
+            var _local_3:Array = [];
+            for each (_local_4 in this._Str_4292(k, _arg_2))
+            {
+                _local_3.push(int(_local_4));
+            }
+            return _local_3;
         }
 
         private function _Str_19117(k:String, _arg_2:String):Rectangle

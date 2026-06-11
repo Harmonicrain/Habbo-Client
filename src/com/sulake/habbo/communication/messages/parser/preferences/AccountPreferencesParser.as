@@ -13,6 +13,7 @@
         private var _roomCameraFollowDisabled:Boolean;
         private var _uiFlags:int;
         private var _preferedChatStyle:int;
+        private var _chatSizePreference:int;
 
 
         public function get traxVolume():int
@@ -55,12 +56,18 @@
             return this._preferedChatStyle;
         }
 
+        public function get chatSizePreference():int
+        {
+            return this._chatSizePreference;
+        }
+
         public function flush():Boolean
         {
             this._freeFlowChatDisabled = false;
             this._roomCameraFollowDisabled = false;
             this._uiFlags = 0;
             this._preferedChatStyle = 0;
+            this._chatSizePreference = 0;
             return true;
         }
 
@@ -74,6 +81,7 @@
             this._roomCameraFollowDisabled = k.readBoolean();
             this._uiFlags = k.readInteger();
             this._preferedChatStyle = k.readInteger();
+            this._chatSizePreference = k.bytesAvailable > 0 ? k.readInteger() : 0;
             return true;
         }
     }

@@ -1,18 +1,17 @@
-﻿package com.sulake.habbo.communication.messages.outgoing.preferences
+package com.sulake.habbo.communication.messages.outgoing.userdefinedroomevents
 {
     import com.sulake.core.communication.messages.IMessageComposer;
     import com.sulake.core.runtime.IDisposable;
 
-    public class SetChatStylePreferenceComposer implements IMessageComposer, IDisposable
+    public class WiredClickUserMessageComposer implements IMessageComposer, IDisposable
     {
         private var _array:Array;
 
-        public function SetChatStylePreferenceComposer(k:int, _arg_2:int=0)
+        public function WiredClickUserMessageComposer(k:int)
         {
             this._array = new Array();
             super();
             this._array.push(k);
-            this._array.push(_arg_2);
         }
 
         public function getMessageArray():Array
@@ -27,7 +26,7 @@
 
         public function get disposed():Boolean
         {
-            return this._array == null;
+            return false;
         }
     }
 }

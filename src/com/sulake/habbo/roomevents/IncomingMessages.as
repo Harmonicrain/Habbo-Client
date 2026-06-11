@@ -14,6 +14,8 @@
     import com.sulake.habbo.communication.messages.incoming.room.engine.ObjectRemoveMessageEvent;
     import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.WiredEffectDataEvent;
     import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.WiredValidationErrorEvent;
+    import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.WiredEnvironmentEvent;
+    import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.WiredClickUserResponseEvent;
     import com.sulake.habbo.communication.messages.incoming.handshake.UserObjectEvent;
     import com.sulake.habbo.communication.messages.incoming.users.GuildMembershipsMessageEvent;
     import com.sulake.habbo.communication.messages.parser.userdefinedroomevents.OpenMessageParser;
@@ -26,6 +28,9 @@
     import com.sulake.habbo.communication.messages.parser.room.engine.ObjectRemoveMessageParser;
     import com.sulake.habbo.communication.messages.parser.userdefinedroomevents.WiredRewardResultMessageParser;
     import com.sulake.habbo.communication.messages.parser.userdefinedroomevents.WiredValidationErrorParser;
+    import com.sulake.habbo.communication.messages.parser.userdefinedroomevents.WiredEnvironmentMessageParser;
+    import com.sulake.habbo.communication.messages.parser.userdefinedroomevents.WiredClickUserResponseMessageParser;
+    import com.sulake.habbo.roomevents.events.WiredUserClickHandledEvent;
     import __AS3__.vec.*;
 
     public class IncomingMessages implements IDisposable 
@@ -48,8 +53,22 @@
             this.addMessageEvent(new ObjectRemoveMessageEvent(this.onObjectRemove));
             this.addMessageEvent(new WiredEffectDataEvent(this._Str_23979));
             this.addMessageEvent(new WiredValidationErrorEvent(this._Str_25729));
+            this.addMessageEvent(new WiredEnvironmentEvent(this.onWiredEnvironment));
+            this.addMessageEvent(new WiredClickUserResponseEvent(this.onWiredClickUserResponse));
             this.addMessageEvent(new UserObjectEvent(this.onUserObject));
             this.addMessageEvent(new GuildMembershipsMessageEvent(this.onGuildMemberships));
+        }
+
+        private function onWiredClickUserResponse(k:IMessageEvent):void
+        {
+            var _local_2:WiredClickUserResponseMessageParser = (k as WiredClickUserResponseEvent).getParser();
+            this._roomEvents.events.dispatchEvent(new WiredUserClickHandledEvent(WiredUserClickHandledEvent.WIRED_USER_CLICK_HANDLED, _local_2.index, _local_2.openMenu));
+        }
+
+        private function onWiredEnvironment(k:IMessageEvent):void
+        {
+            var _local_2:WiredEnvironmentMessageParser = (k as WiredEnvironmentEvent).getParser();
+            this._roomEvents.setWiredEnvironment(_local_2.hasClickUserWired);
         }
 
         private function onGuildMemberships(k:IMessageEvent):void

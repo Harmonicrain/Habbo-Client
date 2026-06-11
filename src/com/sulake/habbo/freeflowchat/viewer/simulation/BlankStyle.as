@@ -40,7 +40,42 @@
             return ChatFlowStage._Str_7698;
         }
 
+        public function get pointerOffsetToBubbleBottom():int
+        {
+            return this._Str_8470;
+        }
+
+        public function getPointerLeftMargin(k:int):int
+        {
+            return k;
+        }
+
+        public function getPointerRightMargin(k:int):int
+        {
+            return k;
+        }
+
         public function get _Str_5505():Point
+        {
+            return null;
+        }
+
+        public function get faceOffset():Point
+        {
+            return this._Str_5505;
+        }
+
+        public function getEmblem(k:Boolean=false):BitmapData
+        {
+            return null;
+        }
+
+        public function getEmblemOffset(k:Boolean=false):Point
+        {
+            return null;
+        }
+
+        public function get iconImage():BitmapData
         {
             return null;
         }
@@ -48,6 +83,11 @@
         public function get _Str_4931():Boolean
         {
             return true;
+        }
+
+        public function get isAnonymous():Boolean
+        {
+            return this._Str_4931;
         }
 
         public function get isSystemStyle():Boolean
@@ -66,6 +106,11 @@
         }
 
         public function get allowHTML():Boolean
+        {
+            return false;
+        }
+
+        public function get isNotification():Boolean
         {
             return false;
         }

@@ -738,6 +738,10 @@
                             this.handleGetRentableBotInfoMessage(_local_2, k.id, k.category, _local_3);
                             break;
                     }
+                    if (this._container.userDefinedRoomEvents != null)
+                    {
+                        this._container.userDefinedRoomEvents.userSelected(k.id);
+                    }
                     break;
             }
             return null;

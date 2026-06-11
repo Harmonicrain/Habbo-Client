@@ -6,6 +6,7 @@
     import flash.display.Bitmap;
     import flash.display.BitmapData;
     import flash.text.TextField;
+    import flash.text.TextFormat;
     import com.sulake.habbo.freeflowchat.viewer.visualization.style.IChatStyleInternal;
     import flash.events.Event;
     import com.sulake.habbo.freeflowchat.viewer.enum.ChatBubbleWidth;
@@ -34,6 +35,7 @@
         private var _chatItem:ChatItem;
         private var _background:Sprite;
         private var _pointer:Bitmap;
+        private var _emblem:Bitmap;
         private var _face:Bitmap;
         private var _faceBitmapData:BitmapData;
         private var _textField:TextField;
@@ -59,6 +61,7 @@
         {
             this._component = k;
             this._pointer = new Bitmap();
+            this._emblem = new Bitmap();
             this._face = new Bitmap();
             this._textField = new TextField();
             this._clipMask = new Sprite();
@@ -94,6 +97,7 @@
             this._background = this._style.getNewBackgroundSprite(_arg_2);
             this._pointer.bitmapData = this._style.pointer;
             this._useDesktopMargins = _arg_3;
+            var _local_21:int = int(this.MAX_HEIGHT * this._component.chatFontSizeScale);
             var _local_5:int = ((this._component.roomChatSettings) ? ChatBubbleWidth.fromValue(this._component.roomChatSettings.bubbleWidth) : _Str_7976);
             var _local_6:int = ((_local_5 - this._style.textFieldMargins.x) - this._style.textFieldMargins.width);
             this._textField.width = _local_6;
@@ -107,7 +111,7 @@
             this._textField.gridFitType = GridFitType.PIXEL;
             this._textField.cacheAsBitmap = (!(this._style.allowHTML));
             this._textField.styleSheet = null;
-            this._textField.defaultTextFormat = this._style.textFormat;
+            this._textField.defaultTextFormat = this.createScaledTextFormat(this._style.textFormat, this._component.chatFontSizeScale);
             this._textField.styleSheet = this._style.styleSheet;
             this._textField.addEventListener(TextEvent.LINK, this._Str_10834);
             var _local_7:* = (this._chatItem.chatType == RoomSessionChatEvent.CHAT_TYPE_SPEAK);
@@ -149,9 +153,10 @@
             this._minHeight = _arg_4;
             var _local_11:int = Math.min(_local_5, ((this._textField.textWidth + this._style.textFieldMargins.x) + this._style.textFieldMargins.width));
             var _local_12:int = ((this._textField.textHeight + this._style.textFieldMargins.y) + this._style.textFieldMargins.height);
+            var _local_22:Boolean = this._textField.numLines > 1;
             if (!this._style.isSystemStyle)
             {
-                _local_12 = Math.min(this.MAX_HEIGHT, _local_12);
+                _local_12 = Math.min(_local_21, _local_12);
             }
             if (_arg_4 != -1)
             {
@@ -165,13 +170,26 @@
             this._background.y = 0;
             this._background.cacheAsBitmap = true;
             addChild(this._background);
+            var _local_23:BitmapData = this._style.getEmblem(_local_22);
+            var _local_24:Point = this._style.getEmblemOffset(_local_22);
+            if (((_local_23 != null) && (_local_24 != null)))
+            {
+                this._emblem.bitmapData = _local_23;
+                this._emblem.x = _local_24.x;
+                this._emblem.y = _local_24.y;
+                addChild(this._emblem);
+            }
+            else
+            {
+                this._emblem.bitmapData = null;
+            }
             if (!this._style._Str_4931)
             {
-                this._pointer.x = Math.max(this._Str_10539, Math.min(this._Str_11116, this._Str_10783));
-                this._pointer.y = (_local_12 - this._style._Str_8470);
+                this._pointer.x = Math.max(this._style.getPointerLeftMargin(this._Str_10539), Math.min((_local_11 - this._style.getPointerRightMargin(this._Str_11116)), this._Str_10783));
+                this._pointer.y = (_local_12 - this._style.pointerOffsetToBubbleBottom);
                 addChild(this._pointer);
             }
-            if (((!(this._faceBitmapData == null)) && (!(this._style._Str_5505 == null))))
+            if (((!(this._faceBitmapData == null)) && (!(this._style.faceOffset == null))))
             {
                 if (this._faceBitmapData.height > _local_12)
                 {
@@ -183,8 +201,8 @@
                     _local_20 = this._faceBitmapData;
                 }
                 this._face.bitmapData = _local_20;
-                this._face.x = (this._style._Str_5505.x - (_local_20.width / 2));
-                this._face.y = Math.max(1, (this._style._Str_5505.y - (_local_20.height / 2)));
+                this._face.x = (this._style.faceOffset.x - (_local_20.width / 2));
+                this._face.y = Math.max(1, (this._style.faceOffset.y - (_local_20.height / 2)));
                 addChild(this._face);
             }
             this._textField.width = Math.min(_local_6, (this._textField.textWidth + this._style.textFieldMargins.width));
@@ -192,11 +210,11 @@
             this._textField.x = this._style.textFieldMargins.x;
             this._textField.y = this._style.textFieldMargins.y;
             addChild(this._textField);
-            if (((!(this._style.isSystemStyle)) && (this._textField.textHeight > this.MAX_HEIGHT)))
+            if (((!(this._style.isSystemStyle)) && (this._textField.textHeight > _local_21)))
             {
                 this._clipMask.graphics.clear();
                 this._clipMask.graphics.beginFill(0xFFFFFF);
-                this._clipMask.graphics.drawRect(0, 0, (this._textField.textWidth + 5), (this.MAX_HEIGHT - this._style.textFieldMargins.height));
+                this._clipMask.graphics.drawRect(0, 0, (this._textField.textWidth + 5), (_local_21 - this._style.textFieldMargins.height));
                 this._clipMask.graphics.endFill();
                 this._textField.mask = this._clipMask;
                 addChild(this._clipMask);
@@ -207,6 +225,15 @@
             {
                 this._clipMask.graphics.clear();
                 this._textField.mask = null;
+            }
+            if (((this._style.isNotification) && (!(this._face == null))) && (!(this._face.bitmapData == null)))
+            {
+                this._face.y = Math.max(1, (height / 2) - (this._face.bitmapData.height / 2));
+                this._face.x = (this._face.x - 0.5);
+                if (!this._style.isAnonymous)
+                {
+                    this._face.y = (this._face.y - ((this._pointer.height / 2) - 1));
+                }
             }
             this.cacheAsBitmap = (!(this._style.allowHTML));
             this._readyToRecycle = false;
@@ -224,10 +251,15 @@
                 this._Str_26452(this._clipMask);
             }
             this._Str_26452(this._textField);
-            if (((!(this._style._Str_5505 == null)) && (this._face.parent == this)))
+            if (((!(this._style.faceOffset == null)) && (this._face.parent == this)))
             {
                 this._Str_26452(this._face);
                 this._face.bitmapData = null;
+            }
+            if (this._emblem.parent == this)
+            {
+                this._Str_26452(this._emblem);
+                this._emblem.bitmapData = null;
             }
             if (((this._pointer) && (this._pointer.parent)))
             {
@@ -282,7 +314,7 @@
 
         public function get _Str_22234():Number
         {
-            return (this._style.isSystemStyle) ? height : Math.min(this.MAX_HEIGHT, height);
+            return (this._style.isSystemStyle) ? height : Math.min(int(this.MAX_HEIGHT * this._component.chatFontSizeScale), height);
         }
 
         private function onAddedToStage(k:Event):void
@@ -383,9 +415,34 @@
         {
             if (((this._pointer) && (this._pointer.parent)))
             {
-                this._pointer.x = Math.max(this._Str_10539, Math.min((this._background.width - this._Str_11116), this._Str_10783));
-                this._pointer.y = (this._background.height - this._style._Str_8470);
+                this._pointer.x = Math.max(this._style.getPointerLeftMargin(this._Str_10539), Math.min((this._background.width - this._style.getPointerRightMargin(this._Str_11116)), this._Str_10783));
+                this._pointer.y = (this._background.height - this._style.pointerOffsetToBubbleBottom);
             }
+        }
+
+        private function createScaledTextFormat(k:TextFormat, _arg_2:Number):TextFormat
+        {
+            var _local_3:TextFormat = new TextFormat();
+            _local_3.align = k.align;
+            _local_3.blockIndent = k.blockIndent;
+            _local_3.bold = k.bold;
+            _local_3.bullet = k.bullet;
+            _local_3.color = k.color;
+            _local_3.display = k.display;
+            _local_3.font = k.font;
+            _local_3.indent = k.indent;
+            _local_3.italic = k.italic;
+            _local_3.kerning = k.kerning;
+            _local_3.leading = k.leading;
+            _local_3.leftMargin = k.leftMargin;
+            _local_3.letterSpacing = k.letterSpacing;
+            _local_3.rightMargin = k.rightMargin;
+            _local_3.size = int(Number(k.size) * _arg_2);
+            _local_3.tabStops = k.tabStops;
+            _local_3.target = k.target;
+            _local_3.underline = k.underline;
+            _local_3.url = k.url;
+            return _local_3;
         }
 
         public function get _Str_4702():Boolean

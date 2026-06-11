@@ -283,6 +283,7 @@
 
             <!-- Chat bubble styles -->
             <asset mimeType="text/xml" name="chatinput_chatstyle_template_xml"/>
+            <asset mimeType="text/xml" name="chatinput_chatfontsize_template_xml"/>
             <asset mimeType="text/xml" name="roomchat_styles_chatstyles_xml"/>
             <asset mimeType="text/xml" name="roomchat_styles_normal_style_xml"/>
             <asset mimeType="text/xml" name="roomchat_styles_normal_bubble_speak_xml"/>
