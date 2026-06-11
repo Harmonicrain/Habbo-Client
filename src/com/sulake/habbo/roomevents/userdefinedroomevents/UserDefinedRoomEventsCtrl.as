@@ -17,6 +17,7 @@
     import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.TriggerDefinition;
     import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.ActionDefinition;
     import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.ConditionDefinition;
+    import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.SelectorDefinition;
     import com.sulake.habbo.roomevents.Util;
     import flash.events.Event;
     import com.sulake.core.window.IWindow;
@@ -29,6 +30,7 @@
     import com.sulake.habbo.communication.messages.outgoing.userdefinedroomevents.UpdateTriggerMessageComposer;
     import com.sulake.habbo.communication.messages.outgoing.userdefinedroomevents.UpdateActionMessageComposer;
     import com.sulake.habbo.communication.messages.outgoing.userdefinedroomevents.UpdateConditionMessageComposer;
+    import com.sulake.habbo.communication.messages.outgoing.userdefinedroomevents.UpdateSelectorMessageComposer;
     import com.sulake.habbo.communication.messages.outgoing.userdefinedroomevents.ApplySnapshotMessageComposer;
     import com.sulake.habbo.session.furniture.IFurnitureData;
     import com.sulake.core.window.components.ITextWindow;
@@ -45,9 +47,11 @@
     import com.sulake.habbo.roomevents.wired_setup.DefaultElement;
     import com.sulake.habbo.roomevents.wired_setup.actiontypes.*;
     import com.sulake.habbo.roomevents.wired_setup.conditions.*;
+    import com.sulake.habbo.roomevents.wired_setup.selectors.*;
     import com.sulake.habbo.roomevents.wired_setup.triggerconfs.*;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.PresetManager;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.WiredUIBuilder;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.params.CheckboxOptionParam;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.params.TextParam;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.CheckboxGroupPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.RadioGroupPreset;
@@ -86,6 +90,7 @@
         private var _builderTriggerHolder:BuilderTypeHolder;
         private var _builderActionHolder:BuilderTypeHolder;
         private var _builderConditionHolder:BuilderTypeHolder;
+        private var _builderSelectorHolder:BuilderTypeHolder;
         private var _builderHolder:IWiredTypeHolder;
         private var _builderElement:IWiredElement;
         private var _configurationCache:Dictionary = new Dictionary();
@@ -112,6 +117,7 @@
             this._builderTriggerHolder = new BuilderTypeHolder("trigger", function(t:Triggerable):Boolean { return (t as TriggerDefinition) != null; });
             this._builderActionHolder = new BuilderTypeHolder("action", function(t:Triggerable):Boolean { return (t as ActionDefinition) != null; });
             this._builderConditionHolder = new BuilderTypeHolder("condition", function(t:Triggerable):Boolean { return (t as ConditionDefinition) != null; });
+            this._builderSelectorHolder = new BuilderTypeHolder("selector", function(t:Triggerable):Boolean { return (t as SelectorDefinition) != null; });
             this._builderTriggerHolder.register(new AvatarSaysSomethingElement());
             this._builderTriggerHolder.register(new AvatarWalksOnFurniElement());
             this._builderTriggerHolder.register(new AvatarWalksOffFurniElement());
@@ -200,6 +206,18 @@
             this._builderConditionHolder.register(new FurniHasAltitudeConditionElement());
             this._builderConditionHolder.register(new UserDirectionConditionElement());
             this._builderConditionHolder.register(new FurniPickingConditionElement(ConditionCodes.CAN_PERFORM_MOVE));
+            this._builderSelectorHolder.register(new SelectorElement(SelectorCodes.FURNI_BY_TYPE, SelectorElement.MODE_STATE_MATCH));
+            this._builderSelectorHolder.register(new SelectorElement(SelectorCodes.FURNI_CHOOSER, SelectorElement.MODE_NONE, true));
+            this._builderSelectorHolder.register(new SelectorElement(SelectorCodes.USERS_BY_TYPE, SelectorElement.MODE_USER_TYPE));
+            this._builderSelectorHolder.register(new SelectorElement(SelectorCodes.USERS_IN_TEAM, SelectorElement.MODE_TEAM));
+            this._builderSelectorHolder.register(new SelectorElement(SelectorCodes.FURNI_ON_FURNI, SelectorElement.MODE_ON_FURNI, true));
+            this._builderSelectorHolder.register(new SelectorElement(SelectorCodes.FURNI_IN_AREA, SelectorElement.MODE_AREA));
+            this._builderSelectorHolder.register(new SelectorElement(SelectorCodes.USERS_ON_FURNI, SelectorElement.MODE_NONE, true));
+            this._builderSelectorHolder.register(new SelectorElement(SelectorCodes.USERS_BY_NAME, SelectorElement.MODE_NAMES));
+            this._builderSelectorHolder.register(new SelectorElement(SelectorCodes.USERS_IN_AREA, SelectorElement.MODE_AREA));
+            this._builderSelectorHolder.register(new SelectorElement(SelectorCodes.USERS_WITH_HANDITEM, SelectorElement.MODE_HANDITEM));
+            this._builderSelectorHolder.register(new SelectorElement(SelectorCodes.USERS_IN_GROUP, SelectorElement.MODE_GROUP));
+            this._builderSelectorHolder.register(new FurniWithAltitudeSelectorElement());
         }
 
         public function get wiredStyle():WiredStyle
@@ -282,6 +300,10 @@
             {
                 return this._builderConditionHolder;
             }
+            if ((k as SelectorDefinition) != null)
+            {
+                return this._builderSelectorHolder;
+            }
             return null;
         }
 
@@ -338,6 +360,13 @@
             {
                 this._delayPreset.value = ActionDefinition(k).delayInPulses;
             }
+            if ((this._selectorOptionsPreset != null) && ((k as SelectorDefinition) != null))
+            {
+                var _local_9:int = 0;
+                if (SelectorDefinition(k).isFilter) { _local_9 = _local_9 | 1; }
+                if (SelectorDefinition(k).isInvert) { _local_9 = _local_9 | 2; }
+                this._selectorOptionsPreset.mask = _local_9;
+            }
             this.refreshBuilderPickCount();
             this._builderElement.onEditInitialized();
         }
@@ -364,6 +393,14 @@
             _local_3.addElements(this._headerPreset);
             _arg_2.setRoomEvents(this._roomEvents);
             _arg_2.buildInputs(this.presetManager, this.wiredStyle, _local_3);
+            if ((this._updated as SelectorDefinition) != null)
+            {
+                this._selectorOptionsPreset = this.presetManager.createCheckboxGroup([
+                    new CheckboxOptionParam("${wiredfurni.params.selector.filter}", 0),
+                    new CheckboxOptionParam("${wiredfurni.params.selector.invert}", 1)
+                ]);
+                _local_3.addElements(this.presetManager.createSection("${wiredfurni.params.selector.options}", this._selectorOptionsPreset));
+            }
             if (_arg_2.requiresFurniSelection && this._updated.maximumItemSelectionCount > 0)
             {
                 _local_4 = new TextParam(1, false);
@@ -436,6 +473,11 @@
             else if ((this._updated as ConditionDefinition) != null)
             {
                 this._roomEvents.send(new UpdateConditionMessageComposer(this._updated.id, _local_2, _local_3, _local_4, _local_5, _local_6, _local_7, _local_8, _local_9));
+            }
+            else if ((this._updated as SelectorDefinition) != null)
+            {
+                var _local_10:int = (this._selectorOptionsPreset != null) ? this._selectorOptionsPreset.mask : 0;
+                this._roomEvents.send(new UpdateSelectorMessageComposer(this._updated.id, _local_2, _local_3, _local_4, ((_local_10 & 1) != 0), ((_local_10 & 2) != 0), _local_6, _local_7, _local_8, _local_9));
             }
         }
 

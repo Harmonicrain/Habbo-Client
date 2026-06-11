@@ -5,6 +5,7 @@
     import com.sulake.core.communication.messages.IMessageEvent;
     import com.sulake.habbo.communication.IHabboCommunicationManager;
     import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.WiredTriggerDataEvent;
+    import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.WiredSelectorDataEvent;
     import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.OpenEvent;
     import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.WiredRewardResultMessageEvent;
     import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.WiredConditionDataEvent;
@@ -20,6 +21,7 @@
     import com.sulake.habbo.communication.messages.parser.userdefinedroomevents.WiredTriggerDataMessageParser;
     import com.sulake.habbo.communication.messages.parser.userdefinedroomevents.WiredEffectDataMessageParser;
     import com.sulake.habbo.communication.messages.parser.userdefinedroomevents.WiredConditionDataMessageParser;
+    import com.sulake.habbo.communication.messages.parser.userdefinedroomevents.WiredSelectorDataMessageParser;
     import com.sulake.habbo.communication.messages.parser.handshake.UserObjectMessageParser;
     import com.sulake.habbo.communication.messages.parser.room.engine.ObjectRemoveMessageParser;
     import com.sulake.habbo.communication.messages.parser.userdefinedroomevents.WiredRewardResultMessageParser;
@@ -37,6 +39,7 @@
             this._messageEvents = new Vector.<IMessageEvent>(0);
             var _local_2:IHabboCommunicationManager = this._roomEvents.communication;
             this.addMessageEvent(new WiredTriggerDataEvent(this._Str_22337));
+            this.addMessageEvent(new WiredSelectorDataEvent(this.onSelectorData));
             this.addMessageEvent(new OpenEvent(this.onOpen));
             this.addMessageEvent(new WiredRewardResultMessageEvent(this._Str_23600));
             this.addMessageEvent(new WiredConditionDataEvent(this._Str_23144));
@@ -80,6 +83,12 @@
         private function _Str_23144(k:IMessageEvent):void
         {
             var _local_2:WiredConditionDataMessageParser = (k as WiredConditionDataEvent).getParser();
+            this._roomEvents._Str_7247._Str_18351(_local_2.definition);
+        }
+
+        private function onSelectorData(k:IMessageEvent):void
+        {
+            var _local_2:WiredSelectorDataMessageParser = (k as WiredSelectorDataEvent).getParser();
             this._roomEvents._Str_7247._Str_18351(_local_2.definition);
         }
 

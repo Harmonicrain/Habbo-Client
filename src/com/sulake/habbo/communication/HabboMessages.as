@@ -14,6 +14,7 @@
 	import com.sulake.habbo.communication.messages.incoming.quest.QuestMessageEvent;
 	import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.WiredConditionDataEvent;
 	import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.WiredEffectDataEvent;
+	import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.WiredSelectorDataEvent;
 	import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.WiredSavedEvent;
 	import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.WiredTriggerDataEvent;
 	import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.WiredRewardResultMessageEvent;
@@ -277,6 +278,7 @@
 	import com.sulake.habbo.communication.messages.outgoing.userdefinedroomevents.ApplySnapshotMessageComposer;
 	import com.sulake.habbo.communication.messages.outgoing.userdefinedroomevents.UpdateConditionMessageComposer;
 	import com.sulake.habbo.communication.messages.outgoing.userdefinedroomevents.UpdateActionMessageComposer;
+	import com.sulake.habbo.communication.messages.outgoing.userdefinedroomevents.UpdateSelectorMessageComposer;
 	import com.sulake.habbo.communication.messages.outgoing.userdefinedroomevents.UpdateTriggerMessageComposer;
 	import com.sulake.habbo.communication.messages.incoming.room.bots.BotSkillListUpdateEvent;
 	import com.sulake.habbo.communication.messages.incoming.room.bots.BotForceOpenContextMenuEvent;
@@ -1010,6 +1012,7 @@
             INCOMING_PACKETS[1073] = GuildForumThreadsEvent;
             INCOMING_PACKETS[1087] = UserBadgesEvent;
             INCOMING_PACKETS[1108] = WiredConditionDataEvent;
+            INCOMING_PACKETS[7100] = WiredSelectorDataEvent;
             INCOMING_PACKETS[1111] = PetReceivedMessageEvent;
             INCOMING_PACKETS[1112] = YoutubeDisplayPlaylistsEvent;
             INCOMING_PACKETS[1121] = CallForHelpPendingCallsMessageEvent;
@@ -1832,6 +1835,7 @@
             OUTGOING_PACKETS[3196] = Game2PlayAgainMessageComposer;
             OUTGOING_PACKETS[3202] = RespectPetMessageComposer;
             OUTGOING_PACKETS[3203] = UpdateConditionMessageComposer;
+            OUTGOING_PACKETS[7000] = UpdateSelectorMessageComposer;
             OUTGOING_PACKETS[3207] = GameUnloadedMessageComposer;
             OUTGOING_PACKETS[3226] = RenderRoomMessageComposer;
             OUTGOING_PACKETS[3230] = PerformanceLogMessageComposer;
