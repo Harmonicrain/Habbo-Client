@@ -13,6 +13,7 @@ package com.sulake.habbo.roomevents.wired_setup.uibuilder
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.params.NumberInputParam;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.params.RadioButtonParam;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.params.SectionParam;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.params.SourceTypeSelectorParam;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.params.TextAreaParam;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.params.TextInputParam;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.params.TextParam;
@@ -34,6 +35,7 @@ package com.sulake.habbo.roomevents.wired_setup.uibuilder
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.SectionPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.SimpleListViewPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.SliderPreset;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.SourceTypeSelectorPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.SpacerPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.SpacingPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.SplitterPreset;
@@ -52,6 +54,7 @@ package com.sulake.habbo.roomevents.wired_setup.uibuilder
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.main_layout.FramePreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.main_layout.HeaderPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.main_layout.IlluminaHeaderPreset;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.main_layout.InputSourceSection;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.sections.BorderSection;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.sections.SliderSection;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.sections.UsageInfoSection;
@@ -245,6 +248,16 @@ package com.sulake.habbo.roomevents.wired_setup.uibuilder
         public function createAdvancedSettingsWrapperPreset(_arg_1:Array, _arg_2:Boolean):AdvancedSettingsWrapperPreset
         {
             return new AdvancedSettingsWrapperPreset(this._roomEvents, this, this.wiredStyle, _arg_1, _arg_2);
+        }
+
+        public function createInputSourceSection(_arg_1:String, _arg_2:int, _arg_3:int, _arg_4:Array = null, _arg_5:Boolean = false, _arg_6:Boolean = false):InputSourceSection
+        {
+            return new InputSourceSection(this._roomEvents, this, this.wiredStyle, _arg_1, _arg_2, _arg_3, _arg_4, _arg_5, _arg_6);
+        }
+
+        public function createSourceTypeSelector(_arg_1:SourceTypeSelectorParam):SourceTypeSelectorPreset
+        {
+            return new SourceTypeSelectorPreset(this._roomEvents, this, this.wiredStyle, _arg_1);
         }
 
         public function createPaddedContainerPreset(_arg_1:WiredUIPreset, _arg_2:int, _arg_3:int, _arg_4:int, _arg_5:int, _arg_6:IWindowContainer = null, _arg_7:Boolean = false):PaddedContainerPreset

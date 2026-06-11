@@ -36,6 +36,11 @@
         function get connection():IConnection;
         function get events():IEventDispatcher;
         function get gameEngine():IHabboGameManager;
+        function get areaSelectionManager():IRoomAreaSelectionManager;
+        function isAreaSelectionMode():Boolean;
+        function setMoveBlocked(_arg_1:Boolean):void;
+        function isMoveBlocked():Boolean;
+        function isWhereYouClickWhereYouGo():Boolean;
         function getLegacyGeometry(_arg_1:int):LegacyWallGeometry;
         function getFurniStackingHeightMap(_arg_1:int):FurniStackingHeightMap;
         function getTileObjectMap(_arg_1:int):TileObjectMap;

@@ -24,6 +24,8 @@
         function set blendMode(_arg_1:String):void;
         function get filters():Array;
         function set filters(_arg_1:Array):void;
+        function get skipMouseHandling():Boolean;
+        function set skipMouseHandling(_arg_1:Boolean):void;
         function get flipH():Boolean;
         function set flipH(_arg_1:Boolean):void;
         function get flipV():Boolean;

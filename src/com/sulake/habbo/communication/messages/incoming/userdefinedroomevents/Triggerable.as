@@ -75,6 +75,7 @@ package com.sulake.habbo.communication.messages.incoming.userdefinedroomevents
 
             this._advancedMode = k.readBoolean();
             this._inputSourcesConf = new InputSourcesConf(k);
+            this.normalizeSourceTypes();
             this._allowWallFurni = k.readBoolean();
 
             this.readTypeSpecifics(k);
@@ -87,6 +88,37 @@ package com.sulake.habbo.communication.messages.incoming.userdefinedroomevents
 
         protected function readDefinitionSpecifics(k:IMessageDataWrapper):void { }
         protected function readTypeSpecifics(k:IMessageDataWrapper):void { }
+
+        private function normalizeSourceTypes():void
+        {
+            normalizeArray(this._furniSourceTypes, this._inputSourcesConf.defaultFurniSources, this._inputSourcesConf.allowedFurniSources);
+            normalizeArray(this._userSourceTypes, this._inputSourcesConf.defaultUserSources, this._inputSourcesConf.allowedUserSources);
+        }
+
+        private static function normalizeArray(target:Array, defaults:Array, allowed:Array):void
+        {
+            var index:int;
+            var slot:Array;
+            var value:int;
+            var desired:int = Math.max(defaults.length, allowed.length);
+            for (index = 0; index < desired; index++)
+            {
+                if (index < target.length)
+                {
+                    continue;
+                }
+                if (index < defaults.length)
+                {
+                    value = defaults[index];
+                }
+                else
+                {
+                    slot = allowed[index] as Array;
+                    value = (slot != null && slot.length > 0) ? int(slot[0]) : 0;
+                }
+                target.push(value);
+            }
+        }
 
         // ---- legacy getter names (kept for the existing type classes / controller) ----
         public function get stuffTypeSelectionEnabled():Boolean { return false; }
@@ -105,8 +137,11 @@ package com.sulake.habbo.communication.messages.incoming.userdefinedroomevents
         public function get selectedItems2():Array { return this._stuffIds2; }
         public function get variableIds():Array { return this._variableIds; }
         public function get furniSourceTypes():Array { return this._furniSourceTypes; }
+        public function set furniSourceTypes(k:Array):void { this._furniSourceTypes = k != null ? k : []; }
         public function get userSourceTypes():Array { return this._userSourceTypes; }
+        public function set userSourceTypes(k:Array):void { this._userSourceTypes = k != null ? k : []; }
         public function get advancedMode():Boolean { return this._advancedMode; }
+        public function get usingCustomInputSources():Boolean { return this._inputSourcesConf.isUsingAdvancedSettings(this._furniSourceTypes, this._userSourceTypes); }
         public function get inputSourcesConf():InputSourcesConf { return this._inputSourcesConf; }
         public function get allowWallFurni():Boolean { return this._allowWallFurni; }
         public function get wiredContext():WiredContext { return this._wiredContext; }

@@ -36,6 +36,20 @@ package com.sulake.habbo.roomevents.wired_setup
 
         function get hasStateSnapshot():Boolean;
         function get requiresFurniSelection():Boolean;
+        function get forceFurniSelection():Boolean;
+        function get forceHidePickFurniInstructions():Boolean;
+        function furniSelectionTitle(_arg_1:int):String;
+        function userSelectionTitle(_arg_1:int):String;
+        function mergedSelections():Array;
+        function mergedSelectionTitle(_arg_1:int):String;
+        function setMergedType(_arg_1:int, _arg_2:int):void;
+        function getMergedType(_arg_1:int):int;
+        function isInputSourceDisabled(_arg_1:int, _arg_2:int):Boolean;
+        function getCustomSourcesForMergedType(_arg_1:int):Array;
+        function mergedSourceOptions(_arg_1:int):Array;
+        function hasCustomTypePicker(_arg_1:int):Boolean;
+        function advancedAlwaysVisible():Boolean;
+        function get usingCustomAdvancedSettings():Boolean;
         function onGuildMemberships(_arg_1:Array):void;
         function validate():String; // null = valid
         function get requireConfirmation():Object;

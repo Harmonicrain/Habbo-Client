@@ -33,6 +33,7 @@
         private var _updateID:int = 0;
         private var _instanceId:int = 0;
         private var _filters:Array = null;
+        private var _skipMouseHandling:Boolean = false;
         protected var _spriteType:int;
         private var _objectType:String;
 
@@ -286,6 +287,21 @@
                 return;
             }
             this._filters = k;
+            this._updateID++;
+        }
+
+        public function get skipMouseHandling():Boolean
+        {
+            return this._skipMouseHandling;
+        }
+
+        public function set skipMouseHandling(k:Boolean):void
+        {
+            if (k == this._skipMouseHandling)
+            {
+                return;
+            }
+            this._skipMouseHandling = k;
             this._updateID++;
         }
 

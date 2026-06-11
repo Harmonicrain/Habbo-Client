@@ -413,6 +413,7 @@
             {
                 case MouseEvent.MOUSE_MOVE:
                 case MouseEvent.ROLL_OVER:
+                case MouseEvent.MOUSE_DOWN:
                 case MouseEvent.CLICK:
                     _local_25 = "";
                     if (((k.type == MouseEvent.MOUSE_MOVE) || (k.type == MouseEvent.ROLL_OVER)))
@@ -424,6 +425,13 @@
                         if (k.type == MouseEvent.CLICK)
                         {
                             _local_25 = RoomObjectMouseEvent.ROE_MOUSE_CLICK;
+                        }
+                        else
+                        {
+                            if (k.type == MouseEvent.MOUSE_DOWN)
+                            {
+                                _local_25 = RoomObjectMouseEvent.ROE_MOUSE_DOWN;
+                            }
                         }
                     }
                     if (eventDispatcher != null)

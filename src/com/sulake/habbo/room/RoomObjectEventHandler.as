@@ -474,6 +474,12 @@
 
         private function handleRoomObjectMouseEvent(k:RoomObjectMouseEvent, _arg_2:int):void
         {
+            var _local_3:RoomObjectTileMouseEvent;
+            if (k is RoomObjectTileMouseEvent)
+            {
+                _local_3 = (k as RoomObjectTileMouseEvent);
+                this._roomEngine.areaSelectionManager.handleTileMouseEvent(_local_3);
+            }
             switch (k.type)
             {
                 case RoomObjectMouseEvent.ROE_MOUSE_CLICK:
@@ -510,7 +516,7 @@
             {
                 _local_4 = _local_5.operation;
             }
-            if (this._whereYouClickIsWhereYouGo)
+            if (this._roomEngine.isWhereYouClickWhereYouGo())
             {
                 if (((_local_4 == null) || (_local_4 == RoomObjectOperationEnum.OBJECT_UNDEFINED)))
                 {
@@ -553,7 +559,18 @@
                     _local_12 = true;
                     if (_local_6 != -1)
                     {
-                        this.setSelectedObject(_arg_2, _local_6, _local_8);
+                        if (((!this._roomEngine.isAreaSelectionMode()) || (_local_8 == RoomObjectCategoryEnum.OBJECT_CATEGORY_USER)))
+                        {
+                            this.setSelectedObject(_arg_2, _local_6, _local_8);
+                        }
+                        else
+                        {
+                            this.deselectObject(_arg_2);
+                            if (_local_13 != null)
+                            {
+                                _local_13.dispatchEvent(new RoomEngineObjectEvent(RoomEngineObjectEvent.DESELECTED, _arg_2, -1, RoomObjectCategoryEnum.OBJECT_CATEGORY_UNKNOWN));
+                            }
+                        }
                     }
                     break;
                 case RoomObjectOperationEnum.OBJECT_PLACE:
@@ -719,7 +736,7 @@
                     {
                         if (((!(k.object == null)) && (!(k.object.getId() == -1))))
                         {
-                            if (this._whereYouClickIsWhereYouGo)
+                            if (this._roomEngine.isWhereYouClickWhereYouGo())
                             {
                                 _local_8 = this.handleMouseOverObject(_local_6, _arg_2, k);
                             }
@@ -759,7 +776,7 @@
             var _local_10:FurniStackingHeightMap;
             var _local_11:Number;
             var _local_12:Number;
-            if (this._whereYouClickIsWhereYouGo)
+            if (this._roomEngine.isWhereYouClickWhereYouGo())
             {
                 return new RoomObjectTileCursorUpdateMessage(new Vector3d(k.tileXAsInt, k.tileYAsInt, k.tileZAsInt), 0, true, k.eventId);
             }
@@ -1127,7 +1144,7 @@
         {
             var _local_3:IRoomObject = this._roomEngine.getRoomObject(k, _arg_2.objectId, RoomObjectCategoryEnum.OBJECT_CATEGORY_FURNITURE);
             var _local_4:Vector3d = this.getActiveSurfaceLocation(_local_3, (_arg_2 as RoomObjectMouseEvent));
-            if (_local_4)
+            if ((_local_4) && (!this._roomEngine.isMoveBlocked()))
             {
                 this.walkTo(_local_4.x, _local_4.y);
                 return true;
@@ -2443,7 +2460,10 @@
             }
             else
             {
-				this.walkTo(_arg_2.tileXAsInt, _arg_2.tileYAsInt);
+				if (!this._roomEngine.isMoveBlocked())
+				{
+					this.walkTo(_arg_2.tileXAsInt, _arg_2.tileYAsInt);
+				}
             }
         }
 

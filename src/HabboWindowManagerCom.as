@@ -770,6 +770,10 @@
         public static var wired_styles_volter_slider_bg:Class = HabboWindowManagerCom_wired_styles_volter_slider_bg;
         public static var wired_styles_volter_slider_obj:Class = HabboWindowManagerCom_wired_styles_volter_slider_obj;
         public static var wired_styles_illumina_slider_obj:Class = HabboWindowManagerCom_wired_styles_illumina_slider_obj;
+        public static var wired_styles_illumina_icon_source_furni:Class = HabboWindowManagerCom_wired_styles_illumina_icon_source_furni;
+        public static var wired_styles_illumina_icon_source_users:Class = HabboWindowManagerCom_wired_styles_illumina_icon_source_users;
+        public static var wired_styles_illumina_icon_source_global:Class = HabboWindowManagerCom_wired_styles_illumina_icon_source_global;
+        public static var wired_styles_illumina_icon_source_context:Class = HabboWindowManagerCom_wired_styles_illumina_icon_source_context;
         public static var wired_styles_illumina_move_0:Class = HabboWindowManagerCom_wired_styles_illumina_move_0;
         public static var wired_styles_illumina_move_1:Class = HabboWindowManagerCom_wired_styles_illumina_move_1;
         public static var wired_styles_illumina_move_2:Class = HabboWindowManagerCom_wired_styles_illumina_move_2;

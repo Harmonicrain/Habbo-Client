@@ -144,6 +144,7 @@
     import com.sulake.core.assets.IAssetLibrary;
     import com.sulake.habbo.session.events.BadgeImageReadyEvent;
     import com.sulake.habbo.room.utils.RoomObjectBadgeImageAssetListener;
+    import com.sulake.habbo.room.utils.RoomAreaSelectionManager;
     import com.sulake.habbo.room.messages.RoomObjectGroupBadgeUpdateMessage;
     import com.sulake.habbo.room.events.RoomEngineUseProductEvent;
     import com.sulake.habbo.room.utils.SpriteDataCollector;
@@ -217,6 +218,8 @@
         private var _mouseEventsDisabledLeftToX:int = 0;
         private var _mouseEventsDisabledAboveYWas:int = 0;
         private var _mouseEventsDisabledLeftToXWas:int = 0;
+        private var _areaSelectionManager:RoomAreaSelectionManager;
+        private var _moveBlocked:Boolean = false;
 
         public function RoomEngine(k:IContext, _arg_2:uint=0)
         {
@@ -241,6 +244,31 @@
         public function set mouseEventsDisabledLeftToX(k:int):void
         {
             this._mouseEventsDisabledLeftToX = k;
+        }
+
+        public function get areaSelectionManager():IRoomAreaSelectionManager
+        {
+            return this._areaSelectionManager;
+        }
+
+        public function isAreaSelectionMode():Boolean
+        {
+            return (this._areaSelectionManager != null) && (this._areaSelectionManager.areaSelectionState != RoomAreaSelectionManager.NOT_ACTIVE);
+        }
+
+        public function setMoveBlocked(k:Boolean):void
+        {
+            this._moveBlocked = k;
+        }
+
+        public function isMoveBlocked():Boolean
+        {
+            return this._moveBlocked;
+        }
+
+        public function isWhereYouClickWhereYouGo():Boolean
+        {
+            return !this.isAreaSelectionMode();
         }
 
         public function get isInitialized():Boolean
@@ -352,6 +380,7 @@
             this._roomDatas = new Map();
             this._roomObjectEventHandler = this.createRoomObjectEventHandlerInstance();
             this._roomMessageHandler = new RoomMessageHandler(this);
+            this._areaSelectionManager = new RoomAreaSelectionManager(this);
             var k:DisplayObjectContainer = context.displayObjectContainer;
             var _local_2:LoaderInfo = k.loaderInfo;
             this._roomContentLoader = new RoomContentLoader(_local_2.loaderURL);
@@ -418,6 +447,11 @@
             {
                 this._roomMessageHandler.dispose();
                 this._roomMessageHandler = null;
+            }
+            if (this._areaSelectionManager != null)
+            {
+                this._areaSelectionManager.dispose();
+                this._areaSelectionManager = null;
             }
             if (this._roomContentLoader != null)
             {
@@ -1971,6 +2005,12 @@
             {
                 return false;
             }
+            if ((this._areaSelectionManager != null) && (this._areaSelectionManager.areaSelectionState == RoomAreaSelectionManager.SELECTING))
+            {
+                this._activeRoomIsDragged = false;
+                this._activeRoomWasDragged = false;
+                return false;
+            }
             var _local_8:int = (_arg_2 - this._activeRoomActiveCanvasMouseX);
             var _local_9:int = (_arg_3 - this._activeRoomActiveCanvasMouseY);
             if (_arg_4 == MouseEvent.MOUSE_DOWN)
@@ -2132,7 +2172,10 @@
                     _local_11.x = (_arg_2 - (_local_13.width / 2));
                     _local_11.y = (_arg_3 - (_local_13.height / 2));
                 }
-                if (!this.handleRoomDragging(_local_9, _arg_2, _arg_3, _arg_4, _arg_5, _arg_6, _arg_7))
+                if (((_arg_4 == MouseEvent.CLICK) && (this._areaSelectionManager != null)) && (this._areaSelectionManager.finishSelecting()))
+                {
+                }
+                else if (!this.handleRoomDragging(_local_9, _arg_2, _arg_3, _arg_4, _arg_5, _arg_6, _arg_7))
                 {
                     if (!_local_9.handleMouseEvent(_arg_2, _arg_3, _arg_4, _arg_5, _arg_6, _arg_7, _arg_8))
                     {

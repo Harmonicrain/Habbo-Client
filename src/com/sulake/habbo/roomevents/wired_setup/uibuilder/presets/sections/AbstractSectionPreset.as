@@ -5,6 +5,7 @@ package com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.sections
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.PresetManager;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.params.SectionParam;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.SectionPreset;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.SourceTypeSelectorPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.WiredUIPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.styles.WiredStyle;
 
@@ -41,6 +42,11 @@ package com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.sections
         public function set splitterVisible(_arg_1:Boolean):void
         {
             this._section.splitterVisible = _arg_1;
+        }
+
+        public function getSourceTypeSelector():SourceTypeSelectorPreset
+        {
+            return this._section.getSourceTypeSelector();
         }
 
         override protected function get childPresets():Array

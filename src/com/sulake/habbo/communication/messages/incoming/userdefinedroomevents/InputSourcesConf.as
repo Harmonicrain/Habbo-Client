@@ -59,6 +59,46 @@ package com.sulake.habbo.communication.messages.incoming.userdefinedroomevents
         public function get allowedUserSources():Array { return this._allowedUserSources; }
         public function get defaultFurniSources():Array { return this._defaultFurniSources; }
         public function get defaultUserSources():Array { return this._defaultUserSources; }
+        public function get amountFurniSelections():int { return this._allowedFurniSources.length; }
+        public function get amountUserSelections():int { return this._allowedUserSources.length; }
+
+        public function getAllowedFurniSources(k:int):Array
+        {
+            if (k < 0 || k >= this._allowedFurniSources.length)
+            {
+                return [];
+            }
+            return this._allowedFurniSources[k];
+        }
+
+        public function getAllowedUserSources(k:int):Array
+        {
+            if (k < 0 || k >= this._allowedUserSources.length)
+            {
+                return [];
+            }
+            return this._allowedUserSources[k];
+        }
+
+        public function isUsingAdvancedSettings(k:Array, _arg_2:Array):Boolean
+        {
+            var index:int;
+            for (index = 0; index < this._defaultFurniSources.length; index++)
+            {
+                if (index >= k.length || this._defaultFurniSources[index] != k[index])
+                {
+                    return true;
+                }
+            }
+            for (index = 0; index < this._defaultUserSources.length; index++)
+            {
+                if (index >= _arg_2.length || this._defaultUserSources[index] != _arg_2[index])
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
 
         public function allowFurniSelection():Boolean
         {
@@ -72,6 +112,31 @@ package com.sulake.habbo.communication.messages.incoming.userdefinedroomevents
                 }
             }
             return false;
+        }
+
+        public function isDualFurniPickingMode():Boolean
+        {
+            var hasPrimary:Boolean = false;
+            var hasSecondary:Boolean = false;
+            for each (var slot:Array in this._allowedFurniSources)
+            {
+                if (slot.indexOf(FURNI_SOURCE_FURNI_PICKS_1) != -1 || slot.indexOf(FURNI_SOURCE_DUAL_MODE) != -1)
+                {
+                    hasPrimary = true;
+                }
+                if (slot.indexOf(FURNI_SOURCE_FURNI_PICKS_2) != -1)
+                {
+                    hasSecondary = true;
+                }
+            }
+            return hasPrimary && hasSecondary;
+        }
+
+        public function isFurniSelectionDefault():Boolean
+        {
+            return this._defaultFurniSources.indexOf(FURNI_SOURCE_FURNI_PICKS_1) != -1
+                || this._defaultFurniSources.indexOf(FURNI_SOURCE_FURNI_PICKS_2) != -1
+                || this._defaultFurniSources.indexOf(FURNI_SOURCE_DUAL_MODE) != -1;
         }
     }
 }

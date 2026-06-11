@@ -66,6 +66,11 @@
         private var _assetUpdateCounter:int = 0;
         private var _geometryUpdateId:int = -1000;
         private var _roomGeometryUpdateId:int = -1;
+        private var _highlightAreaX:int = 0;
+        private var _highlightAreaY:int = 0;
+        private var _highlightAreaWidth:int = 0;
+        private var _highlightAreaHeight:int = 0;
+        private var _highlightFilter:Array;
         private var _geometryDirX:Number = 0;
         private var _geometryDirY:Number = 0;
         private var _geometryDirZ:Number = 0;
@@ -241,9 +246,43 @@
                         }
                     }
                     _local_4.spriteType = RoomObjectSpriteType.ROOM_PLANE;
+                    if (this._roomPlaneParser.isPlaneTemporaryHighlighter(_local_2))
+                    {
+                        _local_4.filters = this._highlightFilter;
+                        _local_4.skipMouseHandling = true;
+                        _local_3.extraDepth = -100;
+                        _local_3.isHighlighter = true;
+                    }
+                    else
+                    {
+                        _local_4.filters = [];
+                        _local_4.skipMouseHandling = false;
+                        _local_3.extraDepth = 0;
+                        _local_3.isHighlighter = false;
+                    }
                 }
                 _local_2++;
             }
+        }
+
+        public function initializeHighlightArea(k:int, _arg_2:int, _arg_3:int, _arg_4:int, _arg_5:Array):void
+        {
+            this._highlightAreaX = k;
+            this._highlightAreaY = _arg_2;
+            this._highlightAreaWidth = _arg_3;
+            this._highlightAreaHeight = _arg_4;
+            this._highlightFilter = _arg_5;
+            this.resetRoomPlanes();
+        }
+
+        public function clearHighlightArea():void
+        {
+            this._highlightAreaX = 0;
+            this._highlightAreaY = 0;
+            this._highlightAreaWidth = 0;
+            this._highlightAreaHeight = 0;
+            this._highlightFilter = null;
+            this.resetRoomPlanes();
         }
 
         protected function _Str_25732():void
@@ -285,6 +324,12 @@
             if (!this._roomPlaneParser.initializeFromXML(new XML(_local_2)))
             {
                 return;
+            }
+            // Wired 2.0 area selection: re-apply the highlight rectangle on every
+            // plane (re)build so the highlighted floor renders as its own planes.
+            if ((this._highlightAreaWidth > 0) && (this._highlightAreaHeight > 0))
+            {
+                this._roomPlaneParser.initializeHighlightArea(this._highlightAreaX, this._highlightAreaY, this._highlightAreaWidth, this._highlightAreaHeight);
             }
             var _local_3:Number = this.getLandscapeWidth();
             var _local_4:Number = this.getLandscapeHeight();

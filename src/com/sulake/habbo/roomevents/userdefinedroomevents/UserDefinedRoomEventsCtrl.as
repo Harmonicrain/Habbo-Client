@@ -60,6 +60,8 @@
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.main_layout.FooterPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.main_layout.FramePreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.main_layout.HeaderPreset;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.main_layout.InputSourceSection;
+    import com.sulake.habbo.roomevents.wired_setup.inputsources.WiredInputSourcePicker;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.sections.SliderSection;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.styles.IlluminaWiredStyle;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.styles.WiredStyle;
@@ -101,6 +103,7 @@
         private var _delayPreset:SliderSection;
         private var _advancedSettingsWrapperPreset:AdvancedSettingsWrapperPreset;
         private var _conditionQuantifierOptions:RadioGroupPreset;
+        private var _inputSourcePresets:Array;
         private var _footerPreset:FooterPreset;
         private var _initialWidth:int;
 
@@ -211,10 +214,10 @@
             this._builderSelectorHolder.register(new SelectorElement(SelectorCodes.USERS_BY_TYPE, SelectorElement.MODE_USER_TYPE));
             this._builderSelectorHolder.register(new SelectorElement(SelectorCodes.USERS_IN_TEAM, SelectorElement.MODE_TEAM));
             this._builderSelectorHolder.register(new SelectorElement(SelectorCodes.FURNI_ON_FURNI, SelectorElement.MODE_ON_FURNI, true));
-            this._builderSelectorHolder.register(new SelectorElement(SelectorCodes.FURNI_IN_AREA, SelectorElement.MODE_AREA));
+            this._builderSelectorHolder.register(new AreaSelectorElement(SelectorCodes.FURNI_IN_AREA));
             this._builderSelectorHolder.register(new SelectorElement(SelectorCodes.USERS_ON_FURNI, SelectorElement.MODE_NONE, true));
             this._builderSelectorHolder.register(new SelectorElement(SelectorCodes.USERS_BY_NAME, SelectorElement.MODE_NAMES));
-            this._builderSelectorHolder.register(new SelectorElement(SelectorCodes.USERS_IN_AREA, SelectorElement.MODE_AREA));
+            this._builderSelectorHolder.register(new AreaSelectorElement(SelectorCodes.USERS_IN_AREA));
             this._builderSelectorHolder.register(new SelectorElement(SelectorCodes.USERS_WITH_HANDITEM, SelectorElement.MODE_HANDITEM));
             this._builderSelectorHolder.register(new SelectorElement(SelectorCodes.USERS_IN_GROUP, SelectorElement.MODE_GROUP));
             this._builderSelectorHolder.register(new FurniWithAltitudeSelectorElement());
@@ -272,6 +275,7 @@
                 this._delayPreset = _local_3.delayPreset;
                 this._advancedSettingsWrapperPreset = _local_3.advancedSettingsWrapperPreset;
                 this._conditionQuantifierOptions = _local_3.conditionQuantifierOptions;
+                this._inputSourcePresets = _local_3.inputSourcePresets;
                 this._footerPreset = _local_3.footerPreset;
                 this._initialWidth = _local_3.initialWidth;
                 return true;
@@ -282,7 +286,7 @@
         private function storeInCache(k:IWiredTypeHolder, _arg_2:Triggerable):void
         {
             var _local_4:String = this.getCacheKey(k, _arg_2);
-            var _local_3:WiredConfigurationCache = new WiredConfigurationCache(this._frame, this._headerPreset, this._selectorOptionsPreset, this._furniPicksSectionPreset, this._delayPreset, this._advancedSettingsWrapperPreset, this._conditionQuantifierOptions, null, this._footerPreset, this._initialWidth);
+            var _local_3:WiredConfigurationCache = new WiredConfigurationCache(this._frame, this._headerPreset, this._selectorOptionsPreset, this._furniPicksSectionPreset, this._delayPreset, this._advancedSettingsWrapperPreset, this._conditionQuantifierOptions, this._inputSourcePresets, this._footerPreset, this._initialWidth);
             this._configurationCache[_local_4] = _local_3;
         }
 
@@ -368,6 +372,7 @@
                 this._selectorOptionsPreset.mask = _local_9;
             }
             this.refreshBuilderPickCount();
+            this.refreshAdvancedInputSources();
             this._builderElement.onEditInitialized();
         }
 
@@ -382,6 +387,7 @@
             this._delayPreset = null;
             this._advancedSettingsWrapperPreset = null;
             this._conditionQuantifierOptions = null;
+            this._inputSourcePresets = null;
             this._footerPreset = null;
             if (this.useCache && this.loadFromCache(k, this._updated))
             {
@@ -413,9 +419,7 @@
                 this._delayPreset = this.presetManager.createSliderSection("wiredfurni.params.delay", "seconds", SliderSection.CONVERTER_PULSES, 0, 20, 1, false);
                 _local_3.addElements(this._delayPreset);
             }
-            // Advanced sections (quantifier/input sources) are deferred: Phase 1 data
-            // always serializes advancedMode = false, so May's createAdvancedSections
-            // would return early anyway.
+            this.createAdvancedSections(this._updated, k, _arg_2, _local_3);
             this._footerPreset = this.presetManager.createFooterPreset(this.saveBuilder, this.closeBuilder);
             _local_3.addElements(this._footerPreset);
             _local_3.build(_arg_2.widthModifier, _arg_2.allowScrolling);
@@ -435,6 +439,150 @@
             var _local_2:int = this._updated.maximumItemSelectionCount;
             this._roomEvents.localization.registerParameter("wiredfurni.pickfurnis.caption", "count", ("" + _local_1));
             this._roomEvents.localization.registerParameter("wiredfurni.pickfurnis.caption", "limit", ("" + _local_2));
+        }
+
+        private function createAdvancedSections(k:Triggerable, _arg_2:IWiredTypeHolder, _arg_3:IWiredElement, _arg_4:WiredUIBuilder):void
+        {
+            var _local_5:Array;
+            if (!k.advancedMode)
+            {
+                return;
+            }
+            _local_5 = this.createAdvancedInputSources(k, _arg_3);
+            if (_local_5.length == 0)
+            {
+                return;
+            }
+            this._advancedSettingsWrapperPreset = this.presetManager.createAdvancedSettingsWrapperPreset(_local_5, _arg_3.advancedAlwaysVisible());
+            _arg_4.addElements(this._advancedSettingsWrapperPreset);
+        }
+
+        private function createAdvancedInputSources(k:Triggerable, _arg_2:IWiredElement):Array
+        {
+            var _local_3:Array;
+            var _local_4:Array = [];
+            var _local_5:Array = [];
+            var _local_6:Array = [];
+            var _local_7:int;
+            this._inputSourcePresets = [];
+            for each (_local_3 in _arg_2.mergedSelections())
+            {
+                if ((_local_3 != null) && (_local_3.length > 0) && (int(_local_3[0]) >= 0))
+                {
+                    _local_4[int(_local_3[0])] = true;
+                }
+                if ((_local_3 != null) && (_local_3.length > 1) && (int(_local_3[1]) >= 0))
+                {
+                    _local_5[int(_local_3[1])] = true;
+                }
+            }
+            for (_local_7 = 0; _local_7 < k.inputSourcesConf.amountFurniSelections; _local_7++)
+            {
+                if (!_local_4[_local_7])
+                {
+                    _local_6 = k.inputSourcesConf.getAllowedFurniSources(_local_7);
+                    if ((_local_6 != null) && (_local_6.length > 0))
+                    {
+                        this._inputSourcePresets.push(this.presetManager.createInputSourceSection("${" + _arg_2.furniSelectionTitle(_local_7) + "}", WiredInputSourcePicker.FURNI_SOURCE, _local_7, null, false, k.inputSourcesConf.isDualFurniPickingMode()));
+                    }
+                }
+            }
+            for (_local_7 = 0; _local_7 < k.inputSourcesConf.amountUserSelections; _local_7++)
+            {
+                if (!_local_5[_local_7])
+                {
+                    _local_6 = k.inputSourcesConf.getAllowedUserSources(_local_7);
+                    if ((_local_6 != null) && (_local_6.length > 0))
+                    {
+                        this._inputSourcePresets.push(this.presetManager.createInputSourceSection("${" + _arg_2.userSelectionTitle(_local_7) + "}", WiredInputSourcePicker.USER_SOURCE, _local_7, null, false, k.inputSourcesConf.isDualFurniPickingMode()));
+                    }
+                }
+            }
+            _local_3 = _arg_2.mergedSelections();
+            for (_local_7 = 0; _local_7 < _local_3.length; _local_7++)
+            {
+                this._inputSourcePresets.push(this.presetManager.createInputSourceSection("${" + _arg_2.mergedSelectionTitle(_local_7) + "}", WiredInputSourcePicker.MERGED_SOURCE, _local_7, _arg_2.mergedSourceOptions(_local_7), _arg_2.hasCustomTypePicker(_local_7), k.inputSourcesConf.isDualFurniPickingMode()));
+            }
+            return this._inputSourcePresets;
+        }
+
+        private function refreshAdvancedInputSources():void
+        {
+            var k:InputSourceSection;
+            if (this._inputSourcePresets == null)
+            {
+                return;
+            }
+            for each (k in this._inputSourcePresets)
+            {
+                k.refresh(this._updated, this._builderElement);
+            }
+            if (this._advancedSettingsWrapperPreset != null)
+            {
+                this._advancedSettingsWrapperPreset.expanded = this.isUsingAdvancedSettings;
+            }
+        }
+
+        public function get isUsingAdvancedSettings():Boolean
+        {
+            return (this._updated != null) && (this._builderElement != null) && (this._updated.usingCustomInputSources || this._builderElement.usingCustomAdvancedSettings);
+        }
+
+        public function get hidePickFurniInstructions():Boolean
+        {
+            if ((this._updated == null) || (this._builderElement == null))
+            {
+                return false;
+            }
+            if (this._builderElement.forceHidePickFurniInstructions)
+            {
+                return true;
+            }
+            return (!this._updated.inputSourcesConf.isFurniSelectionDefault()) && (!this._builderElement.forceFurniSelection);
+        }
+
+        public function getStuffIds():Array
+        {
+            return this._Str_10656();
+        }
+
+        public function getStuffIds2():Array
+        {
+            return (this._updated != null) ? this._updated.selectedItems2.concat() : [];
+        }
+
+        public function setMergedSourceType(k:int, _arg_2:int):void
+        {
+            var _local_3:InputSourceSection;
+            if (this._inputSourcePresets == null)
+            {
+                return;
+            }
+            for each (_local_3 in this._inputSourcePresets)
+            {
+                if ((_local_3.baseSourceType == WiredInputSourcePicker.MERGED_SOURCE) && (_local_3.id == k))
+                {
+                    _local_3.sourceType = _arg_2;
+                    this.refreshAdvancedInputSources();
+                    return;
+                }
+            }
+        }
+
+        public function updateSourceContainer(k:int, _arg_2:int):void
+        {
+            var _local_3:InputSourceSection;
+            if (this._inputSourcePresets == null)
+            {
+                return;
+            }
+            for each (_local_3 in this._inputSourcePresets)
+            {
+                if ((_local_3.baseSourceType == k) && (_local_3.id == _arg_2))
+                {
+                    _local_3.refresh(this._updated, this._builderElement);
+                }
+            }
         }
 
         private function onBuilderApplySnapshot():void
@@ -528,6 +676,7 @@
                     this._furniHighLighter.show(k);
                 }
                 this.refreshBuilderPickCount();
+                this.refreshAdvancedInputSources();
                 return;
             }
             if (((this._window == null) || (!(this._window.visible))))
@@ -755,6 +904,7 @@
                 {
                     delete this._stuffs[k];
                     this.refreshBuilderPickCount();
+                    this.refreshAdvancedInputSources();
                 }
                 return;
             }

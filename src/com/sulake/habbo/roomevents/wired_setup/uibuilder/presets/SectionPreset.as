@@ -22,6 +22,7 @@ package com.sulake.habbo.roomevents.wired_setup.uibuilder.presets
         private var _headerOptionsRight:Vector.<WiredUIPreset>;
         private var _subPreset:WiredUIPreset;
         private var _headerOptionLeft:WiredUIPreset;
+        private var _sourceTypeSelector:SourceTypeSelectorPreset;
 
         public function SectionPreset(_arg_1:HabboUserDefinedRoomEvents, _arg_2:PresetManager, _arg_3:WiredStyle, _arg_4:String, _arg_5:WiredUIPreset, _arg_6:SectionParam = null)
         {
@@ -69,13 +70,21 @@ package com.sulake.habbo.roomevents.wired_setup.uibuilder.presets
             {
                 this.addHeaderOption(_local_10);
             }
-            // Phase 2: SourceTypeSelectorPreset is deferred (Phase 4/6); the
-            // sourceTypeSelectorParam branch is intentionally omitted.
+            if (_arg_6.sourceTypeSelectorParam != null)
+            {
+                this._sourceTypeSelector = _arg_2.createSourceTypeSelector(_arg_6.sourceTypeSelectorParam);
+                this.addHeaderOption(this._sourceTypeSelector);
+            }
             if (_arg_6.expandMode != SectionParam.EXPAND_MODE_EXPANDED)
             {
                 _local_9 = _arg_2.createCollapseExpandSectionButton(this.onExpandCollapseClicked, (_arg_6.expandMode == SectionParam.EXPAND_MODE_EXPANDED_WITH_TOGGLE));
                 this.addHeaderOption(_local_9);
             }
+        }
+
+        public function getSourceTypeSelector():SourceTypeSelectorPreset
+        {
+            return this._sourceTypeSelector;
         }
 
         public function addHeaderOption(_arg_1:WiredUIPreset):void

@@ -24,6 +24,8 @@
         protected var _Str_1240:Number = 1;
         private var _clickUrl:String = null;
         private var _clickHandling:Boolean = false;
+        private var _lookThrough:Boolean = false;
+        private var _lookThroughChanged:Boolean = false;
         private var _data:FurnitureVisualizationData = null;
         private var _type:String = "";
         private var _assetNames:Array;
@@ -138,6 +140,11 @@
             {
                 _local_5 = true;
             }
+            if (this._lookThroughChanged)
+            {
+                _local_5 = true;
+                this._lookThroughChanged = false;
+            }
             var _local_7:int;
             if (_arg_4)
             {
@@ -234,6 +241,10 @@
                         _local_4.alphaTolerance = AlphaTolerance.MATCH_NOTHING;
                         _local_6 = 1;
                     }
+                    if (this._lookThrough)
+                    {
+                        _local_4.alpha = (_local_4.alpha * 0.2);
+                    }
                     _local_6 = (_local_6 * _Str_19020);
                     _local_4.relativeDepth = _local_6;
                     _local_4.assetName = _local_5.assetName;
@@ -252,6 +263,15 @@
                 {
                     this.resetSprite(_local_4);
                 }
+            }
+        }
+
+        public function set lookThrough(k:Boolean):void
+        {
+            if (this._lookThrough != k)
+            {
+                this._lookThroughChanged = true;
+                this._lookThrough = k;
             }
         }
 
