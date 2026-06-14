@@ -118,15 +118,8 @@
             <var key="spacing" value="4" type="int"/>
           </variables>
         </itemlist_horizontal>
-        <region x="253" y="57" width="20" height="20" params="81" style="102" name="close_conversation_button" caption="Close" treshold="0">
-          <children>
-            <static_bitmap x="0" y="0" width="20" height="20" params="16" style="100">
-              <variables>
-                <var key="asset_uri" value="illumina_light_button_frame_close_png" type="String"/>
-              </variables>
-            </static_bitmap>
-          </children>
-        </region>
+        <closebutton name="close_conversation_button" style="100" x="253" y="57" width="20" height="20">
+        </closebutton>
         <scrollable_itemlist_vertical x="7" y="84" width="266" height="212" params="2192" style="100" name="conversation">
           <children>
             <widget x="0" y="0" width="259" height="76" params="147472" style="100" name="msg_normal">

@@ -827,6 +827,10 @@
 
         public function onInput(k:IWidgetWindow, _arg_2:String):void
         {
+            if (_arg_2 == "")
+            {
+                return;
+            }
             this._messenger.send(new SendMsgMessageComposer(this._currentConversationId, _arg_2));
             IIlluminaInputWidget(k.widget).message = "";
             var _local_3:Array = this._chatEntries[this._currentConversationId];

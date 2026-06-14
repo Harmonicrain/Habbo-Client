@@ -498,6 +498,7 @@
             var windowEvent:WindowEvent;
             try
             {
+                _caption = _field.text;
                 this._Str_18556();
                 windowEvent = WindowEvent.allocate(WindowEvent.WINDOW_EVENT_CHANGE, this, null);
                 this.update(this, windowEvent);
