@@ -774,6 +774,8 @@
         public static var wired_styles_illumina_icon_source_users:Class = HabboWindowManagerCom_wired_styles_illumina_icon_source_users;
         public static var wired_styles_illumina_icon_source_global:Class = HabboWindowManagerCom_wired_styles_illumina_icon_source_global;
         public static var wired_styles_illumina_icon_source_context:Class = HabboWindowManagerCom_wired_styles_illumina_icon_source_context;
+        public static var wired_styles_illumina_furni_picks_1:Class = HabboWindowManagerCom_wired_styles_illumina_furni_picks_1;
+        public static var wired_styles_illumina_furni_picks_2:Class = HabboWindowManagerCom_wired_styles_illumina_furni_picks_2;
         public static var wired_styles_illumina_move_0:Class = HabboWindowManagerCom_wired_styles_illumina_move_0;
         public static var wired_styles_illumina_move_1:Class = HabboWindowManagerCom_wired_styles_illumina_move_1;
         public static var wired_styles_illumina_move_2:Class = HabboWindowManagerCom_wired_styles_illumina_move_2;

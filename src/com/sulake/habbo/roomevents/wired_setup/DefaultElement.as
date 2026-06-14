@@ -106,6 +106,11 @@ package com.sulake.habbo.roomevents.wired_setup
             return false;
         }
 
+        public function inputSourcesAlwaysVisible():Boolean
+        {
+            return false;
+        }
+
         public function get usingCustomAdvancedSettings():Boolean
         {
             return false;

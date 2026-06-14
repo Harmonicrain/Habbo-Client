@@ -29,6 +29,7 @@ package com.sulake.habbo.roomevents.wired_setup.uibuilder
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.IconButtonPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.NumberInputPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.PaddedContainerPreset;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.PressedButtonMiniAssetIconButtonPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.RadioButtonPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.RadioGroupPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.ScrollListPreset;
@@ -212,6 +213,11 @@ package com.sulake.habbo.roomevents.wired_setup.uibuilder
         public function createIconButtonPreset(_arg_1:String, _arg_2:Function):IconButtonPreset
         {
             return new IconButtonPreset(this._roomEvents, this, this.wiredStyle, _arg_1, _arg_2);
+        }
+
+        public function createMiniAssetIconButtonPreset(_arg_1:String, _arg_2:String, _arg_3:Function):PressedButtonMiniAssetIconButtonPreset
+        {
+            return new PressedButtonMiniAssetIconButtonPreset(this._roomEvents, this, this.wiredStyle, _arg_1, _arg_2, _arg_3);
         }
 
         public function createSliderPreset(_arg_1:Number = 0, _arg_2:Number = 1, _arg_3:Number = 0):SliderPreset

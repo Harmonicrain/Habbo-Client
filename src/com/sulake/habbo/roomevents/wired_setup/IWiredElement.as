@@ -49,6 +49,7 @@ package com.sulake.habbo.roomevents.wired_setup
         function mergedSourceOptions(_arg_1:int):Array;
         function hasCustomTypePicker(_arg_1:int):Boolean;
         function advancedAlwaysVisible():Boolean;
+        function inputSourcesAlwaysVisible():Boolean;
         function get usingCustomAdvancedSettings():Boolean;
         function onGuildMemberships(_arg_1:Array):void;
         function validate():String; // null = valid

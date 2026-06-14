@@ -80,10 +80,13 @@
         private var _actionTypes:ActionTypes;
         private var _conditionTypes:UserDefinedRoomEventsConditionsCtrl;
         private var _stuffs:Dictionary;
+        private var _stuffs2:Dictionary = new Dictionary();
         private var _updated:Triggerable;
         private var _furniHighLighter:UserDefinedRoomEventsVisualizer;
         private var _help:UserDefinedRoomEventsHelp;
         private var _delaySlider:SliderWindowController;
+        private var _dualFurniPickingMode:Boolean = false;
+        private var _activeFurniPicks:int = 1;
 
         // Wired 2.0 UI builder (Phase 2): dual-mode state. Builder-based types render
         // through the wired_setup pipeline; XML-based legacy types keep the old path.
@@ -171,7 +174,7 @@
             this._builderActionHolder.register(new FreezeUserActionElement());
             this._builderActionHolder.register(new SimpleActionElement(ActionTypeCodes.UNFREEZE_USER));
             this._builderActionHolder.register(new RelativeFurniMoveActionElement());
-            this._builderActionHolder.register(new FurniPickingActionElement(ActionTypeCodes.MOVE_FURNI_TO_FURNI));
+            this._builderActionHolder.register(new MoveFurniToFurniActionElement());
             this._builderActionHolder.register(new FurniPickingActionElement(ActionTypeCodes.MOVE_FURNI_TO_USER));
             this._builderActionHolder.register(new MoveUserActionElement());
             this._builderActionHolder.register(new MoveUserToFurniActionElement());
@@ -347,16 +350,28 @@
             {
                 this._window.visible = false;
             }
+            this.hideFurniHighlights();
+            if (this._updated != null)
+            {
+                this._furniHighLighter.unhighlightActiveWired(this._updated.id);
+            }
             this._updated = k;
             this._builderHolder = _arg_2;
             this._builderElement = _arg_3;
-            this._furniHighLighter._Str_21701(this._stuffs);
             this._stuffs = new Dictionary();
+            this._stuffs2 = new Dictionary();
+            this._dualFurniPickingMode = k.inputSourcesConf.isDualFurniPickingMode();
+            this._activeFurniPicks = 1;
             for each (_local_4 in this._updated.selectedItems)
             {
                 this._stuffs[_local_4] = "yes";
             }
-            this._furniHighLighter._Str_25313(this._stuffs);
+            for each (_local_4 in this._updated.selectedItems2)
+            {
+                this._stuffs2[_local_4] = "yes";
+            }
+            this._furniHighLighter.highlightActiveWired(this._updated.id);
+            this.showFurniHighlights();
             this.createBuilderWindow(_arg_2, _arg_3);
             this._builderElement.onEditStart(k);
             this._headerPreset.updateName(this._Str_16874(k.spriteId));
@@ -407,7 +422,7 @@
                 ]);
                 _local_3.addElements(this.presetManager.createSection("${wiredfurni.params.selector.options}", this._selectorOptionsPreset));
             }
-            if (_arg_2.requiresFurniSelection && this._updated.maximumItemSelectionCount > 0)
+            if (this.isStuffSelectionMode() && !this._builderElement.forceHidePickFurniInstructions)
             {
                 _local_4 = new TextParam(1, false);
                 _local_4.textColor = this.wiredStyle.softTextColor;
@@ -441,6 +456,29 @@
             this._roomEvents.localization.registerParameter("wiredfurni.pickfurnis.caption", "limit", ("" + _local_2));
         }
 
+        private function showFurniHighlights():void
+        {
+            if (this._dualFurniPickingMode)
+            {
+                this._furniHighLighter._Str_25313(this._stuffs, true, 1);
+                this._furniHighLighter._Str_25313(this._stuffs2, true, 2);
+                return;
+            }
+            this._furniHighLighter._Str_25313(this._stuffs, false, 0);
+        }
+
+        private function hideFurniHighlights():void
+        {
+            if (this._dualFurniPickingMode)
+            {
+                this._furniHighLighter._Str_21701(this._stuffs, true, 1);
+                this._furniHighLighter._Str_21701(this._stuffs2, true, 2);
+                return;
+            }
+            this._furniHighLighter._Str_21701(this._stuffs, false, 0);
+            this._furniHighLighter._Str_21701(this._stuffs2, false, 0);
+        }
+
         private function createAdvancedSections(k:Triggerable, _arg_2:IWiredTypeHolder, _arg_3:IWiredElement, _arg_4:WiredUIBuilder):void
         {
             var _local_5:Array;
@@ -451,6 +489,14 @@
             _local_5 = this.createAdvancedInputSources(k, _arg_3);
             if (_local_5.length == 0)
             {
+                return;
+            }
+            if (_arg_3.inputSourcesAlwaysVisible())
+            {
+                for each (var _local_6:* in _local_5)
+                {
+                    _arg_4.addElements(_local_6);
+                }
                 return;
             }
             this._advancedSettingsWrapperPreset = this.presetManager.createAdvancedSettingsWrapperPreset(_local_5, _arg_3.advancedAlwaysVisible());
@@ -548,7 +594,32 @@
 
         public function getStuffIds2():Array
         {
-            return (this._updated != null) ? this._updated.selectedItems2.concat() : [];
+            var _local_2:String;
+            var k:Array = new Array();
+            for (_local_2 in this._stuffs2)
+            {
+                k.push(int(_local_2));
+            }
+            return k;
+        }
+
+        public function set activeFurniPicks(k:int):void
+        {
+            var _local_2:InputSourceSection;
+            this._activeFurniPicks = k;
+            if (this._inputSourcePresets == null)
+            {
+                return;
+            }
+            for each (_local_2 in this._inputSourcePresets)
+            {
+                _local_2.activeFurniPicksChanged();
+            }
+        }
+
+        public function get activeFurniPicks():int
+        {
+            return this._activeFurniPicks;
         }
 
         public function setMergedSourceType(k:int, _arg_2:int):void
@@ -609,7 +680,7 @@
             if (_local_6 == null) { _local_6 = this._updated.furniSourceTypes.concat(); }
             if (_local_7 == null) { _local_7 = this._updated.userSourceTypes.concat(); }
             if (_local_8 == null) { _local_8 = this._updated.variableIds.concat(); }
-            if (_local_9 == null) { _local_9 = this._updated.selectedItems2.concat(); }
+            if (_local_9 == null) { _local_9 = this._dualFurniPickingMode ? this.getStuffIds2() : this._updated.selectedItems2.concat(); }
             if ((this._updated as TriggerDefinition) != null)
             {
                 this._roomEvents.send(new UpdateTriggerMessageComposer(this._updated.id, _local_2, _local_3, _local_4, _local_5, _local_6, _local_7, _local_8, _local_9));
@@ -649,11 +720,27 @@
         private function closeBuilder():void
         {
             this.hideBuilderFrame();
-            this._furniHighLighter._Str_21701(this._stuffs);
+            if (this._updated != null)
+            {
+                this._furniHighLighter.unhighlightActiveWired(this._updated.id);
+            }
+            this.hideFurniHighlights();
             if (this._builderElement != null)
             {
                 this._builderElement.onEditEnd();
             }
+            this._stuffs = new Dictionary();
+            this._stuffs2 = new Dictionary();
+            this._dualFurniPickingMode = false;
+            this._activeFurniPicks = 1;
+            this._builderHolder = null;
+            this._builderElement = null;
+            this._updated = null;
+        }
+
+        private function isStuffSelectionMode():Boolean
+        {
+            return (this._updated != null) && (this._updated.inputSourcesConf.allowFurniSelection() || this._builderElement.forceFurniSelection);
         }
 
         public function _Str_15677(k:int, _arg_2:String):void
@@ -661,19 +748,20 @@
             // Wired 2.0 dual mode: builder editor handles its own furni picking.
             if (this.builderEditorVisible)
             {
-                if (this._updated.maximumItemSelectionCount <= 0)
+                if (!this.isStuffSelectionMode())
                 {
                     return;
                 }
-                if (this._stuffs[k])
+                var activeStuffs:Dictionary = (this._dualFurniPickingMode && (this._activeFurniPicks == 2)) ? this._stuffs2 : this._stuffs;
+                if (activeStuffs[k])
                 {
-                    delete this._stuffs[k];
-                    this._furniHighLighter.hide(k);
+                    delete activeStuffs[k];
+                    this._furniHighLighter.hide(k, this._dualFurniPickingMode, this._activeFurniPicks);
                 }
-                else if (this._Str_10656().length < this._updated.maximumItemSelectionCount)
+                else if (this.activeStuffIds().length < this._updated.maximumItemSelectionCount)
                 {
-                    this._stuffs[k] = _arg_2;
-                    this._furniHighLighter.show(k);
+                    activeStuffs[k] = _arg_2;
+                    this._furniHighLighter.show(k, this._dualFurniPickingMode, this._activeFurniPicks);
                 }
                 this.refreshBuilderPickCount();
                 this.refreshAdvancedInputSources();
@@ -828,7 +916,14 @@
                 this.openBuilderEditor(k, _local_7, _local_8);
                 return;
             }
-            this.hideBuilderFrame();
+            if (this.builderEditorVisible)
+            {
+                this.closeBuilder();
+            }
+            else
+            {
+                this.hideBuilderFrame();
+            }
             this.prepareWindow();
             this._updated = k;
             Logger.log(((("Received: " + this._updated) + ", ") + k.code));
@@ -903,6 +998,12 @@
                 if (this._stuffs[k])
                 {
                     delete this._stuffs[k];
+                    this.refreshBuilderPickCount();
+                    this.refreshAdvancedInputSources();
+                }
+                if (this._stuffs2[k])
+                {
+                    delete this._stuffs2[k];
                     this.refreshBuilderPickCount();
                     this.refreshAdvancedInputSources();
                 }
@@ -1065,6 +1166,11 @@
                 k.push(int(_local_2));
             }
             return k;
+        }
+
+        private function activeStuffIds():Array
+        {
+            return (this._dualFurniPickingMode && (this._activeFurniPicks == 2)) ? this.getStuffIds2() : this._Str_10656();
         }
 
         public function refresh():void

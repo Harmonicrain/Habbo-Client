@@ -46,6 +46,8 @@
         protected var _Str_13574:int = -1;
         private var _maskLayerIndex:int = 0;
         private var Z_MULTIPLIER:Number = 0;
+        private var _filters:Array = null;
+        private var _filtersChanged:Boolean = false;
 
         public function FurnitureVisualization()
         {
@@ -144,6 +146,11 @@
             {
                 _local_5 = true;
                 this._lookThroughChanged = false;
+            }
+            if (this._filtersChanged)
+            {
+                _local_5 = true;
+                this._filtersChanged = false;
             }
             var _local_7:int;
             if (_arg_4)
@@ -251,6 +258,7 @@
                     _local_4.libraryAssetName = this.getLibraryAssetNameForSprite(_local_5, _local_4);
                     _local_4.assetPosture = this.getPostureForAssetFile(k, _local_5.libraryAssetName);
                     _local_4.clickHandling = this._clickHandling;
+                    this.updateSpriteFilters(_local_4);
                 }
                 else
                 {
@@ -263,6 +271,18 @@
                 {
                     this.resetSprite(_local_4);
                 }
+            }
+        }
+
+        private function updateSpriteFilters(k:IRoomObjectSprite):void
+        {
+            if (k.blendMode != BlendMode.ADD)
+            {
+                k.filters = this._filters;
+            }
+            else if (k.filters != null)
+            {
+                k.filters = null;
             }
         }
 
@@ -292,6 +312,7 @@
             k.offsetY = 0;
             k.relativeDepth = 0;
             k.clickHandling = false;
+            k.filters = null;
         }
 
         protected function getBlendMode(k:int):String
@@ -620,6 +641,17 @@
         protected function get data():FurnitureVisualizationData
         {
             return this._data;
+        }
+
+        public function set filters(k:Array):void
+        {
+            this._filters = k;
+            this._filtersChanged = true;
+        }
+
+        public function get filters():Array
+        {
+            return this._filters;
         }
     }
 }

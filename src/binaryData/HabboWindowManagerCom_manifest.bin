@@ -821,6 +821,8 @@
 			<asset mimeType="image/png" name="wired_styles_illumina_icon_source_users" />
 			<asset mimeType="image/png" name="wired_styles_illumina_icon_source_global" />
 			<asset mimeType="image/png" name="wired_styles_illumina_icon_source_context" />
+			<asset mimeType="image/png" name="wired_styles_illumina_furni_picks_1" />
+			<asset mimeType="image/png" name="wired_styles_illumina_furni_picks_2" />
 			<asset mimeType="image/png" name="wired_styles_illumina_move_0" />
 			<asset mimeType="image/png" name="wired_styles_illumina_move_1" />
 			<asset mimeType="image/png" name="wired_styles_illumina_move_2" />

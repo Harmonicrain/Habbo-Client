@@ -41,6 +41,7 @@
             event._type = type;
             event._window = window;
             event._related = related;
+            event._cancelable = true;
             event._recycled = false;
             event._pool = POOL;
             event.localX = localX;

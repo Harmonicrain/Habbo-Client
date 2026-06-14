@@ -9,6 +9,7 @@ package com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.main_layout
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.params.SourceTypeSelectorParam;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.params.TextParam;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.IconButtonPreset;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.MiniAssetIconButtonPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.SimpleListViewPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.SourceTypeSelectorPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.TextPreset;
@@ -24,6 +25,8 @@ package com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.main_layout
         private var _picker:WiredInputSourcePicker;
         private var _leftButton:IconButtonPreset;
         private var _rightButton:IconButtonPreset;
+        private var _furniPicking1Button:MiniAssetIconButtonPreset;
+        private var _furniPicking2Button:MiniAssetIconButtonPreset;
 
         public function InputSourceSection(k:HabboUserDefinedRoomEvents, _arg_2:PresetManager, _arg_3:WiredStyle, _arg_4:String, _arg_5:int, _arg_6:int, _arg_7:Array, _arg_8:Boolean = false, _arg_9:Boolean = false)
         {
@@ -41,7 +44,40 @@ package com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.main_layout
             {
                 param = new SectionParam(new SourceTypeSelectorParam(_arg_7, this));
             }
+            if (_arg_9)
+            {
+                if (param == null)
+                {
+                    param = new SectionParam();
+                }
+                this._furniPicking1Button = _arg_2.createMiniAssetIconButtonPreset("furni_picks_1", "${wiredfurni.params.furni_picking.tooltip}", this.onFurniPicks1Clicked);
+                this._furniPicking2Button = _arg_2.createMiniAssetIconButtonPreset("furni_picks_2", "${wiredfurni.params.furni_picking.tooltip}", this.onFurniPicks2Clicked);
+                param.addHeaderOption(this._furniPicking1Button);
+                param.addHeaderOption(this._furniPicking2Button);
+            }
             initializeSection(_arg_4, this._preset, param);
+        }
+
+        private function onFurniPicks1Clicked():void
+        {
+            this._roomEvents.wiredCtrl.activeFurniPicks = 1;
+        }
+
+        private function onFurniPicks2Clicked():void
+        {
+            this._roomEvents.wiredCtrl.activeFurniPicks = 2;
+        }
+
+        public function activeFurniPicksChanged():void
+        {
+            if ((this._furniPicking1Button != null) && this._furniPicking1Button.visible)
+            {
+                this._furniPicking1Button.selected = this._roomEvents.wiredCtrl.activeFurniPicks == 1;
+            }
+            else if ((this._furniPicking2Button != null) && this._furniPicking2Button.visible)
+            {
+                this._furniPicking2Button.selected = this._roomEvents.wiredCtrl.activeFurniPicks == 2;
+            }
         }
 
         private function onPrevious():void
@@ -68,6 +104,25 @@ package com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.main_layout
             this._leftButton.disabled = this._picker.isButtonsDisabled;
             this._rightButton.disabled = this._picker.isButtonsDisabled;
             this._textPreset.text = this._picker.selectedText;
+            if ((this._furniPicking1Button != null) && (this._furniPicking2Button != null))
+            {
+                switch (this._picker.stuffPickingSpecialMode)
+                {
+                    case WiredInputSourcePicker.STUFF_PICKING_MODE_1:
+                        this._furniPicking1Button.visible = true;
+                        this._furniPicking2Button.visible = false;
+                        this._furniPicking1Button.selected = this._roomEvents.wiredCtrl.activeFurniPicks == 1;
+                        break;
+                    case WiredInputSourcePicker.STUFF_PICKING_MODE_2:
+                        this._furniPicking1Button.visible = false;
+                        this._furniPicking2Button.visible = true;
+                        this._furniPicking2Button.selected = this._roomEvents.wiredCtrl.activeFurniPicks == 2;
+                        break;
+                    default:
+                        this._furniPicking1Button.visible = false;
+                        this._furniPicking2Button.visible = false;
+                }
+            }
             this._section.refreshAlignments();
         }
 
@@ -94,7 +149,16 @@ package com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.main_layout
 
         override protected function get childPresets():Array
         {
-            return [this._preset, this._listPreset, this._textPreset, this._leftButton, this._rightButton];
+            var presets:Array = [this._preset, this._listPreset, this._textPreset, this._leftButton, this._rightButton];
+            if (this._furniPicking1Button != null)
+            {
+                presets.push(this._furniPicking1Button);
+            }
+            if (this._furniPicking2Button != null)
+            {
+                presets.push(this._furniPicking2Button);
+            }
+            return presets;
         }
 
         override public function dispose():void
@@ -111,6 +175,8 @@ package com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.main_layout
             this._picker = null;
             this._leftButton = null;
             this._rightButton = null;
+            this._furniPicking1Button = null;
+            this._furniPicking2Button = null;
         }
     }
 }
