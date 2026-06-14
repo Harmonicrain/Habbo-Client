@@ -27,6 +27,7 @@
     import com.sulake.habbo.session.events.RoomSessionChatEvent;
     import com.sulake.habbo.ui.widget.events.HideRoomWidgetEvent;
     import com.sulake.habbo.friendbar.events.FriendBarResizeEvent;
+    import com.sulake.habbo.session.events.SessionDataToWidgetEvent;
     import flash.events.Event;
     import com.sulake.habbo.ui.widget.events._Str_6300;
 
@@ -451,7 +452,7 @@
 
         public function getProcessedEvents():Array
         {
-            return [RoomSessionChatEvent.RSCE_FLOOD_EVENT, HideRoomWidgetEvent.HRWE_HIDE_ROOM_WIDGET, FriendBarResizeEvent.FBE_BAR_RESIZE_EVENT];
+            return [RoomSessionChatEvent.RSCE_FLOOD_EVENT, HideRoomWidgetEvent.HRWE_HIDE_ROOM_WIDGET, FriendBarResizeEvent.FBE_BAR_RESIZE_EVENT, SessionDataToWidgetEvent.PURCHASABLE_STYLES_UPDATED];
         }
 
         public function update():void
@@ -482,6 +483,12 @@
                     _local_5 = (k as FriendBarResizeEvent);
                     this._widget._Str_24485();
                     break;
+                case SessionDataToWidgetEvent.PURCHASABLE_STYLES_UPDATED:
+                    if (this._widget != null)
+                    {
+                        this._widget.refreshChatStyles();
+                    }
+                    return;
             }
             if ((((!(this._container == null)) && (!(this._container.events == null))) && (!(_local_2 == null))))
             {

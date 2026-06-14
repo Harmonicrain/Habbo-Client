@@ -43,6 +43,7 @@
         function getGroupBadgeSmallImage(_arg_1:String):BitmapData;
         function getGroupBadgeAssetName(_arg_1:String):String;
         function getGroupBadgeSmallAssetName(_arg_1:String):String;
+        function hasPurchasableChatStyle(_arg_1:int):Boolean;
         function isAccountSafetyLocked():Boolean;
         function isIgnored(_arg_1:String):Boolean;
         function whiperGroup(_arg_1:String):void;

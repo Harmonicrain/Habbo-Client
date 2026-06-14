@@ -1018,6 +1018,8 @@
             INCOMING_PACKETS[7100] = WiredSelectorDataEvent;
             INCOMING_PACKETS[7103] = WiredEnvironmentEvent;
             INCOMING_PACKETS[7104] = WiredClickUserResponseEvent;
+            INCOMING_PACKETS[7200] = PurchasableChatStylesMessageEvent;
+            INCOMING_PACKETS[7202] = PurchasableChatStyleChangedMessageEvent;
             INCOMING_PACKETS[1111] = PetReceivedMessageEvent;
             INCOMING_PACKETS[1112] = YoutubeDisplayPlaylistsEvent;
             INCOMING_PACKETS[1121] = CallForHelpPendingCallsMessageEvent;

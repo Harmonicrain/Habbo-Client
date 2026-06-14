@@ -64,6 +64,7 @@
     import com.sulake.habbo.session.events.RoomSessionFriendRequestEvent;
     import com.sulake.habbo.session.events.RoomSessionUserDataUpdateEvent;
     import com.sulake.habbo.session.events.RoomSessionDanceEvent;
+    import com.sulake.habbo.session.events.SessionDataToWidgetEvent;
     import com.sulake.iid.IIDSessionDataManager;
     import com.sulake.iid.IIDHabboFriendList;
     import com.sulake.iid.IIDAvatarRenderManager;
@@ -446,7 +447,10 @@
             }]), new ComponentDependency(new IIDSessionDataManager(), function (k:ISessionDataManager):void
             {
                 _sessionDataManager = k;
-            }), new ComponentDependency(new IIDHabboFriendList(), function (k:IHabboFriendsList):void
+            }, true, [{
+                "type":SessionDataToWidgetEvent.PURCHASABLE_STYLES_UPDATED,
+                "callback":this.sessionDataEventHandler
+            }]), new ComponentDependency(new IIDHabboFriendList(), function (k:IHabboFriendsList):void
             {
                 _friendList = k;
             }), new ComponentDependency(new IIDAvatarRenderManager(), function (k:IAvatarRenderManager):void
@@ -703,6 +707,20 @@
                 {
                     _local_3.processEvent(k);
                 }
+            }
+        }
+
+        private function sessionDataEventHandler(k:Event):void
+        {
+            var _local_2:RoomDesktop;
+            if (((this._roomEngine == null) || (this._desktops == null)))
+            {
+                return;
+            }
+            _local_2 = this._desktops.getValue(this.getRoomIdentifier(this._roomEngine.activeRoomId)) as RoomDesktop;
+            if (_local_2 != null)
+            {
+                _local_2.processEvent(k);
             }
         }
 

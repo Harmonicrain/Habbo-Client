@@ -2,12 +2,14 @@
 {
     import com.sulake.core.runtime.IUnknown;
     import flash.display.DisplayObject;
+    import flash.display.BitmapData;
     import com.sulake.habbo.freeflowchat.style.IChatStyleLibrary;
 
-    public interface IHabboFreeFlowChat extends IUnknown 
+    public interface IHabboFreeFlowChat extends IUnknown
     {
         function get displayObject():DisplayObject;
         function get chatStyleLibrary():IChatStyleLibrary;
+        function createChatStylePreviewBitmap(_arg_1:int, _arg_2:String, _arg_3:String, _arg_4:String):BitmapData;
         function get isDisabledInPreferences():Boolean;
         function set isDisabledInPreferences(_arg_1:Boolean):void;
         function get preferedChatStyle():int;

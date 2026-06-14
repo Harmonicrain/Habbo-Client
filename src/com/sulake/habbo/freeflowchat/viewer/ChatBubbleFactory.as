@@ -323,6 +323,28 @@
             return new ChatHistoryEntryBitmapBubble(k, _local_7, _local_4, _local_9, _local_2.overlap);
         }
 
+        public function createStylePreviewBitmap(styleId:int, userName:String, figure:String, sampleText:String):BitmapData
+        {
+            var _local_2:ChatStyle = ChatStyle(this._chatStyleLibrary.getStyle(styleId));
+            if (_local_2 == null)
+            {
+                return new BitmapData(1, 1, true, 0);
+            }
+            var _local_3:BitmapData = _local_2.iconImage;
+            if ((((_local_3 == null) && (!(figure == null))) && (figure.length > 0)))
+            {
+                _local_3 = this._Str_7081(figure);
+            }
+            var _local_4:uint = uint(this._avatarColorCache.getValue(figure));
+            var _local_5:RoomSessionChatEvent = new RoomSessionChatEvent(RoomSessionChatEvent.RSCE_CHAT_EVENT, null, -1, ((sampleText) ? sampleText : ""), RoomSessionChatEvent.CHAT_TYPE_SPEAK, styleId);
+            var _local_6:ChatItem = new ChatItem(_local_5, getTimer(), null, 0, null, null, figure, userName);
+            this._Str_20462(_local_6, _local_2);
+            var _local_7:ChatBubble = new ChatBubble(_local_6, _local_2, _local_3, userName, _local_4, this._component, RoomChatSettings.CHAT_BUBBLE_WIDTH_NORMAL);
+            var _local_8:BitmapData = new BitmapData(Math.max(1, _local_7.width), Math.max(1, _local_7.height), true, 0);
+            _local_7._Str_23014(_local_8);
+            return _local_8;
+        }
+
         private function _Str_20462(k:ChatItem, _arg_2:ChatStyle):void
         {
             if (_arg_2.isNotification)

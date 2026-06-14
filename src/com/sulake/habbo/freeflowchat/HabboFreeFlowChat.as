@@ -407,6 +407,15 @@
             return this._chatBubbleFactory;
         }
 
+        public function createChatStylePreviewBitmap(styleId:int, userName:String, figure:String, sampleText:String):BitmapData
+        {
+            if (this._chatBubbleFactory == null)
+            {
+                return null;
+            }
+            return this._chatBubbleFactory.createStylePreviewBitmap(styleId, userName, figure, sampleText);
+        }
+
         public function get chatHistoryScrollView():ChatHistoryScrollView
         {
             return this._chatHistoryScrollView;

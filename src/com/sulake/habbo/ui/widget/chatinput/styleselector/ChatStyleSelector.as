@@ -117,9 +117,14 @@
             return null;
         }
 
-        public function _Str_24820():void
+        public function _Str_24820(k:int=-1):void
         {
-            this.selected = this.selected;
+            var _local_2:ChatStyleGridEntry = this.getEntryById(k);
+            if (((_local_2 == null) && (!(k == 0))))
+            {
+                _local_2 = this.getEntryById(0);
+            }
+            this.selected = ((_local_2) ? _local_2 : this.selected);
             _Str_6012 = false;
             if (this._roomChatInputView.widget.handler.container.freeFlowChat)
             {
@@ -186,11 +191,45 @@
 
         private function get selected():ChatStyleGridEntry
         {
-            if (((_Str_1007 == null) && (this._Str_2514.length > 0)))
+            if ((((_Str_1007 == null) || (!(this.hasEntry(_Str_1007)))) && (this._Str_2514.length > 0)))
             {
                 _Str_1007 = this._Str_2514[(this._Str_2514.length - 1)];
             }
             return _Str_1007;
+        }
+
+        private function getEntryById(k:int):ChatStyleGridEntry
+        {
+            var _local_2:ChatStyleGridEntry;
+            if (this._Str_2514 == null)
+            {
+                return null;
+            }
+            for each (_local_2 in this._Str_2514)
+            {
+                if (((_local_2) && (_local_2.id == k)))
+                {
+                    return _local_2;
+                }
+            }
+            return null;
+        }
+
+        private function hasEntry(k:ChatStyleGridEntry):Boolean
+        {
+            var _local_2:ChatStyleGridEntry;
+            if (((k == null) || (this._Str_2514 == null)))
+            {
+                return false;
+            }
+            for each (_local_2 in this._Str_2514)
+            {
+                if (_local_2 === k)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private function _Str_22807(k:BitmapData):IWindowContainer
@@ -212,6 +251,22 @@
             if (((this._Str_3334) && (this._Str_3334.window)) && (this._Str_3334.window.visible))
             {
                 this._Str_3334._Str_25385(this._container);
+            }
+        }
+
+        public function setMenuOpen(k:Boolean):void
+        {
+            if (this._roomChatInputView._Str_22667)
+            {
+                this._roomChatInputView._Str_22667.visible = k;
+            }
+            if (((this._Str_3334) && (this._Str_3334.window)))
+            {
+                this._Str_3334.window.visible = k;
+            }
+            if (k)
+            {
+                this._Str_19515();
             }
         }
 

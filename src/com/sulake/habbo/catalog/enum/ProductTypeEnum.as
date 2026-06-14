@@ -7,6 +7,7 @@
         public static const EFFECT:String = "e";
         public static const HABBO_CLUB:String = "h";
         public static const BADGE:String = "b";
+        public static const CHAT_STYLE:String = "chat_style";
         public static const GAME_TOKEN:String = "GAME_TOKEN";
         public static const PET:String = "p";
         public static const ROBOT:String = "r";

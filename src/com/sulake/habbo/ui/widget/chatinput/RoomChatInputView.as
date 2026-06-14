@@ -223,37 +223,7 @@
             this._window.addEventListener(WindowEvent.WINDOW_EVENT_PARENT_ADDED, this.updatePosition);
             if (((((this._Str_20898()) && (!(this._widget.handler.container.roomSession.isGameSession))) && (!(this._widget.handler.container.freeFlowChat == null))) && (!(this._widget.handler.container.freeFlowChat.chatStyleLibrary == null))))
             {
-                _local_3 = [];
-                _local_4 = this._widget._Str_13265.getProperty("disabled.custom.chat.styles").split(",");
-                _local_5 = this._widget.handler.container.sessionDataManager.hasSecurity(SecurityLevelEnum.EMPLOYEE);
-                for each (_local_6 in this._widget.handler.container.freeFlowChat.chatStyleLibrary.getStyleIds())
-                {
-                    _local_7 = this._widget.handler.container.freeFlowChat.chatStyleLibrary.getStyle(_local_6);
-                    if (((!(_local_7.isSystemStyle)) && (_local_4.indexOf(_local_6.toString()) == -1)))
-                    {
-                        if (((_local_7.isHcOnly) && (this._widget.handler.container.sessionDataManager.clubLevel >= HabboClubLevelEnum.CLUB)))
-                        {
-                            _local_3.push(_local_6);
-                        }
-                        else
-                        {
-                            if (((!(_local_7.isHcOnly)) && (!(_local_7.isAmbassadorOnly))))
-                            {
-                                _local_3.push(_local_6);
-                            }
-                        }
-                    }
-                    if (((_local_7.isStaffOverrideable) && (_local_5)))
-                    {
-                        _local_3.push(_local_6);
-                    }
-                    if (((_local_7.isAmbassadorOnly) && ((_local_5) || (this._widget.handler.container.sessionDataManager.isAmbassador))))
-                    {
-                        _local_3.push(_local_6);
-                    }
-                }
-                this._Str_23245(_local_3);
-                this._Str_24580(_local_3);
+                this.refreshChatStyles();
             }
             else
             {
@@ -286,6 +256,69 @@
                     _local_3++;
                 }
                 _local_2++;
+            }
+        }
+
+        public function refreshChatStyles():void
+        {
+            var _local_2:int;
+            var _local_3:IChatStyle;
+            var _local_4:Array;
+            var _local_5:Boolean;
+            var k:Array = [];
+            if (((((!(this._Str_20898())) || (this._widget.handler.container.roomSession.isGameSession)) || (this._widget.handler.container.freeFlowChat == null)) || (this._widget.handler.container.freeFlowChat.chatStyleLibrary == null)))
+            {
+                return;
+            }
+            _local_4 = this._widget._Str_13265.getProperty("disabled.custom.chat.styles").split(",");
+            _local_5 = this._widget.handler.container.sessionDataManager.hasSecurity(SecurityLevelEnum.EMPLOYEE);
+            for each (_local_2 in this._widget.handler.container.freeFlowChat.chatStyleLibrary.getStyleIds())
+            {
+                _local_3 = this._widget.handler.container.freeFlowChat.chatStyleLibrary.getStyle(_local_2);
+                if (((!(_local_3.isSystemStyle)) && (_local_4.indexOf(_local_2.toString()) == -1)))
+                {
+                    if (_local_3.purchasable)
+                    {
+                        if (this.sessionDataManager.hasPurchasableChatStyle(_local_2))
+                        {
+                            k.push(_local_2);
+                        }
+                    }
+                    else
+                    {
+                        if (((_local_3.isHcOnly) && (this._widget.handler.container.sessionDataManager.clubLevel >= HabboClubLevelEnum.CLUB)))
+                        {
+                            k.push(_local_2);
+                        }
+                        else
+                        {
+                            if ((((!(_local_3.isHcOnly)) && (!(_local_3.isAmbassadorOnly))) && (!(_local_3.isStaffOverrideable))))
+                            {
+                                k.push(_local_2);
+                            }
+                        }
+                    }
+                }
+                if (((_local_3.isStaffOverrideable) && (_local_5)))
+                {
+                    k.push(_local_2);
+                }
+                if (((_local_3.isAmbassadorOnly) && ((_local_5) || (this._widget.handler.container.sessionDataManager.isAmbassador))))
+                {
+                    k.push(_local_2);
+                }
+            }
+            this._Str_23245(k);
+            var _local_6:Boolean = (((this._chatStyleSelector != null) && (this._chatStyleSelectorMenuContainer != null)) && (this._chatStyleSelectorMenuContainer.visible));
+            if (this._chatStyleSelector != null)
+            {
+                this._chatStyleSelector.dispose();
+                this._chatStyleSelector = null;
+            }
+            this._Str_24580(k);
+            if (((_local_6) && (this._chatStyleSelector != null)))
+            {
+                this._chatStyleSelector.setMenuOpen(true);
             }
         }
 
@@ -758,7 +791,7 @@
             if (!this._chatStyleSelector)
             {
                 this._chatStyleSelector = new ChatStyleSelector(this, IWindowContainer(this._chatInputContainerWindow.findChildByName("styles")), this.sessionDataManager);
-                this._chatStyleSelector._Str_22746 = ((k.length / 6) + 1);
+                this._chatStyleSelector._Str_22746 = Math.max(4, ((k.length / 6) + 1));
             }
             var _local_2:int = (k.length - 1);
             while (_local_2 >= 0)
@@ -767,7 +800,7 @@
                 this._chatStyleSelector.addItem(_local_3, this._widget.handler.container.freeFlowChat.chatStyleLibrary.getStyle(_local_3).selectorPreview);
                 _local_2--;
             }
-            this._chatStyleSelector._Str_24820();
+            this._chatStyleSelector._Str_24820(this._widget.handler.container.freeFlowChat.preferedChatStyle);
         }
 
         public function get widget():RoomChatInputWidget
