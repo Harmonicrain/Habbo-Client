@@ -27,7 +27,7 @@
 	<!-- markup for layout drawer -->
 	
 	<layouts>
-		<layout name="header_3" transparent="true">
+		<layout name="header_3" transparent="false">
 			<entities>
 				<entity name="header_center" id="1">
 					<region><Rectangle x="0" y="0" width="6" height="20" /></region>
