@@ -320,26 +320,36 @@
             var _local_2:UseProductView;
             var _local_3:BreedPetView;
             var _local_4:int;
+            var _local_5:AvatarInfoWidgetHandler;
             if (disposed)
             {
                 return;
             }
             this.removeAvatarHighlightTimer();
-            for each (k in this._avatarNameBubbles)
+            if (this._avatarNameBubbles)
             {
-                k.dispose();
+                for each (k in this._avatarNameBubbles)
+                {
+                    k.dispose();
+                }
+                this._avatarNameBubbles = null;
             }
-            this._avatarNameBubbles = null;
-            for each (_local_2 in this._useProductBubbles)
+            if (this._useProductBubbles)
             {
-                _local_2.dispose();
+                for each (_local_2 in this._useProductBubbles)
+                {
+                    _local_2.dispose();
+                }
+                this._useProductBubbles = null;
             }
-            this._useProductBubbles = null;
-            for each (_local_3 in this._breedPetBubbles)
+            if (this._breedPetBubbles)
             {
-                _local_3.dispose();
+                for each (_local_3 in this._breedPetBubbles)
+                {
+                    _local_3.dispose();
+                }
+                this._breedPetBubbles = null;
             }
-            this._breedPetBubbles = null;
             if (this._component)
             {
                 this._component.removeUpdateReceiver(this);
@@ -414,12 +424,19 @@
                 this._botSkillsWithCommandsMap.dispose();
                 this._botSkillsWithCommandsMap = null;
             }
-            this.handler.roomEngine.events.removeEventListener(RoomEngineObjectEvent.ADDED, this.onRoomObjectAdded);
-            this.handler.roomEngine.events.removeEventListener(RoomEngineObjectEvent.REMOVED, this._Str_4159);
-            this.handler.container.inventory.events.removeEventListener(HabboInventoryEffectsEvent.HIEE_EFFECTS_CHANGED, this._Str_10320);
-            if (this.handler.container.userDefinedRoomEvents != null)
+            _local_5 = this.handler;
+            if (((_local_5) && (_local_5.roomEngine)) && (_local_5.roomEngine.events))
             {
-                this.handler.container.userDefinedRoomEvents.events.removeEventListener(WiredUserClickHandledEvent.WIRED_USER_CLICK_HANDLED, this.onUserClickHandledEvent);
+                _local_5.roomEngine.events.removeEventListener(RoomEngineObjectEvent.ADDED, this.onRoomObjectAdded);
+                _local_5.roomEngine.events.removeEventListener(RoomEngineObjectEvent.REMOVED, this._Str_4159);
+            }
+            if (((((_local_5) && (_local_5.container)) && (_local_5.container.inventory)) && (_local_5.container.inventory.events)))
+            {
+                _local_5.container.inventory.events.removeEventListener(HabboInventoryEffectsEvent.HIEE_EFFECTS_CHANGED, this._Str_10320);
+            }
+            if ((((((_local_5) && (_local_5.container)) && (_local_5.container.userDefinedRoomEvents)) && (_local_5.container.userDefinedRoomEvents.events))))
+            {
+                _local_5.container.userDefinedRoomEvents.events.removeEventListener(WiredUserClickHandledEvent.WIRED_USER_CLICK_HANDLED, this.onUserClickHandledEvent);
             }
             this._view = null;
             this._configuration = null;
