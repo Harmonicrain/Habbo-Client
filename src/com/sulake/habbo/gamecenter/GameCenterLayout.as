@@ -245,6 +245,10 @@
         public function _Str_16015():void
         {
             var _local_2:int;
+            if (!this._gameListContainer)
+            {
+                return;
+            }
             if (this._gameListContainer)
             {
                 this._gameListContainer.removeListItems();
@@ -266,6 +270,10 @@
         private function _Str_24792(k:int):void
         {
             var _local_2:String = GameConfigurations.getNameId(k);
+            if (!_local_2)
+            {
+                return;
+            }
             if ((((!(this._filterTextField == null)) && (!(this._filterTextField.caption == ""))) && (_local_2.toLowerCase().indexOf(this._filterTextField.caption.toLowerCase()) < 0)))
             {
                 return;
@@ -373,6 +381,11 @@
 
         private function _Str_21892():void
         {
+            // GameCenter games are WIP/TBA; keep BaseJump visible but do not launch yet.
+            if (GameConfigurations.getNameId(this._selectedGame) == HabboGames.BASEJUMP)
+            {
+                return;
+            }
             if (this._gamesLeft != 0)
             {
 				if (((this._selectedGame == HabboGames._SafeStr_7697) && (!(this._gameCenterView.gameManager._SafeStr_7684()))))
@@ -480,7 +493,7 @@
             if (_local_3.indexOf(k) == -1)
             {
                 HabboGamesCom.log((((("Game id '" + k) + "' was not enabled, defaulting select to '") + _local_3[0]) + "'!"));
-                k = 1;
+                k = _local_3[0];
             }
             this._selectedGame = k;
             this._gamesLeft = 0;

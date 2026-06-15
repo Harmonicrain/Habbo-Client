@@ -1407,6 +1407,11 @@
             return this._leaderBoardViewController;
         }
 
+        public function get leaderboardReady():Boolean
+        {
+            return this._leaderBoardViewController != null;
+        }
+
         public function loadUIElements():void
         {
             var k:String;
