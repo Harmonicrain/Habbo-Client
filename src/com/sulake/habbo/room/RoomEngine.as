@@ -109,6 +109,7 @@
     import com.sulake.habbo.room.messages.RoomObjectItemDataUpdateMessage;
     import com.sulake.habbo.room.messages.RoomObjectAvatarFigureUpdateMessage;
     import com.sulake.habbo.room.messages.RoomObjectAvatarUpdateMessage;
+    import com.sulake.habbo.room.messages.RoomObjectAvatarDirectionUpdateMessage;
     import com.sulake.habbo.room.events.RoomToObjectOwnAvatarMoveEvent;
     import com.sulake.habbo.room.messages.RoomObjectAvatarFlatControlUpdateMessage;
     import com.sulake.habbo.room.messages.RoomObjectUpdateStateMessage;
@@ -2917,18 +2918,18 @@
             return true;
         }
 
-        public function updateObjectFurnitureLocation(k:int, _arg_2:int, _arg_3:IVector3d, _arg_4:IVector3d):Boolean
+        public function updateObjectFurnitureLocation(k:int, _arg_2:int, _arg_3:IVector3d, _arg_4:IVector3d, _arg_5:IVector3d=null, _arg_6:Number=NaN, _arg_7:Number=NaN, _arg_8:Number=NaN):Boolean
         {
-            var _local_6:RoomObjectMoveUpdateMessage;
-            var _local_5:IRoomObjectController = this.getObjectFurniture(k, _arg_2);
-            if (_local_5 == null)
+            var _local_9:RoomObjectMoveUpdateMessage;
+            var _local_10:IRoomObjectController = this.getObjectFurniture(k, _arg_2);
+            if (_local_10 == null)
             {
                 return false;
             }
-            if (((!(_local_5 == null)) && (!(_local_5.getEventHandler() == null))))
+            if (((!(_local_10 == null)) && (!(_local_10.getEventHandler() == null))))
             {
-                _local_6 = new RoomObjectMoveUpdateMessage(_arg_3, _arg_4, null, (!(_arg_4 == null)));
-                _local_5.getEventHandler().processUpdateMessage(_local_6);
+                _local_9 = new RoomObjectMoveUpdateMessage(_arg_3, _arg_5, _arg_4, _arg_6, (!(_arg_5 == null)), false, _arg_7, _arg_8);
+                _local_10.getEventHandler().processUpdateMessage(_local_9);
             }
             return true;
         }
@@ -3171,18 +3172,18 @@
             return this.getObject(this.getRoomIdentifier(k), _arg_2, RoomObjectCategoryEnum.OBJECT_CATEGORY_WALLITEM);
         }
 
-        public function updateObjectWallItemLocation(k:int, _arg_2:int, _arg_3:IVector3d):Boolean
+        public function updateObjectWallItemLocation(k:int, _arg_2:int, _arg_3:IVector3d, _arg_4:IVector3d=null, _arg_5:Number=NaN):Boolean
         {
-            var _local_5:RoomObjectMoveUpdateMessage;
-            var _local_4:IRoomObjectController = this.getObjectWallItem(k, _arg_2);
-            if (_local_4 == null)
+            var _local_6:RoomObjectMoveUpdateMessage;
+            var _local_7:IRoomObjectController = this.getObjectWallItem(k, _arg_2);
+            if (_local_7 == null)
             {
                 return false;
             }
-            if (_local_4.getEventHandler() != null)
+            if (_local_7.getEventHandler() != null)
             {
-                _local_5 = new RoomObjectMoveUpdateMessage(_arg_3, null, null);
-                _local_4.getEventHandler().processUpdateMessage(_local_5);
+                _local_6 = new RoomObjectMoveUpdateMessage(_arg_3, _arg_4, null, _arg_5, (!(_arg_4 == null)));
+                _local_7.getEventHandler().processUpdateMessage(_local_6);
             }
             this.updateObjectRoomWindow(k, _arg_2);
             return true;
@@ -3269,7 +3270,7 @@
             return true;
         }
 
-        public function updateObjectUser(k:int, _arg_2:int, _arg_3:IVector3d, _arg_4:IVector3d, _arg_5:Boolean=false, _arg_6:Number=0, _arg_7:IVector3d=null, _arg_8:Number=NaN):Boolean
+        public function updateObjectUser(k:int, _arg_2:int, _arg_3:IVector3d, _arg_4:IVector3d, _arg_5:Boolean=false, _arg_6:Number=0, _arg_7:IVector3d=null, _arg_8:Number=NaN, _arg_9:Number=NaN, _arg_10:Boolean=false, _arg_11:Number=NaN):Boolean
         {
             var _local_9:IRoomObjectController = this.getObjectUser(k, _arg_2);
             if ((((_local_9 == null) || (_local_9.getEventHandler() == null)) || (_local_9.getModel() == null)))
@@ -3288,12 +3289,24 @@
             {
                 _arg_8 = _local_9.getModel().getNumber(RoomObjectVariableEnum.HEAD_DIRECTION);
             }
-            var _local_10:RoomObjectUpdateMessage = new RoomObjectAvatarUpdateMessage(this.fixedUserLocation(k, _arg_3), this.fixedUserLocation(k, _arg_4), _arg_7, _arg_8, _arg_5, _arg_6);
+            var _local_10:RoomObjectUpdateMessage = new RoomObjectAvatarUpdateMessage(this.fixedUserLocation(k, _arg_3), this.fixedUserLocation(k, _arg_4), _arg_7, _arg_8, _arg_5, _arg_6, _arg_9, _arg_10, _arg_11);
             _local_9.getEventHandler().processUpdateMessage(_local_10);
             if ((((this.roomSessionManager) && (this.roomSessionManager.getSession(k))) && (_arg_2 == this.roomSessionManager.getSession(k).ownUserRoomId)))
             {
                 this._roomObjectFactory.events.dispatchEvent(new RoomToObjectOwnAvatarMoveEvent(RoomToObjectOwnAvatarMoveEvent.ROAME_MOVE_TO, _arg_4));
             }
+            return true;
+        }
+
+        public function updateObjectUserDir(k:int, _arg_2:int, _arg_3:IVector3d, _arg_4:Number):Boolean
+        {
+            var _local_5:IRoomObjectController = this.getObjectUser(k, _arg_2);
+            if ((((_local_5 == null) || (_local_5.getEventHandler() == null)) || (_local_5.getModel() == null)))
+            {
+                return false;
+            }
+            var _local_6:RoomObjectUpdateMessage = new RoomObjectAvatarDirectionUpdateMessage(null, _arg_3, _arg_4);
+            _local_5.getEventHandler().processUpdateMessage(_local_6);
             return true;
         }
 

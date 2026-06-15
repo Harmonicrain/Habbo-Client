@@ -447,6 +447,7 @@
 	import com.sulake.habbo.communication.messages.incoming.room.engine.HeightMapEvent;
 	import com.sulake.habbo.communication.messages.incoming.room.engine.ItemDataUpdateMessageEvent;
 	import com.sulake.habbo.communication.messages.incoming.room.engine.SlideObjectBundleMessageEvent;
+	import com.sulake.habbo.communication.messages.incoming.room.engine.WiredMovementsMessageEvent;
 	import com.sulake.habbo.communication.messages.incoming.room.engine.ItemUpdateMessageEvent;
 	import com.sulake.habbo.communication.messages.incoming.room.engine.ObjectUpdateMessageEvent;
 	import com.sulake.habbo.communication.messages.incoming.room.engine.ItemAddMessageEvent;
@@ -1018,6 +1019,7 @@
             INCOMING_PACKETS[7100] = WiredSelectorDataEvent;
             INCOMING_PACKETS[7103] = WiredEnvironmentEvent;
             INCOMING_PACKETS[7104] = WiredClickUserResponseEvent;
+            INCOMING_PACKETS[7115] = WiredMovementsMessageEvent;
             INCOMING_PACKETS[7200] = PurchasableChatStylesMessageEvent;
             INCOMING_PACKETS[7202] = PurchasableChatStyleChangedMessageEvent;
             INCOMING_PACKETS[1111] = PetReceivedMessageEvent;

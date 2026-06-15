@@ -40,6 +40,7 @@
         public static const FIGURE_HIGHLIGHT_ENABLE:String = "figure_highlight_enable";
         public static const FIGURE_CAN_STAND_UP:String = "figure_can_stand_up";
         public static const FIGURE_VERTICAL_OFFSET:String = "figure_vertical_offset";
+        public static const FIGURE_JUMPING_POWER:String = "figure_jumping_power";
         public static const FIGURE_IS_PLAYING_GAME:String = "figure_is_playing_game";
         public static const FIGURE_IS_MUTED:String = "figure_is_muted";
         public static const FIGURE_GUIDE_STATUS:String = "figure_guide_status";

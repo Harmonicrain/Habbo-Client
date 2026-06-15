@@ -13,6 +13,7 @@
     import com.sulake.habbo.room.messages.RoomObjectAvatarMutedUpdateMessage;
     import com.sulake.habbo.room.messages.RoomObjectAvatarPlayingGameMessage;
     import com.sulake.habbo.room.messages.RoomObjectAvatarUpdateMessage;
+    import com.sulake.habbo.room.messages.RoomObjectAvatarDirectionUpdateMessage;
     import com.sulake.habbo.room.messages.RoomObjectAvatarGestureUpdateMessage;
     import com.sulake.habbo.room.messages.RoomObjectAvatarDanceUpdateMessage;
     import com.sulake.habbo.room.messages.RoomObjectAvatarSleepUpdateMessage;
@@ -119,6 +120,7 @@
             var _local_24:String;
             var _local_25:RoomObjectAvatarSelectedMessage;
             var _local_26:RoomObjectAvatarGuideStatusUpdateMessage;
+            var _local_27:RoomObjectAvatarDirectionUpdateMessage;
             if (((k == null) || (object == null)))
             {
                 return;
@@ -163,6 +165,16 @@
                 _local_2.setNumber(RoomObjectVariableEnum.HEAD_DIRECTION, _local_8.dirHead);
                 _local_2.setNumber(RoomObjectVariableEnum.FIGURE_CAN_STAND_UP, Number(_local_8.canStandUp));
                 _local_2.setNumber(RoomObjectVariableEnum.FIGURE_VERTICAL_OFFSET, _local_8.baseY);
+                if (!isNaN(_local_8.jumpingPower))
+                {
+                    _local_2.setNumber(RoomObjectVariableEnum.FIGURE_JUMPING_POWER, _local_8.jumpingPower);
+                }
+                return;
+            }
+            if ((k is RoomObjectAvatarDirectionUpdateMessage))
+            {
+                _local_27 = (k as RoomObjectAvatarDirectionUpdateMessage);
+                _local_2.setNumber(RoomObjectVariableEnum.HEAD_DIRECTION, _local_27.dirHead);
                 return;
             }
             if ((k is RoomObjectAvatarGestureUpdateMessage))

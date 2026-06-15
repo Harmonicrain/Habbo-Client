@@ -8,8 +8,9 @@
     import com.sulake.room.messages.RoomObjectUpdateMessage;
     import com.sulake.room.object.IRoomObjectModelController;
     import com.sulake.habbo.room.object.RoomObjectVariableEnum;
+    import flash.utils.getTimer;
 
-    public class MovingObjectLogic extends ObjectLogicBase 
+    public class MovingObjectLogic extends ObjectLogicBase
     {
         public static const DEFAULT_UPDATE_INTERVAL:int = 500;
         private static var helper_vector:Vector3d = new Vector3d();
@@ -20,6 +21,8 @@
         private var _lastUpdateTime:int = 0;
         private var _changeTime:int;
         private var _updateInterval:int = 500;
+        private var _overshootTime:Number = 0;
+        private var _curveStrength:Number = 0;
 
         public function MovingObjectLogic()
         {
@@ -58,19 +61,72 @@
             this._updateInterval = k;
         }
 
+        protected function setMoveUpdateInterval(k:int, _arg_2:Number=0, _arg_3:Number=0):void
+        {
+            if (k <= 0)
+            {
+                k = 1;
+            }
+            this._updateInterval = k;
+            if (((!(isNaN(_arg_2))) && (_arg_2 == 0)))
+            {
+                _arg_2 = NaN;
+            }
+            this._overshootTime = _arg_2;
+            if (((!(isNaN(_arg_3))) && (_arg_3 == 0)))
+            {
+                _arg_3 = NaN;
+            }
+            this._curveStrength = _arg_3;
+        }
+
+        protected function getCurveStrength(k:RoomObjectMoveUpdateMessage):Number
+        {
+            return k.curveStrength;
+        }
+
+        private function calculateCurveOffset(k:int, _arg_2:int):Number
+        {
+            if (((isNaN(this._curveStrength)) || (this._curveStrength == 0)))
+            {
+                return 0;
+            }
+            return (((4 * (((this._curveStrength / 100) * (this._locDelta.length / 4)) / (_arg_2 * _arg_2))) * k) * (_arg_2 - k));
+        }
+
+        private function fixDeltaAndIntervalForOvershooting():void
+        {
+            var _local_1:Number;
+            if (((!(isNaN(this._overshootTime))) && (!(this._overshootTime == 0))) && (!(this._updateInterval == 0)))
+            {
+                _local_1 = this._locDelta.z;
+                this._locDelta.mul(((this._updateInterval + this._overshootTime) / this._updateInterval));
+                this._locDelta.z = _local_1;
+                this._updateInterval = (this._updateInterval + this._overshootTime);
+            }
+        }
+
         override public function processUpdateMessage(k:RoomObjectUpdateMessage):void
         {
             var _local_3:IVector3d;
+            var _local_4:int;
             if (k == null)
             {
                 return;
             }
             super.processUpdateMessage(k);
+            var _local_2:RoomObjectMoveUpdateMessage = (k as RoomObjectMoveUpdateMessage);
+            if (((_local_2 != null) && (_local_2.skipPositionUpdate)))
+            {
+                return;
+            }
             if (k.loc != null)
             {
                 this._loc.assign(k.loc);
+                this._locDelta.x = 0;
+                this._locDelta.y = 0;
+                this._locDelta.z = 0;
             }
-            var _local_2:RoomObjectMoveUpdateMessage = (k as RoomObjectMoveUpdateMessage);
             if (_local_2 == null)
             {
                 return;
@@ -80,9 +136,12 @@
                 if (k.loc != null)
                 {
                     _local_3 = _local_2._Str_7569;
-                    this._changeTime = this._lastUpdateTime;
+                    _local_4 = int(((isNaN(_local_2.animationTime)) ? 500 : _local_2.animationTime));
+                    this.setMoveUpdateInterval(_local_4, _local_2.overshootAnimationTime, this.getCurveStrength(_local_2));
+                    this._changeTime = ((this._lastUpdateTime > 0) ? this._lastUpdateTime : getTimer());
                     this._locDelta.assign(_local_3);
                     this._locDelta.sub(this._loc);
+                    this.fixDeltaAndIntervalForOvershooting();
                 }
             }
         }
@@ -140,6 +199,10 @@
                 if (_local_2 != null)
                 {
                     helper_vector.add(_local_2);
+                }
+                if (((!(isNaN(this._curveStrength))) && (!(this._curveStrength == 0))))
+                {
+                    helper_vector.z = (helper_vector.z + this.calculateCurveOffset(_local_4, this._updateInterval));
                 }
                 if (object != null)
                 {

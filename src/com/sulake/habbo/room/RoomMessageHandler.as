@@ -35,6 +35,13 @@ package com.sulake.habbo.room
     import com.sulake.habbo.communication.messages.incoming.room.action.CarryObjectMessageEvent;
     import com.sulake.habbo.communication.messages.incoming.room.action.UseObjectMessageEvent;
     import com.sulake.habbo.communication.messages.incoming.room.engine.SlideObjectBundleMessageEvent;
+    import com.sulake.habbo.communication.messages.incoming.room.engine.WiredMovementsMessageEvent;
+    import com.sulake.habbo.communication.messages.incoming.room.engine.WiredFurniMovementData;
+    import com.sulake.habbo.communication.messages.incoming.room.engine.WiredUserMovementData;
+    import com.sulake.habbo.communication.messages.incoming.room.engine.WiredWallItemMovementData;
+    import com.sulake.habbo.communication.messages.incoming.room.engine.WiredUserDirectionData;
+    import com.sulake.room.object.IRoomObjectModel;
+    import com.sulake.habbo.communication.messages.parser.room.engine.WiredMovementsMessageParser;
     import com.sulake.habbo.communication.messages.incoming.room.chat.ChatMessageEvent;
     import com.sulake.habbo.communication.messages.incoming.room.chat.WhisperMessageEvent;
     import com.sulake.habbo.communication.messages.incoming.room.chat.ShoutMessageEvent;
@@ -236,6 +243,7 @@ package com.sulake.habbo.room
                 k.addMessageEvent(new CarryObjectMessageEvent(this.onCarryObject));
                 k.addMessageEvent(new UseObjectMessageEvent(this.onUseObject));
                 k.addMessageEvent(new SlideObjectBundleMessageEvent(this.onSlideUpdate));
+                k.addMessageEvent(new WiredMovementsMessageEvent(this.onWiredMovements));
                 k.addMessageEvent(new ChatMessageEvent(this.onChat));
                 k.addMessageEvent(new WhisperMessageEvent(this.onChat));
                 k.addMessageEvent(new ShoutMessageEvent(this.onChat));
@@ -1275,6 +1283,115 @@ package com.sulake.habbo.room
             }
         }
 
+        private function onWiredMovements(k:IMessageEvent):void
+        {
+            var _local_3:WiredUserMovementData;
+            var _local_4:WiredFurniMovementData;
+            var _local_5:WiredWallItemMovementData;
+            var _local_6:WiredUserDirectionData;
+            if (this._roomCreator == null)
+            {
+                return;
+            }
+            var _local_2:WiredMovementsMessageParser = (k as WiredMovementsMessageEvent).getParser();
+            if (_local_2 == null)
+            {
+                return;
+            }
+            for each (_local_3 in _local_2.userMoves)
+            {
+                this.onWiredUserMove(_local_3);
+            }
+            for each (_local_4 in _local_2.furniMoves)
+            {
+                this.onWiredFurniMove(_local_4);
+            }
+            for each (_local_5 in _local_2.wallItemMoves)
+            {
+                this.onWiredWallItemMove(_local_5);
+            }
+            for each (_local_6 in _local_2.userDirectionUpdates)
+            {
+                this.onUserDirectionUpdate(_local_6);
+            }
+        }
+
+        private function onWiredFurniMove(k:WiredFurniMovementData):void
+        {
+            var _local_2:IVector3d = new Vector3d((((k.rotation % 8)) * 45));
+            this._roomCreator.updateObjectFurnitureLocation(this._currentRoomId, k.furniId, k.source, _local_2, k.target, k.animationTime, k.overshootingDistance, k.curveStrength);
+        }
+
+        private function onWiredUserMove(k:WiredUserMovementData):void
+        {
+            var _local_2:Boolean;
+            var _local_3:IRoomInstance;
+            var _local_4:IRoomObject;
+            if (k.moveType == "sld")
+            {
+                _local_3 = this._roomCreator.getRoom(this._currentRoomId);
+                if (_local_3 != null)
+                {
+                    _local_4 = _local_3.getObject(k.userIndex, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER);
+                    if (_local_4 != null)
+                    {
+                        _local_2 = (_local_4.getModel().getNumber(RoomObjectVariableEnum.FIGURE_CAN_STAND_UP) > 0);
+                    }
+                }
+            }
+            var _local_5:IVector3d = new Vector3d((((k.bodyDirection % 8)) * 45));
+            var _local_6:Number = (((k.headDirection % 8)) * 45);
+            this._roomCreator.updateObjectUser(this._currentRoomId, k.userIndex, k.source, k.target, _local_2, 0, _local_5, _local_6, k.animationTime, false, k.jumpPower);
+            this.setUserMovePosture(k.userIndex, k.moveType);
+        }
+
+        private function onWiredWallItemMove(k:WiredWallItemMovementData):void
+        {
+            var _local_2:LegacyWallGeometry = this._roomCreator.getLegacyGeometry(this._currentRoomId);
+            if (_local_2 == null)
+            {
+                return;
+            }
+            var _local_3:String = (k.isDirectionRight ? "r" : "l");
+            var _local_4:IVector3d = _local_2.getLocation(k.oldWallX, k.oldWallY, k.oldOffsetX, k.oldOffsetY, _local_3);
+            var _local_5:IVector3d = _local_2.getLocation(k.newWallX, k.newWallY, k.newOffsetX, k.newOffsetY, _local_3);
+            this._roomCreator.updateObjectWallItemLocation(this._currentRoomId, k.itemId, _local_4, _local_5, k.animationTime);
+        }
+
+        private function onUserDirectionUpdate(k:WiredUserDirectionData):void
+        {
+            var _local_2:IVector3d = new Vector3d((((k.bodyDirection % 8)) * 45));
+            var _local_3:Number = (((k.bodyDirection % 8)) * 45);
+            this._roomCreator.updateObjectUserDir(this._currentRoomId, k.userIndex, _local_2, _local_3);
+        }
+
+        private function setUserMovePosture(k:int, _arg_2:String):void
+        {
+            var _local_4:IRoomObject;
+            var _local_5:String;
+            var _local_6:IRoomObjectModel;
+            var _local_7:String;
+            var _local_3:IRoomInstance = this._roomCreator.getRoom(this._currentRoomId);
+            if (_local_3)
+            {
+                _local_4 = _local_3.getObject(k, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER);
+            }
+            if (((!(_local_4 == null)) && (!(_local_4.getType() == RoomObjectUserTypes.MONSTERPLANT))))
+            {
+                _local_6 = _local_4.getModel();
+                switch (_arg_2)
+                {
+                    case "mv":
+                        _local_5 = "mv";
+                        break;
+                    case "sld":
+                        _local_7 = _local_6.getString(RoomObjectVariableEnum.FIGURE_POSTURE);
+                        _local_5 = ((_local_7 == "mv") ? "std" : _local_7);
+                }
+                this._roomCreator.updateObjectUserPosture(this._currentRoomId, k, _local_5);
+            }
+        }
+
         private function onSlideUpdate(k:IMessageEvent):void
         {
             var _local_2:SlideObjectBundleMessageParser;
@@ -1301,7 +1418,7 @@ package com.sulake.habbo.room
                     _local_5 = _local_3[_local_4];
                     if (_local_5 != null)
                     {
-                        this._roomCreator.updateObjectFurnitureLocation(this._currentRoomId, _local_5.id, _local_5.loc, _local_5.target);
+                        this._roomCreator.updateObjectFurnitureLocation(this._currentRoomId, _local_5.id, _local_5.loc, null, _local_5.target);
                     }
                     _local_4++;
                 }
