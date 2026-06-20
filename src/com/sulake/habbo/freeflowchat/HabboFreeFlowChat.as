@@ -432,6 +432,14 @@
 
         public function disableRoomMouseEventsLeftOfX(k:int):void
         {
+            // _roomEngine is an optional injected dependency. NGHWin's F5 reload disposes the
+            // RoomEngine component first, so the DI framework nulls _roomEngine back out while this
+            // chat component is still alive; a window resize in that window otherwise reaches here
+            // (via the chat tray) and throws #1009. Guarded like the _roomEngine == null check above.
+            if (this._roomEngine == null)
+            {
+                return;
+            }
             this._roomEngine.mouseEventsDisabledLeftToX = k;
         }
 

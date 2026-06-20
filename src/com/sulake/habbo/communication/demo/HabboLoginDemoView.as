@@ -119,6 +119,14 @@
             var _local_14:String;
             var _local_15:IWindowContainer;
             this._window.center();
+            if (HabboWebTools.isAirDesktop)
+            {
+                var _airCloseButton:IWindow = this._window.findChildByName("header_button_close");
+                if (_airCloseButton != null)
+                {
+                    _airCloseButton.visible = false;
+                }
+            }
             var k:IButtonWindow = (this._window.findChildByName("login_btn") as IButtonWindow);
             var _local_2:ITextFieldWindow = (this._window.findChildByName("name_field") as ITextFieldWindow);
             var _local_3:ITextFieldWindow = (this._window.findChildByName("pwd_field") as ITextFieldWindow);

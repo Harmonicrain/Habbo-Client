@@ -30,8 +30,15 @@
     import com.sulake.habbo.session.events.SessionDataToWidgetEvent;
     import flash.events.Event;
     import com.sulake.habbo.ui.widget.events._Str_6300;
+    import com.sulake.core.assets.IAsset;
+    import com.sulake.core.window.IWindow;
+    import com.sulake.core.window.IWindowContainer;
+    import com.sulake.core.window.events.WindowEvent;
+    import com.sulake.core.window.events.WindowMouseEvent;
+    import com.sulake.habbo.window.utils.IModalDialog;
+    import com.sulake.habbo.window.HabboWindowManagerComponent;
 
-    public class ChatInputWidgetHandler implements IRoomWidgetHandler 
+    public class ChatInputWidgetHandler implements IRoomWidgetHandler
     {
         private var _isDisposed:Boolean = false;
         private var _mouseToggle:Boolean = true;
@@ -288,6 +295,9 @@
                                             this._container.windowManager.displayFloorPlanEditor();
                                         }
                                         return null;
+                                    case ":daybreak":
+                                        this.showDaybreakAlert();
+                                        return null;
                                     case ":lang":
                                         (this._container.localization as ICoreLocalizationManager).activateLocalizationDefinition(commandArgument);
                                         return null;
@@ -448,6 +458,41 @@
                     break;
             }
             return null;
+        }
+
+        private function showDaybreakAlert():void
+        {
+            var asset:IAsset = this._container.windowManager.assets.getAssetByName("daybreak_alert_xml");
+            if (asset == null)
+            {
+                this._container.windowManager.simpleAlert("Daybreak", "", " ");
+                return;
+            }
+            var wm:HabboWindowManagerComponent = (this._container.windowManager as HabboWindowManagerComponent);
+            if (wm == null)
+            {
+                this._container.windowManager.simpleAlert("Daybreak", "", " ");
+                return;
+            }
+            var window:IWindowContainer = (wm.buildFromXML(asset.content as XML, 1) as IWindowContainer);
+            if (window == null)
+            {
+                return;
+            }
+            var desktop:IWindowContainer = (wm.getWindowContext(1).getDesktopWindow() as IWindowContainer);
+            if (desktop != null)
+            {
+                desktop.addChild(window);
+            }
+            window.procedure = function (event:WindowEvent, target:IWindow):void
+            {
+                if (((event.type == WindowMouseEvent.CLICK) && (target != null) && ((target.name == "close_button") || (target.name == "header_button_close"))))
+                {
+                    window.dispose();
+                }
+            };
+            window.center();
+            window.activate();
         }
 
         public function getProcessedEvents():Array

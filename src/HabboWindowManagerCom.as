@@ -173,7 +173,9 @@
         public static var habbo_crasher_dialog_xml:Class = HabboWindowManagerCom_habbo_crasher_dialog_xml;
         public static var unseen_item_counter_xml:Class = HabboWindowManagerCom_unseen_item_counter_xml;
         public static var simple_alert_xml:Class = HabboWindowManagerCom_simple_alert_xml;
+        public static var daybreak_alert_xml:Class = HabboWindowManagerCom_daybreak_alert_xml;
         public static var illumina_alert_illustrations_frank_neutral_png:Class = HabboWindowManagerCom_illumina_alert_illustrations_frank_neutral_png;
+        public static var daybreak_logo_png:Class = HabboWindowManagerCom_daybreak_logo_png;
         public static var habbo_skin_illumina_light_png:Class = HabboWindowManagerCom_habbo_skin_illumina_light_png;
         public static var illumina_light_balloon_png:Class = HabboWindowManagerCom_illumina_light_balloon_png;
         public static var illumina_light_border_etched_png:Class = HabboWindowManagerCom_illumina_light_border_etched_png;

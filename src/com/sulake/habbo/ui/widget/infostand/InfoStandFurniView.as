@@ -20,6 +20,8 @@
     import com.sulake.habbo.catalog.enum.CatalogType;
     import com.sulake.core.window.components.ITextWindow;
     import flash.display.BitmapData;
+    import flash.utils.Timer;
+    import flash.events.TimerEvent;
     import com.sulake.core.window.components.IBitmapWrapperWindow;
     import com.sulake.habbo.utils.FriendlyTime;
     import com.sulake.habbo.ui.widget.messages.RoomWidgetMessage;
@@ -46,6 +48,13 @@
         private const PICKUP_MODE_NONE:int = 0;
         private const PICKUP_MODE_EJECT:int = 1;
         private const PICKUP_MODE_FULL:int = 2;
+
+        private static const OFFSET_REPEAT_DELAY:int = 400;
+        private static const OFFSET_REPEAT_INTERVAL:int = 110;
+
+        private var _offsetRepeatTimer:Timer;
+        private var _offsetRepeatInput:IWindow;
+        private var _offsetRepeatDir:int = 0;
 
         protected var _window:IItemListWindow;
         protected var _customVarsWindow:IWindowContainer;
@@ -76,6 +85,12 @@
 
         public function dispose():void
         {
+            this.stopOffsetRepeat();
+            if (this._offsetRepeatTimer != null)
+            {
+                this._offsetRepeatTimer.removeEventListener(TimerEvent.TIMER, this.onOffsetRepeat);
+                this._offsetRepeatTimer = null;
+            }
             this._catalog = null;
             this._widget = null;
             this._window.dispose();
@@ -612,9 +627,13 @@
             var _local_4:IWindowContainer;
             var _local_5:IWindow;
             var _local_6:IWindow;
+            var _local_7:Boolean;
+            var _local_8:IWindow;
+            var _local_9:IWindow;
             if (this._infoElements != null)
             {
-                _local_3 = (this._widget.assets.getAssetByName("furni_view_branding_element") as XmlAsset);
+                _local_7 = this.isOffsetKey(k);
+                _local_3 = (this._widget.assets.getAssetByName((_local_7) ? "furni_view_branding_element_numeric" : "furni_view_branding_element") as XmlAsset);
                 if (_local_3 != null)
                 {
                     _local_4 = (this._widget.windowManager.buildFromXML((_local_3.content as XML)) as IWindowContainer);
@@ -631,6 +650,25 @@
                             _local_6.caption = _arg_2;
                             _local_6.addEventListener(WindowKeyboardEvent.WINDOW_EVENT_KEY_DOWN, this._Str_24509);
                         }
+                        if (_local_7)
+                        {
+                            _local_8 = _local_4.findChildByName("element_minus");
+                            if (_local_8 != null)
+                            {
+                                _local_8.addEventListener(WindowMouseEvent.DOWN, this.onOffsetButtonDown);
+                                _local_8.addEventListener(WindowMouseEvent.UP, this.onOffsetButtonUp);
+                                _local_8.addEventListener(WindowMouseEvent.UP_OUTSIDE, this.onOffsetButtonUp);
+                                _local_8.addEventListener(WindowMouseEvent.OUT, this.onOffsetButtonUp);
+                            }
+                            _local_9 = _local_4.findChildByName("element_plus");
+                            if (_local_9 != null)
+                            {
+                                _local_9.addEventListener(WindowMouseEvent.DOWN, this.onOffsetButtonDown);
+                                _local_9.addEventListener(WindowMouseEvent.UP, this.onOffsetButtonUp);
+                                _local_9.addEventListener(WindowMouseEvent.UP_OUTSIDE, this.onOffsetButtonUp);
+                                _local_9.addEventListener(WindowMouseEvent.OUT, this.onOffsetButtonUp);
+                            }
+                        }
                         if (((!(_local_5 == null)) && (!(_local_6 == null))))
                         {
                             this._infoElements.addListItem(_local_4);
@@ -638,6 +676,126 @@
                     }
                 }
             }
+        }
+
+        private function isOffsetKey(k:String):Boolean
+        {
+            return (((k == "offsetX") || (k == "offsetY")) || (k == "offsetZ"));
+        }
+
+        private function onOffsetButtonDown(k:WindowMouseEvent):void
+        {
+            var _local_2:IWindow = this.findOffsetButton(k.target as IWindow);
+            if (_local_2 == null)
+            {
+                return;
+            }
+            var _local_3:int = ((_local_2.name == "element_minus") ? -1 : 1);
+            var _local_4:IWindow = this.findOffsetInput(_local_2);
+            if (_local_4 == null)
+            {
+                return;
+            }
+            this.stepOffset(_local_4, _local_3);
+            this._offsetRepeatInput = _local_4;
+            this._offsetRepeatDir = _local_3;
+            if (this._offsetRepeatTimer == null)
+            {
+                this._offsetRepeatTimer = new Timer(OFFSET_REPEAT_DELAY, 0);
+                this._offsetRepeatTimer.addEventListener(TimerEvent.TIMER, this.onOffsetRepeat);
+            }
+            this._offsetRepeatTimer.reset();
+            this._offsetRepeatTimer.delay = OFFSET_REPEAT_DELAY;
+            this._offsetRepeatTimer.start();
+        }
+
+        private function onOffsetButtonUp(k:WindowMouseEvent=null):void
+        {
+            this.stopOffsetRepeat();
+        }
+
+        private function onOffsetRepeat(k:TimerEvent):void
+        {
+            if (this._offsetRepeatInput == null)
+            {
+                this.stopOffsetRepeat();
+                return;
+            }
+            if (this._offsetRepeatTimer != null)
+            {
+                this._offsetRepeatTimer.delay = OFFSET_REPEAT_INTERVAL;
+            }
+            this.stepOffset(this._offsetRepeatInput, this._offsetRepeatDir);
+        }
+
+        private function stopOffsetRepeat():void
+        {
+            if (this._offsetRepeatTimer != null)
+            {
+                this._offsetRepeatTimer.stop();
+            }
+            this._offsetRepeatInput = null;
+            this._offsetRepeatDir = 0;
+        }
+
+        private function findOffsetButton(k:IWindow):IWindow
+        {
+            var _local_2:IWindow = k;
+            while (_local_2 != null)
+            {
+                if (((_local_2.name == "element_minus") || (_local_2.name == "element_plus")))
+                {
+                    return _local_2;
+                }
+                _local_2 = _local_2.parent;
+            }
+            return null;
+        }
+
+        private function findOffsetInput(k:IWindow):IWindow
+        {
+            var _local_2:IWindow = k.parent;
+            var _local_3:IWindow;
+            while (_local_2 != null)
+            {
+                if ((_local_2 is IWindowContainer))
+                {
+                    _local_3 = IWindowContainer(_local_2).findChildByName("element_value");
+                    if (_local_3 != null)
+                    {
+                        return _local_3;
+                    }
+                }
+                _local_2 = _local_2.parent;
+            }
+            return null;
+        }
+
+        private function stepOffset(k:IWindow, _arg_2:int):void
+        {
+            var _local_3:Number = parseInt(k.caption);
+            if (isNaN(_local_3))
+            {
+                _local_3 = 0;
+            }
+            var _local_4:int = (int(_local_3) + _arg_2);
+            k.caption = String(_local_4);
+            this.sendBrandingSave();
+        }
+
+        private function sendBrandingSave():void
+        {
+            var _local_2:RoomWidgetMessage;
+            if (this._widget == null)
+            {
+                return;
+            }
+            if (!this._widget.handler.container.sessionDataManager.hasSecurity(SecurityLevelEnum.EMPLOYEE))
+            {
+                return;
+            }
+            _local_2 = new RoomWidgetFurniActionMessage(RoomWidgetFurniActionMessage.RWFAM_SAVE_STUFF_DATA, this._widget.furniData.id, this._widget.furniData.category, this._widget.furniData.purchaseOfferId, this._Str_22904());
+            this._widget.messageListener.processWidgetMessage(_local_2);
         }
 
         private function getAdFurnitureExtraParams():Map

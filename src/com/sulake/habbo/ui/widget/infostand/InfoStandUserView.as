@@ -16,6 +16,10 @@
     import com.sulake.core.assets.XmlAsset;
     import com.sulake.core.window.components.IWidgetWindow;
     import com.sulake.habbo.window.widgets.IAvatarImageWidget;
+    import com.sulake.habbo.room.preview.RoomPreviewer;
+    import com.sulake.habbo.room.IRoomEngine;
+    import com.sulake.core.window.components.IDisplayObjectWrapper;
+    import flash.display.DisplayObject;
     import com.sulake.core.window.IWindowContainer;
     import com.sulake.core.window.events.WindowKeyboardEvent;
     import com.sulake.habbo.window.widgets.IBadgeImageWidget;
@@ -59,6 +63,15 @@
         private var _Str_19966:int;
         protected var _Str_4966:IRegionWindow;
 
+        private static const PREVIEW_OFFSET_X:int = 0;
+        private static const PREVIEW_CANVAS_HEIGHT:int = 170;
+        private static const PREVIEW_CANVAS_OFFSET_Y:int = 8;
+        private static const PREVIEW_VIEW_OFFSET_Y:int = 0;
+        private static var _previewInstanceCounter:int = 1000;
+        private var _roomPreviewer:RoomPreviewer;
+        private var _previewCanvas:IDisplayObjectWrapper;
+        private var _previewFigure:String;
+
         public function InfoStandUserView(k:InfoStandWidget, _arg_2:String)
         {
             this._widget = k;
@@ -68,6 +81,7 @@
 
         public function dispose():void
         {
+            this.disposePreviewer();
             if (this._Str_4966)
             {
                 this._Str_4966.dispose();
@@ -328,8 +342,109 @@
 
         public function _Str_7907(k:String):void
         {
-            var _local_2:IAvatarImageWidget = (IWidgetWindow(this._border.findChildByName("avatar_image")).widget as IAvatarImageWidget);
-            _local_2.figure = k;
+            var _local_3:IWindow;
+            var _local_4:IAvatarImageWidget;
+            var _local_2:IWindow = this._border.findChildByName("avatar_image");
+            // Try the live, engine-animated avatar (clothing/hat/blink/idle); fall back to the static image.
+            if (this.showAnimatedAvatar(k))
+            {
+                if (_local_2 != null)
+                {
+                    _local_2.visible = false;
+                }
+                return;
+            }
+            this.disposePreviewer();
+            if (_local_2 != null)
+            {
+                _local_2.visible = true;
+                _local_4 = (IWidgetWindow(_local_2).widget as IAvatarImageWidget);
+                if (_local_4 != null)
+                {
+                    _local_4.figure = k;
+                }
+            }
+        }
+
+        // Lazily spins up a RoomPreviewer (room hidden) only while an avatar infostand is shown, then
+        // disposes it on close. Never created during room init, so it can't collide with the live room.
+        private function showAnimatedAvatar(k:String):Boolean
+        {
+            var engine:IRoomEngine;
+            var canvas:DisplayObject;
+            var w:int;
+            var h:int;
+            if (((this._widget == null) || (this._border == null)))
+            {
+                return false;
+            }
+            if (this._previewCanvas == null)
+            {
+                this._previewCanvas = (this._border.findChildByName("avatar_preview") as IDisplayObjectWrapper);
+            }
+            if (this._previewCanvas == null)
+            {
+                return false;
+            }
+            if (this._roomPreviewer == null)
+            {
+                engine = this._widget.handler.container.roomEngine;
+                if (engine == null)
+                {
+                    return false;
+                }
+                this._roomPreviewer = new RoomPreviewer(engine, _previewInstanceCounter++);
+                if (!this._roomPreviewer.isRoomEngineReady)
+                {
+                    this.disposePreviewer();
+                    return false;
+                }
+                w = this._previewCanvas.width;
+                h = PREVIEW_CANVAS_HEIGHT;
+                canvas = this._roomPreviewer.getRoomCanvas(w, h);
+                if (canvas == null)
+                {
+                    this.disposePreviewer();
+                    return false;
+                }
+                this._previewCanvas.setDisplayObject(canvas);
+                this._roomPreviewer.modifyRoomCanvas(w, h);
+                canvas.x = PREVIEW_OFFSET_X;
+                canvas.y = PREVIEW_CANVAS_OFFSET_Y;
+                this._previewCanvas.visible = true;
+                this._roomPreviewer.updateRoomWallsAndFloorVisibility(false, false);
+            }
+            if (!this._roomPreviewer.isRoomEngineReady)
+            {
+                return false;
+            }
+            this._roomPreviewer.addViewOffset = new Point(PREVIEW_OFFSET_X, PREVIEW_VIEW_OFFSET_Y);
+            this._roomPreviewer.addAvatarIntoRoom(k, 0);
+            this._roomPreviewer.updateAvatarDirection(4, 4);
+            this._roomPreviewer.updatePreviewRoomView(true);
+            this._roomPreviewer.updateRoomEngine();
+            this._previewCanvas.visible = true;
+            this._previewFigure = k;
+            return true;
+        }
+
+        public function hidePreview():void
+        {
+            this.disposePreviewer();
+        }
+
+        private function disposePreviewer():void
+        {
+            if (this._previewCanvas != null)
+            {
+                this._previewCanvas.visible = false;
+            }
+            if (this._roomPreviewer != null)
+            {
+                this._roomPreviewer.dispose();
+                this._roomPreviewer = null;
+            }
+            this._previewFigure = null;
         }
 
         public function _Str_12782(k:String, _arg_2:Boolean):void

@@ -162,6 +162,7 @@
         public static var badge_details:Class = HabboRoomUICom_badge_details;
         public static var furni_view:Class = HabboRoomUICom_furni_view;
         public static var furni_view_branding_element:Class = HabboRoomUICom_furni_view_branding_element;
+        public static var furni_view_branding_element_numeric:Class = HabboRoomUICom_furni_view_branding_element_numeric;
         public static var user_tag:Class = HabboRoomUICom_user_tag;
         public static var user_tag_highlighted:Class = HabboRoomUICom_user_tag_highlighted;
         public static var user_view:Class = HabboRoomUICom_user_view;

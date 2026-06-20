@@ -7,7 +7,10 @@
     import com.sulake.core.utils.LibraryLoader;
     import com.sulake.core.utils.LibraryLoaderEvent;
     import com.sulake.core.Core;
+    import com.sulake.habbo.utils.HabboWebTools;
     import flash.events.Event;
+    import flash.system.ApplicationDomain;
+    import flash.system.LoaderContext;
 
     public class AvatarAssetDownloadLibrary extends EventDispatcherWrapper 
     {
@@ -35,6 +38,7 @@
             if (_local_7 != null)
             {
                 this._state = _Str_599;
+                HabboWebTools.recordAvatarAssetDiagnostic("cached", this._libraryName, this._downloadUrl);
             }
         }
 
@@ -47,7 +51,9 @@
         {
             this._state = _Str_997;
             var k:URLRequest = new URLRequest(this._downloadUrl);
-            var _local_2:LibraryLoader = new LibraryLoader();
+            var _local_3:LoaderContext = new LoaderContext(false, new ApplicationDomain(null), null);
+            var _local_2:LibraryLoader = new LibraryLoader(_local_3);
+            HabboWebTools.recordAvatarAssetDiagnostic("start", this._libraryName, this._downloadUrl);
             this._assets.loadFromFile(_local_2, true);
             _local_2.addEventListener(LibraryLoaderEvent.LIBRARY_LOADER_EVENT_COMPLETE, this.onLoaderComplete);
             _local_2.addEventListener(LibraryLoaderEvent.LIBRARY_LOADER_EVENT_ERROR, this.onLoaderError);
@@ -56,6 +62,7 @@
 
         private function onLoaderError(k:LibraryLoaderEvent):void
         {
+            HabboWebTools.recordAvatarAssetDiagnostic("error", this._libraryName, this._downloadUrl, (((("status=" + k.status) + " bytes=") + k.bytesLoaded) + "/") + k.bytesTotal);
             Core.error(((((((((("Could not load avatar asset library " + this._libraryName) + " from URL ") + this._downloadUrl) + " HTTP status ") + k.status) + " bytes loaded ") + k.bytesLoaded) + "/") + k.bytesTotal), false, Core.ERROR_CATEGORY_DOWNLOAD_LIBRARY);
         }
 
@@ -64,6 +71,7 @@
             var _local_2:LibraryLoader = (k.target as LibraryLoader);
             _local_2.removeEventListener(LibraryLoaderEvent.LIBRARY_LOADER_EVENT_COMPLETE, this.onLoaderComplete);
             _local_2.removeEventListener(LibraryLoaderEvent.LIBRARY_LOADER_EVENT_ERROR, this.onLoaderError);
+            HabboWebTools.recordAvatarAssetDiagnostic("complete", this._libraryName, this._downloadUrl, (((("bytes=" + _local_2.bytesLoaded) + "/") + _local_2.bytesTotal) + " url=") + _local_2.url);
             this._state = _Str_599;
             dispatchEvent(new Event(Event.COMPLETE));
         }

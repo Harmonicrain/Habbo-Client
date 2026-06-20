@@ -34,6 +34,12 @@
         private var _animationStartWidth:Number = 0;
         private var _animationTargetWidth:int = 0;
         private var _animationElapsed:int = 0;
+        // Cached tray_bar asset width. NGHWin's F5 reload can dispose the shared asset-library
+        // BitmapData while a tray still references it; a later stage resize then reads the disposed
+        // BitmapData.width and throws ArgumentError #2015, aborting the client. Capture the (fixed)
+        // width once at construction (while valid) and never touch the live BitmapData in
+        // resize/applyTrayWidth. May never hits this (it doesn't dispose these assets mid-session).
+        private var _tabBgWidth:int = 0;
 
         public function ChatHistoryTray(k:HabboFreeFlowChat, _arg_2:ChatHistoryScrollView)
         {
@@ -42,10 +48,11 @@
             this._rootDisplayObject = new Sprite();
             this._tabBg = new Bitmap();
             this._tabBg.bitmapData = BitmapData(this._component.assets.getAssetByName("tray_bar").content);
-            this._tabBg.width = this._tabBg.bitmapData.width;
+            this._tabBgWidth = this._tabBg.bitmapData.width;
+            this._tabBg.width = this._tabBgWidth;
             this._tabBg.height = 0;
             this._tabBg.scaleX = 1;
-            this._tabBg.x = -(this._tabBg.bitmapData.width);
+            this._tabBg.x = -(this._tabBgWidth);
             this._tabHandle = new Bitmap();
             this._tabHandle.bitmapData = BitmapData(this._component.assets.getAssetByName("tray_handle_open").content);
             this._tabHandle.scaleX = 1;
@@ -224,11 +231,11 @@
             var _local_2:int = Math.max(0, Math.min(this._openedWidth, k));
             this._currentWidth = _local_2;
             this._bg.width = _local_2;
-            this._tabBg.x = (_local_2 > 0) ? _local_2 : -(this._tabBg.bitmapData.width);
+            this._tabBg.x = (_local_2 > 0) ? _local_2 : -(this._tabBgWidth);
             this._tabHandle.visible = (_local_2 > 0);
-            this._tabHandle.x = ((_local_2 - ChatHistoryLayoutEnum._Str_10590) + this._tabBg.bitmapData.width);
+            this._tabHandle.x = ((_local_2 - ChatHistoryLayoutEnum._Str_10590) + this._tabBgWidth);
             this._scrollView._Str_20800 = _local_2;
-            this._component.disableRoomMouseEventsLeftOfX((_local_2 > 0) ? (_local_2 + this._tabBg.bitmapData.width) : 0);
+            this._component.disableRoomMouseEventsLeftOfX((_local_2 > 0) ? (_local_2 + this._tabBgWidth) : 0);
         }
 
         private function refreshUpdateRegistration():void

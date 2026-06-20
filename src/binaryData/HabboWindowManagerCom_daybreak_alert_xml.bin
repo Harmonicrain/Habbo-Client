@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout name="daybreak_alert" width="300" height="209" version="0.1">
+  <window>
+    <frame x="0" y="0" width="300" height="209" params="163841" style="3" caption="Daybreak" color="0x0418db0">
+      <filters>
+        <DropShadowFilter distance="4" alpha="0.34901960784313724" blurX="4" blurY="4"/>
+      </filters>
+      <children>
+        <static_bitmap x="30" y="14" width="240" height="98" params="16" style="100" name="daybreak_logo">
+          <variables>
+            <var key="asset_uri" value="daybreak_logo_png" type="String"/>
+            <var key="stretched_x" value="false" type="Boolean"/>
+            <var key="stretched_y" value="false" type="Boolean"/>
+          </variables>
+        </static_bitmap>
+        <static_bitmap x="10" y="124" width="280" height="13" params="16" style="100">
+          <variables>
+            <var key="asset_uri" value="illumina_horizontal_separator" type="String"/>
+            <var key="pivot_point" value="bottom center" type="String"/>
+            <var key="stretched_y" value="false" type="Boolean"/>
+          </variables>
+        </static_bitmap>
+        <button_thick x="107" y="142" width="86" height="28" params="131281" style="3" name="close_button" caption="%24%7Balert.close.button%7D" color="0x0efefef"/>
+      </children>
+      <variables>
+        <var key="margin_left" value="1" type="int"/>
+        <var key="margin_top" value="30" type="int"/>
+        <var key="margin_right" value="1" type="int"/>
+        <var key="margin_bottom" value="1" type="int"/>
+      </variables>
+    </frame>
+  </window>
+</layout>

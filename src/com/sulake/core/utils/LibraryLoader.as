@@ -12,6 +12,7 @@
     import flash.events.HTTPStatusEvent;
     import flash.events.IOErrorEvent;
     import flash.events.SecurityErrorEvent;
+    import flash.events.UncaughtErrorEvent;
     import flash.utils.getTimer;
     import flash.display.DisplayObject;
     import flash.utils.Timer;
@@ -33,8 +34,8 @@
         protected static const ZIP_STATE_READY:uint = 8;
         public static const DEFAULT_MAX_RETRIES:int = 5;
         public static const LIBRARY_LOADER_FINALIZE:String = "LIBRARY_LOADER_FINALIZE";
-        public static const USE_DOWNLOAD_THROTTLING:Boolean = false;
-        public static const MAX_SIMULTANEOUS_DOWNLOADS:int = 2;
+        public static const USE_DOWNLOAD_THROTTLING:Boolean = true;
+        public static const MAX_SIMULTANEOUS_DOWNLOADS:int = 6;
         private static var _throttleQueue:Array = new Array();
         private static var _activeDownloads:Array = new Array();
 
@@ -80,6 +81,7 @@
             this._loader.contentLoaderInfo.addEventListener(HTTPStatusEvent.HTTP_STATUS, this.loadEventHandler);
             this._loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, this.loadEventHandler);
             this._loader.contentLoaderInfo.addEventListener(SecurityErrorEvent.SECURITY_ERROR, this.loadEventHandler);
+            this._loader.contentLoaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, this.uncaughtErrorHandler);
         }
 
         protected static function addRequestCounterToUrlRequest(request:URLRequest, counter:int):void
@@ -615,6 +617,32 @@
                 this._loader.contentLoaderInfo.removeEventListener(HTTPStatusEvent.HTTP_STATUS, this.loadEventHandler);
                 this._loader.contentLoaderInfo.removeEventListener(IOErrorEvent.IO_ERROR, this.loadEventHandler);
                 this._loader.contentLoaderInfo.removeEventListener(SecurityErrorEvent.SECURITY_ERROR, this.loadEventHandler);
+                this._loader.contentLoaderInfo.uncaughtErrorEvents.removeEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, this.uncaughtErrorHandler);
+            }
+        }
+
+        protected function uncaughtErrorHandler(event:UncaughtErrorEvent):void
+        {
+            var errorObject:Object = event.error;
+            var error:Error = errorObject as Error;
+            var message:String = "LIBRARY_UNCAUGHT name=" + this._name + " url=" + this.url + " eventType=" + event.type + " errorID=" + event.errorID;
+            if (error != null)
+            {
+                message += " errorMessage=" + error.message;
+            }
+            else if (errorObject != null)
+            {
+                message += " errorValue=" + String(errorObject);
+            }
+            HabboWebTools.airDebug(message);
+            if (message.indexOf("#1074") >= 0 && message.indexOf("ByteArrayAsset") >= 0)
+            {
+                HabboWebTools.recordAvatarAssetDiagnostic("flex-collision", this._name, this.url, message);
+                if (event.cancelable)
+                {
+                    event.preventDefault();
+                }
+                event.stopImmediatePropagation();
             }
         }
 

@@ -161,6 +161,7 @@
             <asset mimeType="text/xml" name="badge_details"/>
             <asset mimeType="text/xml" name="furni_view"/>
             <asset mimeType="text/xml" name="furni_view_branding_element"/>
+            <asset mimeType="text/xml" name="furni_view_branding_element_numeric"/>
             <asset mimeType="text/xml" name="user_tag"/>
             <asset mimeType="text/xml" name="user_tag_highlighted"/>
             <asset mimeType="text/xml" name="user_view"/>

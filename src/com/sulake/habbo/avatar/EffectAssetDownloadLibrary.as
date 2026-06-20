@@ -10,6 +10,8 @@
     import com.sulake.core.Core;
     import flash.utils.ByteArray;
     import flash.events.Event;
+    import flash.system.ApplicationDomain;
+    import flash.system.LoaderContext;
 
     public class EffectAssetDownloadLibrary extends EventDispatcherWrapper implements INamed
     {
@@ -50,7 +52,8 @@
         {
             this._state = _Str_997;
             var k:URLRequest = new URLRequest(this._downloadUrl);
-            var _local_2:LibraryLoader = new LibraryLoader();
+            var _local_3:LoaderContext = new LoaderContext(false, new ApplicationDomain(null), null);
+            var _local_2:LibraryLoader = new LibraryLoader(_local_3);
             this._assets.loadFromFile(_local_2, true);
             _local_2.addEventListener(LibraryLoaderEvent.LIBRARY_LOADER_EVENT_COMPLETE, this.onLoaderComplete);
             _local_2.addEventListener(LibraryLoaderEvent.LIBRARY_LOADER_EVENT_ERROR, this.onLoaderError);

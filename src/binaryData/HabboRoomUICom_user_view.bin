@@ -43,6 +43,7 @@
                             <var key="avatar_image:direction" value="southwest" type="String"/>
                           </variables>
                         </widget>
+                        <display_object_wrapper x="0" y="2" width="66" height="124" params="0" style="0" name="avatar_preview" visible="false"/>
                       </children>
                       <variables>
                         <var key="tool_tip_caption" value="${infostand.profile.link.tooltip}" type="String"/>

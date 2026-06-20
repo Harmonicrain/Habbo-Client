@@ -140,28 +140,32 @@
         private function getTargetY(k:Boolean):int
         {
             var _local_2:int;
-            var _local_3:int;
             if (!_window)
             {
                 return 0;
             }
-            if (k)
+            var _local_4:int = _widget.getRoomToolbarTop();
+            // getRoomToolbarTop() returns 0 as a "not laid out yet" sentinel (toolbar window null).
+            // During a window resize the geometry queried here can be transiently unavailable; anchor
+            // to the bottom of the desktop in that case instead of to a bogus toolbar top, otherwise
+            // the info box flickers to the top-left for a frame.
+            if (k || _local_4 <= 0)
             {
                 _local_2 = (((_window.desktop.height - DISTANCE_FROM_BOTTOM) - _window.height) - COLLAPSED_INFO_LIFT);
             }
             else
             {
-                _local_2 = ((_widget.getRoomToolbarTop() - _window.height) - MARGIN);
+                _local_2 = ((_local_4 - _window.height) - MARGIN);
             }
             if (_local_2 < MARGIN)
             {
                 _local_2 = MARGIN;
             }
-            _local_3 = _widget.getChatInputY();
-            if (_local_3 < (_local_2 + _window.height))
-            {
-                _local_2 = ((_local_3 - _window.height) - MARGIN);
-            }
+            // No chat-input overlap lift: the info box sits in the bottom-LEFT column (above the room
+            // toolbar) and never overlaps the bottom-centre chat input / chat-bubble picker. The old
+            // getChatInputY() clamp lifted the box by the chat-input container's height, so opening the
+            // bubble picker (which makes that container tall) shoved the info box to the top-left on the
+            // next resize. The toolbar itself coexists with the chat input without any such lift.
             return _local_2;
         }
 

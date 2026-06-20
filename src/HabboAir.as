@@ -67,6 +67,7 @@ package
         private static const AIR_USER_AGENT:String = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0 Safari/537.36";
         private static const UBUNTU_REGULAR_FONT:Class = _Str_10940;
         private static const UBUNTU_BOLD_FONT:Class = _Str_11970;
+        private static const MODAL_GUARD_EVENTS:Array = [MouseEvent.MOUSE_DOWN, MouseEvent.MOUSE_UP, MouseEvent.CLICK, MouseEvent.DOUBLE_CLICK, MouseEvent.MOUSE_MOVE, MouseEvent.MOUSE_WHEEL, MouseEvent.MOUSE_OVER, MouseEvent.MOUSE_OUT, MouseEvent.ROLL_OVER, MouseEvent.ROLL_OUT, MouseEvent.RIGHT_CLICK, MouseEvent.RIGHT_MOUSE_DOWN, MouseEvent.RIGHT_MOUSE_UP, MouseEvent.MIDDLE_MOUSE_DOWN, MouseEvent.MIDDLE_MOUSE_UP];
 
         private static var _instance:HabboAir;
 
@@ -106,6 +107,7 @@ package
         private var _configBaseUrl:String = DEFAULT_BASE_URL;
         private var _configGordonPath:String = GORDON_PATH;
         private var _reloadInProgress:Boolean = false;
+        private var _modalGuardActive:Boolean = false;
 
         public function HabboAir()
         {
@@ -268,6 +270,7 @@ package
                 else
                 {
                     removeChangelogOverlay();
+                    updateModalGuard();
                 }
                 return;
             }
@@ -290,6 +293,7 @@ package
             else
             {
                 removeConsoleOverlay();
+                updateModalGuard();
             }
         }
 
@@ -525,6 +529,9 @@ package
             this._errorOverlayLayer = null;
             this._consoleVisible = false;
             removeConsoleOverlay();
+            this._changelogVisible = false;
+            removeChangelogOverlay();
+            updateModalGuard();
             hideLoginBackgroundInternal();
             setWindowTitleForUserInternal(null);
             setAirParameter("sso.ticket", "");
@@ -697,6 +704,8 @@ package
 
             stage.addChild(this._consoleLayer);
             stage.addEventListener(Event.RESIZE, renderConsoleOverlay);
+            installModalSwallow(this._consoleLayer);
+            updateModalGuard();
         }
 
         private function removeConsoleOverlay(removeResize:Boolean=true):void
@@ -725,6 +734,98 @@ package
                 this._consoleLayer.parent.removeChild(this._consoleLayer);
             }
             this._consoleLayer = null;
+        }
+
+        private function updateModalGuard():void
+        {
+            if (((this._consoleVisible) || (this._changelogVisible)))
+            {
+                enableModalGuard();
+            }
+            else
+            {
+                disableModalGuard();
+            }
+        }
+
+        private function enableModalGuard():void
+        {
+            var type:String;
+            if (((this._modalGuardActive) || (stage == null)))
+            {
+                return;
+            }
+            this._modalGuardActive = true;
+            for each (type in MODAL_GUARD_EVENTS)
+            {
+                stage.addEventListener(type, onModalGuardMouse, true, int.MAX_VALUE, true);
+            }
+        }
+
+        private function disableModalGuard():void
+        {
+            var type:String;
+            if (!this._modalGuardActive)
+            {
+                return;
+            }
+            this._modalGuardActive = false;
+            if (stage == null)
+            {
+                return;
+            }
+            for each (type in MODAL_GUARD_EVENTS)
+            {
+                stage.removeEventListener(type, onModalGuardMouse, true);
+            }
+        }
+
+        private function installModalSwallow(layer:Sprite):void
+        {
+            var type:String;
+            if (layer == null)
+            {
+                return;
+            }
+            for each (type in MODAL_GUARD_EVENTS)
+            {
+                layer.addEventListener(type, onModalSwallow);
+            }
+        }
+
+        private function onModalSwallow(event:MouseEvent):void
+        {
+            event.stopPropagation();
+        }
+
+        private function onModalGuardMouse(event:MouseEvent):void
+        {
+            if (isWithinActiveOverlay(event.target as DisplayObject))
+            {
+                return;
+            }
+            event.stopImmediatePropagation();
+            if (event.cancelable)
+            {
+                event.preventDefault();
+            }
+        }
+
+        private function isWithinActiveOverlay(target:DisplayObject):Boolean
+        {
+            if (target == null)
+            {
+                return false;
+            }
+            if (((this._consoleLayer != null) && ((target == this._consoleLayer) || (this._consoleLayer.contains(target)))))
+            {
+                return true;
+            }
+            if (((this._changelogLayer != null) && ((target == this._changelogLayer) || (this._changelogLayer.contains(target)))))
+            {
+                return true;
+            }
+            return false;
         }
 
         private function showChangelogOverlay():void
@@ -902,6 +1003,8 @@ package
 
             stage.addChild(this._changelogLayer);
             stage.addEventListener(Event.RESIZE, renderChangelogOverlay);
+            installModalSwallow(this._changelogLayer);
+            updateModalGuard();
         }
 
         private function removeChangelogOverlay(removeResize:Boolean=true):void
@@ -937,6 +1040,7 @@ package
         {
             this._changelogVisible = false;
             removeChangelogOverlay();
+            updateModalGuard();
         }
 
         private function onChangelogCloseOver(event:MouseEvent):void
@@ -987,6 +1091,7 @@ package
         {
             this._consoleVisible = false;
             removeConsoleOverlay();
+            updateModalGuard();
         }
 
         private function onConsoleCloseOver(event:MouseEvent):void
@@ -1391,6 +1496,24 @@ package
                 }
             }
             debugLogInternal("UNCAUGHT: " + message);
+            if (message.indexOf("#1074") >= 0 || message.indexOf("ByteArrayAsset") >= 0)
+            {
+                debugLogInternal("UNCAUGHT_FLEX_DIAG recentAvatarAssets=" + HabboWebTools.getAvatarAssetDiagnostics());
+            }
+            // While a reload is tearing the old client down, transient errors are expected and harmless:
+            // disposing components/assets can race a stage resize (e.g. an F5 + window resize hitting a
+            // half-disposed chat widget -> ArgumentError #2015 on a disposed BitmapData). The client is
+            // about to reload, so swallow these instead of showing the fatal "stopped unexpectedly" dialog.
+            if (this._reloadInProgress)
+            {
+                debugLogInternal("UNCAUGHT during reload — swallowed as non-fatal: " + message);
+                if (event.cancelable)
+                {
+                    event.preventDefault();
+                }
+                event.stopImmediatePropagation();
+                return;
+            }
             if ((errorObject is IOErrorEvent) || (errorObject is SecurityErrorEvent))
             {
                 showErrorInternal("Required files could not load", "The app could not download one of the files it needs to start. Check that base.url and gordon.path in config.ini point to a working web server.", message);

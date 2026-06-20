@@ -139,6 +139,7 @@
             this._builderTriggerHolder.register(new BotReachedStuffElement());
             this._builderTriggerHolder.register(new BotReachedAvatarElement());
             this._builderTriggerHolder.register(new ClockReachTimeElement());
+            this._builderTriggerHolder.register(new UserPerformsActionElement());
             this._builderTriggerHolder.register(new FurniTriggerElement(WiredTriggerType.AVATAR_CLICKS_FURNI));
             this._builderTriggerHolder.register(new PeriodicShortElement());
             this._builderTriggerHolder.register(new FurniTriggerElement(WiredTriggerType.STATE_CHANGE));
@@ -350,18 +351,28 @@
             {
                 this._window.visible = false;
             }
-            this.hideFurniHighlights();
-            if (this._updated != null)
+            if (this._frame != null)
             {
-                this._furniHighLighter.unhighlightActiveWired(this._updated.id);
+                this.closeBuilder();
+            }
+            else
+            {
+                this.hideFurniHighlights();
+                if (this._updated != null)
+                {
+                    this._furniHighLighter.unhighlightActiveWired(this._updated.id);
+                }
             }
             this._updated = k;
             this._builderHolder = _arg_2;
             this._builderElement = _arg_3;
-            this._stuffs = new Dictionary();
-            this._stuffs2 = new Dictionary();
             this._dualFurniPickingMode = k.inputSourcesConf.isDualFurniPickingMode();
             this._activeFurniPicks = 1;
+            this.createBuilderWindow(_arg_2, _arg_3);
+            this._furniHighLighter.highlightActiveWired(this._updated.id);
+            this.hideFurniHighlights();
+            this._stuffs = new Dictionary();
+            this._stuffs2 = new Dictionary();
             for each (_local_4 in this._updated.selectedItems)
             {
                 this._stuffs[_local_4] = "yes";
@@ -370,10 +381,8 @@
             {
                 this._stuffs2[_local_4] = "yes";
             }
-            this._furniHighLighter.highlightActiveWired(this._updated.id);
-            this.showFurniHighlights();
-            this.createBuilderWindow(_arg_2, _arg_3);
             this._builderElement.onEditStart(k);
+            this.showFurniHighlights();
             this._headerPreset.updateName(this._Str_16874(k.spriteId));
             if ((this._delayPreset != null) && ((k as ActionDefinition) != null))
             {
@@ -469,14 +478,8 @@
 
         private function hideFurniHighlights():void
         {
-            if (this._dualFurniPickingMode)
-            {
-                this._furniHighLighter._Str_21701(this._stuffs, true, 1);
-                this._furniHighLighter._Str_21701(this._stuffs2, true, 2);
-                return;
-            }
-            this._furniHighLighter._Str_21701(this._stuffs, false, 0);
-            this._furniHighLighter._Str_21701(this._stuffs2, false, 0);
+            this._furniHighLighter._Str_21701(this._stuffs, true, 1);
+            this._furniHighLighter._Str_21701(this._stuffs2, true, 2);
         }
 
         private function createAdvancedSections(k:Triggerable, _arg_2:IWiredTypeHolder, _arg_3:IWiredElement, _arg_4:WiredUIBuilder):void
@@ -719,18 +722,20 @@
 
         private function closeBuilder():void
         {
-            this.hideBuilderFrame();
             if (this._updated != null)
             {
                 this._furniHighLighter.unhighlightActiveWired(this._updated.id);
+                if (this._builderElement != null)
+                {
+                    this._builderElement.onEditEnd();
+                }
+                this._updated = null;
+                this._builderElement = null;
             }
             this.hideFurniHighlights();
-            if (this._builderElement != null)
-            {
-                this._builderElement.onEditEnd();
-            }
             this._stuffs = new Dictionary();
             this._stuffs2 = new Dictionary();
+            this.hideBuilderFrame();
             this._dualFurniPickingMode = false;
             this._activeFurniPicks = 1;
             this._builderHolder = null;

@@ -165,6 +165,7 @@
             <asset mimeType="text/xml" name="habbo_window_confirm_xml"/>
             <asset mimeType="text/xml" name="habbo_crasher_dialog_xml"/>
             <asset mimeType="text/xml" name="simple_alert_xml"/>
+            <asset mimeType="text/xml" name="daybreak_alert_xml"/>
 
             <asset mimeType="image/png" name="placeholder_avatar_png"/>
             <asset mimeType="image/png" name="placeholder_avatar_head_png"/>
@@ -202,6 +203,7 @@
 
             <!-- Illumina generic windows -->
             <asset mimeType="image/png" name="illumina_alert_illustrations_frank_neutral_png"/>
+            <asset mimeType="image/png" name="daybreak_logo_png"/>
 
             <!-- Illumina light -->
             <asset mimeType="image/png" name="illumina_light_balloon_png"/>
