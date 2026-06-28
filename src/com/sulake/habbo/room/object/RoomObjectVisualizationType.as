@@ -34,6 +34,7 @@
         public static const FURNITURE_BUILDER_PLACEHOLDER:String = "furniture_builder_placeholder";
         public static const ROOM:String = "room";
         public static const PUBLIC_ROOM:String = "room_public";
+        public static const PUBLIC_ROOM_PARK:String = "room_public_park";
         public static const USER:String = "user";
         public static const PET_ANIMATED:String = "pet_animated";
         public static const BOT:String = "bot";

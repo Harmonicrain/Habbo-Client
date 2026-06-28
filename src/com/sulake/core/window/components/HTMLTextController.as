@@ -30,6 +30,13 @@
             this._Str_9241 = PropertyKeys.HTML_LINK_TARGET_VALUE;
             super(k, _arg_2, _arg_3, _arg_4, _arg_5, _arg_6, _arg_7, _arg_8, _arg_9, _arg_10, _arg_11);
             this.immediateClickMode = true;
+            // Whitelist the image hosts so the AIR application-sandbox TextField may load inline
+            // <img> tags natively (matches the official client). Requires a SWF v51 build: the
+            // property is only exposed to v51 SWFs (build.bat patches the header after compile).
+            if (("allowedDomains" in _field))
+            {
+                _field["allowedDomains"] = new <String>["localhost", "127.0.0.1", "swf.nextgenhabbo.com", "www.nextgenhabbo.com", "nextgenhabbo.com", "images.habbo.com", "images-eussl.habbo.com", "www.habbo.com", "habboo-a.akamaihd.net"];
+            }
             _field.type = TextFieldType.DYNAMIC;
             _field.mouseEnabled = true;
             _field.selectable = false;

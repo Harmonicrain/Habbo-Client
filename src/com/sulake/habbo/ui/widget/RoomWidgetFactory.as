@@ -41,6 +41,7 @@
     import com.sulake.habbo.ui.widget.furniture.friendfurni.FriendFurniConfirmWidget;
     import com.sulake.habbo.ui.widget.furniture.friendfurni.FriendFurniEngravingWidget;
     import com.sulake.habbo.ui.widget.furniture.highscore.HighScoreDisplayWidget;
+    import com.sulake.habbo.ui.widget.furniture.gamehall.GamehallGameWidget;
     import com.sulake.habbo.ui.widget.furniture.customstackheight.CustomStackHeightWidget;
     import com.sulake.habbo.ui.widget.furniture.video.YoutubeDisplayWidget;
     import com.sulake.habbo.ui.widget.furniture.rentablespace.RentableSpaceDisplayWidget;
@@ -152,6 +153,8 @@
                     return new FriendFurniEngravingWidget(_arg_2, windowManager, assets, this._roomUI.localization);
                 case RoomWidgetEnum.HIGH_SCORE_DISPLAY:
                     return new HighScoreDisplayWidget(_arg_2, windowManager, assets, this._roomUI.localization);
+                case RoomWidgetEnum.GAMEHALL_BOARD:
+                    return new GamehallGameWidget(_arg_2, windowManager, assets, this._roomUI.localization);
                 case RoomWidgetEnum.CUSTOM_STACK_HEIGHT:
                     return new CustomStackHeightWidget(_arg_2, windowManager, assets, this._roomUI.localization);
                 case RoomWidgetEnum.YOUTUBE:

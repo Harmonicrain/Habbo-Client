@@ -12,6 +12,7 @@
     import com.sulake.room.object.visualization.IRoomObjectVisualizationData;
     import com.sulake.habbo.room.object.visualization.room.RoomVisualization;
     import com.sulake.habbo.room.object.visualization.room.publicroom.PublicRoomVisualization;
+    import com.sulake.habbo.room.object.visualization.room.publicroom.PublicRoomParkVisualization;
     import com.sulake.habbo.room.object.visualization.room.publicroom.PublicRoomVisualizationData;
     import com.sulake.habbo.room.object.visualization.room.TileCursorVisualization;
     import com.sulake.habbo.room.object.visualization.avatar.AvatarVisualization;
@@ -117,6 +118,9 @@
                     break;
                 case RoomObjectVisualizationType.PUBLIC_ROOM:
                     _local_2 = PublicRoomVisualization;
+                    break;
+                case RoomObjectVisualizationType.PUBLIC_ROOM_PARK:
+                    _local_2 = PublicRoomParkVisualization;
                     break;
                 case RoomObjectVisualizationType.TILE_CURSOR:
                     _local_2 = TileCursorVisualization;
@@ -295,6 +299,7 @@
                     _local_5 = RoomVisualizationData;
                     break;
                 case RoomObjectVisualizationType.PUBLIC_ROOM:
+                case RoomObjectVisualizationType.PUBLIC_ROOM_PARK:
                     _local_5 = PublicRoomVisualizationData;
                     break;
                 case RoomObjectVisualizationType.USER:

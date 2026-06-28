@@ -54,6 +54,7 @@
         public static const UI_HELP_BUBBLE:String = "RWE_UI_HELP_BUBBLE";
         public static const ROOM_LINK:String = "RWE_ROOM_LINK";
         public static const CRAFTING:String = "RWE_CRAFTING";
+        public static const GAMEHALL_BOARD:String = "RWE_GAMEHALL_BOARD";
 		public static const ROOMGAME_CHECKERS:String = "RWE_GAME_CHECKERS";
     }
 }

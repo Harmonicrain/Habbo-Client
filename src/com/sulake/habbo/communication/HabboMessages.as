@@ -53,6 +53,10 @@
 	import com.sulake.habbo.communication.messages.incoming.room.pets.PetInfoMessageEvent;
 	import com.sulake.habbo.communication.messages.incoming.room.pets.PetExperienceEvent;
 	import com.sulake.habbo.communication.messages.incoming.room.pets.PetPlacingErrorEvent;
+	import com.sulake.habbo.communication.messages.incoming.room.publicroom.BusDoorMessageEvent;
+	import com.sulake.habbo.communication.messages.incoming.games.OpenGameBoardMessageEvent;
+	import com.sulake.habbo.communication.messages.incoming.games.GameBoardUpdateMessageEvent;
+	import com.sulake.habbo.communication.messages.incoming.games.CloseGameBoardMessageEvent;
 	import com.sulake.habbo.communication.messages.outgoing.tracking.EventLogMessageComposer;
 	import com.sulake.habbo.communication.messages.outgoing.tracking.LatencyPingReportMessageComposer;
 	import com.sulake.habbo.communication.messages.outgoing.tracking.LagWarningReportMessageComposer;
@@ -874,6 +878,9 @@
 	import com.sulake.habbo.communication.messages.outgoing.room.action.UnbanUserFromRoomMessageComposer;
 	import com.sulake.habbo.communication.messages.outgoing.room.action.BanUserWithDurationMessageComposer;
 	import com.sulake.habbo.communication.messages.outgoing.room.action.MuteAllInRoomComposer;
+	import com.sulake.habbo.communication.messages.outgoing.room.publicroom.TryBusMessageComposer;
+	import com.sulake.habbo.communication.messages.outgoing.games.GameBoardMoveMessageComposer;
+	import com.sulake.habbo.communication.messages.outgoing.room.publicroom.ChangeRoomMessageComposer;
 	import com.sulake.habbo.communication.messages.outgoing.room.action.RemoveAllRightsMessageComposer;
 	import com.sulake.habbo.communication.messages.outgoing.room.action.AssignRightsMessageComposer;
 	import com.sulake.habbo.communication.messages.outgoing.room.action.RoomUserKickMessageComposer;
@@ -1158,6 +1165,10 @@
             INCOMING_PACKETS[2030] = ModeratorMessageEvent;
             INCOMING_PACKETS[2031] = RoomReadyMessageEvent;
             INCOMING_PACKETS[5202] = PublicRoomObjectsMessageEvent;
+            INCOMING_PACKETS[5203] = BusDoorMessageEvent;
+            INCOMING_PACKETS[5220] = OpenGameBoardMessageEvent;
+            INCOMING_PACKETS[5221] = GameBoardUpdateMessageEvent;
+            INCOMING_PACKETS[5222] = CloseGameBoardMessageEvent;
             INCOMING_PACKETS[2032] = MarketplaceBuyOfferResultEvent;
             INCOMING_PACKETS[2033] = AvailabilityStatusMessageEvent;
             INCOMING_PACKETS[2035] = MOTDNotificationEvent;
@@ -1537,6 +1548,9 @@
             OUTGOING_PACKETS[1030] = SetChatStylePreferenceComposer;
             OUTGOING_PACKETS[1036] = MountPetMessageComposer;
             OUTGOING_PACKETS[105] = QuitMessageComposer;
+            OUTGOING_PACKETS[5205] = TryBusMessageComposer;
+            OUTGOING_PACKETS[5206] = ChangeRoomMessageComposer;
+            OUTGOING_PACKETS[5223] = GameBoardMoveMessageComposer;
             OUTGOING_PACKETS[1051] = BuildersClubPlaceRoomItemMessageComposer;
             OUTGOING_PACKETS[1052] = GuideSessionGetRequesterRoomMessageComposer;
             OUTGOING_PACKETS[1053] = VersionCheckMessageComposer;

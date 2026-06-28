@@ -16,6 +16,7 @@ package com.sulake.habbo.room
         function disposeRoom(_arg_1:int):void;
         function setOwnUserId(_arg_1:int, _arg_2:int):void;
         function setWorldType(_arg_1:int, _arg_2:String, _arg_3:Boolean=false):void;
+        function updatePublicRoomParkBusDoor(_arg_1:int, _arg_2:Boolean):void;
         function getWorldType(_arg_1:int):String;
         function getPublicRoomContentType(_arg_1:String):String;
         function getObjectRoom(_arg_1:int):IRoomObjectController;

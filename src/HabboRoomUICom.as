@@ -277,6 +277,7 @@
         public static var camera_filterbutton_xml:Class = HabboRoomUICom_camera_filterbutton_xml;
         public static var camera_typebutton_xml:Class = HabboRoomUICom_camera_typebutton_xml;
         public static var background_color_ui_xml:Class = HabboRoomUICom_background_color_ui_xml;
+        public static var gamehall_board_xml:Class = HabboRoomUICom_gamehall_board_xml;
         public static var viprequired_xml:Class = HabboRoomUICom_viprequired_xml;
         public static var costumehopper_costumerequired_xml:Class = HabboRoomUICom_costumehopper_costumerequired_xml;
         public static var respect_giving_failed_notification_xml:Class = HabboRoomUICom_respect_giving_failed_notification_xml;

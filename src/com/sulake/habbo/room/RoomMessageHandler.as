@@ -19,6 +19,10 @@ package com.sulake.habbo.room
     import com.sulake.habbo.communication.messages.incoming.room.engine.ObjectRemoveMessageEvent;
     import com.sulake.habbo.communication.messages.incoming.room.engine.PublicRoomObjectMessageData;
     import com.sulake.habbo.communication.messages.incoming.room.engine.PublicRoomObjectsMessageEvent;
+    import com.sulake.habbo.communication.messages.incoming.room.publicroom.BusDoorMessageEvent;
+    import com.sulake.habbo.communication.messages.incoming.games.OpenGameBoardMessageEvent;
+    import com.sulake.habbo.communication.messages.incoming.games.GameBoardUpdateMessageEvent;
+    import com.sulake.habbo.communication.messages.incoming.games.CloseGameBoardMessageEvent;
     import com.sulake.habbo.communication.messages.incoming.room.engine.ItemsEvent;
     import com.sulake.habbo.communication.messages.incoming.room.engine.ItemAddMessageEvent;
     import com.sulake.habbo.communication.messages.incoming.room.engine.ItemRemoveMessageEvent;
@@ -81,6 +85,11 @@ package com.sulake.habbo.room
     import com.sulake.habbo.communication.messages.parser.room.engine.ObjectsDataUpdateMessageParser;
     import com.sulake.habbo.communication.messages.parser.room.engine.ObjectRemoveMessageParser;
     import com.sulake.habbo.communication.messages.parser.room.engine.PublicRoomObjectsMessageParser;
+    import com.sulake.habbo.communication.messages.parser.room.publicroom.BusDoorMessageParser;
+    import com.sulake.habbo.communication.messages.parser.games.OpenGameBoardMessageParser;
+    import com.sulake.habbo.communication.messages.parser.games.GameBoardUpdateMessageParser;
+    import com.sulake.habbo.communication.messages.parser.games.CloseGameBoardMessageParser;
+    import com.sulake.habbo.room.events.RoomEngineGamehallEvent;
     import flash.utils.setTimeout;
     import com.sulake.habbo.communication.messages.incoming.room.engine.ItemMessageData;
     import com.sulake.habbo.communication.messages.parser.room.engine.ItemsMessageParser;
@@ -227,6 +236,10 @@ package com.sulake.habbo.room
                 k.addMessageEvent(new ObjectsDataUpdateMessageEvent(this.onObjectsDataUpdate));
                 k.addMessageEvent(new ObjectRemoveMessageEvent(this.onObjectRemove));
                 k.addMessageEvent(new PublicRoomObjectsMessageEvent(this.onPublicRoomObjects));
+                k.addMessageEvent(new BusDoorMessageEvent(this.onBusDoor));
+                k.addMessageEvent(new OpenGameBoardMessageEvent(this.onOpenGameBoard));
+                k.addMessageEvent(new GameBoardUpdateMessageEvent(this.onGameBoardUpdate));
+                k.addMessageEvent(new CloseGameBoardMessageEvent(this.onCloseGameBoard));
                 k.addMessageEvent(new ItemsEvent(this.onItems));
                 k.addMessageEvent(new ItemAddMessageEvent(this.onItemAdd));
                 k.addMessageEvent(new ItemRemoveMessageEvent(this.onItemRemove));
@@ -376,6 +389,76 @@ package com.sulake.habbo.room
                 }
             }
             k.connection.send(new GetRoomEntryDataMessageComposer());
+        }
+
+        private function onBusDoor(k:IMessageEvent):void
+        {
+            var _local_2:BusDoorMessageEvent = (k as BusDoorMessageEvent);
+            if ((((_local_2 == null) || (_local_2.getParser() == null)) || (this._roomCreator == null)))
+            {
+                return;
+            }
+            var _local_3:BusDoorMessageParser = _local_2.getParser();
+            this._roomCreator.updatePublicRoomParkBusDoor(this._currentRoomId, _local_3.open);
+        }
+
+        private function onOpenGameBoard(k:IMessageEvent):void
+        {
+            var event:OpenGameBoardMessageEvent = k as OpenGameBoardMessageEvent;
+            var engine:IRoomEngineServices = this._roomCreator as IRoomEngineServices;
+            if (event == null || event.getParser() == null || engine == null || engine.events == null)
+            {
+                return;
+            }
+            var parser:OpenGameBoardMessageParser = event.getParser();
+            engine.events.dispatchEvent(new RoomEngineGamehallEvent(
+                RoomEngineGamehallEvent.OPEN,
+                this._currentRoomId,
+                parser.stationId,
+                parser.gameType,
+                parser.localSeat,
+                parser.seatCount));
+        }
+
+        private function onGameBoardUpdate(k:IMessageEvent):void
+        {
+            var event:GameBoardUpdateMessageEvent = k as GameBoardUpdateMessageEvent;
+            var engine:IRoomEngineServices = this._roomCreator as IRoomEngineServices;
+            if (event == null || event.getParser() == null || engine == null || engine.events == null)
+            {
+                return;
+            }
+            var parser:GameBoardUpdateMessageParser = event.getParser();
+            engine.events.dispatchEvent(new RoomEngineGamehallEvent(
+                RoomEngineGamehallEvent.UPDATE,
+                this._currentRoomId,
+                parser.stationId,
+                "",
+                0,
+                0,
+                parser.verb,
+                parser.args));
+        }
+
+        private function onCloseGameBoard(k:IMessageEvent):void
+        {
+            var event:CloseGameBoardMessageEvent = k as CloseGameBoardMessageEvent;
+            var engine:IRoomEngineServices = this._roomCreator as IRoomEngineServices;
+            if (event == null || event.getParser() == null || engine == null || engine.events == null)
+            {
+                return;
+            }
+            var parser:CloseGameBoardMessageParser = event.getParser();
+            engine.events.dispatchEvent(new RoomEngineGamehallEvent(
+                RoomEngineGamehallEvent.CLOSE,
+                this._currentRoomId,
+                parser.stationId,
+                "",
+                0,
+                0,
+                "",
+                null,
+                parser.reason));
         }
 
         private function onPublicRoomObjects(k:IMessageEvent):void

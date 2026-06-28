@@ -545,6 +545,13 @@
             var _local_25:RoomUserData;
             var _local_26:RoomWidgetPetInfostandUpdateEvent;
             var _local_27:UserNameView;
+            // A disposed widget can still receive in-flight room-object events (e.g. a furni
+            // click routed via RoomDesktop). dispose() nulls the bubble maps, so handlers like
+            // _Str_11447() would hit `_breedPetBubbles.reset()` on null -> #1009. Bail early.
+            if (disposed)
+            {
+                return;
+            }
             switch (k.type)
             {
                 case _Str_5393.RWAIE_AVATAR_INFO:

@@ -98,6 +98,7 @@
     import com.sulake.habbo.ui.handler.FriendFurniConfirmWidgetHandler;
     import com.sulake.habbo.ui.handler.FriendFurniEngravingWidgetHandler;
     import com.sulake.habbo.ui.handler.HighScoreFurniWidgetHandler;
+    import com.sulake.habbo.ui.handler.GamehallWidgetHandler;
     import com.sulake.habbo.ui.handler.FurnitureInternalLinkHandler;
     import com.sulake.habbo.ui.handler.FurnitureCustomStackHeightWidgetHandler;
     import com.sulake.habbo.ui.handler.FurnitureYoutubeDisplayWidgetHandler;
@@ -108,6 +109,7 @@
     import com.sulake.habbo.ui.handler.RoomThumbnailCameraWidgetHandler;
     import com.sulake.habbo.ui.handler.CraftingWidgetHandler;
     import com.sulake.habbo.room.events.RoomEngineTriggerWidgetEvent;
+    import com.sulake.habbo.room.events.RoomEngineGamehallEvent;
     import com.sulake.habbo.ui.widget.events.RoomWidgetUpdateEvent;
     import com.sulake.habbo.ui.widget.messages.RoomWidgetZoomToggleMessage;
     import com.sulake.habbo.ui.widget.messages.RoomWidgetMessage;
@@ -884,6 +886,9 @@
                 case RoomWidgetEnum.HIGH_SCORE_DISPLAY:
                     widgetHandler = new HighScoreFurniWidgetHandler();
                     break;
+                case RoomWidgetEnum.GAMEHALL_BOARD:
+                    widgetHandler = new GamehallWidgetHandler();
+                    break;
                 case RoomWidgetEnum.INTERNAL_LINK:
                     widgetHandler = new FurnitureInternalLinkHandler();
                     break;
@@ -993,6 +998,7 @@
                 case RoomWidgetEnum.CHAT_WIDGET:
                 case RoomWidgetEnum.AVATAR_INFO:
                 case RoomWidgetEnum.LOCATION_WIDGET:
+                case RoomWidgetEnum.GAMEHALL_BOARD:
                     return true;
                 default:
                     return false;
@@ -1283,6 +1289,9 @@
                 case RoomEngineTriggerWidgetEvent.RETWE_REQUEST_FRIEND_FURNITURE_ENGRAVING:
                 case RoomEngineTriggerWidgetEvent.RETWE_REQUEST_HIGH_SCORE_DISPLAY:
                 case RoomEngineTriggerWidgetEvent.RETWE_REQUEST_HIDE_HIGH_SCORE_DISPLAY:
+                case RoomEngineGamehallEvent.OPEN:
+                case RoomEngineGamehallEvent.UPDATE:
+                case RoomEngineGamehallEvent.CLOSE:
                 case RoomEngineTriggerWidgetEvent.RETWE_REQUEST_INTERNAL_LINK:
                 case RoomEngineTriggerWidgetEvent.RETWE_REQUEST_ROOM_LINK:
                     this.processEvent(k);

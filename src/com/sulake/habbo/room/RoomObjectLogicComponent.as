@@ -43,6 +43,7 @@
     import com.sulake.habbo.room.object.logic.furniture.FurnitureWelcomeGiftLogic;
     import com.sulake.habbo.room.object.logic.furniture.FurnitureFloorHoleLogic;
     import com.sulake.habbo.room.object.logic.room.RoomLogic;
+    import com.sulake.habbo.room.object.logic.room.publicroom.PublicRoomParkLogic;
     import com.sulake.habbo.room.object.logic.furniture.FurnitureMannequinLogic;
     import com.sulake.habbo.room.object.logic.furniture.FurnitureGuildCustomizedLogic;
     import com.sulake.habbo.room.object.logic.furniture.FurnitureGroupForumTerminalLogic;
@@ -259,6 +260,9 @@
                 case RoomObjectLogicEnum.ROOM:
                 case RoomObjectLogicEnum.PUBLIC_ROOM:
                     classDefinition = RoomLogic;
+                    break;
+                case RoomObjectLogicEnum.PUBLIC_ROOM_PARK:
+                    classDefinition = PublicRoomParkLogic;
                     break;
                 case RoomObjectLogicEnum.FURNITURE_MANNEQUIN:
                     classDefinition = FurnitureMannequinLogic;

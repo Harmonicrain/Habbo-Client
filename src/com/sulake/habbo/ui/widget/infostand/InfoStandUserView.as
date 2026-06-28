@@ -67,7 +67,10 @@
         private static const PREVIEW_CANVAS_HEIGHT:int = 170;
         private static const PREVIEW_CANVAS_OFFSET_Y:int = 8;
         private static const PREVIEW_VIEW_OFFSET_Y:int = 0;
-        private static var _previewInstanceCounter:int = 1000;
+        // Fixed preview-room ordinal (not an incrementing counter): each infostand open
+        // re-inits the same shared-engine preview room instead of leaking a fresh one.
+        // 1000 keeps it clear of the catalog (id 1) and the figure editor (ids from 2).
+        private static const PREVIEW_ROOM_ORDINAL:int = 1000;
         private var _roomPreviewer:RoomPreviewer;
         private var _previewCanvas:IDisplayObjectWrapper;
         private var _previewFigure:String;
@@ -393,7 +396,7 @@
                 {
                     return false;
                 }
-                this._roomPreviewer = new RoomPreviewer(engine, _previewInstanceCounter++);
+                this._roomPreviewer = new RoomPreviewer(engine, PREVIEW_ROOM_ORDINAL);
                 if (!this._roomPreviewer.isRoomEngineReady)
                 {
                     this.disposePreviewer();

@@ -1640,6 +1640,25 @@
             return this.getObject(this.getRoomIdentifier(k), OBJECT_ID_ROOM, RoomObjectCategoryEnum.OBJECT_CATEGORY_ROOM);
         }
 
+        public function updatePublicRoomParkBusDoor(k:int, _arg_2:Boolean):void
+        {
+            if (this.getWorldType(k) != "park_a")
+            {
+                return;
+            }
+            var _local_3:IRoomObjectController = this.getObjectRoom(k);
+            if (_local_3 == null)
+            {
+                return;
+            }
+            var _local_4:IRoomObjectModelController = _local_3.getModelController();
+            if (_local_4 == null)
+            {
+                return;
+            }
+            _local_4.setNumber(RoomObjectVariableEnum.ROOM_PUBLIC_PARK_BUS_DOOR_STATUS, (_arg_2 ? 1 : 0));
+        }
+
         public function updateObjectRoom(k:int, _arg_2:String=null, _arg_3:String=null, _arg_4:String=null, _arg_5:Boolean=false):Boolean
         {
             var _local_9:String;
@@ -1814,7 +1833,10 @@
             _local_8.roomObjectVariableAccurateZ = RoomObjectVariableEnum.OBJECT_ACCURATE_Z_VALUE;
             _local_7.setRenderer(_local_8);
             var _local_18:int = _arg_5;
-            if (_local_7.getNumber(RoomVariableEnum.ROOM_IS_PUBLIC) == 1)
+            // Public rooms default to zoomed-out, EXCEPT small interior worlds that should use the
+            // normal guest-room zoom (the infobus interior, the rooftop cafe).
+            var _local_19:String = this.getWorldType(k);
+            if (((((_local_7.getNumber(RoomVariableEnum.ROOM_IS_PUBLIC) == 1) && (!(_local_19 == "park_b"))) && (!(_local_19 == "rooftop_2")))))
             {
                 _local_18 = RoomGeometry.SCALE_ZOOMED_OUT;
             }

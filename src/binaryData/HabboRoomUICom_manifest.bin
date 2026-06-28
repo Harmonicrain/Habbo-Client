@@ -277,6 +277,7 @@
             <asset mimeType="text/xml" name="camera_filterbutton_xml"/>
             <asset mimeType="text/xml" name="camera_typebutton_xml"/>
             <asset mimeType="text/xml" name="background_color_ui_xml"/>
+            <asset mimeType="text/xml" name="gamehall_board_xml"/>
             <asset mimeType="text/xml" name="viprequired_xml"/>
             <asset mimeType="text/xml" name="costumehopper_costumerequired_xml"/>
             <asset mimeType="text/xml" name="respect_giving_failed_notification_xml"/>

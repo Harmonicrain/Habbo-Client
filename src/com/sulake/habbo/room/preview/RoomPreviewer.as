@@ -70,6 +70,11 @@
             this.reset(true);
             if (((this.isRoomEngineReady) && (!(this._roomEngine.events == null))))
             {
+                // NOTE: never disposeRoom() here. A RoomPreviewer shares the live RoomEngine,
+                // and disposing a room dispatches RoomEngineEvent.DISPOSED, which RoomUI turns
+                // into disposeDesktop()+_isInRoom=false -> blacks out the real room. Every other
+                // consumer (catalog, clothing/figure editor) leaves the preview room in place
+                // and reuses a fixed id, so re-init overwrites it instead of leaking.
                 this._roomEngine.events.removeEventListener(RoomEngineObjectEvent.ADDED, this.onRoomObjectAdded);
                 this._roomEngine.events.removeEventListener(RoomEngineObjectEvent.CONTENT_UPDATED, this.onRoomObjectAdded);
                 this._roomEngine.events.removeEventListener(RoomEngineEvent.INITIALIZED, this.onRoomInitialized);

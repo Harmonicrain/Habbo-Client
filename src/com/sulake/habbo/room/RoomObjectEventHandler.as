@@ -32,6 +32,9 @@
     import com.sulake.room.events.RoomObjectEvent;
     import com.sulake.habbo.room.events.RoomObjectTileMouseEvent;
     import com.sulake.habbo.room.events.RoomObjectWallMouseEvent;
+    import com.sulake.habbo.room.events.RoomObjectRoomActionEvent;
+    import com.sulake.habbo.communication.messages.outgoing.room.publicroom.TryBusMessageComposer;
+    import com.sulake.habbo.communication.messages.outgoing.room.publicroom.ChangeRoomMessageComposer;
     import com.sulake.habbo.room.object.RoomObjectUserTypes;
     import com.sulake.habbo.room.messages.RoomObjectTileCursorUpdateMessage;
     import com.sulake.room.IRoomInstance;
@@ -354,6 +357,18 @@
                     return;
                 case RoomObjectMoveEvent.ROME_OBJECT_REMOVED:
                     this.handleSelectedObjectRemove(k, _arg_2);
+                    return;
+                case RoomObjectRoomActionEvent.RORAE_TRY_BUS:
+                    if (((!(this._roomEngine == null)) && (!(this._roomEngine.connection == null))))
+                    {
+                        this._roomEngine.connection.send(new TryBusMessageComposer());
+                    }
+                    return;
+                case RoomObjectRoomActionEvent.RORAE_CHANGE_ROOM:
+                    if (((!(this._roomEngine == null)) && (!(this._roomEngine.connection == null))))
+                    {
+                        this._roomEngine.connection.send(new ChangeRoomMessageComposer());
+                    }
                     return;
                 case RoomObjectWidgetRequestEvent.OPEN_WIDGET:
                 case RoomObjectWidgetRequestEvent.CLOSE_WIDGET:

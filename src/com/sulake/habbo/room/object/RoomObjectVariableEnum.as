@@ -135,6 +135,7 @@
         public static const ROOM_COLORIZE_BG_ONLY:String = "room_colorize_bg_only";
         public static const ROOM_RANDOM_SEED:String = "room_random_seed";
         public static const ROOM_WORLD_TYPE:String = "room_world_type";
+        public static const ROOM_PUBLIC_PARK_BUS_DOOR_STATUS:String = "room_public_park_bus_door_status";
         public static const BILLBOARD:String = "billboard";
         public static const ROOM_AD_IMAGE_ASSET:String = "room_ad_image_asset";
         public static const ROOM_AD_CLICK_URL:String = "room_ad_click_url";
