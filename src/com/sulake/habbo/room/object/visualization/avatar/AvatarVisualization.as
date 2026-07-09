@@ -22,6 +22,7 @@
     import com.sulake.habbo.room.object.visualization.avatar.additions.GuideStatusBubble;
     import com.sulake.habbo.room.object.visualization.avatar.additions.GameClickTarget;
     import com.sulake.habbo.room.object.visualization.avatar.additions.NumberBubble;
+    import com.sulake.habbo.room.object.visualization.avatar.additions.HabbiconBubble;
     import com.sulake.habbo.room.object.visualization.avatar.additions.ExpressionAdditionFactory;
     import com.sulake.room.object.IRoomObjectModel;
     import com.sulake.core.assets.IAsset;
@@ -58,8 +59,28 @@
         private static const _Str_11164:int = 5;
         private static const _Str_10168:int = 6;
         private static const _Str_8837:int = 7;
+        private static const ADDITION_ID_HABBICON_BUBBLE:int = 8;
 
         private const _Str_9654:int = 41;
+
+        private static function resolveHabbiconFacingDirection(direction:int):int
+        {
+            direction = (direction % 8 + 8) % 8;
+            if (direction <= 2)
+            {
+                return 1;
+            }
+            if (direction >= 4 && direction <= 6)
+            {
+                return -1;
+            }
+            return 0;
+        }
+
+        private static function normalizeDirectionAngle(direction:int):int
+        {
+            return (direction % 360 + 360) % 360;
+        }
 
         private var _geometryUpdateId:int = -1000;
         private var _visualizationData:AvatarVisualizationData = null;
@@ -97,6 +118,7 @@
         private var _isSittingManual:Boolean = false;
         private var _isLaying:Boolean = false;
         private var _activeAvatarImage:IAvatarImage = null;
+        private var _habbiconSpinOffset:int = 0;
         private var _layInside:Boolean = false;
         private var _disposed:Boolean;
 
@@ -270,6 +292,15 @@
             return this._angle;
         }
 
+        public function get habbiconFacingDirection():int
+        {
+            if (this._activeAvatarImage == null)
+            {
+                return 0;
+            }
+            return resolveHabbiconFacingDirection(this._activeAvatarImage.getDirection());
+        }
+
         public function get posture():String
         {
             return this._posture;
@@ -290,6 +321,7 @@
             var _local_7:String;
             var _local_8:IAvatarAddition;
             var _local_9:String;
+            var _local_10:int;
             if (k.getUpdateID() != _modelUpdateID)
             {
                 _local_4 = false;
@@ -517,6 +549,35 @@
                         this._Str_5801(ADDITION_ID_MUTED_BUBBLE);
                     }
                 }
+                _local_6 = k.getNumber(RoomObjectVariableEnum.FIGURE_HABBICON);
+                _local_10 = k.getNumber(RoomObjectVariableEnum.FIGURE_HABBICON_TRIGGER_SEQUENCE);
+                _local_8 = (this._Str_6142(ADDITION_ID_HABBICON_BUBBLE) as HabbiconBubble);
+                if (_local_6 > 0)
+                {
+                    if (!_local_8 || HabbiconBubble(_local_8).habbiconId != _local_6 || HabbiconBubble(_local_8).triggerSequence != _local_10)
+                    {
+                        if (_local_8)
+                        {
+                            this._Str_5801(ADDITION_ID_HABBICON_BUBBLE);
+                        }
+                        _local_8 = this._Str_8211(new HabbiconBubble(ADDITION_ID_HABBICON_BUBBLE, _local_6, _local_10, this));
+                    }
+                    _local_4 = true;
+                }
+                else
+                {
+                    if (_local_8)
+                    {
+                        this._Str_5801(ADDITION_ID_HABBICON_BUBBLE);
+                        _local_4 = true;
+                    }
+                }
+                _local_6 = k.getNumber(RoomObjectVariableEnum.FIGURE_HABBICON_SPIN_OFFSET);
+                if (_local_6 != this._habbiconSpinOffset)
+                {
+                    this._habbiconSpinOffset = _local_6;
+                    _local_4 = true;
+                }
                 this.validateActions(_arg_2);
                 _local_7 = k.getString(RoomObjectVariableEnum.GENDER);
                 if (_local_7 != this._gender)
@@ -709,6 +770,11 @@
                 if (((this._posture == "sit") && (this._effectJustApplied)))
                 {
                     _local_7 = (_local_7 - ((_local_7 % 90) - 45));
+                }
+                if (this._habbiconSpinOffset != 0)
+                {
+                    _local_6 = normalizeDirectionAngle(_local_6 + this._habbiconSpinOffset);
+                    _local_7 = normalizeDirectionAngle(_local_7 + this._habbiconSpinOffset);
                 }
                 if (((!(_local_6 == this._angle)) || (_arg_4)))
                 {

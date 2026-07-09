@@ -127,6 +127,7 @@
     import com.sulake.habbo.room.messages.RoomObjectAvatarExpressionUpdateMessage;
     import com.sulake.habbo.room.messages.RoomObjectAvatarPlayingGameMessage;
     import com.sulake.habbo.room.messages.RoomObjectAvatarGuideStatusUpdateMessage;
+    import com.sulake.habbo.room.messages.RoomObjectAvatarHabbiconUpdateMessage;
     import com.sulake.habbo.room.messages.RoomObjectAvatarPostureUpdateMessage;
     import com.sulake.habbo.room.messages.RoomObjectAvatarGestureUpdateMessage;
     import com.sulake.habbo.room.messages.RoomObjectAvatarPetGestureUpdateMessage;
@@ -3417,6 +3418,13 @@
                 case RoomObjectVariableEnum.FIGURE_GUIDE_STATUS:
                     _local_7 = new RoomObjectAvatarGuideStatusUpdateMessage(_arg_4);
                     break;
+                case RoomObjectVariableEnum.FIGURE_HABBICON:
+                    _local_7 = new RoomObjectAvatarHabbiconUpdateMessage(_arg_4);
+                    break;
+            }
+            if (_local_7 == null)
+            {
+                return false;
             }
             _local_6.getEventHandler().processUpdateMessage(_local_7);
             return true;

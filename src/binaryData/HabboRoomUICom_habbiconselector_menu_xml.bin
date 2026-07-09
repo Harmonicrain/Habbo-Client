@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?><layout name="habbiconselector_menu" width="245" height="138" version="0.1" uid="2C5B6A76-CA7D-22D2-1935-8FFD1B2471F9">
+  <window>
+    <border x="0" y="0" width="245" height="138" params="17" style="2" name="habbicon_selector_window" color="0x024231e" blend="0.8">
+      <children>
+        <itemlist_horizontal x="6" y="8" width="232" height="28" params="16" style="0" name="top_controls">
+          <children>
+            <border x="0" y="0" width="122" height="28" params="16" style="4" name="habbicon_search_border">
+              <children>
+                <input x="6" y="5" width="90" height="18" params="3201" style="100" name="habbicon_search_input">
+                  <variables>
+                    <var key="text_color" value="0x333333" type="hex"/>
+                    <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                    <var key="max_chars" value="24" type="int"/>
+                    <var key="spacing" value="0" type="Number"/>
+                    <var key="leading" value="0" type="Number"/>
+                  </variables>
+                </input>
+                <text x="6" y="5" width="90" height="18" params="3216" style="100" name="habbicon_search_placeholder" caption="%24%7Bgeneric.search%7D">
+                  <variables>
+                    <var key="text_color" value="0x777777" type="hex"/>
+                    <var key="text_style" value="u_italic" type="String"/>
+                    <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                    <var key="spacing" value="0" type="Number"/>
+                    <var key="leading" value="0" type="Number"/>
+                  </variables>
+                </text>
+                <region x="99" y="6" width="17" height="17" params="3153" style="3" name="habbicon_search_clear_button" treshold="0">
+                  <children>
+                    <static_bitmap x="0" y="0" width="17" height="17" params="2192" style="3">
+                      <variables>
+                        <var key="asset_uri" value="common_promo_arrow_close" type="String"/>
+                        <var key="pivot_point" value="center" type="String"/>
+                        <var key="stretched_x" value="false" type="Boolean"/>
+                        <var key="stretched_y" value="false" type="Boolean"/>
+                      </variables>
+                    </static_bitmap>
+                  </children>
+                </region>
+              </children>
+            </border>
+            <button x="131" y="0" width="100" height="28" params="131073" style="4" name="habbicon_open_hub_button" caption="%24%7Bhabbicons.hud.get_more%7D" width_min="100" width_max="100">
+              <variables>
+                <var key="text_style" value="button_shiny_regular" type="String"/>
+              </variables>
+            </button>
+          </children>
+          <variables>
+            <var key="spacing" value="9" type="int"/>
+          </variables>
+        </itemlist_horizontal>
+        <scrollable_itemlist_vertical x="6" y="43" width="233" height="88" params="144" style="100" name="habbicon_section_list">
+          <children>
+            <container x="0" y="0" width="217" height="62" params="16" style="0" name="habbicon_section_template">
+              <children>
+                <text x="0" y="0" width="217" height="18" params="16" style="0" name="section_title" caption="Section">
+                  <variables>
+                    <var key="antialias_type" value="advanced" type="String"/>
+                    <var key="font_face" value="Ubuntu" type="String"/>
+                    <var key="font_size" value="10" type="uint"/>
+                    <var key="text_color" value="0xffffff" type="hex"/>
+                    <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                    <var key="sharpness" value="0" type="Number"/>
+                    <var key="thickness" value="0" type="Number"/>
+                    <var key="kerning" value="false" type="Boolean"/>
+                    <var key="spacing" value="0" type="Number"/>
+                    <var key="leading" value="0" type="Number"/>
+                  </variables>
+                </text>
+                <itemgrid_vertical x="0" y="20" width="217" height="42" params="16" style="0" name="habbicon_grid">
+                  <children>
+                    <region x="0" y="0" width="42" height="42" params="17" style="0" name="habbicon_item_template" treshold="0">
+                      <children>
+                        <border x="0" y="0" width="42" height="42" params="16" style="2" name="habbicon_item_bg" color="0x01f1f1f"/>
+                        <bitmap x="1" y="1" width="40" height="40" params="16" style="3" name="habbicon_icon"/>
+                      </children>
+                    </region>
+                  </children>
+                  <variables>
+                    <var key="spacing" value="2" type="int"/>
+                    <var key="scale_to_fit_items" value="true" type="Boolean"/>
+                    <var key="resize_on_item_update" value="true" type="Boolean"/>
+                  </variables>
+                </itemgrid_vertical>
+              </children>
+            </container>
+          </children>
+          <variables>
+            <var key="spacing" value="4" type="int"/>
+          </variables>
+        </scrollable_itemlist_vertical>
+        <container x="0" y="40" width="245" height="96" params="2192" style="3" name="empty_view">
+          <children>
+            <text x="22" y="40" width="200" height="16" params="3935440" style="3" name="empty_text" caption="%24%7Bhabbicons.no_habbicons%7D" blend="0.83">
+              <variables>
+                <var key="auto_size" value="center" type="String"/>
+                <var key="font_size" value="11" type="uint"/>
+                <var key="text_color" value="0xffffff" type="hex"/>
+                <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                <var key="multiline" value="true" type="Boolean"/>
+                <var key="word_wrap" value="true" type="Boolean"/>
+                <var key="spacing" value="0" type="Number"/>
+                <var key="leading" value="0" type="Number"/>
+              </variables>
+            </text>
+          </children>
+        </container>
+      </children>
+    </border>
+  </window>
+</layout>

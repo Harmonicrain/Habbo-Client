@@ -15,6 +15,7 @@
         public static var room_desktop_layout_xml:Class = HabboRoomUICom_room_desktop_layout_xml;
         public static var room_view_container_xml:Class = HabboRoomUICom_room_view_container_xml;
         public static var spectator_mode_xml:Class = HabboRoomUICom_spectator_mode_xml;
+        public static var habbiconselector_menu_xml:Class = HabboRoomUICom_habbiconselector_menu_xml;
         public static var spec_top_left_png:Class = HabboRoomUICom_spec_top_left_png;
         public static var spec_top_middle_png:Class = HabboRoomUICom_spec_top_middle_png;
         public static var spec_top_right_png:Class = HabboRoomUICom_spec_top_right_png;

@@ -3,12 +3,15 @@
     import com.sulake.core.window.IWindowContainer;
     import com.sulake.core.window.components.ITextFieldWindow;
     import com.sulake.core.window.IWindow;
+    import com.sulake.core.window.components.IInteractiveWindow;
+    import com.sulake.core.window.components.IBitmapWrapperWindow;
     import com.sulake.core.window.components.ICloseButtonWindow;
     import com.sulake.core.window.components.IRegionWindow;
     import flash.text.TextFormat;
     import flash.utils.Timer;
     import com.sulake.habbo.ui.widget.chatinput.styleselector.ChatStyleSelector;
     import com.sulake.core.runtime.IHabboConfigurationManager;
+    import flash.events.Event;
     import flash.events.TimerEvent;
     import com.sulake.core.window.events.WindowMouseEvent;
     import com.sulake.core.window.events.WindowKeyboardEvent;
@@ -32,8 +35,15 @@
     import flash.display.Stage;
     import flash.display.InteractiveObject;
     import flash.display.DisplayObject;
+    import flash.display.BitmapData;
     import flash.text.TextField;
     import com.sulake.habbo.session.ISessionDataManager;
+    import com.sulake.habbo.catalog.habbicons.HabbiconCollectionData;
+    import com.sulake.habbo.catalog.habbicons.HabbiconController;
+    import com.sulake.habbo.catalog.habbicons.HabbiconControllerEvent;
+    import com.sulake.habbo.catalog.habbicons.HabbiconShopItem;
+    import com.sulake.habbo.habbicons.assets.HabbiconAssetManager;
+    import com.sulake.habbo.ui.widget.chatinput.habbiconselector.HabbiconSelector;
 
     public class RoomChatInputView 
     {
@@ -67,6 +77,11 @@
         private var _chatReminderAnimationCounter:int = 0;
         private var _helpButtonHideTimer:Timer;
         private var _chatStyleSelector:ChatStyleSelector;
+        private var _habbiconSelectorMenuContainer:IWindowContainer;
+        private var _habbiconButton:IWindow;
+        private var _habbiconSelector:HabbiconSelector;
+        private var _habbiconAssetsListenerRegistered:Boolean = false;
+        private var _habbiconButtonListenersRegistered:Boolean = false;
 
         public function RoomChatInputView(k:RoomChatInputWidget)
         {
@@ -129,6 +144,19 @@
                 this._helpButton.removeEventListener(WindowMouseEvent.OUT, this._Str_8782);
                 this._helpButton = null;
             }
+            if (this._habbiconButton != null)
+            {
+                this._habbiconButton.removeEventListener(WindowMouseEvent.CLICK, this.onHabbiconButtonClicked);
+                this._habbiconButton = null;
+            }
+            if (this._habbiconSelector != null)
+            {
+                this._habbiconSelector.dispose();
+                this._habbiconSelector = null;
+            }
+            this._habbiconSelectorMenuContainer = null;
+            this.unregisterHabbiconButtonListeners();
+            this.unregisterHabbiconAssetsListener();
             if (this._helpButtonShowRegion)
             {
                 this._helpButtonShowRegion.removeEventListener(WindowMouseEvent.OVER, this._Str_6563);
@@ -198,6 +226,7 @@
             this._window.height = this._window.desktop.height;
             this._window.invalidate();
             this._chatStyleSelectorMenuContainer = IWindowContainer(this._window.findChildByName("chatstyles_menu"));
+            this._habbiconSelectorMenuContainer = IWindowContainer(this._window.findChildByName("habbicon_menu"));
             this._chatInputContainerWindow = (this._window.findChildByName("bubblecont") as IWindowContainer);
             this._chatInputContainerWindow.tags.push("room_widget_chatinput");
             this._inputField = (this._chatInputContainerWindow.findChildByName("chat_input") as ITextFieldWindow);
@@ -238,6 +267,220 @@
             this._helpButton.addEventListener(WindowMouseEvent.OVER, this._Str_8782);
             this._helpButton.addEventListener(WindowMouseEvent.OUT, this._Str_8782);
             this._helpButton.visible = false;
+            this.createHabbiconButton();
+        }
+
+        private function createHabbiconButton():void
+        {
+            if (this._chatInputContainerWindow == null || this._widget == null)
+            {
+                return;
+            }
+            this._habbiconButton = this._chatInputContainerWindow.findChildByName("chat_extra_button");
+            if (this._habbiconButton == null)
+            {
+                return;
+            }
+            this._habbiconButton.visible = this._widget.handler.container.config.getBoolean("habbicons.enabled");
+            if (!this._habbiconButton.visible)
+            {
+                return;
+            }
+            if (this._habbiconButton is IInteractiveWindow)
+            {
+                IInteractiveWindow(this._habbiconButton).toolTipCaption = this._widget.localizations.getLocalization("habbicons.selector.tooltip", "Habbicons");
+            }
+            this._habbiconButton.addEventListener(WindowMouseEvent.CLICK, this.onHabbiconButtonClicked);
+            this.registerHabbiconButtonListeners();
+            if (((HabbiconController.instance != null) && (!(HabbiconController.instance.hasLoadedShopData))))
+            {
+                HabbiconController.instance.getShopData(false);
+            }
+            this.updateHabbiconButtonIcon();
+        }
+
+        private function onHabbiconButtonClicked(event:WindowMouseEvent):void
+        {
+            if (event.type != WindowMouseEvent.CLICK)
+            {
+                return;
+            }
+            if (HabbiconController.instance == null)
+            {
+                this._widget._Str_13265.context.createLinkEvent("habbicons/open");
+                return;
+            }
+            try
+            {
+                if (this._habbiconSelector == null || this._habbiconSelector.disposed)
+                {
+                    this._habbiconSelector = new HabbiconSelector(this, this._habbiconButton, this._habbiconSelectorMenuContainer, HabbiconController.instance);
+                }
+                this._habbiconSelector.toggle();
+            }
+            catch (err:Error)
+            {
+                // Selector build/toggle failed; swallow to keep chat input responsive.
+            }
+        }
+
+        private function updateHabbiconButtonIcon():void
+        {
+            var bitmapWindow:IBitmapWrapperWindow;
+            var bitmap:BitmapData;
+            var target:BitmapData;
+            var collectionId:int;
+            if (this._chatInputContainerWindow == null)
+            {
+                return;
+            }
+            bitmapWindow = this._chatInputContainerWindow.findChildByName("chat_extra_set_icon") as IBitmapWrapperWindow;
+            if (bitmapWindow == null)
+            {
+                return;
+            }
+            collectionId = this.resolveHabbiconButtonCollectionId();
+            if (collectionId <= 0)
+            {
+                bitmapWindow.visible = false;
+                this.registerHabbiconAssetsListener();
+                return;
+            }
+            bitmap = HabbiconAssetManager.getOutlinedCollectionIconBitmap(collectionId);
+            if (bitmap == null)
+            {
+                bitmapWindow.visible = false;
+                this.registerHabbiconAssetsListener();
+                return;
+            }
+            target = new BitmapData(bitmap.width, bitmap.height, true, 0);
+            target.copyPixels(bitmap, bitmap.rect, new Point(0, 0), null, null, true);
+            bitmapWindow.bitmap = target;
+            bitmapWindow.visible = true;
+            bitmapWindow.invalidate();
+        }
+
+        private function registerHabbiconButtonListeners():void
+        {
+            if (((this._habbiconButtonListenersRegistered) || (HabbiconController.instance == null)))
+            {
+                return;
+            }
+            HabbiconController.instance.addEventListener(HabbiconControllerEvent.SHOP_DATA_UPDATED, this.onHabbiconButtonDataUpdated);
+            HabbiconController.instance.addEventListener(HabbiconControllerEvent.OWNED_HABBICONS_UPDATED, this.onHabbiconButtonDataUpdated);
+            HabbiconController.instance.addEventListener(HabbiconControllerEvent.RECENT_HABBICONS_UPDATED, this.onHabbiconButtonDataUpdated);
+            HabbiconController.instance.addEventListener(HabbiconControllerEvent.STATUS_CHANGED, this.onHabbiconButtonDataUpdated);
+            this._habbiconButtonListenersRegistered = true;
+        }
+
+        private function unregisterHabbiconButtonListeners():void
+        {
+            if (((!(this._habbiconButtonListenersRegistered)) || (HabbiconController.instance == null)))
+            {
+                this._habbiconButtonListenersRegistered = false;
+                return;
+            }
+            HabbiconController.instance.removeEventListener(HabbiconControllerEvent.SHOP_DATA_UPDATED, this.onHabbiconButtonDataUpdated);
+            HabbiconController.instance.removeEventListener(HabbiconControllerEvent.OWNED_HABBICONS_UPDATED, this.onHabbiconButtonDataUpdated);
+            HabbiconController.instance.removeEventListener(HabbiconControllerEvent.RECENT_HABBICONS_UPDATED, this.onHabbiconButtonDataUpdated);
+            HabbiconController.instance.removeEventListener(HabbiconControllerEvent.STATUS_CHANGED, this.onHabbiconButtonDataUpdated);
+            this._habbiconButtonListenersRegistered = false;
+        }
+
+        private function onHabbiconButtonDataUpdated(event:HabbiconControllerEvent):void
+        {
+            this.updateHabbiconButtonIcon();
+        }
+
+        private function resolveHabbiconButtonCollectionId():int
+        {
+            var controller:HabbiconController = HabbiconController.instance;
+            var recent:Array;
+            var habbiconId:int;
+            var collectionId:int;
+            if (((controller == null) || (!(controller.hasLoadedShopData))))
+            {
+                return 0;
+            }
+            recent = controller.recentHabbiconIds;
+            if (((recent != null) && (recent.length > 0)))
+            {
+                for each (habbiconId in recent)
+                {
+                    collectionId = this.resolveCollectionIdForHabbicon(controller, habbiconId);
+                    if (collectionId > 0)
+                    {
+                        return collectionId;
+                    }
+                }
+            }
+            return this.resolveDefaultHabbiconButtonCollectionId(controller);
+        }
+
+        private function resolveCollectionIdForHabbicon(controller:HabbiconController, habbiconId:int):int
+        {
+            var item:HabbiconShopItem;
+            var collection:HabbiconCollectionData;
+            if (((controller == null) || (habbiconId <= 0)))
+            {
+                return 0;
+            }
+            item = controller.tryGetShopItem(habbiconId);
+            if (((item != null) && (item.collectionId > 0)))
+            {
+                return item.collectionId;
+            }
+            for each (collection in controller.shopCollections)
+            {
+                if (((collection != null) && (collection.rewardHabbiconId == habbiconId)))
+                {
+                    return collection.collectionId;
+                }
+            }
+            return 0;
+        }
+
+        private function resolveDefaultHabbiconButtonCollectionId(controller:HabbiconController):int
+        {
+            var collection:HabbiconCollectionData;
+            if (controller == null)
+            {
+                return 0;
+            }
+            for each (collection in controller.shopCollections)
+            {
+                if (((collection != null) && (collection.collectionId > 0)))
+                {
+                    return collection.collectionId;
+                }
+            }
+            return 0;
+        }
+
+        private function registerHabbiconAssetsListener():void
+        {
+            if (this._habbiconAssetsListenerRegistered)
+            {
+                return;
+            }
+            HabbiconAssetManager.addEventListener(HabbiconAssetManager.ASSETS_LOADED, this.onHabbiconAssetsLoaded);
+            this._habbiconAssetsListenerRegistered = true;
+        }
+
+        private function unregisterHabbiconAssetsListener():void
+        {
+            if (!this._habbiconAssetsListenerRegistered)
+            {
+                return;
+            }
+            HabbiconAssetManager.removeEventListener(HabbiconAssetManager.ASSETS_LOADED, this.onHabbiconAssetsLoaded);
+            this._habbiconAssetsListenerRegistered = false;
+        }
+
+        private function onHabbiconAssetsLoaded(event:Event):void
+        {
+            this.unregisterHabbiconAssetsListener();
+            this.updateHabbiconButtonIcon();
         }
 
         private function _Str_23245(k:Array):void
@@ -390,6 +633,10 @@
             if (this._chatStyleSelector)
             {
                 this._chatStyleSelector._Str_19515();
+            }
+            if (this._habbiconSelector != null && !this._habbiconSelector.disposed)
+            {
+                this._habbiconSelector.hide();
             }
         }
 

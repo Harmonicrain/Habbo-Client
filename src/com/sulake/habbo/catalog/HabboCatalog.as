@@ -260,6 +260,7 @@
     import com.sulake.habbo.utils._Str_6093;
     import com.sulake.habbo.catalog.offers.IOfferExtension;
     import com.sulake.habbo.catalog.offers.IOfferCenter;
+    import com.sulake.habbo.catalog.habbicons.HabbiconController;
     import __AS3__.vec.*;
     import com.sulake.iid.*;
 
@@ -351,6 +352,7 @@
             registerUpdateReceiver(this, 1);
             this._requestedPage = new RequestedPage();
             k.attachComponent(new HabboClubCenter(k, 0, _arg_3), [new IIDHabboClubCenter()]);
+            k.attachComponent(new HabbiconController(k, 0, _arg_3), [new IIDHabbiconController()]);
         }
 
         public static function setElementImageCentered(k:IWindow, _arg_2:BitmapData, _arg_3:int=0):void

@@ -25,6 +25,9 @@
     import com.sulake.habbo.communication.messages.outgoing.users.GetHabboGroupDetailsMessageComposer;
     import com.sulake.core.window.events.WindowMouseEvent;
     import com.sulake.habbo.communication.messages.outgoing.friendlist.SendMsgMessageComposer;
+    import com.sulake.habbo.catalog.habbicons.HabbiconController;
+    import com.sulake.habbo.communication.messages.parser.habbicons.HabbiconMessengerContent;
+    import com.sulake.habbo.messenger.habbicons.MessengerHabbiconPicker;
 
     public class MainView implements IDisposable, IIlluminaInputHandler
     {
@@ -34,6 +37,7 @@
         private static const CHAT_ITEM_RENDER_BUNDLE_SIZE:int = 5;
         private static const SCROLL_TRIGGER_HEIGHT:int = 150;
         private static const ERROR_MESSAGES:Dictionary = new Dictionary();
+        private static var NEXT_HABBICON_CONFIRMATION_ID:int = 1;
 
         private var _messenger:HabboMessenger;
         private var _frame:IWindowContainer;
@@ -52,6 +56,8 @@
         private var _moderationInfoShown:Boolean = false;
         private var _pendingMessages:Array;
         private var _batchUpdatingTimer:Timer;
+        private var _habbiconButton:IWindow;
+        private var _habbiconPicker:MessengerHabbiconPicker;
 
         {
             ERROR_MESSAGES[3] = "${messenger.error.receivermuted}";
@@ -84,6 +90,7 @@
             this._chatInfoTemplate = (this._conversationList.getListItemByName("msg_info") as IWindowContainer);
             this._conversationList.removeListItems();
             IIlluminaInputWidget(IWidgetWindow(this._frame.findChildByName("input_widget")).widget).submitHandler = this;
+            this._habbiconButton = this._frame.findChildByName("habbicon_button");
             this._pendingMessages = new Array();
         }
 
@@ -157,6 +164,11 @@
                     }
                     this._batchUpdatingTimer = null;
                 }
+                if (this._habbiconPicker != null)
+                {
+                    this._habbiconPicker.dispose();
+                    this._habbiconPicker = null;
+                }
                 this._chatEntries = null;
                 this._messenger = null;
             }
@@ -195,6 +207,10 @@
 
         public function hide():void
         {
+            if (this._habbiconPicker != null)
+            {
+                this._habbiconPicker.hide();
+            }
             this._frame.visible = false;
         }
 
@@ -266,6 +282,19 @@
         public function addConsoleMessage(k:int, _arg_2:String, _arg_3:int, _arg_4:String):void
         {
             this.recordChatMessage(k, _arg_2, true, _arg_3, _arg_4);
+        }
+
+        public function addHabbiconConsoleMessage(chatId:int, contentType:int, messageText:String, habbiconId:int, secondsSinceSent:int, messageId:String, confirmationId:int, senderId:int, senderName:String, senderFigure:String):void
+        {
+            var fromOther:Boolean = senderId != this._messenger.sessionDataManager.userId;
+            if (contentType == HabbiconMessengerContent.MESSAGE_TYPE_HABBICON)
+            {
+                this.recordHabbiconMessage(chatId, habbiconId, fromOther, secondsSinceSent, senderId, senderName, senderFigure, messageId, confirmationId);
+            }
+            else
+            {
+                this.recordChatMessage(chatId, messageText, fromOther, secondsSinceSent, this.buildExtraData(senderName, senderFigure, senderId));
+            }
         }
 
         public function addRoomInvite(k:int, _arg_2:String):void
@@ -369,6 +398,14 @@
             }
         }
 
+        private function recordHabbiconMessage(conversationId:int, habbiconId:int, fromOther:Boolean, secondsSinceSent:int, senderId:int, senderName:String, senderFigure:String, messageId:String=null, confirmationId:int=0):void
+        {
+            var type:int = fromOther ? ChatEntry.TYPE_OTHER_CHAT : ChatEntry.TYPE_OWN_CHAT;
+            var entrySenderId:int = fromOther ? senderId : 0;
+            var extraData:String = this.buildExtraData(senderName, senderFigure, senderId);
+            this.recordChatEntry(conversationId, new ChatEntry(type, entrySenderId, "", secondsSinceSent, extraData, ChatEntry.CONTENT_HABBICON, habbiconId, messageId, confirmationId), fromOther);
+        }
+
         private function recordNotificationMessage(k:int, _arg_2:String):void
         {
             this.recordChatEntry(k, new ChatEntry(ChatEntry.TYPE_NOTIFICATION, 0, _arg_2, 0));
@@ -415,7 +452,7 @@
                 _local_6 = _local_4[(_local_4.length - 1)];
                 if (k > 0)
                 {
-                    if (((_arg_2.type == _local_6.type) && ((_arg_2.type == ChatEntry.TYPE_OWN_CHAT) || (_arg_2.type == ChatEntry.TYPE_OTHER_CHAT))))
+                    if (((((_arg_2.type == _local_6.type) && (_arg_2.isTextMessage)) && (_local_6.isTextMessage)) && ((_arg_2.type == ChatEntry.TYPE_OWN_CHAT) || (_arg_2.type == ChatEntry.TYPE_OTHER_CHAT))))
                     {
                         _local_4.pop();
                         _arg_2._Str_19910(_local_6.message);
@@ -441,7 +478,7 @@
                             _local_7 = (_local_8 == _local_9);
                         }
                     }
-                    if (((_arg_2.type == _local_6.type) && ((_arg_2.type == ChatEntry.TYPE_OWN_CHAT) || (_local_7))))
+                    if (((((_arg_2.type == _local_6.type) && (_arg_2.isTextMessage)) && (_local_6.isTextMessage)) && ((_arg_2.type == ChatEntry.TYPE_OWN_CHAT) || (_local_7))))
                     {
                         _local_4.pop();
                         _arg_2._Str_19910(_local_6.message);
@@ -552,6 +589,7 @@
                     _local_2 = (this._chatMessageTemplate.clone() as IWidgetWindow);
                     _local_2.width = this.conversationItemWidth;
                     _local_3 = (_local_2.widget as IIlluminaChatBubbleWidget);
+                    _local_3.habbiconId = k.habbiconId;
                     _local_3.message = k.message;
                     _local_3.timeStamp = k._Str_22172();
                     _local_3.flipped = true;
@@ -584,6 +622,7 @@
                     _local_2 = (this._chatMessageTemplate.clone() as IWidgetWindow);
                     _local_2.width = this.conversationItemWidth;
                     _local_3 = (_local_2.widget as IIlluminaChatBubbleWidget);
+                    _local_3.habbiconId = k.habbiconId;
                     _local_3.message = k.message;
                     _local_3.timeStamp = k._Str_22172();
                     _local_3.flipped = false;
@@ -817,6 +856,10 @@
                         case "report_button":
                             this._messenger.reportUser(this._currentConversationId);
                             break;
+                        case "habbicon_button":
+                        case "habbicon_button_icon":
+                            this.toggleHabbiconPicker();
+                            break;
                         case "header_button_close":
                             this.hide();
                             break;
@@ -830,6 +873,10 @@
             if (_arg_2 == "")
             {
                 return;
+            }
+            if (this._habbiconPicker != null)
+            {
+                this._habbiconPicker.hide(false);
             }
             this._messenger.send(new SendMsgMessageComposer(this._currentConversationId, _arg_2));
             IIlluminaInputWidget(k.widget).message = "";
@@ -848,6 +895,58 @@
                 return " " + k;
             }
             return k;
+        }
+
+        private function toggleHabbiconPicker():void
+        {
+            if (this._currentConversationId == NO_CONVERSATION)
+            {
+                return;
+            }
+            if (!this.ensureHabbiconPicker())
+            {
+                return;
+            }
+            this._habbiconPicker.toggle(this._habbiconButton);
+        }
+
+        private function ensureHabbiconPicker():Boolean
+        {
+            var controller:HabbiconController = HabbiconController.instance;
+            var pickerWindow:IWindowContainer;
+            if (controller == null)
+            {
+                return false;
+            }
+            if (this._habbiconPicker == null || this._habbiconPicker.disposed)
+            {
+                pickerWindow = this._messenger.getXmlWindow("messenger_habbicon_picker") as IWindowContainer;
+                if (pickerWindow == null)
+                {
+                    return false;
+                }
+                this._habbiconPicker = new MessengerHabbiconPicker(pickerWindow, controller, this.onHabbiconSelected);
+            }
+            return true;
+        }
+
+        private function onHabbiconSelected(habbiconId:int, keepOpen:Boolean=false):void
+        {
+            var controller:HabbiconController = HabbiconController.instance;
+            if (controller == null || this._currentConversationId == NO_CONVERSATION || habbiconId <= 0)
+            {
+                return;
+            }
+            controller.sendHabbiconInstantMessage(this._currentConversationId, habbiconId, NEXT_HABBICON_CONFIRMATION_ID++);
+            if (!keepOpen && this._habbiconPicker != null)
+            {
+                this._habbiconPicker.hide(false);
+            }
+        }
+
+        private function buildExtraData(senderName:String, senderFigure:String, senderId:int):String
+        {
+            return ((senderName != null ? senderName : "") + "/" + (senderFigure != null ? senderFigure : "") + "/" + senderId);
         }
     }
 }

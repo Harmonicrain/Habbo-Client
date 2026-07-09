@@ -44,6 +44,9 @@
         public static const FIGURE_IS_PLAYING_GAME:String = "figure_is_playing_game";
         public static const FIGURE_IS_MUTED:String = "figure_is_muted";
         public static const FIGURE_GUIDE_STATUS:String = "figure_guide_status";
+        public static const FIGURE_HABBICON:String = "figure_habbicon";
+        public static const FIGURE_HABBICON_TRIGGER_SEQUENCE:String = "figure_habbicon_trigger_sequence";
+        public static const FIGURE_HABBICON_SPIN_OFFSET:String = "figure_habbicon_spin_offset";
         public static const HEAD_DIRECTION:String = "head_direction";
         public static const FURNITURE_REAL_ROOM_OBJECT:String = "furniture_real_room_object";
         public static const FURNITURE_COLOR:String = "furniture_color";

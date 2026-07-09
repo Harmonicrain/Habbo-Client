@@ -21,6 +21,7 @@ package com.sulake.habbo.room
     import com.sulake.habbo.communication.messages.incoming.room.engine.PublicRoomObjectsMessageEvent;
     import com.sulake.habbo.communication.messages.incoming.room.publicroom.BusDoorMessageEvent;
     import com.sulake.habbo.communication.messages.incoming.games.OpenGameBoardMessageEvent;
+    import com.sulake.habbo.communication.messages.incoming.games.OpenGamehallLeaderboardMessageEvent;
     import com.sulake.habbo.communication.messages.incoming.games.GameBoardUpdateMessageEvent;
     import com.sulake.habbo.communication.messages.incoming.games.CloseGameBoardMessageEvent;
     import com.sulake.habbo.communication.messages.incoming.room.engine.ItemsEvent;
@@ -238,6 +239,7 @@ package com.sulake.habbo.room
                 k.addMessageEvent(new PublicRoomObjectsMessageEvent(this.onPublicRoomObjects));
                 k.addMessageEvent(new BusDoorMessageEvent(this.onBusDoor));
                 k.addMessageEvent(new OpenGameBoardMessageEvent(this.onOpenGameBoard));
+                k.addMessageEvent(new OpenGamehallLeaderboardMessageEvent(this.onOpenGamehallLeaderboard));
                 k.addMessageEvent(new GameBoardUpdateMessageEvent(this.onGameBoardUpdate));
                 k.addMessageEvent(new CloseGameBoardMessageEvent(this.onCloseGameBoard));
                 k.addMessageEvent(new ItemsEvent(this.onItems));
@@ -418,6 +420,25 @@ package com.sulake.habbo.room
                 parser.gameType,
                 parser.localSeat,
                 parser.seatCount));
+        }
+
+        private function onOpenGamehallLeaderboard(k:IMessageEvent):void
+        {
+            var event:OpenGamehallLeaderboardMessageEvent = k as OpenGamehallLeaderboardMessageEvent;
+            var engine:IRoomEngineServices = this._roomCreator as IRoomEngineServices;
+            if (event == null || event.getParser() == null || engine == null || engine.events == null)
+            {
+                return;
+            }
+            engine.events.dispatchEvent(new RoomEngineGamehallEvent(
+                RoomEngineGamehallEvent.LEADERBOARD_OPEN,
+                this._currentRoomId,
+                0,
+                "",
+                0,
+                0,
+                "",
+                [event.getParser()]));
         }
 
         private function onGameBoardUpdate(k:IMessageEvent):void

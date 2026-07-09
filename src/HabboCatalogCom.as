@@ -183,6 +183,8 @@
         public static const thumb_up:Class = HabboCatalogCom_thumb_up;
         public static const bundlesInfoItem:Class = HabboCatalogCom_bundlesInfoItem;
         public static const soldLtdItemsWidget:Class = HabboCatalogCom_soldLtdItemsWidget;
+        public static var habbicon_view_xml:Class = HabboCatalogCom_habbicon_view_xml;
+        public static var habbicon_purchase_confirmation_xml:Class = HabboCatalogCom_habbicon_purchase_confirmation_xml;
         public static var rent_confirmation:Class = HabboCatalogCom_rent_confirmation;
         public static const badgeGridItem:Class = HabboCatalogCom_badgeGridItem;
         public static const activityPointDisplayWidget:Class = HabboCatalogCom_activityPointDisplayWidget;

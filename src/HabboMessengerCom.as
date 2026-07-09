@@ -24,6 +24,7 @@
         public static var msg_entry_xml:Class = HabboMessengerCom_msg_entry_xml;
         public static var tab_entry_xml:Class = HabboMessengerCom_tab_entry_xml;
         public static var messenger_xml:Class = HabboMessengerCom_messenger_xml;
+        public static var messenger_habbicon_picker_xml:Class = HabboMessengerCom_messenger_habbicon_picker_xml;
         public static var requiredClasses:Array = new Array(HabboMessengerBootstrap, IIDHabboMessenger);
     }
 }
