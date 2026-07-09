@@ -193,7 +193,23 @@
             </container>
           </children>
         </scrollable_itemlist_vertical>
-        <widget x="7" y="305" width="266" height="30" params="1168" style="100" name="input_widget">
+        <container_button x="243" y="305" width="30" height="28" params="1105" style="102" name="habbicon_button">
+          <children>
+            <static_bitmap x="8" y="7" width="14" height="14" params="16" style="100" name="habbicon_button_icon">
+              <variables>
+                <var key="asset_uri" value="habbicons_habbicons_dm" type="String"/>
+                <var key="pivot_point" value="center" type="String"/>
+                <var key="stretched_x" value="false" type="Boolean"/>
+                <var key="stretched_y" value="false" type="Boolean"/>
+                <var key="fit_size_to_contents" value="true" type="Boolean"/>
+              </variables>
+            </static_bitmap>
+          </children>
+          <variables>
+            <var key="tool_tip_caption" value="${messenger.habbicons.tooltip}" type="String"/>
+          </variables>
+        </container_button>
+        <widget x="7" y="305" width="232" height="30" params="1168" style="100" name="input_widget">
           <variables>
             <var key="widget_type" value="illumina_input" type="String"/>
             <var key="illumina_input:empty_message" value="${messenger.window.input.default}" type="String"/>

@@ -163,6 +163,10 @@
 
         public function imageReady(k:int, _arg_2:BitmapData):void
         {
+            if (this._disposed || this._imageCallbackIds == null)
+            {
+                return;
+            }
             var _local_3:String = this._imageCallbackIds.getValue(k);
             if (_local_3 != null)
             {
@@ -184,6 +188,10 @@
             var _local_4:ImageResult;
             var _local_5:int;
             var _local_6:String;
+            if (this._disposed || this._bitmap == null || this._windowManager == null || this._widgetWindow == null)
+            {
+                return;
+            }
             this._bitmap.bitmap = null;
             var k:PetFigureData = new PetFigureData(this._figure);
             if (this._windowManager.roomEngine != null)

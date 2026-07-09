@@ -535,10 +535,31 @@ button_shiny_regular {
     thickness: -15;
 }
 
+button_shiny_regular_white {
+    font-family: Ubuntu;
+    font-size: 12;
+    color: #ffffff;
+    kerning: true;
+    anti-alias-type: advanced;
+    sharpness: 80;
+    thickness: -15;
+}
+
 button_shiny_bold {
     font-family: Ubuntu;
     font-weight: bold;
     font-size: 12;
+    kerning: true;
+    anti-alias-type: advanced;
+    sharpness: 80;
+    thickness: -15;
+}
+
+button_shiny_bold_white {
+    font-family: Ubuntu;
+    font-weight: bold;
+    font-size: 12;
+    color: #ffffff;
     kerning: true;
     anti-alias-type: advanced;
     sharpness: 80;

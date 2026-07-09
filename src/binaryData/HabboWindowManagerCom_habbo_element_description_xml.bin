@@ -186,6 +186,12 @@
     <window type="frame_pointer_down"	intent="bubble" style="7"	renderer="skin"	asset="habbo_skin_frame_pointer_down_xml"	layout="frame_pointer_down"   />
 
 
+    <!-- May 2026 leaderboard frame -->
+    <window type="frame"		        intent="leaderboard total badges" style="10000"	renderer="skin"	asset="habbo_skin_frame_leaderboard_all_xml"	window_layout="habbo_window_layout_frame_leaderboard_xml" layout="frame_leaderboard" color="0xffffffff" />
+    <window type="header"		        intent="leaderboard total badges" style="10000"	renderer="skin"	asset="habbo_skin_header_leaderboard_xml"	window_layout="habbo_window_layout_header_leaderboard_xml" layout="header_leaderboard" color="0xffffffff" treshold="0" />
+    <window type="closebutton"			intent="leaderboard total badges" style="10000"	renderer="skin"	asset="habbo_skin_button_close_leaderboard_xml"	layout="button_close_leaderboard" treshold="0" background="true" />
+
+
 	<!-- Illumina light -->
     <window type="frame" intent="default" 	style="100" renderer="skin" asset="illumina_light_skin_frame_xml" window_layout="illumina_light_frame_xml" layout="illumina_light_frame" />
     <window type="frame" intent="modal" 	style="101" renderer="null" window_layout="illumina_light_frame_modal_xml" />
@@ -430,7 +436,7 @@
     </window>
 
     <window type="icon" intent="Pumpkin And Credits Big" style="51" renderer="skin" asset="habbo_skin_icon_set_xml" layout="iconPumpkinAndCreditsBig">
-        <states><state name="default" layout="iconPumpkinAndCreditsBig" template="icon_51" /></states>
+        <states><state name="default" layout="iconPlainPumpkinAndCreditsBig" template="icon_51" /></states>
     </window>
     <window type="icon" intent="Mobile icon square" style="52" renderer="skin" asset="habbo_skin_icon_set_xml" layout="icon24">
         <states><state name="default" layout="icon24" template="icon_52" /></states>
@@ -445,4 +451,221 @@
         <window type="icon" intent="seashell Big" style="55" renderer="skin" asset="habbo_skin_icon_set_xml" layout="iconSeashellBig">
         <states><state name="default" layout="iconSeashellBig" template="icon_55" /></states>
     </window>
+
+    <!-- July 2026 style extensions for Reward Track / leaderboard / Illumina widgets. -->
+    <window type="bitmap_fill" intent="default" style="0" renderer="bitmap_fill" color="0xffffffff" />
+
+    
+    <window type="border" intent="white with sharpest corners" style="11" renderer="skin" asset="habbo_skin_border_slot_2_xml" layout="border_slot_2" />
+    
+    <window type="border" intent="white with thin dark border, sharpest corners, shadow" style="12" renderer="skin" asset="habbo_skin_border_12_xml" layout="border_12" />
+    
+    <window type="border" intent="ancient border" style="13" renderer="skin" asset="habbo_skin_border_13_xml" layout="border_13" />
+    
+    <window type="border" intent="white round with grey light border" style="14" renderer="skin" asset="habbo_skin_border_14_xml" layout="border_14" />
+    
+    <window type="border" intent="recolorable round border" style="15" renderer="skin" asset="habbo_skin_border_15_xml" layout="border_15" />
+    
+    <window type="border" intent="recolorable round border 2" style="16" renderer="skin" asset="habbo_skin_border_16_xml" layout="border_16" />
+
+    
+    
+    <window type="button" intent="dark recolorable" style="106" renderer="skin" asset="illumina_light_skin_button_dark_recolorable_xml" window_layout="illumina_light_button_plain_xml" layout="illumina_light_button_dark_recolorable" />
+
+    
+    <window type="closebutton" intent="menu" style="5" renderer="skin" asset="habbo_skin_button_menu_xml" layout="button_menu" treshold="0" background="true" />
+
+
+    
+	
+    <window type="closebutton" intent="minimize" style="102" renderer="skin" asset="illumina_light_skin_button_frame_minimize_xml" layout="illumina_light_button_frame_minimize" treshold="0" background="true" />
+    
+    <window type="closebutton" intent="leaderboard achievement level" style="10001" renderer="skin" asset="habbo_skin_button_close_leaderboard_xml" layout="button_close_leaderboard" treshold="0" background="true" />
+    
+    <window type="closebutton" intent="leaderboard rare badges" style="10002" renderer="skin" asset="habbo_skin_button_close_leaderboard_xml" layout="button_close_leaderboard" treshold="0" background="true" />
+    
+    <window type="closebutton" intent="leaderboard very rare badges" style="10003" renderer="skin" asset="habbo_skin_button_close_leaderboard_xml" layout="button_close_leaderboard" treshold="0" background="true" />
+    
+    <window type="closebutton" intent="leaderboard mythical badges" style="10004" renderer="skin" asset="habbo_skin_button_close_leaderboard_xml" layout="button_close_leaderboard" treshold="0" background="true" />
+    
+    <window type="closebutton" intent="leaderboard legendary badges" style="10005" renderer="skin" asset="habbo_skin_button_close_leaderboard_xml" layout="button_close_leaderboard" treshold="0" background="true" />
+    
+    <window type="closebutton" intent="leaderboard unique badges" style="10006" renderer="skin" asset="habbo_skin_button_close_leaderboard_xml" layout="button_close_leaderboard" treshold="0" background="true" />
+
+
+
+
+    
+
+	
+    <window type="closebutton" intent="leaderboard uncommon badges" style="10007" renderer="skin" asset="habbo_skin_button_close_leaderboard_xml" layout="button_close_leaderboard" treshold="0" background="true" />
+    
+    <window type="container_button" intent="default thin" style="7" renderer="skin" asset="habbo_skin_button_shiny_default_xml" window_layout="habbo_window_layout_button_shiny_xml" layout="button_shiny" />
+
+    
+    
+    <window type="container_button" intent="multi-left" style="104" renderer="skin" asset="illumina_light_skin_button_multi_left_xml" layout="illumina_light_button_multi_left" />
+    
+    <window type="container_button" intent="multi-right" style="105" renderer="skin" asset="illumina_light_skin_button_multi_right_xml" layout="illumina_light_button_multi_right" />
+    
+    <window type="container_button" intent="multi-middle" style="106" renderer="skin" asset="illumina_light_skin_button_multi_middle_xml" layout="illumina_light_button_multi_middle" />
+    
+    <window type="container_button" intent="dark recolorable" style="109" renderer="skin" asset="illumina_light_skin_button_dark_recolorable_xml" layout="illumina_light_button_dark_recolorable" />
+
+    
+    <window type="frame" intent="leaderboard achievement level" style="10001" renderer="skin" asset="habbo_skin_frame_leaderboard_ach_xml" window_layout="habbo_window_layout_frame_leaderboard_xml" layout="frame_leaderboard" color="0xffffffff" />
+    
+    <window type="frame" intent="leaderboard rare badges" style="10002" renderer="skin" asset="habbo_skin_frame_leaderboard_rarity_1_xml" window_layout="habbo_window_layout_frame_leaderboard_xml" layout="frame_leaderboard" color="0xffffffff" />
+    
+    <window type="frame" intent="leaderboard very rare badges" style="10003" renderer="skin" asset="habbo_skin_frame_leaderboard_rarity_2_xml" window_layout="habbo_window_layout_frame_leaderboard_xml" layout="frame_leaderboard" color="0xffffffff" />
+    
+    <window type="frame" intent="leaderboard mythical badges" style="10004" renderer="skin" asset="habbo_skin_frame_leaderboard_rarity_3_xml" window_layout="habbo_window_layout_frame_leaderboard_xml" layout="frame_leaderboard" color="0xffffffff" />
+    
+    <window type="frame" intent="leaderboard legendary badges" style="10005" renderer="skin" asset="habbo_skin_frame_leaderboard_rarity_4_xml" window_layout="habbo_window_layout_frame_leaderboard_xml" layout="frame_leaderboard" color="0xffffffff" />
+    
+    <window type="frame" intent="leaderboard unique badges" style="10006" renderer="skin" asset="habbo_skin_frame_leaderboard_rarity_5_xml" window_layout="habbo_window_layout_frame_leaderboard_xml" layout="frame_leaderboard" color="0xffffffff" />
+    
+    <window type="frame" intent="leaderboard uncommon badges" style="10007" renderer="skin" asset="habbo_skin_frame_leaderboard_rarity_uncommon_xml" window_layout="habbo_window_layout_frame_leaderboard_xml" layout="frame_leaderboard" color="0xffffffff" />
+    
+    <window type="gradient" intent="default" style="0" renderer="gradient" />
+    
+    <window type="header" intent="leaderboard achievement level" style="10001" renderer="skin" asset="habbo_skin_header_leaderboard_xml" window_layout="habbo_window_layout_header_leaderboard_xml" layout="header_leaderboard" color="0xffffffff" treshold="0" />
+    
+    <window type="header" intent="leaderboard rare badges" style="10002" renderer="skin" asset="habbo_skin_header_leaderboard_xml" window_layout="habbo_window_layout_header_leaderboard_xml" layout="header_leaderboard" color="0xffffffff" treshold="0" />
+    
+    <window type="header" intent="leaderboard very rare badges" style="10003" renderer="skin" asset="habbo_skin_header_leaderboard_xml" window_layout="habbo_window_layout_header_leaderboard_xml" layout="header_leaderboard" color="0xffffffff" treshold="0" />
+    
+    <window type="header" intent="leaderboard mythical badges" style="10004" renderer="skin" asset="habbo_skin_header_leaderboard_xml" window_layout="habbo_window_layout_header_leaderboard_xml" layout="header_leaderboard" color="0xffffffff" treshold="0" />
+    
+    <window type="header" intent="leaderboard legendary badges" style="10005" renderer="skin" asset="habbo_skin_header_leaderboard_xml" window_layout="habbo_window_layout_header_leaderboard_xml" layout="header_leaderboard" color="0xffffffff" treshold="0" />
+    
+    <window type="header" intent="leaderboard unique badges" style="10006" renderer="skin" asset="habbo_skin_header_leaderboard_xml" window_layout="habbo_window_layout_header_leaderboard_xml" layout="header_leaderboard" color="0xffffffff" treshold="0" />
+    
+    <window type="header" intent="leaderboard uncommon badges" style="10007" renderer="skin" asset="habbo_skin_header_leaderboard_xml" window_layout="habbo_window_layout_header_leaderboard_xml" layout="header_leaderboard" color="0xffffffff" treshold="0" />
+    
+    <window type="icon" intent="silver Big" style="56" renderer="skin" asset="habbo_skin_icon_set_xml" layout="iconSilverBig">
+        <states><state name="default" layout="iconSilverBig" template="icon_56" /></states>
+    </window>
+    
+    <window type="icon" intent="silver Small" style="57" renderer="skin" asset="habbo_skin_icon_set_xml" layout="iconSilverSmall">
+        <states><state name="default" layout="iconSilverSmall" template="icon_57" /></states>
+    </window>
+    
+    <window type="icon" intent="flower Big" style="58" renderer="skin" asset="habbo_skin_icon_set_xml" layout="iconSilverBig">
+        <states><state name="default" layout="iconSilverBig" template="icon_58" /></states>
+    </window>
+    
+    <window type="icon" intent="flower Small" style="59" renderer="skin" asset="habbo_skin_icon_set_xml" layout="iconSilverSmall">
+        <states><state name="default" layout="iconSilverSmall" template="icon_59" /></states>
+    </window>
+    
+    <window type="icon" intent="candy Big" style="60" renderer="skin" asset="habbo_skin_icon_set_xml" layout="iconCandyBig">
+        <states><state name="default" layout="iconCandyBig" template="icon_60" /></states>
+    </window>
+    
+    <window type="icon" intent="candy Small" style="61" renderer="skin" asset="habbo_skin_icon_set_xml" layout="iconCandySmall">
+        <states><state name="default" layout="iconCandySmall" template="icon_61" /></states>
+    </window>
+    
+    <window type="icon" intent="popsicle Big" style="62" renderer="skin" asset="habbo_skin_icon_set_xml" layout="iconPopsicleBig">
+        <states><state name="default" layout="iconPopsicleBig" template="icon_62" /></states>
+    </window>
+    
+    <window type="icon" intent="popsicle Small" style="63" renderer="skin" asset="habbo_skin_icon_set_xml" layout="iconPopsicleSmall">
+        <states><state name="default" layout="iconPopsicleSmall" template="icon_63" /></states>
+    </window>
+    
+    <window type="icon" intent="goldfish Big" style="64" renderer="skin" asset="habbo_skin_icon_set_xml" layout="iconGoldfishBig">
+        <states><state name="default" layout="iconGoldfishBig" template="icon_64" /></states>
+    </window>
+    
+    <window type="icon" intent="goldfish Small" style="65" renderer="skin" asset="habbo_skin_icon_set_xml" layout="iconGoldfishSmall">
+        <states><state name="default" layout="iconGoldfishSmall" template="icon_65" /></states>
+    </window>
+    
+    <window type="icon" intent="balloon Big" style="66" renderer="skin" asset="habbo_skin_icon_set_xml" layout="iconBalloonBig">
+        <states><state name="default" layout="iconBalloonBig" template="icon_66" /></states>
+    </window>
+    
+    <window type="icon" intent="balloon Small" style="67" renderer="skin" asset="habbo_skin_icon_set_xml" layout="iconBalloonSmall">
+        <states><state name="default" layout="iconBalloonSmall" template="icon_67" /></states>
+    </window>
+    
+    <window type="icon" intent="pumpkin Big" style="68" renderer="skin" asset="habbo_skin_icon_set_xml" layout="iconPumpkinBig">
+        <states><state name="default" layout="iconPumpkinBig" template="icon_68" /></states>
+    </window>
+    
+    <window type="icon" intent="pumpkin Small" style="69" renderer="skin" asset="habbo_skin_icon_set_xml" layout="iconPumpkinSmall">
+        <states><state name="default" layout="iconPumpkinSmall" template="icon_69" /></states>
+    </window>
+    
+    <window type="icon" intent="emerald Big" style="70" renderer="skin" asset="habbo_skin_icon_set_xml" layout="iconEmeraldBig">
+        <states><state name="default" layout="iconEmeraldBig" template="icon_70" /></states>
+    </window>
+    
+    <window type="icon" intent="emerald Small" style="71" renderer="skin" asset="habbo_skin_icon_set_xml" layout="iconEmeraldSmall">
+        <states><state name="default" layout="iconEmeraldSmall" template="icon_71" /></states>
+    </window>
+    
+    <window type="icon" intent="easterEggs Big" style="72" renderer="skin" asset="habbo_skin_icon_set_xml" layout="iconEasterEggsBig">
+        <states><state name="default" layout="iconEasterEggsBig" template="icon_72" /></states>
+    </window>
+    
+    <window type="icon" intent="easterEggs Small" style="73" renderer="skin" asset="habbo_skin_icon_set_xml" layout="iconEasterEggsSmall">
+        <states><state name="default" layout="iconEasterEggsSmall" template="icon_73" /></states>
+    </window>
+    
+    <window type="icon" intent="truffles Big" style="74" renderer="skin" asset="habbo_skin_icon_set_xml" layout="iconTrufflesBig">
+        <states><state name="default" layout="iconTrufflesBig" template="icon_74" /></states>
+    </window>
+    
+    <window type="icon" intent="truffles Small" style="75" renderer="skin" asset="habbo_skin_icon_set_xml" layout="iconTrufflesSmall">
+        <states><state name="default" layout="iconTrufflesSmall" template="icon_75" /></states>
+    </window>
+    
+    <window type="icon" intent="blueBalloon Big" style="76" renderer="skin" asset="habbo_skin_icon_set_xml" layout="iconBlueBalloonsBig">
+        <states><state name="default" layout="iconBlueBalloonsBig" template="icon_76" /></states>
+    </window>
+    
+    <window type="icon" intent="blueBalloon Small" style="77" renderer="skin" asset="habbo_skin_icon_set_xml" layout="iconBlueBalloonsSmall">
+        <states><state name="default" layout="iconBlueBalloonsSmall" template="icon_77" /></states>
+    </window>
+    
+    <window type="icon" intent="mushrooms Big" style="78" renderer="skin" asset="habbo_skin_icon_set_xml" layout="iconMushroomsBig">
+        <states><state name="default" layout="iconMushroomsBig" template="icon_78" /></states>
+    </window>
+    
+    <window type="icon" intent="mushrooms Small" style="79" renderer="skin" asset="habbo_skin_icon_set_xml" layout="iconMushroomsSmall">
+        <states><state name="default" layout="iconMushroomsSmall" template="icon_79" /></states>
+    </window>
+    
+    <window type="icon" intent="acorn Big" style="80" renderer="skin" asset="habbo_skin_icon_set_xml" layout="iconAcornBig">
+        <states><state name="default" layout="iconAcornBig" template="icon_80" /></states>
+    </window>
+    
+    <window type="icon" intent="acorn Small" style="81" renderer="skin" asset="habbo_skin_icon_set_xml" layout="iconAcornSmall">
+        <states><state name="default" layout="iconAcornSmall" template="icon_81" /></states>
+    </window>
+    
+    <window type="icon" intent="coconuts Big" style="82" renderer="skin" asset="habbo_skin_icon_set_xml" layout="iconCoconutsBig">
+        <states><state name="default" layout="iconCoconutsBig" template="icon_82" /></states>
+    </window>
+    
+    <window type="icon" intent="coconuts Small" style="83" renderer="skin" asset="habbo_skin_icon_set_xml" layout="iconCoconutsSmall">
+        <states><state name="default" layout="iconCoconutsSmall" template="icon_83" /></states>
+    </window>
+
+    <window type="iconbutton" intent="plus" style="3" renderer="skin" asset="habbo_skin_button_plus_3_xml" layout="button_plus_3" treshold="0" background="true" />
+
+    
+    
+    <window type="iconbutton" intent="minus" style="4" renderer="skin" asset="habbo_skin_button_minus_3_xml" layout="button_minus_3" treshold="0" background="true" />
+
+    
+    
+    <window type="shape" intent="default" style="0" renderer="shape" color="0xffffffff" />
+    
+    <window type="stroke" intent="default" style="0" renderer="stroke" color="0xff000000" />
+    
+
 </skin>

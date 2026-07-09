@@ -11,6 +11,7 @@
         public static const UBUNTU:String = "Ubuntu";
         public static const ILLUMINA_LIGHT:String = "Illumina Light";
         public static const ILLUMINA_DARK:String = "Illumina Dark";
+        public static const LEADERBOARD:String = "Leaderboard";
 
         private var _name:String;
         private var _isReal:Boolean;

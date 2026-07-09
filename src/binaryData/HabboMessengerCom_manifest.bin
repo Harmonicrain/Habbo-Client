@@ -21,6 +21,7 @@
 	    <asset mimeType="text/xml" name="tab_entry_xml" />
 
         <asset mimeType="text/xml" name="messenger_xml" />
+        <asset mimeType="text/xml" name="messenger_habbicon_picker_xml" />
 
 	   </assets>	  
 	</component>

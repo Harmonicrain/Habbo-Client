@@ -9,6 +9,7 @@
             <asset mimeType="text/xml" name="room_view_container_xml"/>
 
             <asset mimeType="text/xml" name="spectator_mode_xml"/>
+            <asset mimeType="text/xml" name="habbiconselector_menu_xml"/>
 
             <asset mimeType="image/png" name="spec_top_left_png"/>
             <asset mimeType="image/png" name="spec_top_middle_png"/>

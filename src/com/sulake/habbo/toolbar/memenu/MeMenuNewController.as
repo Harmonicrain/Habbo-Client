@@ -55,8 +55,18 @@
             if ((_arg_2 is IRegionWindow))
             {
                 _local_3 = (_arg_2 as IRegionWindow);
-                _local_4 = (_local_3.findChildByName((_arg_2.name + "_icon_color")) as IStaticBitmapWrapperWindow);
-                _local_5 = (_local_3.findChildByName((_arg_2.name + "_icon_grey")) as IStaticBitmapWrapperWindow);
+            }
+            else
+            {
+                if (((_arg_2.parent) && (_arg_2.parent is IRegionWindow)))
+                {
+                    _local_3 = (_arg_2.parent as IRegionWindow);
+                }
+            }
+            if (_local_3)
+            {
+                _local_4 = (_local_3.findChildByName((_local_3.name + "_icon_color")) as IStaticBitmapWrapperWindow);
+                _local_5 = (_local_3.findChildByName((_local_3.name + "_icon_grey")) as IStaticBitmapWrapperWindow);
                 _local_6 = (_local_3.findChildByName("field_text") as ITextWindow);
                 switch (k.type)
                 {
@@ -86,7 +96,7 @@
                         this._window.visible = false;
                         if (this._habboToolbar != null)
                         {
-                            switch (_arg_2.name)
+                            switch (_local_3.name)
                             {
                                 case "profile":
                                     this._habboToolbar.connection.send(new GetExtendedProfileMessageComposer(this._habboToolbar.sessionDataManager.userId));
@@ -118,6 +128,12 @@
                                     break;
                                 case "forums":
                                     this._habboToolbar.context.createLinkEvent("groupforum/list/my");
+                                    break;
+                                case "progression":
+                                    if (this._habboToolbar.questEngine != null)
+                                    {
+                                        this._habboToolbar.questEngine.openRewardTrack("introduction");
+                                    }
                                     break;
                             }
                             return;

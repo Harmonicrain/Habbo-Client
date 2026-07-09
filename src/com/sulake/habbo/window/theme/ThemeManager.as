@@ -19,7 +19,7 @@
 
     public class ThemeManager implements IThemeManager 
     {
-        private static const THEMES:Array = [Theme.NONE, Theme.VOLTER, Theme.UBUNTU, Theme.ILLUMINA_LIGHT, Theme.ILLUMINA_DARK, Theme.ICON, Theme.LEGACY_BORDER];
+        private static const THEMES:Array = [Theme.NONE, Theme.VOLTER, Theme.UBUNTU, Theme.ILLUMINA_LIGHT, Theme.ILLUMINA_DARK, Theme.LEADERBOARD, Theme.ICON, Theme.LEGACY_BORDER];
         private static const LEGACY_STYLE_UPPER_BOUND:int = 100;
 
         private var _themes:Dictionary;
@@ -108,6 +108,7 @@
             }
             this._themes[Theme.LEGACY_BORDER] = new Theme(Theme.LEGACY_BORDER, false, 0, borderCount, properties);
             this._themes[Theme.VOLTER] = new Theme(Theme.VOLTER, true, 0, 3, properties.clone());
+            this._themes[Theme.LEADERBOARD] = new Theme(Theme.LEADERBOARD, true, 10000, 1, properties.clone());
             propertyDefaults = properties.clone();
             propertyDefaults.addEnumeration(PropertyKeys.ANTIALIAS_TYPE, AntiAliasType.ADVANCED, [AntiAliasType.NORMAL, AntiAliasType.ADVANCED]);
             propertyDefaults.addEnumeration(PropertyKeys.TEXT_STYLE, "u_regular", TextStyleManager.getStyleNameArrayRef());

@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<skin name="illumina_light_skin_button_multi_right" version="0.0">
+
+    <!-- shared variables -->
+    <variables>
+        <variable key="asset" value="illumina_light_button_multi_png" type="String"/>
+    </variables>
+
+    <!-- the following maps states to layouts and templates -->
+    <states>
+        <state name="default" layout="illumina_light_button_multi_middle" template="illumina_light_button_multi_middle_template"/>
+        <state name="hovering" layout="illumina_light_button_multi_middle" template="illumina_light_button_multi_middle_hovering_template"/>
+        <state name="pressed" layout="illumina_light_button_multi_middle" template="illumina_light_button_multi_middle_pressed_template"/>
+    </states>
+
+    <!-- templates defines regions in bitmap asset -->
+    <templates>
+        <template name="illumina_light_button_multi_middle_template" asset="$asset">
+            <entities>
+                <entity name="button_top_center" type="bitmap"><region><Rectangle x="10" y="5" width="1" height="4"/></region></entity>
+                <entity name="button_center_center" type="bitmap"><region><Rectangle x="10" y="9" width="1" height="10"/></region></entity>
+                <entity name="button_bottom_center" type="bitmap"><region><Rectangle x="10" y="19" width="1" height="4"/></region></entity>
+
+                <entity name="button_etch_center" type="bitmap"><region><Rectangle x="10" y="56" width="1" height="1"/></region></entity>
+            </entities>
+        </template>
+
+        <template name="illumina_light_button_multi_middle_hovering_template" asset="$asset">
+            <entities>
+                <entity name="button_top_center" type="bitmap"><region><Rectangle x="10" y="25" width="1" height="4"/></region></entity>
+                <entity name="button_center_center" type="bitmap"><region><Rectangle x="10" y="29" width="1" height="10"/></region></entity>
+                <entity name="button_bottom_center" type="bitmap"><region><Rectangle x="10" y="39" width="1" height="4"/></region></entity>
+
+                <entity name="button_etch_center" type="bitmap"><region><Rectangle x="10" y="56" width="1" height="1"/></region></entity>
+            </entities>
+        </template>
+
+        <template name="illumina_light_button_multi_middle_pressed_template" asset="$asset">
+            <entities>
+                <entity name="button_top_center" type="bitmap"><region><Rectangle x="34" y="25" width="1" height="4"/></region></entity>
+                <entity name="button_center_center" type="bitmap"><region><Rectangle x="34" y="29" width="1" height="10"/></region></entity>
+                <entity name="button_bottom_center" type="bitmap"><region><Rectangle x="34" y="39" width="1" height="4"/></region></entity>
+
+                <entity name="button_etch_center" type="bitmap"><region><Rectangle x="10" y="56" width="1" height="1"/></region></entity>
+            </entities>
+        </template>
+    </templates>
+
+    <!-- markup for layout drawer -->
+    <layouts>
+        <layout name="illumina_light_button_multi_middle" transparent="true">
+            <entities>
+                <entity name="button_top_center" id="0" colorize="true"><region><Rectangle x="0" y="0" width="11" height="4"/></region><scale horizontal="strech" vertical="fixed"/></entity>
+                <entity name="button_center_center" id="0" colorize="true"><region><Rectangle x="0" y="4" width="11" height="10"/></region><scale horizontal="strech" vertical="strech"/></entity>
+                <entity name="button_bottom_center" id="0" colorize="true"><region><Rectangle x="0" y="14" width="11" height="4"/></region><scale horizontal="strech" vertical="move"/></entity>
+
+                <entity name="button_etch_center" id="0" colorize="false"><region><Rectangle x="0" y="18" width="11" height="1"/></region><scale horizontal="strech" vertical="move"/></entity>
+            </entities>
+        </layout>
+    </layouts>
+</skin>

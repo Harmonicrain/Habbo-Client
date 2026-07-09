@@ -4,10 +4,9 @@
       <children>
         <container x="0" y="0" width="471" height="100" params="1048592" style="3" name="bubblecont" tags="chat_bubble" width_min="90">
           <children>
-            <closebutton x="455" y="68" width="20" height="25" params="1" style="4" name="helpbutton" background="true" treshold="0" height_min="25" height_max="25"/>
-            <container x="0" y="60" width="451" height="57" params="16" style="3" name="chat_input_container">
+            <container x="0" y="60" width="471" height="57" params="16" style="3" name="chat_input_container">
               <children>
-                <border x="51" y="0" width="400" height="38" params="0" style="8" name="input_border" color="0x0e5e5e5">
+                <border x="11" y="0" width="400" height="38" params="0" style="8" name="input_border" color="0x0e5e5e5">
                   <children>
                     <region x="1" y="-1" width="401" height="37" params="1" style="3" name="helpbutton_show_hover_region" treshold="0"/>
                     <text x="10" y="9" width="325" height="23" params="16" style="0" name="block_text" caption="%24%7Bchat.input.alert.flood%7D" visible="false" treshold="0">
@@ -25,7 +24,7 @@
                         <var key="leading" value="0" type="Number"/>
                       </variables>
                     </text>
-                    <input x="10" y="7" width="326" height="24" params="1" style="0" name="chat_input" caption="%24%7Bwidgets.chatinput.default%7D" clipping="false" treshold="0" tags="FIT%3AchatInputField">
+                    <input x="50" y="7" width="326" height="24" params="1" style="0" name="chat_input" caption="%24%7Bwidgets.chatinput.default%7D" clipping="false" treshold="0" tags="FIT%3AchatInputField">
                       <variables>
                         <var key="always_show_selection" value="true" type="Boolean"/>
                         <var key="antialias_type" value="advanced" type="String"/>
@@ -67,11 +66,61 @@
                     <icon x="10" y="17" width="10" height="5" params="0" style="7" dynamic_style="brightness_and_shadow_under" color="0x04c4c4c"/>
                   </children>
                 </region>
+                <region x="427" y="0" width="41" height="38" params="1" style="3" dynamic_style="lifted_hover" name="chat_extra_button" clipping="false" treshold="0">
+                  <children>
+                    <container x="0" y="0" width="41" height="38" params="16" style="3" tags="%23icon">
+                      <children>
+                        <static_bitmap x="0" y="0" width="36" height="38" params="16" style="3" name="chat_extra_bg" clipping="false">
+                          <variables>
+                            <var key="asset_uri" value="habbicons_sticky_note" type="String"/>
+                            <var key="stretched_x" value="false" type="Boolean"/>
+                            <var key="stretched_y" value="false" type="Boolean"/>
+                            <var key="etching_color" value="0x48000000" type="hex"/>
+                            <var key="fit_size_to_contents" value="true" type="Boolean"/>
+                          </variables>
+                        </static_bitmap>
+                        <bitmap x="3" y="3" width="30" height="30" params="16" style="3" name="chat_extra_set_icon">
+                          <variables>
+                            <var key="pivot_point" value="center" type="String"/>
+                            <var key="stretched_x" value="false" type="Boolean"/>
+                            <var key="stretched_y" value="false" type="Boolean"/>
+                            <var key="etching_color" value="0x48000000" type="hex"/>
+                          </variables>
+                        </bitmap>
+                        <static_bitmap x="23" y="2" width="18" height="15" params="16" style="100" name="chat_extra_icon" clipping="false">
+                          <variables>
+                            <var key="asset_uri" value="habbicons_clip" type="String"/>
+                            <var key="pivot_point" value="center" type="String"/>
+                            <var key="stretched_x" value="false" type="Boolean"/>
+                            <var key="stretched_y" value="false" type="Boolean"/>
+                            <var key="etching_color" value="0x48000000" type="hex"/>
+                            <var key="fit_size_to_contents" value="true" type="Boolean"/>
+                          </variables>
+                        </static_bitmap>
+                        <static_bitmap x="24" y="26" width="12" height="12" params="16" style="3" name="chat_extra_corner" clipping="false">
+                          <variables>
+                            <var key="asset_uri" value="habbicons_sticky_note2" type="String"/>
+                            <var key="stretched_x" value="false" type="Boolean"/>
+                            <var key="stretched_y" value="false" type="Boolean"/>
+                            <var key="etching_color" value="0x48000000" type="hex"/>
+                            <var key="fit_size_to_contents" value="true" type="Boolean"/>
+                          </variables>
+                        </static_bitmap>
+                      </children>
+                    </container>
+                  </children>
+                </region>
               </children>
             </container>
+            <closebutton x="382" y="68" width="20" height="25" params="1" style="4" name="helpbutton" background="true" treshold="0" height_min="25" height_max="25"/>
           </children>
         </container>
         <container x="2" y="-6" width="160" height="60" params="1179648" style="0" name="chatstyles_menu">
+          <filters>
+            <DropShadowFilter distance="4" alpha="0.6"/>
+          </filters>
+        </container>
+        <container x="2" y="-6" width="270" height="260" params="1179648" style="0" name="habbicon_menu">
           <filters>
             <DropShadowFilter distance="4" alpha="0.6"/>
           </filters>

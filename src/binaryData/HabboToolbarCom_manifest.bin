@@ -54,6 +54,8 @@
             <asset mimeType="text/xml" name="setting_category_xml" />
 
             <asset mimeType="text/xml" name="promo_duckets_xml" />
+            <asset mimeType="text/xml" name="gamehall_leaderboard_prompt_xml" />
+            <asset mimeType="image/png" name="prog_introduction_png" />
 
             <asset mimeType="image/png" name="icon_credit_0_png" />
             <asset mimeType="image/png" name="icon_credit_1_png" />
