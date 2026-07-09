@@ -25,6 +25,8 @@
         public static var roomtools_xml:Class = HabboToolbarCom_roomtools_xml;
         public static var roominfo_icon:Class = HabboToolbarCom_roominfo_icon;
         public static var promo_duckets_xml:Class = HabboToolbarCom_promo_duckets_xml;
+        public static var gamehall_leaderboard_prompt_xml:Class = HabboToolbarCom_gamehall_leaderboard_prompt_xml;
+        public static var prog_introduction_png:Class = HabboToolbarCom_prog_introduction_png;
         public static var purse_xml:Class = HabboToolbarCom_purse_xml;
         public static var settings_xml:Class = HabboToolbarCom_settings_xml;
         public static var setting_category_xml:Class = HabboToolbarCom_setting_category_xml;

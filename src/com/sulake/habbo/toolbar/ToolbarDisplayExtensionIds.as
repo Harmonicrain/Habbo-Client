@@ -21,5 +21,6 @@
         public static const VERIFICATION_CODE:String = "verification_code";
         public static const RETURN_GIFT:String = "return_gift";
         public static const TARGETED_OFFER:String = "targeted_offer";
+        public static const GAMEHALL_LEADERBOARD_PROMPT:String = "gamehall_leaderboard_prompt";
     }
 }

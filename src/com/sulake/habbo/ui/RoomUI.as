@@ -332,6 +332,9 @@
                 "type":RoomEngineGamehallEvent.CLOSE,
                 "callback":this.roomObjectEventHandler
             }, {
+                "type":RoomEngineGamehallEvent.LEADERBOARD_OPEN,
+                "callback":this.roomObjectEventHandler
+            }, {
                 "type":RoomEngineTriggerWidgetEvent.RETWE_REQUEST_INTERNAL_LINK,
                 "callback":this.roomObjectEventHandler
             }, {
@@ -1017,6 +1020,7 @@
                     _local_3.createWidget(RoomWidgetEnum.FRIEND_FURNI_ENGRAVING);
                     _local_3.createWidget(RoomWidgetEnum.HIGH_SCORE_DISPLAY);
                     _local_3.createWidget(RoomWidgetEnum.GAMEHALL_BOARD);
+                    _local_3.createWidget(RoomWidgetEnum.GAMEHALL_LEADERBOARD);
                     _local_3.createWidget(RoomWidgetEnum.INTERNAL_LINK);
                     _local_3.createWidget(RoomWidgetEnum.CUSTOM_STACK_HEIGHT);
                     _local_3.createWidget(RoomWidgetEnum.YOUTUBE);

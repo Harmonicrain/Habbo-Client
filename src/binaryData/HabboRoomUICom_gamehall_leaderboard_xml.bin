@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"?><layout name="main_view" width="412" height="650" version="0.1" uid="A06AE865-DA5F-83BE-B16D-13652C919851">
+  <window>
+    <frame x="18" y="12" width="412" height="650" params="32769" style="10000" width_min="412" width_max="412" height_min="650" height_max="650">
+      <filters>
+        <DropShadowFilter distance="4" alpha="0.34901960784313724" blurX="4" blurY="4"/>
+      </filters>
+      <children>
+        <container x="88" y="3" width="211" height="32" params="144" style="3" name="frame_header_override">
+          <children>
+            <itemlist_horizontal x="48" y="0" width="115" height="32" params="208" style="3">
+              <children>
+                <container x="0" y="0" width="96" height="27" params="147472" style="3" name="hacky_title">
+                  <children>
+                    <text x="0" y="5" width="94" height="21" params="16" style="3" name="title_txt_shadow_0" caption="Top%20Badges">
+                      <variables>
+                        <var key="auto_size" value="left" type="String"/>
+                        <var key="etching_position" value="top" type="String"/>
+                        <var key="font_size" value="16" type="uint"/>
+                        <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                        <var key="bold" value="true" type="Boolean"/>
+                        <var key="spacing" value="0" type="Number"/>
+                        <var key="leading" value="0" type="Number"/>
+                      </variables>
+                    </text>
+                    <text x="1" y="4" width="94" height="21" params="16" style="3" name="title_txt_shadow_1" caption="Top%20Badges">
+                      <variables>
+                        <var key="auto_size" value="left" type="String"/>
+                        <var key="etching_position" value="top" type="String"/>
+                        <var key="font_size" value="16" type="uint"/>
+                        <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                        <var key="bold" value="true" type="Boolean"/>
+                        <var key="spacing" value="0" type="Number"/>
+                        <var key="leading" value="0" type="Number"/>
+                      </variables>
+                    </text>
+                    <text x="2" y="5" width="94" height="21" params="16" style="3" name="title_txt_shadow_2" caption="Top%20Badges">
+                      <variables>
+                        <var key="auto_size" value="left" type="String"/>
+                        <var key="etching_position" value="top" type="String"/>
+                        <var key="font_size" value="16" type="uint"/>
+                        <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                        <var key="bold" value="true" type="Boolean"/>
+                        <var key="spacing" value="0" type="Number"/>
+                        <var key="leading" value="0" type="Number"/>
+                      </variables>
+                    </text>
+                    <text x="1" y="6" width="94" height="21" params="16" style="3" name="title_txt_shadow_3" caption="Top%20Badges">
+                      <variables>
+                        <var key="auto_size" value="left" type="String"/>
+                        <var key="etching_position" value="top" type="String"/>
+                        <var key="font_size" value="16" type="uint"/>
+                        <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                        <var key="bold" value="true" type="Boolean"/>
+                        <var key="spacing" value="0" type="Number"/>
+                        <var key="leading" value="0" type="Number"/>
+                      </variables>
+                    </text>
+                    <text x="1" y="5" width="94" height="21" params="16" style="3" name="title_txt" caption="Top%20Badges">
+                      <variables>
+                        <var key="auto_size" value="left" type="String"/>
+                        <var key="etching_position" value="top" type="String"/>
+                        <var key="font_size" value="16" type="uint"/>
+                        <var key="text_color" value="0xffffff" type="hex"/>
+                        <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                        <var key="thickness" value="50" type="Number"/>
+                        <var key="bold" value="true" type="Boolean"/>
+                        <var key="spacing" value="0" type="Number"/>
+                        <var key="leading" value="0" type="Number"/>
+                      </variables>
+                    </text>
+                  </children>
+                </container>
+                <region x="102" y="14" width="13" height="9" params="1" style="3" dynamic_style="button" name="dropdown_region" treshold="0">
+                  <children>
+                    <static_bitmap x="0" y="0" width="13" height="8" params="16" style="3" name="dropdown_opener" tags="%23icon">
+                      <variables>
+                        <var key="asset_uri" value="badge_leaderboard_dropdown_opener" type="String"/>
+                        <var key="stretched_x" value="false" type="Boolean"/>
+                        <var key="stretched_y" value="false" type="Boolean"/>
+                        <var key="etching_color" value="0x48000000" type="hex"/>
+                        <var key="fit_size_to_contents" value="true" type="Boolean"/>
+                      </variables>
+                    </static_bitmap>
+                    <dropmenu x="0" y="0" width="39" height="0" params="17" style="100" name="hidden_dropdown"/>
+                  </children>
+                </region>
+              </children>
+              <variables>
+                <var key="spacing" value="6" type="int"/>
+                <var key="resize_on_item_update" value="true" type="Boolean"/>
+              </variables>
+            </itemlist_horizontal>
+          </children>
+        </container>
+        <container x="6" y="59" width="376" height="574" params="2192" style="3" name="body">
+          <children>
+            <container x="0" y="0" width="376" height="54" params="144" style="3" name="info_container">
+              <children>
+                <static_bitmap x="0" y="0" width="376" height="54" params="16" style="3" name="info_bg">
+                  <variables>
+                    <var key="asset_uri" value="badge_leaderboard_header" type="String"/>
+                    <var key="stretched_x" value="false" type="Boolean"/>
+                    <var key="stretched_y" value="false" type="Boolean"/>
+                    <var key="fit_size_to_contents" value="true" type="Boolean"/>
+                  </variables>
+                </static_bitmap>
+                <static_bitmap x="4" y="1" width="65" height="47" params="16" style="3" name="rank_type_extended_img">
+                  <variables>
+                    <var key="asset_uri" value="badge_rarity_badges_emblem_unique_extended" type="String"/>
+                    <var key="pivot_point" value="bottom center" type="String"/>
+                    <var key="stretched_x" value="false" type="Boolean"/>
+                    <var key="stretched_y" value="false" type="Boolean"/>
+                  </variables>
+                </static_bitmap>
+                <text x="74" y="6" width="295" height="40" params="3145744" style="3" name="rank_type_info" caption="Players%20with%20the%20most%20unique%20badges.%0DUnique%20badges%20can%20be%20obtained%20from%20exceptional%20events%20where%20only%20a%20single%20user%20is%20awarded%20the%20badge.">
+                  <variables>
+                    <var key="auto_size" value="left" type="String"/>
+                    <var key="font_size" value="11" type="uint"/>
+                    <var key="text_color" value="0x222222" type="hex"/>
+                    <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                    <var key="multiline" value="true" type="Boolean"/>
+                    <var key="word_wrap" value="true" type="Boolean"/>
+                    <var key="spacing" value="0" type="Number"/>
+                    <var key="leading" value="0" type="Number"/>
+                  </variables>
+                </text>
+              </children>
+            </container>
+            <itemlist_vertical x="7" y="60" width="362" height="428" params="2192" style="3" name="ranking_list">
+              <children>
+                <container x="0" y="0" width="362" height="41" params="144" style="3" name="entry_template">
+                  <children>
+                    <static_bitmap x="0" y="0" width="362" height="41" params="16" style="3" name="entry_bg_even">
+                      <variables>
+                        <var key="asset_uri" value="badge_leaderboard_entry_even" type="String"/>
+                        <var key="stretched_x" value="false" type="Boolean"/>
+                        <var key="stretched_y" value="false" type="Boolean"/>
+                        <var key="fit_size_to_contents" value="true" type="Boolean"/>
+                      </variables>
+                    </static_bitmap>
+                    <static_bitmap x="0" y="0" width="362" height="41" params="16" style="3" name="entry_bg_uneven" visible="false">
+                      <variables>
+                        <var key="asset_uri" value="badge_leaderboard_entry_uneven" type="String"/>
+                        <var key="stretched_x" value="false" type="Boolean"/>
+                        <var key="stretched_y" value="false" type="Boolean"/>
+                        <var key="fit_size_to_contents" value="true" type="Boolean"/>
+                      </variables>
+                    </static_bitmap>
+                    <container x="5" y="1" width="45" height="39" params="3088" style="3" name="rank_container">
+                      <children>
+                        <border x="10" y="7" width="25" height="25" params="786640" style="14" name="rank_border" color="0x06382aa">
+                          <children>
+                            <text x="6" y="2" width="12" height="20" params="4194320" style="3" name="rank_number" caption="1">
+                              <variables>
+                                <var key="auto_size" value="left" type="String"/>
+                                <var key="etching_color" value="0xff000000" type="hex"/>
+                                <var key="etching_position" value="bottom-right" type="String"/>
+                                <var key="font_size" value="15" type="uint"/>
+                                <var key="text_color" value="0xffffff" type="hex"/>
+                                <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                                <var key="bold" value="true" type="Boolean"/>
+                                <var key="spacing" value="0" type="Number"/>
+                                <var key="leading" value="0" type="Number"/>
+                              </variables>
+                            </text>
+                          </children>
+                        </border>
+                      </children>
+                    </container>
+                    <region x="51" y="3" width="44" height="35" params="145" style="0" name="region_profile" color="0x00" treshold="0">
+                      <children>
+                        <container x="-3" y="-18" width="50" height="70" params="1073741840" style="0">
+                          <children>
+                            <bitmap x="20" y="30" width="10" height="10" params="1077673984" style="0" name="canvas"/>
+                          </children>
+                        </container>
+                      </children>
+                    </region>
+                    <text x="98" y="12" width="114" height="17" params="3088" style="3" name="username_txt" caption="Username%20very%20long">
+                      <variables>
+                        <var key="auto_size" value="left" type="String"/>
+                        <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                        <var key="spacing" value="0" type="Number"/>
+                        <var key="leading" value="0" type="Number"/>
+                      </variables>
+                    </text>
+                    <itemlist_horizontal x="287" y="7" width="64" height="26" params="262224" style="3" name="right_aligned">
+                      <children>
+                        <text x="0" y="5" width="31" height="17" params="16" style="3" name="score_txt" caption="7864">
+                          <variables>
+                            <var key="auto_size" value="left" type="String"/>
+                            <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                            <var key="bold" value="true" type="Boolean"/>
+                            <var key="spacing" value="0" type="Number"/>
+                            <var key="leading" value="0" type="Number"/>
+                          </variables>
+                        </text>
+                        <static_bitmap x="39" y="0" width="25" height="25" params="16" style="3" name="rank_type_img">
+                          <variables>
+                            <var key="asset_uri" value="badge_rarity_badges_emblem_unique" type="String"/>
+                            <var key="pivot_point" value="center" type="String"/>
+                            <var key="stretched_x" value="false" type="Boolean"/>
+                            <var key="stretched_y" value="false" type="Boolean"/>
+                            <var key="fit_size_to_contents" value="true" type="Boolean"/>
+                          </variables>
+                        </static_bitmap>
+                      </children>
+                      <variables>
+                        <var key="spacing" value="8" type="int"/>
+                        <var key="resize_on_item_update" value="true" type="Boolean"/>
+                      </variables>
+                    </itemlist_horizontal>
+                  </children>
+                </container>
+              </children>
+              <variables>
+                <var key="spacing" value="2" type="int"/>
+              </variables>
+            </itemlist_vertical>
+            <container x="3" y="492" width="370" height="43" params="1168" style="3" name="own_container">
+              <children>
+                <static_bitmap x="0" y="0" width="370" height="43" params="16" style="3" name="own_bg">
+                  <variables>
+                    <var key="asset_uri" value="badge_leaderboard_entry_self" type="String"/>
+                    <var key="stretched_x" value="false" type="Boolean"/>
+                    <var key="stretched_y" value="false" type="Boolean"/>
+                    <var key="fit_size_to_contents" value="true" type="Boolean"/>
+                  </variables>
+                </static_bitmap>
+                <container x="5" y="2" width="45" height="39" params="3088" style="3" name="rank_container">
+                  <children>
+                    <border x="9" y="7" width="27" height="25" params="786640" style="14" name="rank_border" color="0x06382aa">
+                      <children>
+                        <text x="6" y="2" width="14" height="20" params="4194320" style="3" name="rank_own" caption="--">
+                          <variables>
+                            <var key="auto_size" value="left" type="String"/>
+                            <var key="etching_color" value="0xff000000" type="hex"/>
+                            <var key="etching_position" value="bottom-right" type="String"/>
+                            <var key="font_size" value="15" type="uint"/>
+                            <var key="text_color" value="0xffffff" type="hex"/>
+                            <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                            <var key="bold" value="true" type="Boolean"/>
+                            <var key="spacing" value="0" type="Number"/>
+                            <var key="leading" value="0" type="Number"/>
+                          </variables>
+                        </text>
+                      </children>
+                    </border>
+                  </children>
+                </container>
+                <region x="51" y="4" width="44" height="35" params="145" style="0" name="region_profile" color="0x00" treshold="0">
+                  <children>
+                    <container x="-3" y="-18" width="50" height="70" params="1073741840" style="0">
+                      <children>
+                        <bitmap x="20" y="30" width="10" height="10" params="1077673984" style="0" name="canvas"/>
+                      </children>
+                    </container>
+                  </children>
+                </region>
+                <text x="97" y="13" width="99" height="17" params="3088" style="3" name="username_txt" caption="sirjonasxx-XIVXXI">
+                  <variables>
+                    <var key="auto_size" value="left" type="String"/>
+                    <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                    <var key="spacing" value="0" type="Number"/>
+                    <var key="leading" value="0" type="Number"/>
+                  </variables>
+                </text>
+                <itemlist_horizontal x="295" y="7" width="64" height="26" params="262224" style="3" name="right_aligned">
+                  <children>
+                    <text x="0" y="5" width="31" height="17" params="16" style="3" name="score_txt" caption="7864">
+                      <variables>
+                        <var key="auto_size" value="left" type="String"/>
+                        <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                        <var key="bold" value="true" type="Boolean"/>
+                        <var key="spacing" value="0" type="Number"/>
+                        <var key="leading" value="0" type="Number"/>
+                      </variables>
+                    </text>
+                    <static_bitmap x="39" y="0" width="25" height="25" params="16" style="3" name="rank_type_img">
+                      <variables>
+                        <var key="asset_uri" value="badge_rarity_badges_emblem_unique" type="String"/>
+                        <var key="pivot_point" value="center" type="String"/>
+                        <var key="stretched_x" value="false" type="Boolean"/>
+                        <var key="stretched_y" value="false" type="Boolean"/>
+                        <var key="fit_size_to_contents" value="true" type="Boolean"/>
+                      </variables>
+                    </static_bitmap>
+                  </children>
+                  <variables>
+                    <var key="spacing" value="8" type="int"/>
+                    <var key="resize_on_item_update" value="true" type="Boolean"/>
+                  </variables>
+                </itemlist_horizontal>
+              </children>
+            </container>
+            <itemlist_horizontal x="49" y="545" width="279" height="26" params="787664" style="3" name="buttons">
+              <children>
+                <button x="0" y="0" width="100" height="26" params="131089" style="3" name="previous_btn" caption="%24%7Bbadge_leaderboard.previous%7D" width_min="100" width_max="100">
+                  <variables>
+                    <var key="text_style" value="button_shiny_regular" type="String"/>
+                  </variables>
+                </button>
+                <button x="179" y="0" width="100" height="26" params="131089" style="3" name="next_btn" caption="%24%7Bbadge_leaderboard.next%7D" width_min="100" width_max="100">
+                  <variables>
+                    <var key="text_style" value="button_shiny_regular" type="String"/>
+                  </variables>
+                </button>
+              </children>
+              <variables>
+                <var key="spacing" value="79" type="int"/>
+                <var key="resize_on_item_update" value="true" type="Boolean"/>
+              </variables>
+            </itemlist_horizontal>
+          </children>
+        </container>
+      </children>
+      <variables>
+        <var key="margin_left" value="12" type="int"/>
+        <var key="margin_top" value="0" type="int"/>
+        <var key="margin_right" value="12" type="int"/>
+        <var key="margin_bottom" value="11" type="int"/>
+      </variables>
+    </frame>
+  </window>
+</layout>

@@ -99,6 +99,7 @@
     import com.sulake.habbo.ui.handler.FriendFurniEngravingWidgetHandler;
     import com.sulake.habbo.ui.handler.HighScoreFurniWidgetHandler;
     import com.sulake.habbo.ui.handler.GamehallWidgetHandler;
+    import com.sulake.habbo.ui.handler.GamehallLeaderboardWidgetHandler;
     import com.sulake.habbo.ui.handler.FurnitureInternalLinkHandler;
     import com.sulake.habbo.ui.handler.FurnitureCustomStackHeightWidgetHandler;
     import com.sulake.habbo.ui.handler.FurnitureYoutubeDisplayWidgetHandler;
@@ -145,7 +146,6 @@
     import com.sulake.core.window.events.WindowEvent;
     import flash.display.Sprite;
     import flash.display.BlendMode;
-    import com.sulake.habbo.communication.enum.perk.PerkEnum;
     import com.sulake.room.utils.ColorConverter;
     import flash.utils.getTimer;
     import com.sulake.core.runtime.Component;
@@ -889,6 +889,9 @@
                 case RoomWidgetEnum.GAMEHALL_BOARD:
                     widgetHandler = new GamehallWidgetHandler();
                     break;
+                case RoomWidgetEnum.GAMEHALL_LEADERBOARD:
+                    widgetHandler = new GamehallLeaderboardWidgetHandler();
+                    break;
                 case RoomWidgetEnum.INTERNAL_LINK:
                     widgetHandler = new FurnitureInternalLinkHandler();
                     break;
@@ -999,6 +1002,7 @@
                 case RoomWidgetEnum.AVATAR_INFO:
                 case RoomWidgetEnum.LOCATION_WIDGET:
                 case RoomWidgetEnum.GAMEHALL_BOARD:
+                case RoomWidgetEnum.GAMEHALL_LEADERBOARD:
                     return true;
                 default:
                     return false;
@@ -1292,6 +1296,7 @@
                 case RoomEngineGamehallEvent.OPEN:
                 case RoomEngineGamehallEvent.UPDATE:
                 case RoomEngineGamehallEvent.CLOSE:
+                case RoomEngineGamehallEvent.LEADERBOARD_OPEN:
                 case RoomEngineTriggerWidgetEvent.RETWE_REQUEST_INTERNAL_LINK:
                 case RoomEngineTriggerWidgetEvent.RETWE_REQUEST_ROOM_LINK:
                     this.processEvent(k);
@@ -1452,14 +1457,19 @@
 
         private function checkAndEnableMouseZoomEvent(k:DisplayObject):void
         {
-            k.removeEventListener(MouseEvent.MOUSE_WHEEL, this.mouseWheelHandler);
-            if (this._sessionDataManager.isPerkAllowed(PerkEnum.MOUSE_ZOOM))
+            if (k != null)
             {
-                k.addEventListener(MouseEvent.MOUSE_WHEEL, this.mouseWheelHandler);
+                k.removeEventListener(MouseEvent.MOUSE_WHEEL, this.mouseWheelHandler);
             }
+            if (this._roomCanvasWrapper == null)
+            {
+                return;
+            }
+            this._roomCanvasWrapper.removeEventListener(WindowMouseEvent.WHEEL, this.mouseWheelHandler);
+            this._roomCanvasWrapper.addEventListener(WindowMouseEvent.WHEEL, this.mouseWheelHandler);
         }
 
-        private function mouseWheelHandler(k:MouseEvent):void
+        private function mouseWheelHandler(k:WindowMouseEvent):void
         {
             var _local_2:Point;
             var _local_3:int;

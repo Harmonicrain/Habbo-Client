@@ -150,6 +150,11 @@
             {
                 this._windowManager.registerHintWindow(HabboToolbarIconEnum.getIconName(HabboToolbarIconEnum.INVENTORY), _local_12);
             }
+            _local_12 = (this._window.findChildByName(HabboToolbarIconEnum.getIconName(HabboToolbarIconEnum.PROGRESSION)) as IWindowContainer);
+            if (_local_12)
+            {
+                this._windowManager.registerHintWindow(HabboToolbarIconEnum.getIconName(HabboToolbarIconEnum.PROGRESSION), _local_12);
+            }
             var _local_13:IWindowContainer = (this._window.findChildByName(HabboToolbarIconEnum.getIconName(HabboToolbarIconEnum.CATALOGUE)) as IWindowContainer);
             _local_13.addChild(this._newItemsNotification);
             this._windowManager.registerHintWindow(HabboToolbarIconEnum.getIconName(HabboToolbarIconEnum.CATALOGUE), _local_13);
@@ -229,6 +234,7 @@
                 this._windowManager.unregisterHintWindow(HabboToolbarIconEnum.getIconName(HabboToolbarIconEnum.NAVIGATOR));
                 this._windowManager.unregisterHintWindow(HabboToolbarIconEnum.getIconName(HabboToolbarIconEnum.MEMENU));
                 this._windowManager.unregisterHintWindow(HabboToolbarIconEnum.getIconName(HabboToolbarIconEnum.INVENTORY));
+                this._windowManager.unregisterHintWindow(HabboToolbarIconEnum.getIconName(HabboToolbarIconEnum.PROGRESSION));
                 this._windowManager.unregisterHintWindow(HabboToolbarIconEnum.getIconName(HabboToolbarIconEnum.CATALOGUE));
             }
             if (this._toolbar)
@@ -513,6 +519,12 @@
         private function _Str_16033(k:WindowMouseEvent):void
         {
             var _local_2:String = IWindow(k.target).name;
+            if (_local_2 == HabboToolbarIconEnum.getIconName(HabboToolbarIconEnum.PROGRESSION))
+            {
+                (this._toolbar as Component).context.createLinkEvent("reward_track/open/introduction");
+                this._windowManager.hideMatchingHint(_local_2);
+                return;
+            }
             this._toolbar.toggleWindowVisibility(_local_2);
             this._windowManager.hideMatchingHint(_local_2);
         }
@@ -566,6 +578,9 @@
                     break;
                 case HabboToolbarIconEnum.QUESTS:
                     _local_2 = "icons_toolbar_quests";
+                    break;
+                case HabboToolbarIconEnum.PROGRESSION:
+                    _local_2 = "icons_toolbar_progression";
                     break;
                 case HabboToolbarIconEnum.GAMES:
                     _local_2 = "icons_toolbar_games";

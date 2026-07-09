@@ -7,6 +7,7 @@ package com.sulake.habbo.room.events
         public static const OPEN:String = "REGHE_GAMEHALL_OPEN";
         public static const UPDATE:String = "REGHE_GAMEHALL_UPDATE";
         public static const CLOSE:String = "REGHE_GAMEHALL_CLOSE";
+        public static const LEADERBOARD_OPEN:String = "REGHE_GAMEHALL_LEADERBOARD_OPEN";
 
         private var _gameType:String;
         private var _localSeat:int;
