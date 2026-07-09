@@ -2659,7 +2659,12 @@
 
         public function createProperty(k:String, _arg_2:Object):PropertyStruct
         {
-            return this._propertyDefaults.get(k).withValue(_arg_2);
+            var property:PropertyStruct = this._propertyDefaults.get(k);
+            if (property != null)
+            {
+                return property.withValue(_arg_2);
+            }
+            return createAdHocProperty(k, _arg_2);
         }
 
         public function getDefaultProperty(k:String):PropertyStruct
@@ -2670,6 +2675,44 @@
         public function isEnabled():Boolean
         {
             return !(this.getStateFlag(WindowState.DISABLED));
+        }
+
+        private static function createAdHocProperty(k:String, value:Object):PropertyStruct
+        {
+            var type:String = PropertyStruct.STRING;
+            if (value is Boolean)
+            {
+                type = PropertyStruct.BOOLEAN;
+            }
+            else if (value is int)
+            {
+                type = PropertyStruct.INT;
+            }
+            else if (value is uint)
+            {
+                type = PropertyStruct.UINT;
+            }
+            else if (value is Number)
+            {
+                type = PropertyStruct.NUMBER;
+            }
+            else if (value is Array)
+            {
+                type = PropertyStruct.ARRAY;
+            }
+            else if (value is Point)
+            {
+                type = PropertyStruct.POINT;
+            }
+            else if (value is Rectangle)
+            {
+                type = PropertyStruct.RECTANGLE;
+            }
+            else if (value is Map)
+            {
+                type = PropertyStruct.MAP;
+            }
+            return new PropertyStruct(k, value, type, true);
         }
 
         public function enableChildren(k:Boolean, _arg_2:Array):void

@@ -162,6 +162,10 @@
             _local_5 = new SkinLayoutEntity(_local_3, _local_4);
             _local_6 = k.attribute("colorize");
             _local_5.colorize = ((_local_6 == "") ? true : (_local_6 == "true"));
+            _local_6 = k.attribute("colorizeMethod");
+            _local_5.colorizeMethod = ((_local_6 == "") ? SkinLayoutEntity.COLORIZE_METHOD_MULTIPLY : String(_local_6));
+            _local_6 = k.attribute("shade");
+            _local_5.shade = ((_local_6 == "") ? 0 : Number(_local_6));
             _local_6 = null;
             _local_8 = k.child("color");
             if (_local_8.length() > 0)

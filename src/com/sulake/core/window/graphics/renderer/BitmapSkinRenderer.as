@@ -83,6 +83,8 @@
             var _local_27:uint;
             var _local_28:int;
             var _local_29:BitmapData;
+            var _local_30:Boolean;
+            var _local_31:Boolean;
             var _local_6:ISkinLayout = _Str_5580[_arg_4];
             var _local_7:ISkinTemplate = _Str_5217[_arg_4];
             if (_local_6 == null)
@@ -111,10 +113,31 @@
                     if (_local_10 != null)
                     {
                         _local_17 = this._Str_21725(_local_7, _local_9.name);
-                        if (((_local_15) && (_local_9.colorize)))
+                        _local_30 = false;
+                        if (((!(k.background)) && (_local_9.colorize) && (_local_9.colorizeMethod == SkinLayoutEntity.COLORIZE_METHOD_HSV_LAYER)))
                         {
                             _local_17 = _local_17.clone();
+                            _local_30 = true;
+                            HsvLayerColor.configureTransform(this._Str_591, k.color, _local_9.shade);
                             _local_17.colorTransform(_local_17.rect, this._Str_591);
+                            _local_31 = true;
+                        }
+                        else
+                        {
+                            if (((_local_15) && (_local_9.colorize)))
+                            {
+                                if (_local_31)
+                                {
+                                    this._Str_591.redMultiplier = (((k.color & 0xFF0000) >> 16) / 0xFF);
+                                    this._Str_591.greenMultiplier = (((k.color & 0xFF00) >> 8) / 0xFF);
+                                    this._Str_591.blueMultiplier = ((k.color & 0xFF) / 0xFF);
+                                    this._Str_591.alphaMultiplier = 1;
+                                    _local_31 = false;
+                                }
+                                _local_17 = _local_17.clone();
+                                _local_30 = true;
+                                _local_17.colorTransform(_local_17.rect, this._Str_591);
+                            }
                         }
                         _local_11 = false;
                         _local_12 = false;
@@ -250,7 +273,7 @@
                                 }
                             }
                         }
-                        if (((_local_15) && (_local_9.colorize)))
+                        if (_local_30)
                         {
                             _local_17.dispose();
                         }

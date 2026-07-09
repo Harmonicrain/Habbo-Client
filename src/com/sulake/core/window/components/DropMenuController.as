@@ -167,6 +167,11 @@
             return this._stringArray.length;
         }
 
+        public function openMenu():void
+        {
+            this._Str_9561();
+        }
+
         override public function get properties():Array
         {
             var k:Array = super.properties;

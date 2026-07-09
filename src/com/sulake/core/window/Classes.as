@@ -12,6 +12,7 @@
     import com.sulake.core.window.components.BitmapWrapperController;
     import com.sulake.core.window.components.CheckboxController;
     import com.sulake.core.window.components.ContainerController;
+    import com.sulake.core.window.components.ShapeController;
     import com.sulake.core.window.components.ContainerButtonController;
     import com.sulake.core.window.components.CloseButtonController;
     import com.sulake.core.window.components.DisplayObjectWrapperController;
@@ -22,6 +23,7 @@
     import com.sulake.core.window.components.DropListItemController;
     import com.sulake.core.window.components.FormattedTextController;
     import com.sulake.core.window.components.FrameController;
+    import com.sulake.core.window.components.GradientController;
     import com.sulake.core.window.components.HeaderController;
     import com.sulake.core.window.components.HTMLTextController;
     import com.sulake.core.window.components.IconController;
@@ -76,6 +78,7 @@
                 _windowClassTable[WindowType.WINDOW_TYPE_BITMAP_WRAPPER] = BitmapWrapperController;
                 _windowClassTable[WindowType.WINDOW_TYPE_CHECKBOX] = CheckboxController;
                 _windowClassTable[WindowType.WINDOW_TYPE_CONTAINER] = ContainerController;
+                _windowClassTable[WindowType.WINDOW_TYPE_SHAPE_WRAPPER] = ShapeController;
                 _windowClassTable[WindowType.WINDOW_TYPE_CONTAINER_BUTTON] = ContainerButtonController;
                 _windowClassTable[WindowType.WINDOW_TYPE_CLOSEBUTTON] = CloseButtonController;
                 _windowClassTable[WindowType.WINDOW_TYPE_DISPLAY_OBJECT_WRAPPER] = DisplayObjectWrapperController;
@@ -86,6 +89,7 @@
                 _windowClassTable[WindowType.WINDOW_TYPE_DROPLIST_ITEM] = DropListItemController;
                 _windowClassTable[WindowType.WINDOW_TYPE_FORMATTED_TEXT] = FormattedTextController;
                 _windowClassTable[WindowType.WINDOW_TYPE_FRAME] = FrameController;
+                _windowClassTable[WindowType.WINDOW_TYPE_GRADIENT] = GradientController;
                 _windowClassTable[WindowType.WINDOW_TYPE_HEADER] = HeaderController;
                 _windowClassTable[WindowType.WINDOW_TYPE_HTML] = HTMLTextController;
                 _windowClassTable[WindowType.WINDOW_TYPE_ICON] = IconController;

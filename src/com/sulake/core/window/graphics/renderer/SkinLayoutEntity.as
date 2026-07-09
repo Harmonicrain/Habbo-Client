@@ -11,6 +11,9 @@
         public static const SCALE_TYPE_TILED:uint = (1 << 2);
         public static const SCALE_TYPE_CENTER:uint = (1 << 3);
 
+        public static const COLORIZE_METHOD_MULTIPLY:String = "multiply";
+        public static const COLORIZE_METHOD_HSV_LAYER:String = "hsv_layer";
+
         private var _id:uint;
         private var _name:String;
         public var color:uint;
@@ -19,6 +22,8 @@
         public var scaleV:uint;
         public var region:Rectangle;
         public var colorize:Boolean;
+        public var colorizeMethod:String = COLORIZE_METHOD_MULTIPLY;
+        public var shade:Number = 0;
 
         public function SkinLayoutEntity(id:uint, name:String)
         {

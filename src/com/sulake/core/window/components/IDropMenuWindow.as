@@ -10,5 +10,6 @@
         function populate(_arg_1:Array):void;
         function _Str_24893(_arg_1:Vector.<String>):void;
         function items():Array;
+        function openMenu():void;
     }
 }
