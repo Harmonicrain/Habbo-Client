@@ -46,6 +46,7 @@
     import com.sulake.habbo.communication.messages.outgoing.quest.GetSeasonalQuestsOnlyMessageComposer;
     import com.sulake.habbo.communication.messages.outgoing.quest.GetQuestsMessageComposer;
     import com.sulake.habbo.communication.messages.outgoing.quest.ActivateQuestMessageComposer;
+    import com.sulake.habbo.quest.rewardtrack.RewardTrackController;
 
     public class HabboQuestEngine extends Component implements IHabboQuestEngine, IUpdateReceiver, ILinkEventTracker 
     {
@@ -75,6 +76,7 @@
         private var _roomEngine:IRoomEngine;
         private var _isFirstLoginOfDay:Boolean = false;
         private var _achievementsResolutionController:AchievementsResolutionController;
+        private var _rewardTrackController:RewardTrackController;
 
         public function HabboQuestEngine(k:IContext, _arg_2:uint=0, _arg_3:IAssetLibrary=null)
         {
@@ -83,6 +85,8 @@
             this._achievementController = new AchievementController(this);
             this._achievementsResolutionController = new AchievementsResolutionController(this);
             this._roomCompetitionController = new RoomCompetitionController(this);
+            this._rewardTrackController = new RewardTrackController(this);
+            k.addLinkEventTracker(this._rewardTrackController);
             queueInterface(new IIDHabboCommunicationManager(), this.onCommunicationManagerReady);
             queueInterface(new IIDHabboWindowManager(), this.onWindowManagerReady);
             queueInterface(new IIDHabboLocalizationManager(), this.onLocalizationManagerReady);
@@ -194,6 +198,12 @@
                 this._achievementsResolutionController.dispose();
                 this._achievementsResolutionController = null;
             }
+            if (this._rewardTrackController)
+            {
+                context.removeLinkEventTracker(this._rewardTrackController);
+                this._rewardTrackController.dispose();
+                this._rewardTrackController = null;
+            }
             super.dispose();
         }
 
@@ -218,6 +228,10 @@
         {
             this._communication = IHabboCommunicationManager(_arg_2);
             this._incomingMessages = new IncomingMessages(this);
+            if (this._rewardTrackController)
+            {
+                this._rewardTrackController.registerMessages();
+            }
         }
 
         private function onWindowManagerReady(k:IID=null, _arg_2:IUnknown=null):void
@@ -341,6 +355,11 @@
         public function get _Str_10255():AchievementsResolutionController
         {
             return this._achievementsResolutionController;
+        }
+
+        public function get rewardTrackController():RewardTrackController
+        {
+            return this._rewardTrackController;
         }
 
         public function get toolbar():IHabboToolbar
@@ -700,6 +719,14 @@
         public function activateQuest(k:int):void
         {
             this.send(new ActivateQuestMessageComposer(k));
+        }
+
+        public function openRewardTrack(k:String):void
+        {
+            if (this._rewardTrackController != null)
+            {
+                this._rewardTrackController.open(k);
+            }
         }
 
         public function get linkPattern():String

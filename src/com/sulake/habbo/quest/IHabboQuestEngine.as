@@ -16,5 +16,6 @@
         function get events():IEventDispatcher;
         function activateQuest(_arg_1:int):void;
         function goToQuestRooms():void;
+        function openRewardTrack(_arg_1:String):void;
     }
 }

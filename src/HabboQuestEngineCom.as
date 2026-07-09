@@ -32,6 +32,8 @@
         public static const NextQuestTimer:Class = HabboQuestEngineCom_NextQuestTimer;
         public static const SeasonalCalendar:Class = HabboQuestEngineCom_SeasonalCalendar;
         public static const RoomCompetition:Class = HabboQuestEngineCom_RoomCompetition;
+        public static const reward_track_main_xml:Class = HabboQuestEngineCom_reward_track_main_xml;
+        public static const reward_track_premium_purchase_confirmation_xml:Class = HabboQuestEngineCom_reward_track_premium_purchase_confirmation_xml;
         public static const calendar_quest_complete:Class = HabboQuestEngineCom_calendar_quest_complete;
         public static const arrow_back_active:Class = HabboQuestEngineCom_arrow_back_active;
         public static const arrow_back_inactive:Class = HabboQuestEngineCom_arrow_back_inactive;
