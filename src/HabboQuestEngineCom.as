@@ -3,43 +3,73 @@
     import mx.core.SimpleApplication;
     import com.sulake.bootstrap.HabboQuestEngineBootstrap;
     import com.sulake.iid.IIDHabboQuestEngine;
-    import images.*;
-    import binaryData.*;
 
     public class HabboQuestEngineCom extends SimpleApplication 
     {
-        public static var manifest:Class = HabboQuestEngineCom_manifest;
+        [Embed(source="binaryData/HabboQuestEngineCom_manifest.bin", mimeType="application/octet-stream")]
+    public static var manifest:Class;
         public static var requiredClasses:Array = new Array(HabboQuestEngineBootstrap, IIDHabboQuestEngine);
-        public static const icon_quest_hidden:Class = HabboQuestEngineCom_icon_quest_hidden;
-        public static const Campaign:Class = HabboQuestEngineCom_Campaign;
-        public static const CampaignCompleted:Class = HabboQuestEngineCom_CampaignCompleted;
-        public static const EntryArrows:Class = HabboQuestEngineCom_EntryArrows;
-        public static const QuestEntry:Class = HabboQuestEngineCom_QuestEntry;
-        public static const Quest:Class = HabboQuestEngineCom_Quest;
-        public static const QuestDetails:Class = HabboQuestEngineCom_QuestDetails;
-        public static const Quests:Class = HabboQuestEngineCom_Quests;
-        public static const QuestTracker:Class = HabboQuestEngineCom_QuestTracker;
-        public static const QuestCompletedDialog:Class = HabboQuestEngineCom_QuestCompletedDialog;
-        public static const QuestHelp:Class = HabboQuestEngineCom_QuestHelp;
-        public static const AchievementCategory:Class = HabboQuestEngineCom_AchievementCategory;
-        public static const Achievements:Class = HabboQuestEngineCom_Achievements;
-        public static const AchievementsResolutions:Class = HabboQuestEngineCom_AchievementsResolutions;
-        public static const AchievementResolutionProgress:Class = HabboQuestEngineCom_AchievementResolutionProgress;
-        public static const AchievementResolutionCompleted:Class = HabboQuestEngineCom_AchievementResolutionCompleted;
-        public static const Achievement:Class = HabboQuestEngineCom_Achievement;
-        public static const AchievementSimple:Class = HabboQuestEngineCom_AchievementSimple;
-        public static const ProgressBar:Class = HabboQuestEngineCom_ProgressBar;
-        public static const NextQuestTimer:Class = HabboQuestEngineCom_NextQuestTimer;
-        public static const SeasonalCalendar:Class = HabboQuestEngineCom_SeasonalCalendar;
-        public static const RoomCompetition:Class = HabboQuestEngineCom_RoomCompetition;
-        public static const calendar_quest_complete:Class = HabboQuestEngineCom_calendar_quest_complete;
-        public static const arrow_back_active:Class = HabboQuestEngineCom_arrow_back_active;
-        public static const arrow_back_inactive:Class = HabboQuestEngineCom_arrow_back_inactive;
-        public static const arrow_back_hilite:Class = HabboQuestEngineCom_arrow_back_hilite;
-        public static const arrow_next_active:Class = HabboQuestEngineCom_arrow_next_active;
-        public static const arrow_next_inactive:Class = HabboQuestEngineCom_arrow_next_inactive;
-        public static const arrow_next_hilite:Class = HabboQuestEngineCom_arrow_next_hilite;
-        public static const stripe_mask_L:Class = HabboQuestEngineCom_stripe_mask_L;
-        public static const stripe_mask_R:Class = HabboQuestEngineCom_stripe_mask_R;
+        [Embed(source="images/HabboQuestEngineCom_icon_quest_hidden.png")]
+    public static const icon_quest_hidden:Class;
+        [Embed(source="binaryData/HabboQuestEngineCom_Campaign.bin", mimeType="application/octet-stream")]
+    public static const Campaign:Class;
+        [Embed(source="binaryData/HabboQuestEngineCom_CampaignCompleted.bin", mimeType="application/octet-stream")]
+    public static const CampaignCompleted:Class;
+        [Embed(source="binaryData/HabboQuestEngineCom_EntryArrows.bin", mimeType="application/octet-stream")]
+    public static const EntryArrows:Class;
+        [Embed(source="binaryData/HabboQuestEngineCom_QuestEntry.bin", mimeType="application/octet-stream")]
+    public static const QuestEntry:Class;
+        [Embed(source="binaryData/HabboQuestEngineCom_Quest.bin", mimeType="application/octet-stream")]
+    public static const Quest:Class;
+        [Embed(source="binaryData/HabboQuestEngineCom_QuestDetails.bin", mimeType="application/octet-stream")]
+    public static const QuestDetails:Class;
+        [Embed(source="binaryData/HabboQuestEngineCom_Quests.bin", mimeType="application/octet-stream")]
+    public static const Quests:Class;
+        [Embed(source="binaryData/HabboQuestEngineCom_QuestTracker.bin", mimeType="application/octet-stream")]
+    public static const QuestTracker:Class;
+        [Embed(source="binaryData/HabboQuestEngineCom_QuestCompletedDialog.bin", mimeType="application/octet-stream")]
+    public static const QuestCompletedDialog:Class;
+        [Embed(source="binaryData/HabboQuestEngineCom_QuestHelp.bin", mimeType="application/octet-stream")]
+    public static const QuestHelp:Class;
+        [Embed(source="binaryData/HabboQuestEngineCom_AchievementCategory.bin", mimeType="application/octet-stream")]
+    public static const AchievementCategory:Class;
+        [Embed(source="binaryData/HabboQuestEngineCom_Achievements.bin", mimeType="application/octet-stream")]
+    public static const Achievements:Class;
+        [Embed(source="binaryData/HabboQuestEngineCom_AchievementsResolutions.bin", mimeType="application/octet-stream")]
+    public static const AchievementsResolutions:Class;
+        [Embed(source="binaryData/HabboQuestEngineCom_AchievementResolutionProgress.bin", mimeType="application/octet-stream")]
+    public static const AchievementResolutionProgress:Class;
+        [Embed(source="binaryData/HabboQuestEngineCom_AchievementResolutionCompleted.bin", mimeType="application/octet-stream")]
+    public static const AchievementResolutionCompleted:Class;
+        [Embed(source="binaryData/HabboQuestEngineCom_Achievement.bin", mimeType="application/octet-stream")]
+    public static const Achievement:Class;
+        [Embed(source="binaryData/HabboQuestEngineCom_AchievementSimple.bin", mimeType="application/octet-stream")]
+    public static const AchievementSimple:Class;
+        [Embed(source="binaryData/HabboQuestEngineCom_ProgressBar.bin", mimeType="application/octet-stream")]
+    public static const ProgressBar:Class;
+        [Embed(source="binaryData/HabboQuestEngineCom_NextQuestTimer.bin", mimeType="application/octet-stream")]
+    public static const NextQuestTimer:Class;
+        [Embed(source="binaryData/HabboQuestEngineCom_SeasonalCalendar.bin", mimeType="application/octet-stream")]
+    public static const SeasonalCalendar:Class;
+        [Embed(source="binaryData/HabboQuestEngineCom_RoomCompetition.bin", mimeType="application/octet-stream")]
+    public static const RoomCompetition:Class;
+        [Embed(source="images/HabboQuestEngineCom_calendar_quest_complete.png")]
+    public static const calendar_quest_complete:Class;
+        [Embed(source="images/HabboQuestEngineCom_arrow_back_active.png")]
+    public static const arrow_back_active:Class;
+        [Embed(source="images/HabboQuestEngineCom_arrow_back_inactive.png")]
+    public static const arrow_back_inactive:Class;
+        [Embed(source="images/HabboQuestEngineCom_arrow_back_hilite.png")]
+    public static const arrow_back_hilite:Class;
+        [Embed(source="images/HabboQuestEngineCom_arrow_next_active.png")]
+    public static const arrow_next_active:Class;
+        [Embed(source="images/HabboQuestEngineCom_arrow_next_inactive.png")]
+    public static const arrow_next_inactive:Class;
+        [Embed(source="images/HabboQuestEngineCom_arrow_next_hilite.png")]
+    public static const arrow_next_hilite:Class;
+        [Embed(source="images/HabboQuestEngineCom_stripe_mask_L.png")]
+    public static const stripe_mask_L:Class;
+        [Embed(source="images/HabboQuestEngineCom_stripe_mask_R.png")]
+    public static const stripe_mask_R:Class;
     }
 }

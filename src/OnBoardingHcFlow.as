@@ -22,8 +22,6 @@
     import flash.text.TextFormatAlign;
     import flash.filters.GlowFilter;
     import onBoardingHc.HitchNameChangeDialog;
-    import images.*;
-    import binaryData.*;
     import fonts.*;
 
     public class OnBoardingHcFlow extends Sprite implements IUIContext, IDisposable
@@ -35,8 +33,10 @@
         public static var ubuntu_bold:Class = _Str_596;
         public static var ubuntu_italic:Class = _Str_605;
         public static var ubuntu_bold_italic:Class = _Str_600;
-        public static var _Str_2240:Class = OnBoardingHcFlow__Str_2240;
-        private static const _Str_1278:Class = OnBoardingHcFlow__Str_1278;
+        [Embed(source="binaryData/OnBoardingHcFlow__Str_2240.bin", mimeType="application/octet-stream")]
+    public static var _Str_2240:Class;
+        [Embed(source="images/OnBoardingHcFlow__Str_1278.png")]
+        private static const _Str_1278:Class;
 
         private var _background:Background;
         private var _avatarEditor:AvatarEditor;

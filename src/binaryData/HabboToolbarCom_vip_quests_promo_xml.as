@@ -1,9 +1,0 @@
-﻿package binaryData
-{
-    import mx.core.ByteArrayAsset;
-
-    [Embed(source="HabboToolbarCom_vip_quests_promo_xml.bin", mimeType="application/octet-stream")]
-    public class HabboToolbarCom_vip_quests_promo_xml extends ByteArrayAsset 
-    {
-    }
-}

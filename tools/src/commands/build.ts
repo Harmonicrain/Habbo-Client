@@ -24,8 +24,9 @@ export async function runBuild(argv: string[]): Promise<void> {
   const javaPath = resolveJava(getFlag(args, "java"));
   const mxmlcJar = path.resolve(getFlag(args, "mxmlc") ?? process.env.MXMLC_JAR ?? path.join(flexHome, "lib", "mxmlc.jar"));
   const sourceFile = path.resolve(root, getFlag(args, "source") ?? asconfig.files?.[0] ?? "src/Habbo.as");
-  const binDir = path.resolve(root, getFlag(args, "bin") ?? "bin");
-  const stableOutputFile = path.resolve(root, getFlag(args, "output") ?? path.join("bin", "Habbo.swf"));
+  const outputFile = getFlag(args, "output") ?? (typeof asconfig?.compilerOptions?.['output'] === 'string' ? asconfig.compilerOptions['output'] as string : undefined);
+  const binDir = path.resolve(root, outputFile ? path.dirname(outputFile) : "bin");
+  const stableOutputFile = path.resolve(root, outputFile ?? path.join("bin", "Habbo.swf"));
   const tempOutputFile = path.join(binDir, `.Habbo-build-${process.pid}-${Date.now()}.swf`);
   const archiveBuilds = getBooleanFlag(args, "archive", true);
 

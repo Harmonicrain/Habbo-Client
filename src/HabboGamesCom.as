@@ -5,23 +5,33 @@
     import com.sulake.iid.IIDHabboGameManager;
 	import snowwar.assets.images.*;
     import snowwar.assets.binaryData.*;
-    import binaryData.*;
-    import images.*;
 
     public class HabboGamesCom extends SimpleApplication 
     {
-        public static var manifest:Class = HabboGamesCom_manifest;
-        public static var game_center_view_generic_xml:Class = HabboGamesCom_game_center_view_generic_xml;
-        public static var game_center_leaderboard_view_xml:Class = HabboGamesCom_game_center_leaderboard_view_xml;
-        public static var game_center_teaser_view_xml:Class = HabboGamesCom_game_center_teaser_view_xml;
-        public static var game_center_waiting_game_view_xml:Class = HabboGamesCom_game_center_waiting_game_view_xml;
-        public static var game_achievement_entry_xml:Class = HabboGamesCom_game_achievement_entry_xml;
-        public static var game_leaderboard_entry_xml:Class = HabboGamesCom_game_leaderboard_entry_xml;
-        public static var game_leaderboard_entry_small_xml:Class = HabboGamesCom_game_leaderboard_entry_small_xml;
-        public static const game_center_icon_selected:Class = HabboGamesCom_game_center_icon_selected;
-        public static const game_center_speech_bubble:Class = HabboGamesCom_game_center_speech_bubble;
-        public static const game_center_reward_star:Class = HabboGamesCom_game_center_reward_star;
-        public static var game_center_lucky_loser_entry_xml:Class = HabboGamesCom_game_center_lucky_loser_entry_xml;
+        [Embed(source="binaryData/HabboGamesCom_manifest.bin", mimeType="application/octet-stream")]
+    public static var manifest:Class;
+        [Embed(source="binaryData/HabboGamesCom_game_center_view_generic_xml.bin", mimeType="application/octet-stream")]
+    public static var game_center_view_generic_xml:Class;
+        [Embed(source="binaryData/HabboGamesCom_game_center_leaderboard_view_xml.bin", mimeType="application/octet-stream")]
+    public static var game_center_leaderboard_view_xml:Class;
+        [Embed(source="binaryData/HabboGamesCom_game_center_teaser_view_xml.bin", mimeType="application/octet-stream")]
+    public static var game_center_teaser_view_xml:Class;
+        [Embed(source="binaryData/HabboGamesCom_game_center_waiting_game_view_xml.bin", mimeType="application/octet-stream")]
+    public static var game_center_waiting_game_view_xml:Class;
+        [Embed(source="binaryData/HabboGamesCom_game_achievement_entry_xml.bin", mimeType="application/octet-stream")]
+    public static var game_achievement_entry_xml:Class;
+        [Embed(source="binaryData/HabboGamesCom_game_leaderboard_entry_xml.bin", mimeType="application/octet-stream")]
+    public static var game_leaderboard_entry_xml:Class;
+        [Embed(source="binaryData/HabboGamesCom_game_leaderboard_entry_small_xml.bin", mimeType="application/octet-stream")]
+    public static var game_leaderboard_entry_small_xml:Class;
+        [Embed(source="images/HabboGamesCom_game_center_icon_selected.png")]
+    public static const game_center_icon_selected:Class;
+        [Embed(source="images/HabboGamesCom_game_center_speech_bubble.png")]
+    public static const game_center_speech_bubble:Class;
+        [Embed(source="images/HabboGamesCom_game_center_reward_star.png")]
+    public static const game_center_reward_star:Class;
+        [Embed(source="binaryData/HabboGamesCom_game_center_lucky_loser_entry_xml.bin", mimeType="application/octet-stream")]
+    public static var game_center_lucky_loser_entry_xml:Class;
 	
 		
 		/**
@@ -62,7 +72,6 @@
 		
         private static var _logEnabled:Boolean = true;
         public static var requiredClasses:Array = new Array(HabboGameManagerBootstrap, IIDHabboGameManager);
-
 
         public static function set logEnabled(k:Boolean):void
         {

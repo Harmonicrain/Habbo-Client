@@ -1,4 +1,4 @@
-﻿package 
+﻿package
 {
     import flash.display.Sprite;
     import com.sulake.core.runtime.ICore;
@@ -21,9 +21,9 @@
     import flash.utils.setInterval;
     import flash.utils.setTimeout;
 
-    public class HabboMain extends Sprite 
+    public class HabboMain extends Sprite
     {
-        public static const CORE_RATIO:Number = Habbo.CORE_RATIO;//0.6
+        public static const CORE_RATIO:Number = Habbo.CORE_RATIO; // 0.6
         private static const INIT_STEPS:int = 3;
 
         private var _core:ICore;
@@ -73,7 +73,9 @@
                 {
                     parent.removeChild(this);
                 }
-                catch (e:Error) {}
+                catch (e:Error)
+                {
+                }
             }
         }
 
@@ -92,17 +94,17 @@
                     this._core.events.dispatchEvent(new Event(Event.UNLOAD));
                 }
             }
-            catch(error:Error)
+            catch (error:Error)
             {
             }
         }
 
-        protected function onAddedToStage(event:Event=null):void
+        protected function onAddedToStage(event:Event = null):void
         {
             this._prepareCoreOnNextFrame = true;
         }
 
-        protected function onExitFrame(k:Event=null):void
+        protected function onExitFrame(k:Event = null):void
         {
             if (this._prepareCoreOnNextFrame)
             {
@@ -111,7 +113,7 @@
                 {
                     this.prepareCore();
                 }
-                catch(error:Error)
+                catch (error:Error)
                 {
                     Habbo.trackLoginStep(ClientEnum.CLIENT_INIT_CORE_FAIL);
                     Habbo.trackLoginStep(error.message);
@@ -133,17 +135,18 @@
                 return;
             }
             this._corePrepared = true;
-			try
-			{
-            var k:ICoreErrorLogger = HabboWebTools.isAirDesktop ? new HabboAirCoreErrorReporter() : ((Capabilities.playerType != "StandAlone") ? new HabboCoreErrorReporter() : null);
-            this._core = Core.instantiate(stage, Core.CORE_SETUP_FRAME_UPDATE_COMPLEX, k);
-            this._core.prepareComponent(HabboTrackingLib);
-            addEventListener(ProgressEvent.PROGRESS, this.onProgressEvent);
-            addEventListener(Event.COMPLETE, this.onCompleteEvent);
-            var assetBase:String = "";
-            assetBase = HabboWebTools.getParameter("flash.client.url");
-            if (assetBase == null) assetBase = "";
-            var _local_2:XML = <config>
+            try
+            {
+                var k:ICoreErrorLogger = HabboWebTools.isAirDesktop ? new HabboAirCoreErrorReporter() : ((Capabilities.playerType != "StandAlone") ? new HabboCoreErrorReporter() : null);
+                this._core = Core.instantiate(stage, Core.CORE_SETUP_FRAME_UPDATE_COMPLEX, k);
+                this._core.prepareComponent(HabboTrackingLib);
+                addEventListener(ProgressEvent.PROGRESS, this.onProgressEvent);
+                addEventListener(Event.COMPLETE, this.onCompleteEvent);
+                var assetBase:String = "";
+                assetBase = HabboWebTools.getParameter("flash.client.url");
+                if (assetBase == null)
+                    assetBase = "";
+                var _local_2:XML = <config>
 				<asset-libraries>
 					<library url={assetBase + "hh_human_body.swf"}/>
 					<library url={assetBase + "hh_human_item.swf"}/>
@@ -152,53 +155,53 @@
 				<component-libraries/>
 			</config>
             ;
-            this._core.readConfigDocument(_local_2, this);
-            this._totalSteps = ((this._core.getNumberOfFilesPending() + this._core.getNumberOfFilesLoaded()) + INIT_STEPS);
-            this._core.prepareComponent(CoreCommunicationFrameworkLib);
-            this._core.prepareComponent(HabboRoomObjectLogicLib);
-            this._core.prepareComponent(HabboRoomObjectVisualizationLib);
-            this._core.prepareComponent(RoomManagerLib);
-            this._core.prepareComponent(RoomSpriteRendererLib);
-            this._core.prepareComponent(HabboRoomSessionManagerLib);
-            this._core.prepareComponent(HabboAvatarRenderLib);
-            this._core.prepareComponent(HabboSessionDataManagerLib);
-            this._core.prepareComponent(HabboConfigurationCom);
-            this._core.prepareComponent(HabboLocalizationCom);
-            this._core.prepareComponent(HabboWindowManagerCom);
-            this._core.prepareComponent(HabboCommunicationCom);
-            this._core.prepareComponent(HabboCommunicationDemoCom);
-            this._core.prepareComponent(HabboNavigatorCom);
-            this._core.prepareComponent(HabboFriendListCom);
-            this._core.prepareComponent(HabboMessengerCom);
-            this._core.prepareComponent(HabboInventoryCom);
-            this._core.prepareComponent(HabboToolbarCom);
-            this._core.prepareComponent(HabboCatalogCom);
-            this._core.prepareComponent(HabboRoomEngineCom);
-            this._core.prepareComponent(HabboRoomUICom);
-            this._core.prepareComponent(HabboAvatarEditorCom);
-            this._core.prepareComponent(HabboNotificationsCom);
-            this._core.prepareComponent(HabboHelpCom);
-            this._core.prepareComponent(HabboAdManagerCom);
-            this._core.prepareComponent(HabboModerationCom);
-            this._core.prepareComponent(HabboUserDefinedRoomEventsCom);
-            this._core.prepareComponent(HabboSoundManagerFlash10Com);
-            this._core.prepareComponent(HabboQuestEngineCom);
-            this._core.prepareComponent(HabboFriendBarCom);
-            this._core.prepareComponent(HabboGroupsCom);
-            this._core.prepareComponent(HabboGamesCom);
-            this._core.prepareComponent(HabboFreeFlowChatCom);
-            this._core.prepareComponent(HabboNewNavigatorCom);
-            this.addInitializationProgressListeners();
-			Habbo.trackLoginStep("addInitializationProgressListeners");
-			}
-			catch (error: Error)
-			{
-				Habbo.trackLoginStep("Error in HabboMain (" + error.message + "): " + error.getStackTrace());
+                this._core.readConfigDocument(_local_2, this);
+                this._totalSteps = ((this._core.getNumberOfFilesPending() + this._core.getNumberOfFilesLoaded()) + INIT_STEPS);
+                this._core.prepareComponent(CoreCommunicationFrameworkLib);
+                this._core.prepareComponent(HabboRoomObjectLogicLib);
+                this._core.prepareComponent(HabboRoomObjectVisualizationLib);
+                this._core.prepareComponent(RoomManagerLib);
+                this._core.prepareComponent(RoomSpriteRendererLib);
+                this._core.prepareComponent(HabboRoomSessionManagerLib);
+                this._core.prepareComponent(HabboAvatarRenderLib);
+                this._core.prepareComponent(HabboSessionDataManagerLib);
+                this._core.prepareComponent(HabboConfigurationCom);
+                this._core.prepareComponent(HabboLocalizationCom);
+                this._core.prepareComponent(HabboWindowManagerCom);
+                this._core.prepareComponent(HabboCommunicationCom);
+                this._core.prepareComponent(HabboCommunicationDemoCom);
+                this._core.prepareComponent(HabboNavigatorCom);
+                this._core.prepareComponent(HabboFriendListCom);
+                this._core.prepareComponent(HabboMessengerCom);
+                this._core.prepareComponent(HabboInventoryCom);
+                this._core.prepareComponent(HabboToolbarCom);
+                this._core.prepareComponent(HabboCatalogCom);
+                this._core.prepareComponent(HabboRoomEngineCom);
+                this._core.prepareComponent(HabboRoomUICom);
+                this._core.prepareComponent(HabboAvatarEditorCom);
+                this._core.prepareComponent(HabboNotificationsCom);
+                this._core.prepareComponent(HabboHelpCom);
+                this._core.prepareComponent(HabboAdManagerCom);
+                this._core.prepareComponent(HabboModerationCom);
+                this._core.prepareComponent(HabboUserDefinedRoomEventsCom);
+                this._core.prepareComponent(HabboSoundManagerFlash10Com);
+                this._core.prepareComponent(HabboQuestEngineCom);
+                this._core.prepareComponent(HabboFriendBarCom);
+                this._core.prepareComponent(HabboGroupsCom);
+                this._core.prepareComponent(HabboGamesCom);
+                this._core.prepareComponent(HabboFreeFlowChatCom);
+                this._core.prepareComponent(HabboNewNavigatorCom);
+                this.addInitializationProgressListeners();
+                Habbo.trackLoginStep("addInitializationProgressListeners");
+            }
+            catch (error:Error)
+            {
+                Habbo.trackLoginStep("Error in HabboMain (" + error.message + "): " + error.getStackTrace());
                 if (HabboWebTools.isAirDesktop)
                 {
                     HabboWebTools.showAirError("Client startup error", "The client could not finish preparing required files.", error.message + " | " + error.getStackTrace());
                 }
-			}
+            }
         }
 
         private function updateProgressBar():void
@@ -207,7 +210,8 @@
             if (this._loadingScreen != null)
             {
                 k = (CORE_RATIO + (((this._completedInitSteps + this._loadedFiles) / this._totalSteps) * (1 - CORE_RATIO)));
-                if (k > 1) k = 1;
+                if (k > 1)
+                    k = 1;
                 this._loadingScreen._Str_774(k);
             }
         }
@@ -227,7 +231,7 @@
 
         private function initializeCore():void
         {
-			Habbo.trackLoginStep("Initializing Core!");
+            Habbo.trackLoginStep("Initializing Core!");
             try
             {
                 this._core.initialize();
@@ -236,9 +240,9 @@
                     ExternalInterface.addCallback("unloading", this.unloading);
                 }
             }
-            catch(error:Error)
+            catch (error:Error)
             {
-				Habbo.trackLoginStep(error.getStackTrace());
+                Habbo.trackLoginStep(error.getStackTrace());
                 Habbo.trackLoginStep(ClientEnum.CLIENT_INIT_CORE_FAIL);
                 Core.crash(("Failed to initialize the core: " + error.message), Core.ERROR_CATEGORY_INITIALIZE_CORE, error);
             }
@@ -255,20 +259,20 @@
 
         private function addInitializationProgressListeners():void
         {
-            this.simpleQueueInterface(new IIDHabboLocalizationManager(), function (k:IID, _arg_2:Component):void
-            {
-                _arg_2.events.addEventListener(Event.COMPLETE, onLocalizationComplete);
-            });
-            this.simpleQueueInterface(new IIDHabboConfigurationManager(), this.onConfigurationComplete);
-            this.simpleQueueInterface(new IIDRoomEngine(), function (k:IID, _arg_2:Component):void
-            {
-                var roomEngine:IRoomEngine = _arg_2 as IRoomEngine;
-                _arg_2.events.addEventListener(RoomEngineEvent.ENGINE_INITIALIZED, onRoomEngineReady);
-                if (((roomEngine != null) && (roomEngine.isInitialized)))
+            this.simpleQueueInterface(new IIDHabboLocalizationManager(), function(k:IID, _arg_2:Component):void
                 {
-                    onRoomEngineReady(null);
-                }
-            });
+                    _arg_2.events.addEventListener(Event.COMPLETE, onLocalizationComplete);
+                });
+            this.simpleQueueInterface(new IIDHabboConfigurationManager(), this.onConfigurationComplete);
+            this.simpleQueueInterface(new IIDRoomEngine(), function(k:IID, _arg_2:Component):void
+                {
+                    var roomEngine:IRoomEngine = _arg_2 as IRoomEngine;
+                    _arg_2.events.addEventListener(RoomEngineEvent.ENGINE_INITIALIZED, onRoomEngineReady);
+                    if (((roomEngine != null) && (roomEngine.isInitialized)))
+                    {
+                        onRoomEngineReady(null);
+                    }
+                });
             this._core.events.addEventListener(Component.COMPONENT_EVENT_RUNNING, this.onCoreRunning);
         }
 
@@ -349,29 +353,28 @@
     }
 }
 import com.sulake.core.runtime.ICoreErrorLogger;
+import com.sulake.habbo.utils.HabboWebTools;
 
-class HabboCoreErrorReporter implements ICoreErrorLogger 
+class HabboCoreErrorReporter implements ICoreErrorLogger
 {
 
-
-    public function logError(k:String, _arg_2:Boolean, _arg_3:int=-1, _arg_4:Error=null):void
+    public function logError(k:String, _arg_2:Boolean, _arg_3:int = -1, _arg_4:Error = null):void
     {
         Habbo.reportCrash(k, _arg_3, _arg_2, _arg_4);
     }
-
 
 }
 
 class HabboAirCoreErrorReporter implements ICoreErrorLogger
 {
-    public function logError(k:String, _arg_2:Boolean, _arg_3:int=-1, _arg_4:Error=null):void
+    public function logError(k:String, _arg_2:Boolean, _arg_3:int = -1, _arg_4:Error = null):void
     {
         var url:String = this.extractQuotedUrl(k);
         var details:String = (url != null) ? ("Missing or unreachable file: " + url) : ("Technical error: " + k);
-        if (com.sulake.habbo.utils.HabboWebTools.airLoginAttemptActive)
+        if (HabboWebTools.airLoginAttemptActive)
         {
-            com.sulake.habbo.utils.HabboWebTools.airDebug("CORE ERROR DURING LOGIN: " + k);
-            com.sulake.habbo.utils.HabboWebTools.showAirLoginError("Could not connect to the hotel server. Make sure the server is running and that connection.info.host / connection.info.port are correct.");
+            HabboWebTools.airDebug("CORE ERROR DURING LOGIN: " + k);
+            HabboWebTools.showAirLoginError("Could not connect to the hotel server. Make sure the server is running and that connection.info.host / connection.info.port are correct.");
             return;
         }
         details += " | Category: " + _arg_3;
@@ -379,7 +382,7 @@ class HabboAirCoreErrorReporter implements ICoreErrorLogger
         {
             details += " | " + _arg_4.getStackTrace();
         }
-        com.sulake.habbo.utils.HabboWebTools.showAirError("Required files could not load", "NGHWin could not download files it needs to start. Check config.ini, especially base.url and gordon.path, then confirm the shown file opens in your browser.", details);
+        HabboWebTools.showAirError("Required files could not load", "NGHWin could not download files it needs to start. Check config.ini, especially base.url and gordon.path, then confirm the shown file opens in your browser.", details);
     }
 
     private function extractQuotedUrl(value:String):String

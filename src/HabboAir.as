@@ -40,13 +40,19 @@ package
     import flash.utils.setTimeout;
     import fonts._Str_10940;
     import fonts._Str_11970;
-    import images.HabboAir_LoginBackground;
-    import images.HabboAir_LoginForeground;
-    import images.HabboWindowManagerCom_help_error_state;
-    import images.HabboWindowManagerCom_habbo_skin_ubuntu_png;
+    
+    
+    
 
     public class HabboAir extends MovieClip
     {
+
+        [Embed(source="images/HabboAir_LoginBackground.png")]
+        public static const LoginBackground:Class;
+
+        [Embed(source="images/HabboAir_LoginForeground.png")]
+        public static const LoginForeground:Class;
+
         private static const DEFAULT_BASE_URL:String = "https://swf.nextgenhabbo.com";
         private static const GORDON_PATH:String = "/gordon/PRODUCTION-201611291003-338511768/";
         private static const DEFAULT_HOST:String = "109.122.1.113";
@@ -598,8 +604,8 @@ package
             _loginBackgroundVisible = true;
             if (_loginBackgroundLayer == null)
             {
-                _loginBackgroundData = new HabboAir_LoginBackground().bitmapData;
-                _loginForegroundData = new HabboAir_LoginForeground().bitmapData;
+                _loginBackgroundData = new LoginBackground().bitmapData;
+                _loginForegroundData = new LoginForeground().bitmapData;
                 _loginBackgroundBitmap = new Bitmap(_loginBackgroundData, "auto", true);
                 _loginForegroundBitmap = new Bitmap(_loginForegroundData, "auto", true);
                 _loginBackgroundLayer = new Sprite();
@@ -1163,11 +1169,11 @@ package
             }
             if (_loginBackgroundData == null)
             {
-                _loginBackgroundData = new HabboAir_LoginBackground().bitmapData;
+                _loginBackgroundData = new LoginBackground().bitmapData;
             }
             if (_loginForegroundData == null)
             {
-                _loginForegroundData = new HabboAir_LoginForeground().bitmapData;
+                _loginForegroundData = new LoginForeground().bitmapData;
             }
             scale = Math.max(target.width / _loginBackgroundData.width, target.height / _loginBackgroundData.height);
             matrix = new Matrix();

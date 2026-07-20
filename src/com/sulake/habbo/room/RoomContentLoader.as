@@ -38,7 +38,7 @@
     import flash.utils.getTimer;
     import com.sulake.habbo.room.utils.PublicRoomData;
 
-    public class RoomContentLoader implements IRoomContentLoader, IFurniDataListener, IDisposable 
+    public class RoomContentLoader implements IRoomContentLoader, IFurniDataListener, IDisposable
     {
         public static const RCL_LOADER_READY:String = "RCL_LOADER_READY";
         private static const RCL_PREFIX:String = "RoomContentLoader ";
@@ -48,7 +48,7 @@
         private static const PLACE_HOLDER:String = "place_holder";
         private static const WALL_PLACE_HOLDER:String = "wall_place_holder";
         private static const PET_PLACE_HOLDER:String = "pet_place_holder";
-        private static const DEFAULT_PLACE_HOLDER:String = PLACE_HOLDER;//"place_holder"
+        private static const DEFAULT_PLACE_HOLDER:String = PLACE_HOLDER; // "place_holder"
         private static const ROOM:String = "room";
         private static const TILE_CURSOR:String = "tile_cursor";
         private static const SELECTION_ARROW:String = "selection_arrow";
@@ -590,7 +590,7 @@
             var _local_3:String;
             var _local_4:String;
             this._publicRoomPreloadTypes = [];
-            var _local_2:String = (((k == null) || (k == "")) ? "netcafe" : k);
+            var _local_2:String = (((k == null) || (k == "")) ? "" : k);
             for each (_local_3 in _local_2.split(","))
             {
                 _local_4 = StringUtil.trim(_local_3);
@@ -634,7 +634,7 @@
             return this._activeObjectTypeIds.getValue(k);
         }
 
-        public function getWallItemType(k:int, _arg_2:String=null):String
+        public function getWallItemType(k:int, _arg_2:String = null):String
         {
             var _local_3:String = (this._wallItemTypes.getValue(k) as String);
             if (((_local_3 == "poster") && (!(_arg_2 == null))))
@@ -688,7 +688,7 @@
             return _local_4;
         }
 
-        public function getPetLayerIdForTag(k:int, _arg_2:String, _arg_3:int=64):int
+        public function getPetLayerIdForTag(k:int, _arg_2:String, _arg_3:int = 64):int
         {
             var _local_5:Dictionary;
             var _local_4:Map = this._petLayers[k];
@@ -801,7 +801,7 @@
             return 0;
         }
 
-        private function getObjectContentURLs(k:String, _arg_2:String=null, _arg_3:Boolean=false):Array
+        private function getObjectContentURLs(k:String, _arg_2:String = null, _arg_3:Boolean = false):Array
         {
             var _local_4:String;
             var _local_5:int;
@@ -1472,7 +1472,7 @@
             return _local_4;
         }
 
-        private function getAssetLibraryEventDispatcher(k:String, _arg_2:Boolean=false):IEventDispatcher
+        private function getAssetLibraryEventDispatcher(k:String, _arg_2:Boolean = false):IEventDispatcher
         {
             var _local_3:String = this.getContentType(k);
             if (!_arg_2)
@@ -1678,7 +1678,7 @@
             return _local_3.hasAsset((_local_5 + _arg_2));
         }
 
-        public function _Str_16696(k:String, _arg_2:String, _arg_3:BitmapData, _arg_4:Boolean, _arg_5:Boolean=true):Boolean
+        public function _Str_16696(k:String, _arg_2:String, _arg_3:BitmapData, _arg_4:Boolean, _arg_5:Boolean = true):Boolean
         {
             var _local_6:IGraphicAssetCollection = this.getGraphicAssetCollection(k);
             if (_local_6 != null)
