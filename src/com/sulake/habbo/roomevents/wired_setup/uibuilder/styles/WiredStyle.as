@@ -174,6 +174,16 @@ package com.sulake.habbo.roomevents.wired_setup.uibuilder.styles
             return this.recreateElement("container_button") as IContainerButtonWindow;
         }
 
+        public function createTradeRequirementRule():IBorderWindow
+        {
+            return this.recreateElement("requirement_rule") as IBorderWindow;
+        }
+
+        public function createProductIconPreviewer():IBorderWindow
+        {
+            return this.recreateElement("product_icon_previewer") as IBorderWindow;
+        }
+
         private function recreateElement(_arg_1:String):IWindow
         {
             var _local_2:IWindow = this.styleTemplate.findChildByName(_arg_1);

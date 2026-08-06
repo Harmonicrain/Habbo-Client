@@ -13,6 +13,10 @@ package com.sulake.habbo.roomevents.wired_setup.uibuilder.styles
         {
             super(_arg_1);
             this._styleTemplate = IWindowContainer(_arg_1.getXmlWindow("wired_style_illumina"));
+            if (this._styleTemplate != null && this._styleTemplate.parent != null)
+            {
+                this._styleTemplate.parent = null;
+            }
         }
 
         override protected function get styleTemplate():IWindowContainer

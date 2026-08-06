@@ -1,9 +1,8 @@
 package com.sulake.habbo.roomevents.wired_setup.uibuilder.params
 {
     /**
-     * Source-type selector descriptor (May SourceTypeSelectorParam). The source-type
-     * listener subsystem is deferred to Phase 4; `listener` is held untyped (Object)
-     * so SectionParam can carry an optional selector without pulling in inputsources.
+     * Source-type selector descriptor. The listener remains untyped because the
+     * clean-client picker implementations expose different callback interfaces.
      */
     public class SourceTypeSelectorParam
     {
