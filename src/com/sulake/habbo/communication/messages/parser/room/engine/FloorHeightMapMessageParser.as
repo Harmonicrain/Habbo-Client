@@ -75,6 +75,10 @@
             var _local_6:int;
             var _local_7:Array;
             var _local_8:int = _local_3.length;
+            if (((_local_8 > 0) && (_local_3[(_local_8 - 1)] == "")))
+            {
+                _local_8--;
+            }
             var _local_9:int;
             var _local_10:String;
             _local_5 = 0;
@@ -104,7 +108,7 @@
             this._width = _local_9;
             this._height = _local_8;
             _local_5 = 0;
-            while (_local_5 < _local_3.length)
+            while (_local_5 < _local_8)
             {
                 _local_7 = (this._heightMap[_local_5] as Array);
                 _local_10 = (_local_3[_local_5] as String);
