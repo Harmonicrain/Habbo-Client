@@ -10,6 +10,7 @@
         function readByte():int;
         function readFloat():Number;
         function readDouble():Number;
+        function readLong():Number;
         function get bytesAvailable():uint;
     }
 }
