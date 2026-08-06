@@ -121,7 +121,10 @@ package com.sulake.habbo.roomevents.wired_setup.inputsources.newpicker
             if (this._selected != null)
             {
                 this._selected.activate();
-                this._listener.sourceType = this._selected.option;
+                if (this._listener != null)
+                {
+                    this._listener.sourceType = this._selected.option;
+                }
             }
         }
 

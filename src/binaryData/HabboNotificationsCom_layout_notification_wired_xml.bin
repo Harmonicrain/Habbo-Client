@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><layout name="notification_wired" width="190" height="60" version="0.1" uid="2E3CC14D-313D-184A-2AC8-73450F432817">
+  <window>
+    <border x="0" y="0" width="190" height="60" params="1" style="2" color="0x0355477" tags="border">
+      <children>
+        <static_bitmap x="0" y="-19" width="240" height="160" params="1040" style="3" blend="0.3">
+          <variables>
+            <var key="asset_uri" value="illumina_wired_bg_right" type="String"/>
+            <var key="stretched_x" value="false" type="Boolean"/>
+            <var key="flip_x" value="true" type="Boolean"/>
+            <var key="fit_size_to_contents" value="true" type="Boolean"/>
+          </variables>
+        </static_bitmap>
+        <container x="0" y="0" width="190" height="24" params="144" style="3" name="header">
+          <children>
+            <border x="0" y="0" width="190" height="24" params="144" style="2" color="0x01e3044"/>
+            <container x="0" y="15" width="190" height="10" params="144" style="3" color="0xffff1e3044" background="true"/>
+            <text x="7" y="4" width="177" height="17" params="16" style="3" caption="%24%7Bproduct.type.wired%7D" blend="0.95">
+              <variables>
+                <var key="auto_size" value="center" type="String"/>
+                <var key="text_color" value="0xffffff" type="hex"/>
+                <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                <var key="bold" value="true" type="Boolean"/>
+                <var key="spacing" value="0" type="Number"/>
+                <var key="leading" value="0" type="Number"/>
+              </variables>
+            </text>
+          </children>
+        </container>
+        <itemlist x="0" y="31" width="190" height="23" params="8388624" style="3">
+          <children>
+            <text x="8" y="0" width="174" height="16" params="16" style="3" name="description" caption="Some%20textyy" tags="notification_text" width_min="174" width_max="174" height_min="0">
+              <variables>
+                <var key="auto_size" value="center" type="String"/>
+                <var key="font_size" value="11" type="uint"/>
+                <var key="text_color" value="0xffffff" type="hex"/>
+                <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                <var key="word_wrap" value="true" type="Boolean"/>
+                <var key="spacing" value="0" type="Number"/>
+                <var key="leading" value="0" type="Number"/>
+              </variables>
+            </text>
+            <itemlist x="0" y="16" width="30" height="7" params="16" style="3" name="spacing">
+              <variables>
+              </variables>
+            </itemlist>
+            <button x="118" y="23" width="65" height="25" params="393297" style="106" name="button" caption="Disable" color="0x06e8cb7" visible="false" tags="button" height_min="25" height_max="25">
+              <variables>
+                <var key="text_style" value="il_button_white" type="String"/>
+              </variables>
+            </button>
+          </children>
+          <variables>
+            <var key="resize_on_item_update" value="true" type="Boolean"/>
+          </variables>
+        </itemlist>
+        <bitmap x="7" y="30" width="50" height="50" params="16" style="0" tags="notification_icon"/>
+      </children>
+    </border>
+  </window>
+</layout>

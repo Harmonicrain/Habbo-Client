@@ -90,6 +90,7 @@
                 throw (new Error("Failed to construct window from XML!"));
             }
             this._window.position = DEFAULT_LOCATION;
+            this.createWiredMenuButton();
             this._window.addEventListener(WindowEvent.WINDOW_EVENT_PARENT_RESIZED, this._Str_16256);
             if (this._toolbar._Str_24996())
             {
@@ -150,6 +151,39 @@
             this._newItemsNotificationEnabled = this.isNewItemsNotificationEnabled();
             this._Str_5532();
             (this._toolbar as Component).context.addLinkEventTracker(this);
+        }
+
+        private function createWiredMenuButton():void
+        {
+            var items:IItemListWindow =
+                this._window.findChildByName("toolbar_items") as IItemListWindow;
+            var source:IWindowContainer =
+                this._window.findChildByName("ACHIEVEMENTS") as IWindowContainer;
+            if (items == null || source == null ||
+                this._window.findChildByName("WIRED_MENU") != null)
+            {
+                return;
+            }
+            var button:IWindowContainer = source.clone() as IWindowContainer;
+            button.name = "WIRED_MENU";
+            button.visible = false;
+            button.tags.splice(0, button.tags.length);
+            button.tags.push("TOGGLE", "VISIBLE_ROOM", "FIT:toolbarWiredMenu");
+            var bitmap:IStaticBitmapWrapperWindow =
+                button.findChildByTag("ICON_BMP") as IStaticBitmapWrapperWindow;
+            if (bitmap != null)
+            {
+                bitmap.name = "wired_menu_png";
+                bitmap.assetUri = "wired_menu_png";
+                bitmap.tags.splice(0, bitmap.tags.length);
+            }
+            var label:ITextWindow =
+                button.findChildByName("text") as ITextWindow;
+            if (label != null)
+            {
+                label.caption = "${toolbar.icon.label.wired_menu}";
+            }
+            items.addListItem(button);
         }
 
         private static function _Str_15428(k:BitmapData, _arg_2:Point, _arg_3:uint):BitmapData

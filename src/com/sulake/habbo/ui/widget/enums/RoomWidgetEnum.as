@@ -38,6 +38,7 @@
         public static const CAMERA:String = "RWE_CAMERA";
         public static const ROOM_THUMBNAIL_CAMERA:String = "RWE_ROOM_THUMBNAIL_CAMERA";
         public static const ROOM_BACKGROUND_COLOR:String = "RWE_ROOM_BACKGROUND_COLOR";
+        public static const AREA_HIDE:String = "RWE_AREA_HIDE";
         public static const CUSTOM_USER_NOTIFICATION:String = "RWE_CUSTOM_USER_NOTIFICATION";
         public static const FURNI_ACHIEVEMENT_RESOLUTION_ENGRAVING:String = "RWE_FURNI_ACHIEVEMENT_RESOLUTION_ENGRAVING";
         public static const FRIEND_FURNI_CONFIRM:String = "RWE_FRIEND_FURNI_CONFIRM";

@@ -48,6 +48,8 @@
         private var Z_MULTIPLIER:Number = 0;
         private var _filters:Array = null;
         private var _filtersChanged:Boolean = false;
+        private var _invisibleLayer:Boolean = false;
+        private var _isInvisibleFurni:Boolean = false;
 
         public function FurnitureVisualization()
         {
@@ -123,6 +125,7 @@
             }
             this._data = (k as FurnitureVisualizationData);
             this._type = this._data.getType();
+            this._isInvisibleFurni = (this._type.indexOf("room_invisible_") == 0);
             return true;
         }
 
@@ -234,6 +237,11 @@
                         _local_4.offsetX = (_local_5.offsetX + this.getSpriteXOffset(k, this._direction, _arg_2));
                         _local_4.offsetY = (_local_5.offsetY + this.getSpriteYOffset(k, this._direction, _arg_2));
                         _local_4.alphaTolerance = ((this.getSpriteMouseCapture(k, this._direction, _arg_2)) ? AlphaTolerance.MATCH_OPAQUE_PIXELS : AlphaTolerance.MATCH_NOTHING);
+                        if (((this._invisibleLayer) && (((_local_4.tag == "invisible")) || (this._isInvisibleFurni))))
+                        {
+                            _local_4.alpha = 0;
+                            _local_4.alphaTolerance = AlphaTolerance.MATCH_NOTHING;
+                        }
                         _local_4.blendMode = this.getBlendMode(this.getSpriteInk(k, this._direction, _arg_2));
                         _local_6 = this.getSpriteZOffset(k, this._direction, _arg_2);
                         _local_6 = (_local_6 - (_arg_2 * 0.001));
@@ -378,6 +386,12 @@
             if (_modelUpdateID != _local_3.getUpdateID())
             {
                 this._selectedColor = _local_3.getNumber(RoomObjectVariableEnum.FURNITURE_COLOR);
+                var _local_5:Boolean = (_local_3.getNumber(RoomObjectVariableEnum.FURNITURE_INVISIBLE_LAYER) > 0);
+                if (_local_5 != this._invisibleLayer)
+                {
+                    this._invisibleLayer = _local_5;
+                    this._Str_11460 = true;
+                }
                 _local_4 = _local_3.getNumber(RoomObjectVariableEnum.FURNITURE_ALPHA_MULTIPLIER);
                 if (isNaN(_local_4))
                 {

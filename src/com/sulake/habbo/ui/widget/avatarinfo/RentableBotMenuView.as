@@ -59,6 +59,8 @@ package com.sulake.habbo.ui.widget.avatarinfo
             var _local_2:IWindowContainer = (_buttons.getListItemByName("link_template") as IWindowContainer);
             var _local_3:IWindowContainer = (_buttons.getListItemByName("nux_proceed_1") as IWindowContainer);
             k.procedure = this.buttonEventProc;
+            this.ensureTextButton("wired_inspect",
+                "${infostand.button.wired_inspect}");
             k.autoArrangeItems = false;
             var _local_4:int = k.numListItems;
             var _local_5:int;
@@ -84,6 +86,9 @@ package com.sulake.habbo.ui.widget.avatarinfo
                 }
                 showButton("nux_take_tour", (!(this._data.botSkills.indexOf(BotSkillsEnum.NUX_TAKE_TOUR) == -1)));
             }
+            showButton("wired_inspect",
+                this.widget.handler.container.userDefinedRoomEvents
+                    .showInspectButton());
             for each (_local_7 in this._data._Str_10833)
             {
                 if (_local_7.id == BotSkillsEnum.INCLIENT_LINK)
@@ -201,6 +206,12 @@ package com.sulake.habbo.ui.widget.avatarinfo
                     _local_5 = null;
                     switch (_arg_2.parent.name)
                     {
+                        case "wired_inspect":
+                            this.widget.handler.container
+                                .userDefinedRoomEvents.inspectObject(
+                                    1, this._data.roomIndex);
+                            _local_3 = true;
+                            break;
                         case "pick":
                             _local_3 = true;
                             this.widget.handler.container.connection.send(new RemoveBotFromFlatMessageComposer(this._data.id));

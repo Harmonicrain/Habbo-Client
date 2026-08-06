@@ -180,6 +180,7 @@
             <!-- Graphic assets -->
 
             <asset mimeType="image/png" name="habbo_blue_skin_png"/>
+            <asset mimeType="image/png" name="wired_menu_border_skin_png"/>
             <asset mimeType="image/png" name="habbo_skin_ubuntu_png"/>
             <asset mimeType="image/png" name="skin_ubuntu_bg_9"/>
             <asset mimeType="image/png" name="ubuntu_frame_leaderboard_all_png"/>
@@ -927,6 +928,18 @@
 			<asset mimeType="image/png" name="wired_styles_illumina_icon_source_global" />
 			<asset mimeType="image/png" name="wired_styles_illumina_icon_source_context" />
 			<asset mimeType="image/png" name="wired_styles_illumina_furni_picks_1" />
+			<asset mimeType="image/png" name="wired_add" />
+			<asset mimeType="image/png" name="wired_remove" />
+			<asset mimeType="image/png" name="wired_reference" />
+			<asset mimeType="image/png" name="var_picker_all" />
+			<asset mimeType="image/png" name="var_picker_cancel_search" />
+			<asset mimeType="image/png" name="var_picker_internal" />
+			<asset mimeType="image/png" name="var_picker_recent" />
+			<asset mimeType="image/png" name="var_picker_search" />
+			<asset mimeType="image/png" name="var_picker_smart" />
+			<asset mimeType="image/png" name="var_picker_usermade" />
+			<asset mimeType="image/png" name="wired_enlarge_image" />
+			<asset mimeType="image/png" name="wired_reduce_image" />
 			<asset mimeType="image/png" name="wired_styles_illumina_furni_picks_2" />
 			<asset mimeType="image/png" name="wired_styles_illumina_move_0" />
 			<asset mimeType="image/png" name="wired_styles_illumina_move_1" />
@@ -941,6 +954,19 @@
 			<asset mimeType="image/png" name="wired_styles_illumina_move_vrt" />
 			<asset mimeType="image/png" name="wired_styles_illumina_rotate_ccw" />
 			<asset mimeType="image/png" name="wired_styles_illumina_rotate_cw" />
+			<asset mimeType="image/png" name="wired_misc_directional_system_0_png" />
+			<asset mimeType="image/png" name="wired_misc_directional_system_1_png" />
+			<asset mimeType="image/png" name="wired_misc_directional_system_2_png" />
+			<asset mimeType="image/png" name="wired_misc_directional_system_3_png" />
+			<asset mimeType="image/png" name="icon_wired_variable_user_large_png" />
+			<asset mimeType="image/png" name="icon_wired_variable_context_large_png" />
+			<asset mimeType="image/png" name="icon_wired_variable_global_large_png" />
+			<asset mimeType="image/png" name="icon_wired_variable_furni_large_png" />
+			<asset mimeType="image/png" name="wired_box_lines_png" />
+			<asset mimeType="image/png" name="wired_global_placeholder_png" />
+			<asset mimeType="image/png" name="wired_monitor_element1_png" />
+			<asset mimeType="image/png" name="wired_monitor_element2_png" />
+			<asset mimeType="image/png" name="icon_discord_png" />
 			<asset mimeType="image/png" name="wired_volter_uparrow" />
 			<asset mimeType="image/png" name="wired_volter_downarrow" />
 			<asset mimeType="image/png" name="tools_black_pixel" />
@@ -993,7 +1019,28 @@
             <asset mimeType="text/xml" name="pixel_limit_xml"/>
             <asset mimeType="text/xml" name="room_thumbnail_xml"/>
             <asset mimeType="text/xml" name="room_usercount_xml"/>
+            <asset mimeType="text/xml" name="chest_overlay_griditem_xml"/>
 
+            <asset mimeType="image/png" name="wired_chests_bell_icon"/>
+            <asset mimeType="image/png" name="wired_chests_gear_icon"/>
+            <asset mimeType="image/png" name="wired_chests_images_classic_furni_chest_empty"/>
+            <asset mimeType="image/png" name="wired_chests_images_variant_furni_chest_empty"/>
+            <asset mimeType="image/png" name="wired_chests_images_generic_payments"/>
+            <asset mimeType="image/png" name="wired_chests_images_dark_coins_chest_balance_zero"/>
+            <asset mimeType="image/png" name="wired_chests_images_dark_coins_chest_balance_low"/>
+            <asset mimeType="image/png" name="wired_chests_images_dark_coins_chest_balance_medium"/>
+            <asset mimeType="image/png" name="wired_chests_images_dark_coins_chest_balance_high"/>
+            <asset mimeType="image/png" name="wired_chests_images_light_coins_chest_balance_zero"/>
+            <asset mimeType="image/png" name="wired_chests_images_light_coins_chest_balance_low"/>
+            <asset mimeType="image/png" name="wired_chests_images_light_coins_chest_balance_medium"/>
+            <asset mimeType="image/png" name="wired_chests_images_light_coins_chest_balance_high"/>
+            <asset mimeType="image/png" name="chest_overlay_brown_background"/>
+            <asset mimeType="image/png" name="chest_overlay_brown_plaque"/>
+            <asset mimeType="image/png" name="chest_overlay_gold_background"/>
+            <asset mimeType="image/png" name="chest_overlay_gold_plaque"/>
+            <asset mimeType="image/png" name="chest_overlay_silver_background"/>
+            <asset mimeType="image/png" name="chest_overlay_silver_plaque"/>
+            <asset mimeType="image/png" name="chest_overlay_shine"/>
         </assets>
         <aliases>
             <asset mimeType="image/png" name="illumina_light_border_top_left" ref="illumina_light_border_etched_png">

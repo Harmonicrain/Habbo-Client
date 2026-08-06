@@ -4,9 +4,8 @@ package com.sulake.habbo.roomevents.wired_setup
     import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.Triggerable;
 
     /**
-     * Simple per-category registry of builder elements (Phase 2 stand-in for the
-     * May holder classes). The accept check is delegated to a category predicate
-     * supplied by the controller (TriggerDefinition/ActionDefinition/...).
+     * Per-category registry of builder elements. The accept check is delegated
+     * to the category predicate supplied by the controller.
      */
     public class BuilderTypeHolder implements IWiredTypeHolder
     {

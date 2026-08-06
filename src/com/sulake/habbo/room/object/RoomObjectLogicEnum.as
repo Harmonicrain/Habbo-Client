@@ -46,6 +46,7 @@
         public static const FURNITURE_MONSTERPLANT_SEED:String = "furniture_monsterplant_seed";
         public static const FURNITURE_PURCHASABLE_CLOTHING:String = "furniture_purchasable_clothing";
         public static const FURNITURE_BACKGROUND_COLOR:String = "furniture_background_color";
+        public static const FURNITURE_AREA_HIDE:String = "furniture_area_hide";
         public static const FURNITURE_MYSTERYBOX:String = "furniture_mysterybox";
         public static const FURNITURE_EFFECTBOX:String = "furniture_effectbox";
         public static const FURNITURE_MYSTERYTROPHY:String = "furniture_mysterytrophy";

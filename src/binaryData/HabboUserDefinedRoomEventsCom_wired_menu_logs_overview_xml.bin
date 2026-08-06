@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout name="logs_overview" width="700" height="508" version="0.1" uid="A3FF14F8-9F29-041D-00FD-5B9C0E3A7E30">
+  <window>
+    <frame x="138" y="86" width="700" height="508" params="98305" style="3" caption="%24%7Bwiredmenu.logs_overview.title%7D" color="0xff418db0" width_min="700" width_max="700" height_min="380" height_max="700">
+      <filters>
+        <DropShadowFilter distance="4" alpha="0.34901960784313724" blurX="4" blurY="4"/>
+      </filters>
+      <children>
+        <container x="0" y="0" width="700" height="117" params="144" style="3" name="header">
+          <children>
+            <border x="8" y="7" width="580" height="38" params="16" style="4">
+              <children>
+                <html x="1" y="3" width="578" height="32" params="2185" style="3" name="info_text" caption="%24%7Bwiredmenu.logs_overview.info%7D" width_min="578" width_max="578" height_min="32" height_max="32">
+                  <variables>
+                    <var key="auto_size" value="center" type="String"/>
+                    <var key="multiline" value="true" type="Boolean"/>
+                    <var key="word_wrap" value="true" type="Boolean"/>
+                    <var key="spacing" value="0" type="Number"/>
+                    <var key="leading" value="1" type="Number"/>
+                    <var key="editable" value="false" type="Boolean"/>
+                    <var key="selectable" value="false" type="Boolean"/>
+                    <var key="editable" value="false" type="Boolean"/>
+                    <var key="selectable" value="false" type="Boolean"/>
+                  </variables>
+                </html>
+              </children>
+            </border>
+            <container x="15" y="60" width="314" height="25" params="16" style="3" name="filter_cont">
+              <children>
+                <text x="0" y="3" width="38" height="17" params="16" style="3" name="filter_key" caption="%24%7Bwiredmenu.logs_overview.filter%7D">
+                  <variables>
+                    <var key="auto_size" value="left" type="String"/>
+                    <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                    <var key="bold" value="true" type="Boolean"/>
+                    <var key="spacing" value="0" type="Number"/>
+                    <var key="leading" value="0" type="Number"/>
+                  </variables>
+                </text>
+                <border x="45" y="0" width="269" height="25" params="16" style="4">
+                  <children>
+                    <input x="6" y="4" width="257" height="18" params="1" style="3" name="filter_input">
+                      <variables>
+                        <var key="max_chars" value="400" type="int"/>
+                        <var key="spacing" value="0" type="Number"/>
+                        <var key="leading" value="0" type="Number"/>
+                      </variables>
+                    </input>
+                  </children>
+                </border>
+              </children>
+            </container>
+            <checkbox x="596" y="19" width="15" height="15" params="17" style="3" name="auto_refresh_cbx"/>
+            <text x="614" y="18" width="90" height="29" params="16" style="3" caption="%24%7Bwiredmenu.logs_overview.auto_refresh%7D">
+              <variables>
+                <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                <var key="spacing" value="0" type="Number"/>
+                <var key="leading" value="0" type="Number"/>
+              </variables>
+            </text>
+            <container x="349" y="60" width="164" height="25" params="16" style="3" name="log_source_cont">
+              <children>
+                <text x="0" y="3" width="68" height="17" params="16" style="3" name="log_source_key" caption="%24%7Bwiredmenu.logs_overview.log_source%7D">
+                  <variables>
+                    <var key="auto_size" value="left" type="String"/>
+                    <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                    <var key="bold" value="true" type="Boolean"/>
+                    <var key="spacing" value="0" type="Number"/>
+                    <var key="leading" value="0" type="Number"/>
+                  </variables>
+                </text>
+                <dropmenu x="74" y="0" width="90" height="25" params="17" style="3" name="log_source_menu">
+                  <variables>
+                    <var key="item_array">
+                      <value>
+                        <Array>
+                          <var key="0" value="${wiredmenu.logs_overview.log_source.all}" type="String"/>
+                          <var key="1" value="${wiredmenu.logs_overview.log_source.0}" type="String"/>
+                          <var key="2" value="${wiredmenu.logs_overview.log_source.1}" type="String"/>
+                        </Array>
+                      </value>
+                    </var>
+                  </variables>
+                </dropmenu>
+              </children>
+            </container>
+            <container x="534" y="60" width="154" height="25" params="16" style="3" name="log_level_cont">
+              <children>
+                <text x="0" y="3" width="56" height="17" params="16" style="3" name="log_level_key" caption="%24%7Bwiredmenu.logs_overview.log_level%7D">
+                  <variables>
+                    <var key="auto_size" value="left" type="String"/>
+                    <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                    <var key="bold" value="true" type="Boolean"/>
+                    <var key="spacing" value="0" type="Number"/>
+                    <var key="leading" value="0" type="Number"/>
+                  </variables>
+                </text>
+                <dropmenu x="62" y="0" width="90" height="25" params="17" style="3" name="log_level_menu">
+                  <variables>
+                    <var key="item_array">
+                      <value>
+                        <Array>
+                          <var key="0" value="${wiredmenu.logs_overview.log_level.all}" type="String"/>
+                          <var key="1" value="${wiredmenu.logs_overview.log_level.0}" type="String"/>
+                          <var key="2" value="${wiredmenu.logs_overview.log_level.1}" type="String"/>
+                          <var key="3" value="${wiredmenu.logs_overview.log_level.2}" type="String"/>
+                          <var key="4" value="${wiredmenu.logs_overview.log_level.3}" type="String"/>
+                        </Array>
+                      </value>
+                    </var>
+                  </variables>
+                </dropmenu>
+              </children>
+            </container>
+          </children>
+        </container>
+        <container x="1" y="97" width="698" height="316" params="2192" style="3" name="middle">
+          <children>
+            <container x="13" y="0" width="672" height="316" params="2192" style="3" name="table_view"/>
+          </children>
+        </container>
+        <container x="0" y="413" width="700" height="60" params="1049744" style="3" name="footer">
+          <children>
+            <container x="0" y="16" width="700" height="30" params="1168" style="3" name="pagination">
+              <children>
+                <itemlist_horizontal x="17" y="0" width="113" height="30" params="16" style="3" name="footer_buttons_left">
+                  <children>
+                    <container_button x="0" y="0" width="50" height="30" params="17" style="3" name="first_page_btn" width_min="50" width_max="50">
+                      <children>
+                        <icon x="18" y="10" width="10" height="10" params="16" style="4" color="0x00"/>
+                        <icon x="27" y="10" width="10" height="10" params="16" style="4" color="0x00"/>
+                      </children>
+                    </container_button>
+                    <container_button x="63" y="0" width="50" height="30" params="17" style="3" name="prev_page_btn" width_min="50" width_max="50">
+                      <children>
+                        <icon x="22" y="10" width="10" height="10" params="16" style="4" color="0x00"/>
+                      </children>
+                    </container_button>
+                  </children>
+                  <variables>
+                    <var key="spacing" value="13" type="int"/>
+                    <var key="resize_on_item_update" value="true" type="Boolean"/>
+                  </variables>
+                </itemlist_horizontal>
+                <itemlist_horizontal x="573" y="0" width="110" height="30" params="262224" style="3" name="footer_buttons_right">
+                  <children>
+                    <container_button x="0" y="0" width="50" height="30" params="17" style="3" name="next_page_btn" width_min="50" width_max="50">
+                      <children>
+                        <icon x="23" y="10" width="10" height="10" params="16" style="5" color="0x00"/>
+                      </children>
+                    </container_button>
+                    <container_button x="60" y="0" width="50" height="30" params="17" style="3" name="last_page_btn" width_min="50" width_max="50">
+                      <children>
+                        <icon x="18" y="10" width="10" height="10" params="16" style="5" color="0x00"/>
+                        <icon x="27" y="10" width="10" height="10" params="16" style="5" color="0x00"/>
+                      </children>
+                    </container_button>
+                  </children>
+                  <variables>
+                    <var key="spacing" value="10" type="int"/>
+                    <var key="resize_on_item_update" value="true" type="Boolean"/>
+                  </variables>
+                </itemlist_horizontal>
+                <itemlist_horizontal x="245" y="4" width="210" height="25" params="786640" style="3">
+                  <children>
+                    <text x="0" y="0" width="159" height="17" params="16" style="3" name="pagina_text_start" caption="X%20logs%20found.%20Showing%20page%20" blend="0.7">
+                      <variables>
+                        <var key="auto_size" value="left" type="String"/>
+                        <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                        <var key="spacing" value="0" type="Number"/>
+                        <var key="leading" value="0" type="Number"/>
+                      </variables>
+                    </text>
+                    <input x="161" y="0" width="21" height="17" params="1" style="3" name="pagina_number_input" caption="1" background="true">
+                      <variables>
+                        <var key="border" value="true" type="Boolean"/>
+                        <var key="spacing" value="0" type="Number"/>
+                        <var key="leading" value="0" type="Number"/>
+                      </variables>
+                    </input>
+                    <text x="184" y="0" width="26" height="17" params="16" style="3" name="pagina_text_end" caption="of%20Y" blend="0.7">
+                      <variables>
+                        <var key="auto_size" value="left" type="String"/>
+                        <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                        <var key="spacing" value="0" type="Number"/>
+                        <var key="leading" value="0" type="Number"/>
+                      </variables>
+                    </text>
+                  </children>
+                  <variables>
+                    <var key="spacing" value="2" type="int"/>
+                    <var key="resize_on_item_update" value="true" type="Boolean"/>
+                  </variables>
+                </itemlist_horizontal>
+              </children>
+            </container>
+          </children>
+        </container>
+      </children>
+      <variables>
+        <var key="margin_left" value="0" type="int"/>
+        <var key="margin_top" value="33" type="int"/>
+        <var key="margin_right" value="0" type="int"/>
+        <var key="margin_bottom" value="0" type="int"/>
+      </variables>
+    </frame>
+  </window>
+</layout>
+

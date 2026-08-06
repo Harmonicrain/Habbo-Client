@@ -10,7 +10,7 @@ package com.sulake.habbo.roomevents.wired_setup
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.styles.WiredStyle;
 
     /**
-     * Base wired 2.0 builder element (May DefaultElement, trimmed for Phase 2).
+     * Base Wired 2.0 builder element adapted from May/July DefaultElement.
      * Provides safe defaults; concrete element types override code/inputMode/buildInputs
      * and the read*FromForm accessors.
      */
@@ -40,6 +40,11 @@ package com.sulake.habbo.roomevents.wired_setup
         public function get inputMode():int
         {
             return INPUTS_TYPE_NONE;
+        }
+
+        public function get requiredCapability():int
+        {
+            return 0;
         }
 
         public function get hasStateSnapshot():Boolean

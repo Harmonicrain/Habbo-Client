@@ -36,8 +36,8 @@ package com.sulake.habbo.roomevents.wired_setup.conditions
 
         override public function buildInputs(_arg_1:PresetManager, _arg_2:WiredStyle, _arg_3:WiredUIBuilder):void
         {
-            this._min = _arg_1.createSliderSection("wiredfurni.params.usercountmin", "value", new SliderValueEcho(), 1, 50, 1);
-            this._max = _arg_1.createSliderSection("wiredfurni.params.usercountmax", "value", new SliderValueEcho(), 1, 50, 50);
+            this._min = _arg_1.createSliderSection("wiredfurni.params.usercountmin", "value", new SliderValueEcho(), 0, 125, 1, false);
+            this._max = _arg_1.createSliderSection("wiredfurni.params.usercountmax", "value", new SliderValueEcho(), 0, 125, 1, false);
             _arg_3.addElements(this._min, this._max);
         }
 
@@ -49,7 +49,7 @@ package com.sulake.habbo.roomevents.wired_setup.conditions
         override public function onEditStart(_arg_1:Triggerable):void
         {
             this._min.value = (_arg_1.intData.length > 0) ? _arg_1.intData[0] : 1;
-            this._max.value = (_arg_1.intData.length > 1) ? _arg_1.intData[1] : 50;
+            this._max.value = (_arg_1.intData.length > 1) ? _arg_1.intData[1] : 1;
         }
     }
 }

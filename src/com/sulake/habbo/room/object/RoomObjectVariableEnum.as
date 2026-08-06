@@ -64,6 +64,7 @@
         public static const FURNITURE_EXTRAS:String = "furniture_extras";
         public static const FURNITURE_ITEMDATA:String = "furniture_itemdata";
         public static const FURNITURE_ALPHA_MULTIPLIER:String = "furniture_alpha_multiplier";
+        public static const FURNITURE_INVISIBLE_LAYER:String = "furniture_invisible_layer";
         public static const FURNITURE_EXPIRY_TIME:String = "furniture_expiry_time";
         public static const FURNITURE_EXPIRTY_TIMESTAMP:String = "furniture_expirty_timestamp";
         public static const FURNITURE_STATE_UPDATE_TIME:String = "furniture_state_update_time";
@@ -107,6 +108,13 @@
         public static const FURNITURE_ROOM_BACKGROUND_COLOR_HUE:String = "furniture_room_background_color_hue";
         public static const FURNITURE_ROOM_BACKGROUND_COLOR_SATURATION:String = "furniture_room_background_color_saturation";
         public static const FURNITURE_ROOM_BACKGROUND_COLOR_LIGHTNESS:String = "furniture_room_background_color_lightness";
+        public static const FURNITURE_AREA_HIDE_ROOT_X:String = "furniture_area_hide_root_x";
+        public static const FURNITURE_AREA_HIDE_ROOT_Y:String = "furniture_area_hide_root_y";
+        public static const FURNITURE_AREA_HIDE_WIDTH:String = "furniture_area_hide_width";
+        public static const FURNITURE_AREA_HIDE_LENGTH:String = "furniture_area_hide_length";
+        public static const FURNITURE_AREA_HIDE_INVISIBILITY:String = "furniture_area_hide_invisibility";
+        public static const FURNITURE_AREA_HIDE_WALLITEMS:String = "furniture_area_hide_wallitems";
+        public static const FURNITURE_AREA_HIDE_INVERT:String = "furniture_area_hide_invert";
         public static const FURNITURE_BADGE_ASSET_NAME:String = "furniture_badge_asset_name";
         public static const FURNITURE_BADGE_VISIBLE_IN_STATE:String = "furniture_badge_visible_in_state";
         public static const FURNITURE_BADGE_IMAGE_STATUS:String = "furniture_badge_image_status";

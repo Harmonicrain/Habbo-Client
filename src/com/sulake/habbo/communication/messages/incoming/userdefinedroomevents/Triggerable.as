@@ -14,6 +14,12 @@ package com.sulake.habbo.communication.messages.incoming.userdefinedroomevents
      */
     public class Triggerable
     {
+        private static const MAX_FURNI_IDS:int = 10000;
+        private static const MAX_INT_PARAMS:int = 4096;
+        private static const MAX_VARIABLE_IDS:int = 4096;
+        private static const MAX_SOURCE_TYPES:int = 256;
+        private static const MAX_DEFAULT_INT_PARAMS:int = 4096;
+
         private var _furniLimit:int;
         private var _stuffIds:Array;
         private var _stuffIds2:Array;
@@ -47,26 +53,26 @@ package com.sulake.habbo.communication.messages.incoming.userdefinedroomevents
 
             this._furniLimit = k.readInteger();
 
-            count = k.readInteger();
+            count = WiredMessageDataValidator.readCount(k, 4, MAX_FURNI_IDS, "Triggerable primary furni ids");
             for (index = 0; index < count; index++) { this._stuffIds.push(k.readInteger()); }
 
-            count = k.readInteger();
+            count = WiredMessageDataValidator.readCount(k, 4, MAX_FURNI_IDS, "Triggerable secondary furni ids");
             for (index = 0; index < count; index++) { this._stuffIds2.push(k.readInteger()); }
 
             this._stuffTypeId = k.readInteger();
             this._id = k.readInteger();
             this._stringParam = k.readString();
 
-            count = k.readInteger();
+            count = WiredMessageDataValidator.readCount(k, 4, MAX_INT_PARAMS, "Triggerable integer params");
             for (index = 0; index < count; index++) { this._intParams.push(k.readInteger()); }
 
-            count = k.readInteger();
+            count = WiredMessageDataValidator.readCount(k, 2, MAX_VARIABLE_IDS, "Triggerable variable ids");
             for (index = 0; index < count; index++) { this._variableIds.push(k.readString()); }
 
-            count = k.readInteger();
+            count = WiredMessageDataValidator.readCount(k, 4, MAX_SOURCE_TYPES, "Triggerable furni source types");
             for (index = 0; index < count; index++) { this._furniSourceTypes.push(k.readInteger()); }
 
-            count = k.readInteger();
+            count = WiredMessageDataValidator.readCount(k, 4, MAX_SOURCE_TYPES, "Triggerable user source types");
             for (index = 0; index < count; index++) { this._userSourceTypes.push(k.readInteger()); }
 
             this._code = k.readInteger();
@@ -82,7 +88,8 @@ package com.sulake.habbo.communication.messages.incoming.userdefinedroomevents
 
             this._wiredContext = new WiredContext(k);
 
-            count = k.readInteger();
+            count = WiredMessageDataValidator.readCount(k, 4, MAX_DEFAULT_INT_PARAMS,
+                "Triggerable default integer params");
             for (index = 0; index < count; index++) { this._defaultIntParams.push(k.readInteger()); }
         }
 
@@ -136,6 +143,11 @@ package com.sulake.habbo.communication.messages.incoming.userdefinedroomevents
         // ---- Wired 2.0 additions ----
         public function get selectedItems2():Array { return this._stuffIds2; }
         public function get variableIds():Array { return this._variableIds; }
+        public function set variableIds(k:Array):void { this._variableIds = k != null ? k : []; }
+        public function set intParams(k:Array):void { this._intParams = k != null ? k : []; }
+        public function set stringParam(k:String):void { this._stringParam = k != null ? k : ""; }
+        public function set stuffIds(k:Array):void { this._stuffIds = k != null ? k : []; }
+        public function set stuffIds2(k:Array):void { this._stuffIds2 = k != null ? k : []; }
         public function get furniSourceTypes():Array { return this._furniSourceTypes; }
         public function set furniSourceTypes(k:Array):void { this._furniSourceTypes = k != null ? k : []; }
         public function get userSourceTypes():Array { return this._userSourceTypes; }

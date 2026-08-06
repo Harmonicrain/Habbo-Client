@@ -14,11 +14,11 @@ package com.sulake.habbo.roomevents.wired_setup.triggerconfs
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.styles.WiredStyle;
 
     /**
-     * Trigger code 0 (avatar says something) — May 2026 payload (Phase 2.6).
+     * Trigger code 0 (avatar says something) — May/July payload.
      *
      * Wire order: intParams = [hide, matchType, ownerOnly], stringParam = keyword.
-     * The Arcturus WiredTriggerHabboSaysKeyword was upgraded in the same slice to
-     * read/persist/execute this payload (matchType: 0=contains, 1=exact, 2=all text).
+     * Arcturus reads, persists and executes this payload
+     * (matchType: 0=contains, 1=exact, 2=all text).
      */
     public class AvatarSaysSomethingElement extends DefaultElement
     {

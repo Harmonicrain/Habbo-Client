@@ -35,6 +35,11 @@ package com.sulake.habbo.roomevents.wired_setup.actiontypes
             return "wiredfurni.params.sources.furni.title.mv." + _arg_1;
         }
 
+        override public function advancedAlwaysVisible():Boolean
+        {
+            return true;
+        }
+
         override public function readFurniIds2FromForm():Array
         {
             return this.roomEvents.wiredCtrl.getStuffIds2();

@@ -7,15 +7,14 @@ package com.sulake.habbo.roomevents.wired_setup
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.styles.WiredStyle;
 
     /**
-     * Wired 2.0 builder element contract (May §_-N2q§, trimmed for Phase 2).
-     * Source-type / merged-selection / guild / custom-advanced methods are deferred
-     * to their owning phases (4/6) and will extend this interface then.
+     * Wired 2.0 builder element contract adapted from the May/July client.
      */
     public interface IWiredElement
     {
         function get code():int;
         function get negativeCode():int;
         function get inputMode():int;
+        function get requiredCapability():int;
 
         function setRoomEvents(_arg_1:HabboUserDefinedRoomEvents):void;
         function onInit(_arg_1:HabboUserDefinedRoomEvents):void;

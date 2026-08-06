@@ -322,10 +322,12 @@
             var _local_2:FlatCreatedMessageParser = FlatCreatedEvent(k).getParser();
             ErrorReportStorage.addDebugData("IncomingEvent", ((("Flat created: " + _local_2.flatId) + ", ") + _local_2._Str_18439));
             this.data.createdFlatId = _local_2.flatId;
-            LegacyNavigator(this._navigator.legacyNavigator).goToRoom(_local_2.flatId, true);
-            LegacyNavigator(this._navigator.legacyNavigator).mainViewCtrl.reloadRoomList(Tabs.SEARCHTYPE_MY_ROOMS);
+            // Close the active new-navigator creation UI before room entry or
+            // result refresh can interrupt the remainder of this callback.
             LegacyNavigator(this._navigator.legacyNavigator).goToMainView();
             LegacyNavigator(this._navigator.legacyNavigator).closeNavigator();
+            LegacyNavigator(this._navigator.legacyNavigator).goToRoom(_local_2.flatId, true);
+            LegacyNavigator(this._navigator.legacyNavigator).mainViewCtrl.reloadRoomList(Tabs.SEARCHTYPE_MY_ROOMS);
         }
 
         private function _Str_22297(k:IMessageEvent):void

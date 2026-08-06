@@ -28,9 +28,19 @@ package com.sulake.habbo.communication.messages.incoming.userdefinedroomevents
             return this._isFilter;
         }
 
+        public function set isFilter(k:Boolean):void
+        {
+            this._isFilter = k;
+        }
+
         public function get isInvert():Boolean
         {
             return this._isInvert;
+        }
+
+        public function set isInvert(k:Boolean):void
+        {
+            this._isInvert = k;
         }
     }
 }

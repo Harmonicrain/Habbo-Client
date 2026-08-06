@@ -10,6 +10,8 @@ package com.sulake.habbo.roomevents.wired_setup.selectors
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.params.TextInputParam;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.NumberInputPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.RadioGroupPreset;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.CheckboxGroupPreset;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.params.CheckboxOptionParam;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.TextAreaPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.TextInputPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.styles.WiredStyle;
@@ -30,6 +32,7 @@ package com.sulake.habbo.roomevents.wired_setup.selectors
         private var _mode:int;
         private var _requiresFurni:Boolean;
         private var _radio:RadioGroupPreset;
+        private var _checkbox:CheckboxGroupPreset;
         private var _text:TextInputPreset;
         private var _areaText:TextAreaPreset;
         private var _numbers:Array;
@@ -51,8 +54,8 @@ package com.sulake.habbo.roomevents.wired_setup.selectors
             this._numbers = [];
             if (this._mode == MODE_STATE_MATCH)
             {
-                this._radio = k.createRadioGroup([new RadioButtonParam(0, l("selector.state.any")), new RadioButtonParam(1, l("selector.state.match"))]);
-                _arg_3.addElements(k.createSection(l("selector.state_match"), this._radio));
+                this._checkbox = k.createCheckboxGroup([new CheckboxOptionParam(l("state_match"), 0)]);
+                _arg_3.addElements(k.createSection(l("select_options"), this._checkbox));
             }
             else if (this._mode == MODE_USER_TYPE)
             {
@@ -79,8 +82,8 @@ package com.sulake.habbo.roomevents.wired_setup.selectors
             }
             else if (this._mode == MODE_NAMES)
             {
-                this._areaText = k.createTextArea(new TextAreaParam(70, -1, -1, -1, 1000, ""));
-                _arg_3.addElements(k.createSection(l("users.names"), this._areaText));
+                this._areaText = k.createTextArea(new TextAreaParam(140, -1, 20, -1, 1000, ""));
+                _arg_3.addElements(k.createSection(l("enter_names"), this._areaText));
             }
             else if (this._mode == MODE_HANDITEM)
             {
@@ -100,6 +103,10 @@ package com.sulake.habbo.roomevents.wired_setup.selectors
             {
                 return [this._radio.selected];
             }
+            if (this._checkbox != null)
+            {
+                return [this._checkbox.get(0).selected ? 1 : 0];
+            }
             if (this._numbers != null && this._numbers.length > 0)
             {
                 var k:Array = [];
@@ -116,7 +123,7 @@ package com.sulake.habbo.roomevents.wired_setup.selectors
         {
             if (this._areaText != null)
             {
-                return this._areaText.text.replace(/\n/g, "\t");
+                return this._areaText.text.replace(/\r\n|\r|\n|\t/g, "\t");
             }
             if (this._text != null)
             {
@@ -132,6 +139,10 @@ package com.sulake.habbo.roomevents.wired_setup.selectors
             {
                 this._radio.selected = (k.intData.length > 0) ? k.intData[0] : 0;
             }
+            if (this._checkbox != null)
+            {
+                this._checkbox.mask = (k.intData.length > 0 && k.intData[0] != 0) ? 1 : 0;
+            }
             if (this._numbers != null)
             {
                 _local_2 = 0;
@@ -143,7 +154,7 @@ package com.sulake.habbo.roomevents.wired_setup.selectors
             }
             if (this._areaText != null)
             {
-                this._areaText.text = k.stringData.replace(/\t/g, "\n");
+                this._areaText.text = k.stringData.replace(/\r\n|\r|\n|\t/g, "\n");
             }
             if (this._text != null)
             {

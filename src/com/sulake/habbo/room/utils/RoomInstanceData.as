@@ -236,5 +236,10 @@
         {
             return this._mouseButtonCursorOwners.length > 0;
         }
+
+        public function get mouseButtonCursorOwners():Array
+        {
+            return this._mouseButtonCursorOwners.concat();
+        }
     }
 }

@@ -157,6 +157,27 @@
                                 }
                                 switch (_local_12.toLowerCase())
                                 {
+                                    case ":wf":
+                                    case ":wired":
+                                        if (this._container.userDefinedRoomEvents != null)
+                                        {
+                                            this._container.userDefinedRoomEvents.openWiredMenu("monitor");
+                                        }
+                                        return null;
+                                    case ":var":
+                                    case ":variables":
+                                        if (this._container.userDefinedRoomEvents != null)
+                                        {
+                                            this._container.userDefinedRoomEvents.openWiredMenu("variable_overview");
+                                        }
+                                        return null;
+                                    case ":inspect":
+                                    case ":inspection":
+                                        if (this._container.userDefinedRoomEvents != null)
+                                        {
+                                            this._container.userDefinedRoomEvents.openWiredMenu("inspection");
+                                        }
+                                        return null;
                                     case ":d":
                                     case ";d":
                                         if (this._container.sessionDataManager.clubLevel == HabboClubLevelEnum.VIP)
@@ -206,7 +227,9 @@
                                         HabboTracking.getInstance().trackEventLog("OwnAvatarMenu", "chat", "sign", null, int(commandArgument));
                                         return null;
                                     case ":chooser":
-                                        if ((((this._container.sessionDataManager.clubLevel >= HabboClubLevelEnum.CLUB) || (this._container.sessionDataManager.hasSecurity(SecurityLevelEnum.PARTNER))) || (this._container.sessionDataManager.isAmbassador)))
+                                        if ((!this._container.roomEngine.activeRoomHasChooserDisabled)
+                                            || (this._container.roomSession.roomControllerLevel
+                                                >= RoomControllerLevel.GUEST))
                                         {
                                             _local_9 = new RoomWidgetRequestWidgetMessage(RoomWidgetRequestWidgetMessage.RWRWM_USER_CHOOSER);
                                             this._container.processWidgetMessage(_local_9);

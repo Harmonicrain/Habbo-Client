@@ -12,6 +12,9 @@ package com.sulake.habbo.communication.messages.incoming.userdefinedroomevents
         public static const FURNI_SOURCE_FURNI_PICKS_1:int = 100;
         public static const FURNI_SOURCE_FURNI_PICKS_2:int = 101;
         public static const FURNI_SOURCE_DUAL_MODE:int = 110;
+        private static const MAX_SOURCE_SLOTS:int = 256;
+        private static const MAX_SOURCES_PER_SLOT:int = 256;
+        private static const MAX_DEFAULT_SOURCES:int = 256;
 
         private var _allowedFurniSources:Array; // Array of Array<int>
         private var _allowedUserSources:Array;  // Array of Array<int>
@@ -30,11 +33,13 @@ package com.sulake.habbo.communication.messages.incoming.userdefinedroomevents
         private static function readAllowedSources(k:IMessageDataWrapper):Array
         {
             var outer:Array = new Array();
-            var outerCount:int = k.readInteger();
+            var outerCount:int = WiredMessageDataValidator.readCount(k, 4, MAX_SOURCE_SLOTS,
+                "InputSourcesConf source slots");
             for (var i:int = 0; i < outerCount; i++)
             {
                 var slot:Array = new Array();
-                var innerCount:int = k.readInteger();
+                var innerCount:int = WiredMessageDataValidator.readCount(k, 4, MAX_SOURCES_PER_SLOT,
+                    "InputSourcesConf slot sources");
                 for (var j:int = 0; j < innerCount; j++)
                 {
                     slot.push(k.readInteger());
@@ -47,7 +52,8 @@ package com.sulake.habbo.communication.messages.incoming.userdefinedroomevents
         private static function readFlatSources(k:IMessageDataWrapper):Array
         {
             var out:Array = new Array();
-            var count:int = k.readInteger();
+            var count:int = WiredMessageDataValidator.readCount(k, 4, MAX_DEFAULT_SOURCES,
+                "InputSourcesConf default sources");
             for (var i:int = 0; i < count; i++)
             {
                 out.push(k.readInteger());

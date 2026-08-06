@@ -31,6 +31,7 @@
     import com.sulake.core.window.components.IIconWindow;
     import com.sulake.habbo.utils._Str_6093;
     import com.sulake.habbo.session.enum.RoomControllerLevel;
+    import com.sulake.habbo.session.IRoomSession;
     import com.sulake.habbo.ui.widget.enums.RoomWidgetEnumItemExtradataParameter;
     import com.sulake.habbo.ui.widget.enums.RoomWidgetFurniInfoUsagePolicyEnum;
     import com.sulake.habbo.ui.widget.events.RoomWidgetFurniInfostandUpdateEvent;
@@ -114,6 +115,18 @@
             }
             this._border = (this._window.getListItemByName("info_border") as IBorderWindow);
             this._buttons = (this._window.getListItemByName("button_list") as IItemListWindow);
+            if (this._buttons != null &&
+                this._buttons.getListItemByName("wired_inspect") == null &&
+                this._buttons.numListItems > 0)
+            {
+                var wiredInspect:IWindow =
+                    this._buttons.getListItemAt(0).clone();
+                wiredInspect.name = "wired_inspect";
+                wiredInspect.caption =
+                    "${infostand.button.wired_inspect}";
+                wiredInspect.visible = false;
+                this._buttons.addListItem(wiredInspect);
+            }
             this._customVarsWindow = (this._window.getListItemByName("custom_variables") as IWindowContainer);
             if (!this._widget.handler.container.sessionDataManager.hasSecurity(SecurityLevelEnum.MODERATOR))
             {
@@ -422,6 +435,10 @@
                 case "use":
                     _local_3 = RoomWidgetFurniActionMessage.RWFAM_USE;
                     break;
+                case "wired_inspect":
+                    _local_3 =
+                        RoomWidgetFurniActionMessage.RWFAM_WIRED_INSPECT;
+                    break;
             }
             if (_local_3 != null)
             {
@@ -515,11 +532,20 @@
             this._Str_24341 = k.image;
             this.expiration = k.expiration;
             this._Str_25318(((_Str_6093._Str_7070(k.id)) ? BCW_OWNER_ID : k.ownerId), k.ownerName);
+            var roomSession:IRoomSession =
+                this._widget.handler.container.roomSession;
+            var playTestMode:Boolean =
+                roomSession != null && roomSession.playTestMode;
+            var freeFurniMovements:Boolean = roomSession != null
+                && this._widget.handler.container.roomEngine
+                    .activeRoomHasFreeFurniMovementsMode;
             var _local_2:Boolean;
             var _local_3:Boolean;
             var _local_4:Boolean;
             var _local_5:Boolean;
-            if (((((k.roomControllerLevel >= RoomControllerLevel.GUEST) || (k.isOwner)) || (k.isRoomOwner)) || (k.isAnyRoomController)))
+            if (freeFurniMovements || (!playTestMode
+                && ((((k.roomControllerLevel >= RoomControllerLevel.GUEST)
+                    || k.isOwner) || k.isRoomOwner) || k.isAnyRoomController)))
             {
                 _local_2 = true;
                 _local_3 = (!(k.isWallItem));
@@ -529,20 +555,48 @@
                 _local_4 = true;
             }
             var _local_6:* = (k.roomControllerLevel >= RoomControllerLevel.GUEST);
-            if (((((k.usagePolicy == RoomWidgetFurniInfoUsagePolicyEnum.EVERYBODY) || ((k.usagePolicy == RoomWidgetFurniInfoUsagePolicyEnum.CONTROLLER) && (_local_6))) || ((k.extraParam == RoomWidgetEnumItemExtradataParameter.JUKEBOX) && (_local_6))) || ((k.extraParam == RoomWidgetEnumItemExtradataParameter.USABLE_PRODUCT) && (_local_6))))
+            var useButtonEnabled:Boolean =
+                this._widget.config.getBoolean("infostand.use.button.enabled");
+            if (useButtonEnabled)
             {
-                _local_5 = this._widget.config.getBoolean("infostand.use.button.enabled");
+                if (k.usagePolicy == RoomWidgetFurniInfoUsagePolicyEnum.EVERYBODY)
+                {
+                    _local_5 = true;
+                }
+                if (!playTestMode
+                    && (((k.usagePolicy
+                        == RoomWidgetFurniInfoUsagePolicyEnum.CONTROLLER)
+                        && _local_6)
+                        || ((k.extraParam
+                            == RoomWidgetEnumItemExtradataParameter.JUKEBOX)
+                            && _local_6)
+                        || ((k.extraParam
+                            == RoomWidgetEnumItemExtradataParameter.USABLE_PRODUCT)
+                            && _local_6)))
+                {
+                    _local_5 = true;
+                }
+                if (freeFurniMovements)
+                {
+                    _local_5 = true;
+                }
             }
-            this._Str_25151(k);
+            var showWiredInspect:Boolean = !playTestMode
+                && this._widget.handler.container.userDefinedRoomEvents
+                    .showInspectButton();
+            this._Str_25151(k, playTestMode);
             this.showButton("move", _local_2);
             this.showButton("rotate", _local_3);
             this.showButton("use", _local_5);
+            this.showButton("wired_inspect", showWiredInspect);
             this.showAdFurnitureDetails(_local_4);
             this._Str_22883((k.groupId > 0));
             this._Str_22377(k.isOwner, (k.expiration >= 0), (k.purchaseOfferId >= 0), (k.rentOfferId >= 0), k.purchaseCouldBeUsedForBuyout, k.rentCouldBeUsedForBuyout, ((((_Str_6093._Str_7070(k.id)) && (k.bcOfferId >= 0)) && (k.availableForBuildersClub)) && (this._catalog.canPlaceWithBC())));
             this._Str_22365((k.stuffData.uniqueSerialNumber > 0), k.stuffData);
             this._Str_16559((k.stuffData.rarityLevel >= 0), k.stuffData);
-            this._buttons.visible = ((((_local_2) || (_local_3)) || (!(this._pickupMode == this.PICKUP_MODE_NONE))) || (_local_5));
+            this._buttons.visible = (((((_local_2) || (_local_3)) ||
+                (!(this._pickupMode == this.PICKUP_MODE_NONE))) || (_local_5)) ||
+                showWiredInspect);
             this._Str_25743();
             this.updateWindow();
         }
@@ -579,23 +633,26 @@
             }
         }
 
-        private function _Str_25151(k:RoomWidgetFurniInfostandUpdateEvent):void
+        private function _Str_25151(
+            k:RoomWidgetFurniInfostandUpdateEvent,
+            playTestMode:Boolean):void
         {
             this._pickupMode = this.PICKUP_MODE_NONE;
-            if (((k.isOwner) || (k.isAnyRoomController)))
+            if (!playTestMode)
             {
-                this._pickupMode = this.PICKUP_MODE_FULL;
-            }
-            else
-            {
-                if (((k.isRoomOwner) || (k.roomControllerLevel >= RoomControllerLevel.GUILD_ADMIN)))
+                if (((k.isOwner) || (k.isAnyRoomController)))
+                {
+                    this._pickupMode = this.PICKUP_MODE_FULL;
+                }
+                else if (((k.isRoomOwner)
+                    || (k.roomControllerLevel >= RoomControllerLevel.GUILD_ADMIN)))
                 {
                     this._pickupMode = this.PICKUP_MODE_EJECT;
                 }
-            }
-            if (k._Str_17541)
-            {
-                this._pickupMode = this.PICKUP_MODE_NONE;
+                if (k._Str_17541)
+                {
+                    this._pickupMode = this.PICKUP_MODE_NONE;
+                }
             }
             this.showButton("pickup", (!(this._pickupMode == this.PICKUP_MODE_NONE)));
             this._Str_25214(this._pickupMode);

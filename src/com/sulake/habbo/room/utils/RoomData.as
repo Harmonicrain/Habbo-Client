@@ -1,5 +1,8 @@
 ﻿package com.sulake.habbo.room.utils
 {
+    import com.sulake.habbo.room.IAreaHideInfo;
+    import com.sulake.room.utils.IVector3d;
+
     public class RoomData 
     {
         private var _roomId:int;
@@ -7,10 +10,12 @@
         private var _floorType:String = null;
         private var _wallType:String = null;
         private var _landscapeType:String = null;
+        private var _cameraInitPosition:IVector3d;
+        private var _areaHideData:Vector.<IAreaHideInfo>;
 
         public function RoomData(k:int, data:XML)
         {
-            this._roomId = roomId;
+            this._roomId = k;
             this._data = data;
         }
 
@@ -52,6 +57,26 @@
         public function set landscapeType(k:String):void
         {
             this._landscapeType = k;
+        }
+
+        public function get cameraInitPosition():IVector3d
+        {
+            return this._cameraInitPosition;
+        }
+
+        public function set cameraInitPosition(k:IVector3d):void
+        {
+            this._cameraInitPosition = k;
+        }
+
+        public function get areaHideData():Vector.<IAreaHideInfo>
+        {
+            return this._areaHideData;
+        }
+
+        public function set areaHideData(k:Vector.<IAreaHideInfo>):void
+        {
+            this._areaHideData = k;
         }
     }
 }

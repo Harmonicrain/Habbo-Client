@@ -24,7 +24,7 @@ package com.sulake.habbo.communication.messages.outgoing.userdefinedroomevents
             this._array.push(_arg_3);                  // stringParam
             this._array.push(_arg_4.length);           // stuffIds
             for each (_i in _arg_4) { this._array.push(_i); }
-            this._array.push(0);                       // quantifierCode (type-specific; 0 for existing)
+            this._array.push(_arg_5);                  // quantifierCode
             this._array.push(_arg_6.length);           // furniSourceTypes
             for each (_i in _arg_6) { this._array.push(_i); }
             this._array.push(_arg_7.length);           // userSourceTypes

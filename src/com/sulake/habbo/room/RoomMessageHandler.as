@@ -7,6 +7,8 @@ package com.sulake.habbo.room
     import com.sulake.habbo.communication.messages.incoming.room.session.RoomReadyMessageEvent;
     import com.sulake.habbo.communication.messages.incoming.room.engine.RoomPropertyMessageEvent;
     import com.sulake.habbo.communication.messages.incoming.room.engine.FloorHeightMapEvent;
+    import com.sulake.habbo.communication.messages.incoming.room.engine.AreaHideMessageEvent;
+    import com.sulake.habbo.communication.messages.incoming.room.engine.AreaHideMessageData;
     import com.sulake.habbo.communication.messages.incoming.room.engine.HeightMapEvent;
     import com.sulake.habbo.communication.messages.incoming.room.engine.HeightMapUpdateMessageEvent;
     import com.sulake.habbo.communication.messages.incoming.room.engine.RoomVisualizationSettingsEvent;
@@ -41,6 +43,8 @@ package com.sulake.habbo.room
     import com.sulake.habbo.communication.messages.incoming.room.action.UseObjectMessageEvent;
     import com.sulake.habbo.communication.messages.incoming.room.engine.SlideObjectBundleMessageEvent;
     import com.sulake.habbo.communication.messages.incoming.room.engine.WiredMovementsMessageEvent;
+    import com.sulake.habbo.communication.messages.incoming.room.engine.ConfigurationItemStatesMessageEvent;
+    import com.sulake.habbo.communication.messages.parser.room.engine.ConfigurationItemStatesMessageParser;
     import com.sulake.habbo.communication.messages.incoming.room.engine.WiredFurniMovementData;
     import com.sulake.habbo.communication.messages.incoming.room.engine.WiredUserMovementData;
     import com.sulake.habbo.communication.messages.incoming.room.engine.WiredWallItemMovementData;
@@ -79,8 +83,10 @@ package com.sulake.habbo.room
     import com.sulake.habbo.communication.messages.parser.room.engine.ObjectsMessageParser;
     import com.sulake.habbo.communication.messages.parser.room.engine.ObjectAddMessageParser;
     import com.sulake.room.utils.IVector3d;
+    import com.sulake.room.utils.IRoomGeometry;
     import com.sulake.habbo.communication.messages.parser.room.engine.ObjectUpdateMessageParser;
     import com.sulake.room.utils.Vector3d;
+    import com.sulake.habbo.room.IAreaHideInfo;
     import com.sulake.habbo.communication.messages.parser.room.engine.ObjectDataUpdateMessageParser;
     import com.sulake.habbo.communication.messages.incoming.room.engine.ObjectData;
     import com.sulake.habbo.communication.messages.parser.room.engine.ObjectsDataUpdateMessageParser;
@@ -226,6 +232,7 @@ package com.sulake.habbo.room
                 k.addMessageEvent(new RoomPropertyMessageEvent(this.onRoomProperty));
                 k.addMessageEvent(new RoomEntryTileMessageEvent(this.onEntryTileData));
                 k.addMessageEvent(new FloorHeightMapEvent(this.onFloorHeightMap));
+                k.addMessageEvent(new AreaHideMessageEvent(this.onAreaHide));
                 k.addMessageEvent(new HeightMapEvent(this.onHeightMap));
                 k.addMessageEvent(new HeightMapUpdateMessageEvent(this.onHeightMapUpdate));
                 k.addMessageEvent(new RoomVisualizationSettingsEvent(this.onRoomVisualizationSettings));
@@ -259,6 +266,7 @@ package com.sulake.habbo.room
                 k.addMessageEvent(new UseObjectMessageEvent(this.onUseObject));
                 k.addMessageEvent(new SlideObjectBundleMessageEvent(this.onSlideUpdate));
                 k.addMessageEvent(new WiredMovementsMessageEvent(this.onWiredMovements));
+                k.addMessageEvent(new ConfigurationItemStatesMessageEvent(this.onConfigurationItemStates));
                 k.addMessageEvent(new ChatMessageEvent(this.onChat));
                 k.addMessageEvent(new WhisperMessageEvent(this.onChat));
                 k.addMessageEvent(new ShoutMessageEvent(this.onChat));
@@ -718,6 +726,20 @@ package com.sulake.habbo.room
             }
         }
 
+        private function onAreaHide(k:IMessageEvent):void
+        {
+            var _local_2:AreaHideMessageEvent = k as AreaHideMessageEvent;
+            if (((_local_2 == null) || (_local_2.getParser() == null) || (this._roomCreator == null)))
+            {
+                return;
+            }
+            var _local_3:AreaHideMessageData = _local_2.getParser().areaHideMessageData;
+            if (_local_3 != null)
+            {
+                this._roomCreator.updateAreaHide(this._currentRoomId, _local_3.furniId, _local_3.on, _local_3.rootX, _local_3.rootY, _local_3.width, _local_3.length, _local_3.invert);
+            }
+        }
+
         private function onEntryTileData(k:RoomEntryTileMessageEvent):void
         {
             this._latestEntryTileEvent = k;
@@ -809,7 +831,14 @@ package com.sulake.habbo.room
             var _local_15:XML = this._planeParser.getXML();
             var _local_16:XML = new (XML)((("<doors>" + (((((((('<door x="' + _local_7) + '" y="') + _local_8) + '" z="') + _local_9) + '" dir="') + _local_10) + '"/>')) + "</doors>"));
             _local_15.appendChild(_local_16);
-            this._roomCreator.initializeRoom(this._currentRoomId, _local_15);
+            if (_local_3.hasExtendedData)
+            {
+                this._roomCreator.initializeRoom(this._currentRoomId, _local_15, new Vector3d(_local_3.cameraInitX, _local_3.cameraInitY, _local_3.cameraInitZ), Vector.<IAreaHideInfo>(_local_3.areaHideData));
+            }
+            else
+            {
+                this._roomCreator.initializeRoom(this._currentRoomId, _local_15);
+            }
             if (this._tempViralHolder.objectData)
             {
                 this.addActiveObject(this._currentRoomId, this._tempViralHolder.objectData);
@@ -1387,6 +1416,26 @@ package com.sulake.habbo.room
             }
         }
 
+        private function onConfigurationItemStates(k:IMessageEvent):void
+        {
+            var _local_2:ConfigurationItemStatesMessageParser;
+            if (this._roomCreator == null)
+            {
+                return;
+            }
+            _local_2 = (k as ConfigurationItemStatesMessageEvent).getParser();
+            if (_local_2 != null)
+            {
+                this._roomCreator.setHanditemControlBlocked(
+                    this._currentRoomId, _local_2.isHanditemControlBlocked);
+                this._roomCreator.setChooserDisabled(
+                    this._currentRoomId, _local_2.chooserDisabled);
+                this._roomCreator.setFreeFurniMovementsMode(
+                    this._currentRoomId, _local_2.freeFurniMovementsEnabled);
+                this._roomCreator.setInvisibleFurni(this._currentRoomId, _local_2.invisibleFurni);
+            }
+        }
+
         private function onWiredMovements(k:IMessageEvent):void
         {
             var _local_3:WiredUserMovementData;
@@ -1423,7 +1472,45 @@ package com.sulake.habbo.room
         private function onWiredFurniMove(k:WiredFurniMovementData):void
         {
             var _local_2:IVector3d = new Vector3d((((k.rotation % 8)) * 45));
-            this._roomCreator.updateObjectFurnitureLocation(this._currentRoomId, k.furniId, k.source, _local_2, k.target, k.animationTime, k.overshootingDistance, k.curveStrength);
+            this._roomCreator.updateObjectFurnitureLocation(this._currentRoomId, k.furniId,
+                this.roundWiredLocation(k.source), _local_2, this.roundWiredLocation(k.target),
+                k.animationTime, k.overshootingDistance, k.curveStrength);
+        }
+
+        /**
+         * July aligns movement endpoints to whole screen pixels by applying a
+         * tiny Z correction through the active room geometry. Without this,
+         * repeated Wired movements can visibly shimmer between adjacent pixels.
+         */
+        private function roundWiredLocation(k:IVector3d):IVector3d
+        {
+            var engine:IRoomEngine = this._roomCreator as IRoomEngine;
+            if (engine == null)
+            {
+                return k;
+            }
+            var geometry:IRoomGeometry = engine.getRoomCanvasGeometry(this._currentRoomId);
+            if (geometry == null)
+            {
+                return k;
+            }
+            var screen:IVector3d = geometry.getScreenPosition(k);
+            if (screen == null)
+            {
+                return k;
+            }
+            var raised:IVector3d = geometry.getScreenPosition(new Vector3d(k.x, k.y, k.z + 0.01));
+            if (raised == null)
+            {
+                return k;
+            }
+            var zPixelsPerUnit:Number = (screen.y - raised.y) * 100;
+            if (zPixelsPerUnit == 0)
+            {
+                return k;
+            }
+            var pixelFraction:Number = screen.y - Math.round(screen.y);
+            return new Vector3d(k.x, k.y, k.z + pixelFraction / zPixelsPerUnit);
         }
 
         private function onWiredUserMove(k:WiredUserMovementData):void
@@ -1445,7 +1532,9 @@ package com.sulake.habbo.room
             }
             var _local_5:IVector3d = new Vector3d((((k.bodyDirection % 8)) * 45));
             var _local_6:Number = (((k.headDirection % 8)) * 45);
-            this._roomCreator.updateObjectUser(this._currentRoomId, k.userIndex, k.source, k.target, _local_2, 0, _local_5, _local_6, k.animationTime, false, k.jumpPower);
+            this._roomCreator.updateObjectUser(this._currentRoomId, k.userIndex,
+                this.roundWiredLocation(k.source), this.roundWiredLocation(k.target),
+                _local_2, 0, _local_5, _local_6, k.animationTime, false, k.jumpPower);
             this.setUserMovePosture(k.userIndex, k.moveType);
         }
 
@@ -1459,7 +1548,8 @@ package com.sulake.habbo.room
             var _local_3:String = (k.isDirectionRight ? "r" : "l");
             var _local_4:IVector3d = _local_2.getLocation(k.oldWallX, k.oldWallY, k.oldOffsetX, k.oldOffsetY, _local_3);
             var _local_5:IVector3d = _local_2.getLocation(k.newWallX, k.newWallY, k.newOffsetX, k.newOffsetY, _local_3);
-            this._roomCreator.updateObjectWallItemLocation(this._currentRoomId, k.itemId, _local_4, _local_5, k.animationTime);
+            this._roomCreator.updateObjectWallItemLocation(this._currentRoomId, k.itemId,
+                this.roundWiredLocation(_local_4), this.roundWiredLocation(_local_5), k.animationTime);
         }
 
         private function onUserDirectionUpdate(k:WiredUserDirectionData):void

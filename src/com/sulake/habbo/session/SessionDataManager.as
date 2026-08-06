@@ -852,6 +852,11 @@
             return this._floorItems.getValue(k.toString());
         }
 
+        public function getAllFloorItemDatas():Array
+        {
+            return this._floorItems == null ? [] : this._floorItems.getValues();
+        }
+
         public function getFloorItemsDataByCategory(k:int):Array
         {
             var _local_3:IFurnitureData;
@@ -876,6 +881,11 @@
                 return null;
             }
             return this._wallItems.getValue(k.toString());
+        }
+
+        public function getAllWallItemDatas():Array
+        {
+            return this._wallItems == null ? [] : this._wallItems.getValues();
         }
 
         public function getFloorItemDataByName(k:String, _arg_2:int=0):IFurnitureData

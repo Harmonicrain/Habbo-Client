@@ -94,6 +94,8 @@ package com.sulake.habbo.ui.widget.avatarinfo
                 return;
             }
             k.procedure = this.buttonEventProc;
+            this.ensureTextButton("wired_inspect",
+                "${infostand.button.wired_inspect}");
             k.autoArrangeItems = false;
             var _local_2:int = k.numListItems;
             var _local_3:int;
@@ -152,6 +154,9 @@ package com.sulake.habbo.ui.widget.avatarinfo
                     }
                 }
             }
+            showButton("wired_inspect",
+                this.widget.handler.container.userDefinedRoomEvents
+                    .showInspectButton());
             k.autoArrangeItems = true;
             k.visible = true;
         }
@@ -212,6 +217,11 @@ package com.sulake.habbo.ui.widget.avatarinfo
                     _local_3 = true;
                     switch (_arg_2.parent.name)
                     {
+                        case "wired_inspect":
+                            _local_4 = new RoomWidgetUserActionMessage(
+                                RoomWidgetUserActionMessage
+                                    .RWUAM_WIRED_INSPECT_PET, userId);
+                            break;
                         case "mount":
                             _local_4 = new RoomWidgetUserActionMessage(RoomWidgetUserActionMessage.RWUAM_MOUNT_PET, userId);
                             break;

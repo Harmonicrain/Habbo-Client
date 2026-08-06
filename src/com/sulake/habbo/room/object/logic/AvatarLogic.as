@@ -13,6 +13,7 @@
     import com.sulake.habbo.room.messages.RoomObjectAvatarTypingUpdateMessage;
     import com.sulake.habbo.room.messages.RoomObjectAvatarMutedUpdateMessage;
     import com.sulake.habbo.room.messages.RoomObjectAvatarPlayingGameMessage;
+    import com.sulake.habbo.room.messages.RoomObjectMoveUpdateMessage;
     import com.sulake.habbo.room.messages.RoomObjectAvatarUpdateMessage;
     import com.sulake.habbo.room.messages.RoomObjectAvatarDirectionUpdateMessage;
     import com.sulake.habbo.room.messages.RoomObjectAvatarGestureUpdateMessage;
@@ -613,6 +614,24 @@
         private function getBlinkLength():int
         {
             return 50 + (Math.random() * 200);
+        }
+
+        override protected function getCurveStrength(k:RoomObjectMoveUpdateMessage):Number
+        {
+            if (((k == null) || (object == null)))
+            {
+                return super.getCurveStrength(k);
+            }
+            if ((k is RoomObjectAvatarUpdateMessage))
+            {
+                return (k as RoomObjectAvatarUpdateMessage).jumpingPower;
+            }
+            var _local_2:IRoomObjectModelController = object.getModelController();
+            if (_local_2.hasNumber(RoomObjectVariableEnum.FIGURE_JUMPING_POWER))
+            {
+                return _local_2.getNumber(RoomObjectVariableEnum.FIGURE_JUMPING_POWER);
+            }
+            return super.getCurveStrength(k);
         }
 
         private function targetIsWarping(k:IVector3d):Boolean

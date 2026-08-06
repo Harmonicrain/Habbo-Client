@@ -46,6 +46,7 @@
     import com.sulake.habbo.room.events.RoomObjectHSLColorEnabledEvent;
     import com.sulake.habbo.room.events.RoomEngineObjectEvent;
     import com.sulake.habbo.room.events.RoomEngineTriggerWidgetEvent;
+    import com.sulake.habbo.room.events.RoomEngineAreaHideStateWidgetEvent;
     import com.sulake.habbo.room.events.RoomEngineGamehallEvent;
     import com.sulake.habbo.room.events.RoomEngineRoomAdEvent;
     import com.sulake.habbo.room.events.RoomEngineUseProductEvent;
@@ -294,6 +295,12 @@
                 "callback":this.roomObjectEventHandler
             }, {
                 "type":RoomEngineTriggerWidgetEvent.RETWE_REQUEST_BACKGROUND_COLOR,
+                "callback":this.roomObjectEventHandler
+            }, {
+                "type":RoomEngineTriggerWidgetEvent.RETWE_REQUEST_AREA_HIDE,
+                "callback":this.roomObjectEventHandler
+            }, {
+                "type":RoomEngineAreaHideStateWidgetEvent.UPDATE_STATE_AREA_HIDE,
                 "callback":this.roomObjectEventHandler
             }, {
                 "type":RoomEngineUseProductEvent.ROSM_USE_PRODUCT_FROM_INVENTORY,
@@ -957,6 +964,7 @@
                     if (((!(this._roomEngine == null)) && (!(RoomId.isRoomPreviewerId(k.roomId)))))
                     {
                         this._roomEngine.setActiveRoom(k.roomId);
+                        _local_3.initCameraLocation(this.getActiveCanvasId(k.roomId));
                     }
                     _local_3.disposeWidget(RoomWidgetEnum.ROOM_QUEUE);
                     _local_3.createWidget(RoomWidgetEnum.CHAT_WIDGET);
@@ -1004,6 +1012,7 @@
                     }
                     _local_3.createWidget(RoomWidgetEnum.MANNEQUIN);
                     _local_3.createWidget(RoomWidgetEnum.ROOM_BACKGROUND_COLOR);
+                    _local_3.createWidget(RoomWidgetEnum.AREA_HIDE);
                     _local_3.createWidget(RoomWidgetEnum.CUSTOM_USER_NOTIFICATION);
                     _local_3.createWidget(RoomWidgetEnum.FURNI_CHOOSER);
                     _local_3.createWidget(RoomWidgetEnum.USER_CHOOSER);

@@ -42,5 +42,12 @@
         public static var USER_DIRECTION:int = 37;
         public static var INPUT_SOURCE_QUANTITY:int = 38;
         public static var CAN_PERFORM_MOVE:int = 39;
+        public static var HAS_VARIABLE:int = 40;
+        public static var NOT_HAS_VARIABLE:int = 41;
+        public static var VARIABLE_VALUE:int = 42;
+        public static var VARIABLE_AGE:int = 43;
+        public static var USER_LEVEL:int = 44;
+        public static var CHEST_HAS_ITEMS:int = 45;
+        public static var CHEST_HAS_ITEM_TYPES:int = 46;
     }
 }

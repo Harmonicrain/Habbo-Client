@@ -14,6 +14,12 @@
         private var _uiFlags:int;
         private var _preferedChatStyle:int;
         private var _chatSizePreference:int;
+        private var _wiredMenuButton:Boolean;
+        private var _wiredInspectButton:Boolean;
+        private var _playTestMode:Boolean;
+        private var _wiredWhisperDisabled:Boolean;
+        private var _showAllNotifications:Boolean;
+        private var _wiredUiStyle:String = "";
 
 
         public function get traxVolume():int
@@ -61,6 +67,13 @@
             return this._chatSizePreference;
         }
 
+        public function get wiredMenuButton():Boolean { return _wiredMenuButton; }
+        public function get wiredInspectButton():Boolean { return _wiredInspectButton; }
+        public function get playTestMode():Boolean { return _playTestMode; }
+        public function get wiredWhisperDisabled():Boolean { return _wiredWhisperDisabled; }
+        public function get showAllNotifications():Boolean { return _showAllNotifications; }
+        public function get wiredUiStyle():String { return _wiredUiStyle; }
+
         public function flush():Boolean
         {
             this._freeFlowChatDisabled = false;
@@ -68,6 +81,12 @@
             this._uiFlags = 0;
             this._preferedChatStyle = 0;
             this._chatSizePreference = 0;
+            this._wiredMenuButton = false;
+            this._wiredInspectButton = false;
+            this._playTestMode = false;
+            this._wiredWhisperDisabled = false;
+            this._showAllNotifications = false;
+            this._wiredUiStyle = "";
             return true;
         }
 
@@ -81,6 +100,17 @@
             this._roomCameraFollowDisabled = k.readBoolean();
             this._uiFlags = k.readInteger();
             this._preferedChatStyle = k.readInteger();
+            if (k.bytesAvailable >= 9)
+            {
+                this._wiredMenuButton = k.readBoolean();
+                this._wiredInspectButton = k.readBoolean();
+                this._playTestMode = k.readBoolean();
+                k.readInteger();
+                this._wiredWhisperDisabled = k.readBoolean();
+                this._showAllNotifications = k.bytesAvailable > 0
+                    ? k.readBoolean() : false;
+                this._wiredUiStyle = k.bytesAvailable > 2 ? k.readString() : "";
+            }
             this._chatSizePreference = k.bytesAvailable > 0 ? k.readInteger() : 0;
             return true;
         }

@@ -1,0 +1,1034 @@
+<?xml version="1.0" encoding="UTF-8"?><layout name="wired_menu_view" width="500" height="500" version="0.1" uid="2B0BB54E-70E8-A1C0-1CB1-88C92285D562">
+  <window>
+    <frame x="36" y="35" width="500" height="500" params="1073774593" style="3" name="wiredmenu_frame" caption="%24%7Bwiredmenu.title%7D" color="0xff418db0">
+      <filters>
+        <DropShadowFilter distance="4" alpha="0.34901960784313724" blurX="4" blurY="4"/>
+      </filters>
+      <children>
+        <tab_context x="0" y="2" width="500" height="30" params="16" style="3" name="tab_context">
+          <children>
+            <tab_button x="0" y="0" width="70" height="32" params="17" style="3" name="top_view_monitor_button" caption="%24%7Bwiredmenu.monitor.tab%7D"/>
+            <tab_button x="70" y="0" width="74" height="32" params="17" style="3" name="top_view_variable_overview_button" caption="%24%7Bwiredmenu.variable_overview.tab%7D"/>
+            <tab_button x="144" y="0" width="82" height="32" params="17" style="3" name="top_view_inspection_button" caption="%24%7Bwiredmenu.inspection.tab%7D"/>
+            <tab_button x="226" y="0" width="109" height="32" params="17" style="3" name="top_view_chests_button" caption="%24%7Bwiredmenu.chests.tab%7D"/>
+            <tab_button x="335" y="0" width="70" height="32" params="17" style="3" name="top_view_settings_button" caption="%24%7Bwiredmenu.settings.tab%7D"/>
+            <tab_button x="405" y="0" width="46" height="32" params="17" style="3" name="top_view_info_button" caption="%24%7Bwiredmenu.info.tab%7D"/>
+          </children>
+        </tab_context>
+        <container x="1" y="32" width="498" height="50" params="16" style="3" name="header_container">
+          <children>
+            <container x="0" y="0" width="498" height="50" params="16" style="3" name="header_border" color="0xffff486f81" background="true">
+              <children>
+                <container x="2" y="2" width="494" height="46" params="16" style="3" name="header_inner" color="0xffff235061" background="true"/>
+              </children>
+            </container>
+            <container x="0" y="0" width="500" height="50" params="16" style="3" name="header_detail">
+              <children>
+                <static_bitmap x="8" y="20" width="64" height="51" params="16" style="3" blend="0.3">
+                  <variables>
+                    <var key="asset_uri" value="wired_box_lines_png" type="String"/>
+                    <var key="stretched_x" value="false" type="Boolean"/>
+                    <var key="stretched_y" value="false" type="Boolean"/>
+                    <var key="fit_size_to_contents" value="true" type="Boolean"/>
+                  </variables>
+                </static_bitmap>
+                <static_bitmap x="78" y="-20" width="64" height="51" params="16" style="3" blend="0.3">
+                  <variables>
+                    <var key="asset_uri" value="wired_box_lines_png" type="String"/>
+                    <var key="stretched_x" value="false" type="Boolean"/>
+                    <var key="stretched_y" value="false" type="Boolean"/>
+                    <var key="fit_size_to_contents" value="true" type="Boolean"/>
+                  </variables>
+                </static_bitmap>
+                <static_bitmap x="148" y="20" width="64" height="51" params="16" style="3" blend="0.3">
+                  <variables>
+                    <var key="asset_uri" value="wired_box_lines_png" type="String"/>
+                    <var key="stretched_x" value="false" type="Boolean"/>
+                    <var key="stretched_y" value="false" type="Boolean"/>
+                    <var key="fit_size_to_contents" value="true" type="Boolean"/>
+                  </variables>
+                </static_bitmap>
+                <static_bitmap x="218" y="-20" width="64" height="51" params="16" style="3" blend="0.3">
+                  <variables>
+                    <var key="asset_uri" value="wired_box_lines_png" type="String"/>
+                    <var key="stretched_x" value="false" type="Boolean"/>
+                    <var key="stretched_y" value="false" type="Boolean"/>
+                    <var key="fit_size_to_contents" value="true" type="Boolean"/>
+                  </variables>
+                </static_bitmap>
+                <static_bitmap x="288" y="20" width="64" height="51" params="16" style="3" blend="0.3">
+                  <variables>
+                    <var key="asset_uri" value="wired_box_lines_png" type="String"/>
+                    <var key="stretched_x" value="false" type="Boolean"/>
+                    <var key="stretched_y" value="false" type="Boolean"/>
+                    <var key="fit_size_to_contents" value="true" type="Boolean"/>
+                  </variables>
+                </static_bitmap>
+                <static_bitmap x="358" y="-20" width="64" height="51" params="16" style="3" blend="0.3">
+                  <variables>
+                    <var key="asset_uri" value="wired_box_lines_png" type="String"/>
+                    <var key="stretched_x" value="false" type="Boolean"/>
+                    <var key="stretched_y" value="false" type="Boolean"/>
+                    <var key="fit_size_to_contents" value="true" type="Boolean"/>
+                  </variables>
+                </static_bitmap>
+                <static_bitmap x="428" y="20" width="64" height="51" params="16" style="3" blend="0.3">
+                  <variables>
+                    <var key="asset_uri" value="wired_box_lines_png" type="String"/>
+                    <var key="stretched_x" value="false" type="Boolean"/>
+                    <var key="stretched_y" value="false" type="Boolean"/>
+                    <var key="fit_size_to_contents" value="true" type="Boolean"/>
+                  </variables>
+                </static_bitmap>
+              </children>
+            </container>
+            <text x="0" y="14" width="500" height="21" params="16" style="3" name="header_title" caption="Header%20Title">
+              <variables>
+                <var key="auto_size" value="center" type="String"/>
+                <var key="font_size" value="16" type="uint"/>
+                <var key="text_color" value="0xffffff" type="hex"/>
+                <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                <var key="bold" value="true" type="Boolean"/>
+                <var key="spacing" value="0" type="Number"/>
+                <var key="leading" value="0" type="Number"/>
+              </variables>
+            </text>
+            <region x="473" y="3" width="22" height="25" params="1" style="3" dynamic_style="brightness_and_shadow_under_gentle" name="discord_region" treshold="0">
+              <children>
+                <static_bitmap x="0" y="1" width="22" height="23" params="16" style="3" tags="%23icon">
+                  <variables>
+                    <var key="asset_uri" value="icon_discord_png" type="String"/>
+                    <var key="stretched_x" value="false" type="Boolean"/>
+                    <var key="stretched_y" value="false" type="Boolean"/>
+                    <var key="etching_color" value="0x48000000" type="hex"/>
+                    <var key="fit_size_to_contents" value="true" type="Boolean"/>
+                  </variables>
+                </static_bitmap>
+              </children>
+              <variables>
+                <var key="tool_tip_caption" value="${wiredmenu.discord_region.tooltip}" type="String"/>
+              </variables>
+            </region>
+          </children>
+        </container>
+        <container x="0" y="82" width="500" height="382" params="16" style="3" name="body_container">
+          <children>
+            <container x="0" y="0" width="500" height="382" params="12582928" style="3" name="monitor_container">
+              <children>
+                <container x="14" y="18" width="215" height="123" params="16" style="3" name="statistics_container">
+                  <children>
+                    <text x="0" y="0" width="106" height="19" params="16" style="3" name="title" caption="%24%7Bwiredmenu.monitor.statistics%7D">
+                      <variables>
+                        <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                        <var key="bold" value="true" type="Boolean"/>
+                        <var key="spacing" value="0" type="Number"/>
+                        <var key="leading" value="0" type="Number"/>
+                      </variables>
+                    </text>
+                    <border x="0" y="20" width="204" height="99" params="16" style="3" name="statistics_contents" color="0x0dadada">
+                      <children>
+                        <scrollable_itemlist_vertical x="5" y="5" width="197" height="89" params="16" style="3">
+                          <children>
+                            <html x="0" y="0" width="68" height="16" params="1073758352" style="3" name="statistics_usage_html" caption="Wired%20usage%3A">
+                              <variables>
+                                <var key="auto_size" value="left" type="String"/>
+                                <var key="font_size" value="11" type="uint"/>
+                                <var key="spacing" value="0" type="Number"/>
+                                <var key="leading" value="0" type="Number"/>
+                                <var key="editable" value="false" type="Boolean"/>
+                                <var key="selectable" value="false" type="Boolean"/>
+                                <var key="editable" value="false" type="Boolean"/>
+                                <var key="selectable" value="false" type="Boolean"/>
+                              </variables>
+                            </html>
+                            <html x="0" y="18" width="48" height="16" params="1073758352" style="3" name="statistics_heavy_html" caption="Is%20heavy%3A">
+                              <variables>
+                                <var key="auto_size" value="left" type="String"/>
+                                <var key="font_size" value="11" type="uint"/>
+                                <var key="spacing" value="0" type="Number"/>
+                                <var key="leading" value="0" type="Number"/>
+                                <var key="editable" value="false" type="Boolean"/>
+                                <var key="selectable" value="false" type="Boolean"/>
+                                <var key="editable" value="false" type="Boolean"/>
+                                <var key="selectable" value="false" type="Boolean"/>
+                              </variables>
+                            </html>
+                            <html x="0" y="36" width="60" height="16" params="1073758352" style="3" name="statistics_floorfurni_html" caption="Floor%20furni%3A">
+                              <variables>
+                                <var key="auto_size" value="left" type="String"/>
+                                <var key="font_size" value="11" type="uint"/>
+                                <var key="spacing" value="0" type="Number"/>
+                                <var key="leading" value="0" type="Number"/>
+                                <var key="editable" value="false" type="Boolean"/>
+                                <var key="selectable" value="false" type="Boolean"/>
+                                <var key="editable" value="false" type="Boolean"/>
+                                <var key="selectable" value="false" type="Boolean"/>
+                              </variables>
+                            </html>
+                            <html x="0" y="54" width="57" height="16" params="1073758352" style="3" name="statistics_wallfurni_html" caption="Wall%20furni%3A">
+                              <variables>
+                                <var key="auto_size" value="left" type="String"/>
+                                <var key="font_size" value="11" type="uint"/>
+                                <var key="spacing" value="0" type="Number"/>
+                                <var key="leading" value="0" type="Number"/>
+                                <var key="editable" value="false" type="Boolean"/>
+                                <var key="selectable" value="false" type="Boolean"/>
+                                <var key="editable" value="false" type="Boolean"/>
+                                <var key="selectable" value="false" type="Boolean"/>
+                              </variables>
+                            </html>
+                            <html x="0" y="72" width="114" height="16" params="1073758352" style="3" name="statistics_perm_vars_furni_html" caption="Permanent%20furni%20vars%3A">
+                              <variables>
+                                <var key="auto_size" value="left" type="String"/>
+                                <var key="font_size" value="11" type="uint"/>
+                                <var key="spacing" value="0" type="Number"/>
+                                <var key="leading" value="0" type="Number"/>
+                                <var key="editable" value="false" type="Boolean"/>
+                                <var key="selectable" value="false" type="Boolean"/>
+                                <var key="editable" value="false" type="Boolean"/>
+                                <var key="selectable" value="false" type="Boolean"/>
+                              </variables>
+                            </html>
+                            <html x="0" y="90" width="113" height="16" params="1073758352" style="3" name="statistics_perm_vars_user_html" caption="Permanent%20user%20vars%3A">
+                              <variables>
+                                <var key="auto_size" value="left" type="String"/>
+                                <var key="font_size" value="11" type="uint"/>
+                                <var key="spacing" value="0" type="Number"/>
+                                <var key="leading" value="0" type="Number"/>
+                                <var key="editable" value="false" type="Boolean"/>
+                                <var key="selectable" value="false" type="Boolean"/>
+                                <var key="editable" value="false" type="Boolean"/>
+                                <var key="selectable" value="false" type="Boolean"/>
+                              </variables>
+                            </html>
+                            <html x="0" y="108" width="122" height="16" params="1073758352" style="3" name="statistics_perm_vars_global_html" caption="Permanent%20global%20vars%3A">
+                              <variables>
+                                <var key="auto_size" value="left" type="String"/>
+                                <var key="font_size" value="11" type="uint"/>
+                                <var key="spacing" value="0" type="Number"/>
+                                <var key="leading" value="0" type="Number"/>
+                                <var key="editable" value="false" type="Boolean"/>
+                                <var key="selectable" value="false" type="Boolean"/>
+                                <var key="editable" value="false" type="Boolean"/>
+                                <var key="selectable" value="false" type="Boolean"/>
+                              </variables>
+                            </html>
+                          </children>
+                          <variables>
+                            <var key="spacing" value="2" type="int"/>
+                          </variables>
+                        </scrollable_itemlist_vertical>
+                      </children>
+                    </border>
+                  </children>
+                </container>
+                <container x="230" y="4" width="256" height="145" params="16" style="3" name="image_container">
+                  <children>
+                    <static_bitmap x="0" y="0" width="256" height="145" params="16" style="3" name="monitor_image_1" visible="false">
+                      <variables>
+                        <var key="asset_uri" value="wired_monitor_element1_png" type="String"/>
+                        <var key="fit_size_to_contents" value="true" type="Boolean"/>
+                      </variables>
+                    </static_bitmap>
+                    <static_bitmap x="0" y="0" width="256" height="145" params="17" style="3" name="monitor_image_2" treshold="0">
+                      <variables>
+                        <var key="asset_uri" value="wired_monitor_element2_png" type="String"/>
+                        <var key="fit_size_to_contents" value="true" type="Boolean"/>
+                      </variables>
+                    </static_bitmap>
+                  </children>
+                </container>
+                <container x="14" y="152" width="472" height="218" params="16" style="3" name="log_container">
+                  <children>
+                    <text x="0" y="0" width="106" height="19" params="16" style="3" name="title" caption="%24%7Bwiredmenu.monitor.log%7D">
+                      <variables>
+                        <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                        <var key="bold" value="true" type="Boolean"/>
+                        <var key="spacing" value="0" type="Number"/>
+                        <var key="leading" value="0" type="Number"/>
+                      </variables>
+                    </text>
+                    <container x="0" y="20" width="472" height="156" params="16" style="3" name="log_table_container"/>
+                    <button x="0" y="185" width="110" height="30" params="131089" style="5" name="clear_log_btn" caption="%24%7Bwiredmenu.monitor.clear_all%7D" color="0x0e33934" width_min="110" width_max="110">
+                      <variables>
+                        <var key="text_style" value="button_shiny_regular" type="String"/>
+                      </variables>
+                    </button>
+                    <button x="361" y="185" width="110" height="30" params="393233" style="3" name="log_overview_btn" caption="%24%7Bwiredmenu.monitor.log_overview%7D" width_min="110" width_max="110">
+                      <variables>
+                        <var key="text_style" value="button_shiny_regular" type="String"/>
+                      </variables>
+                    </button>
+                  </children>
+                </container>
+              </children>
+            </container>
+            <container x="0" y="0" width="500" height="382" params="12582928" style="3" name="variable_overview_container" visible="false">
+              <children>
+                <container x="14" y="18" width="197" height="70" params="16" style="3" name="type_picker_container">
+                  <children>
+                    <text x="0" y="0" width="165" height="19" params="16" style="3" name="title" caption="%24%7Bwiredmenu.variable_overview.type%7D">
+                      <variables>
+                        <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                        <var key="bold" value="true" type="Boolean"/>
+                        <var key="spacing" value="0" type="Number"/>
+                        <var key="leading" value="0" type="Number"/>
+                      </variables>
+                    </text>
+                    <border x="0" y="20" width="188" height="47" params="16" style="3" name="type_options" color="0x0dadada">
+                      <children>
+                        <itemlist_horizontal x="5" y="5" width="183" height="37" params="16" style="3" name="buttons">
+                          <children>
+                            <container x="0" y="0" width="37" height="37" params="16" style="3" name="furni_option">
+                              <children>
+                                <button x="0" y="0" width="37" height="36" params="131089" style="3" name="type_furni_button">
+                                  <variables>
+                                    <var key="tool_tip_caption" value="${wiredfurni.params.sourcetype.furni}" type="String"/>
+                                    <var key="text_style" value="button_shiny_regular" type="String"/>
+                                  </variables>
+                                </button>
+                                <static_bitmap x="0" y="0" width="37" height="37" params="16" style="3">
+                                  <variables>
+                                    <var key="asset_uri" value="icon_wired_variable_furni_large_png" type="String"/>
+                                    <var key="pivot_point" value="center" type="String"/>
+                                    <var key="stretched_x" value="false" type="Boolean"/>
+                                    <var key="stretched_y" value="false" type="Boolean"/>
+                                  </variables>
+                                </static_bitmap>
+                              </children>
+                            </container>
+                            <container x="47" y="0" width="37" height="37" params="16" style="3" name="user_option">
+                              <children>
+                                <button x="0" y="0" width="37" height="36" params="131089" style="3" name="type_user_button" id="1">
+                                  <variables>
+                                    <var key="tool_tip_caption" value="${wiredfurni.params.sourcetype.users}" type="String"/>
+                                    <var key="text_style" value="button_shiny_regular" type="String"/>
+                                  </variables>
+                                </button>
+                                <static_bitmap x="0" y="0" width="37" height="37" params="16" style="3">
+                                  <variables>
+                                    <var key="asset_uri" value="icon_wired_variable_user_large_png" type="String"/>
+                                    <var key="pivot_point" value="center" type="String"/>
+                                    <var key="stretched_x" value="false" type="Boolean"/>
+                                    <var key="stretched_y" value="false" type="Boolean"/>
+                                  </variables>
+                                </static_bitmap>
+                              </children>
+                            </container>
+                            <container x="94" y="0" width="37" height="37" params="16" style="3" name="global_option">
+                              <children>
+                                <button x="0" y="0" width="37" height="36" params="131089" style="3" name="type_global_button" id="-10">
+                                  <variables>
+                                    <var key="tool_tip_caption" value="${wiredfurni.params.sourcetype.global}" type="String"/>
+                                    <var key="text_style" value="button_shiny_regular" type="String"/>
+                                  </variables>
+                                </button>
+                                <static_bitmap x="0" y="0" width="37" height="37" params="16" style="3">
+                                  <variables>
+                                    <var key="asset_uri" value="icon_wired_variable_global_large_png" type="String"/>
+                                    <var key="pivot_point" value="center" type="String"/>
+                                    <var key="stretched_x" value="false" type="Boolean"/>
+                                    <var key="stretched_y" value="false" type="Boolean"/>
+                                  </variables>
+                                </static_bitmap>
+                              </children>
+                            </container>
+                            <container x="141" y="0" width="37" height="37" params="16" style="3" name="context_option">
+                              <children>
+                                <button x="0" y="0" width="37" height="36" params="131089" style="3" name="type_context_button" id="-20">
+                                  <variables>
+                                    <var key="tool_tip_caption" value="${wiredfurni.params.sourcetype.context}" type="String"/>
+                                    <var key="text_style" value="button_shiny_regular" type="String"/>
+                                  </variables>
+                                </button>
+                                <static_bitmap x="0" y="0" width="37" height="37" params="16" style="3">
+                                  <variables>
+                                    <var key="asset_uri" value="icon_wired_variable_context_large_png" type="String"/>
+                                    <var key="pivot_point" value="center" type="String"/>
+                                    <var key="stretched_x" value="false" type="Boolean"/>
+                                    <var key="stretched_y" value="false" type="Boolean"/>
+                                  </variables>
+                                </static_bitmap>
+                              </children>
+                            </container>
+                          </children>
+                          <variables>
+                            <var key="spacing" value="10" type="int"/>
+                          </variables>
+                        </itemlist_horizontal>
+                      </children>
+                    </border>
+                  </children>
+                </container>
+                <container x="14" y="94" width="188" height="239" params="144" style="3" name="variable_picker_container">
+                  <children>
+                    <text x="0" y="0" width="165" height="19" params="16" style="3" name="title" caption="%24%7Bwiredmenu.variable_overview.picker%7D">
+                      <variables>
+                        <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                        <var key="bold" value="true" type="Boolean"/>
+                        <var key="spacing" value="0" type="Number"/>
+                        <var key="leading" value="0" type="Number"/>
+                      </variables>
+                    </text>
+                    <container x="0" y="20" width="188" height="219" params="2192" style="3" name="variable_list_container"/>
+                  </children>
+                </container>
+                <itemlist_horizontal x="14" y="342" width="188" height="25" params="16" style="3" name="button_row" width_min="188" width_max="188">
+                  <children>
+                    <button x="0" y="0" width="89" height="25" params="131089" style="3" name="highlight_holders_button" caption="%24%7Bwiredmenu.variable_overview.highlight_holders%7D" width_min="89" width_max="89">
+                      <variables>
+                        <var key="tool_tip_caption" value="${wiredmenu.variable_overview.highlight_holders.tooltip}" type="String"/>
+                        <var key="text_style" value="button_shiny_regular" type="String"/>
+                      </variables>
+                    </button>
+                    <button x="99" y="0" width="89" height="25" params="131089" style="3" name="manage_button" caption="%24%7Bwiredmenu.variable_overview.manage%7D" width_min="89" width_max="89">
+                      <variables>
+                        <var key="tool_tip_caption" value="${wiredmenu.variable_overview.manage.tooltip}" type="String"/>
+                        <var key="text_style" value="button_shiny_regular" type="String"/>
+                      </variables>
+                    </button>
+                  </children>
+                  <variables>
+                    <var key="spacing" value="10" type="int"/>
+                  </variables>
+                </itemlist_horizontal>
+                <container x="230" y="17" width="256" height="208" params="16" style="3" name="variable_properties_container">
+                  <children>
+                    <text x="0" y="0" width="188" height="19" params="16" style="3" name="title" caption="%24%7Bwiredmenu.variable_overview.properties%7D">
+                      <variables>
+                        <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                        <var key="bold" value="true" type="Boolean"/>
+                        <var key="spacing" value="0" type="Number"/>
+                        <var key="leading" value="0" type="Number"/>
+                      </variables>
+                    </text>
+                    <container x="0" y="20" width="256" height="188" params="2192" style="3" name="variable_properties_table_container"/>
+                  </children>
+                </container>
+                <container x="230" y="233" width="256" height="135" params="16" style="3" name="variable_texts_container">
+                  <children>
+                    <text x="0" y="0" width="188" height="19" params="16" style="3" name="title" caption="%24%7Bwiredmenu.variable_overview.text_values%7D">
+                      <variables>
+                        <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                        <var key="bold" value="true" type="Boolean"/>
+                        <var key="spacing" value="0" type="Number"/>
+                        <var key="leading" value="0" type="Number"/>
+                      </variables>
+                    </text>
+                    <container x="0" y="20" width="256" height="115" params="2192" style="3" name="variable_texts_table_container"/>
+                  </children>
+                </container>
+              </children>
+            </container>
+            <container x="0" y="0" width="500" height="382" params="12582929" style="3" name="inspection_container" visible="false" treshold="0">
+              <children>
+                <container x="14" y="18" width="150" height="70" params="16" style="3" name="type_picker_container">
+                  <children>
+                    <text x="0" y="0" width="165" height="19" params="16" style="3" name="title" caption="%24%7Bwiredmenu.inspection.type%7D">
+                      <variables>
+                        <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                        <var key="bold" value="true" type="Boolean"/>
+                        <var key="spacing" value="0" type="Number"/>
+                        <var key="leading" value="0" type="Number"/>
+                      </variables>
+                    </text>
+                    <border x="0" y="20" width="141" height="47" params="16" style="3" name="type_options" color="0x0dadada">
+                      <children>
+                        <itemlist_horizontal x="5" y="5" width="131" height="37" params="16" style="3" name="buttons">
+                          <children>
+                            <container x="0" y="0" width="37" height="37" params="16" style="3" name="furni_option">
+                              <children>
+                                <button x="0" y="0" width="37" height="36" params="131089" style="3" name="type_furni_button">
+                                  <variables>
+                                    <var key="tool_tip_caption" value="${wiredfurni.params.sourcetype.furni}" type="String"/>
+                                    <var key="text_style" value="button_shiny_regular" type="String"/>
+                                  </variables>
+                                </button>
+                                <static_bitmap x="0" y="0" width="37" height="37" params="16" style="3">
+                                  <variables>
+                                    <var key="asset_uri" value="icon_wired_variable_furni_large_png" type="String"/>
+                                    <var key="pivot_point" value="center" type="String"/>
+                                    <var key="stretched_x" value="false" type="Boolean"/>
+                                    <var key="stretched_y" value="false" type="Boolean"/>
+                                  </variables>
+                                </static_bitmap>
+                              </children>
+                            </container>
+                            <container x="47" y="0" width="37" height="37" params="16" style="3" name="user_option">
+                              <children>
+                                <button x="0" y="0" width="37" height="36" params="131089" style="3" name="type_user_button" id="1">
+                                  <variables>
+                                    <var key="tool_tip_caption" value="${wiredfurni.params.sourcetype.users}" type="String"/>
+                                    <var key="text_style" value="button_shiny_regular" type="String"/>
+                                  </variables>
+                                </button>
+                                <static_bitmap x="0" y="0" width="37" height="37" params="16" style="3">
+                                  <variables>
+                                    <var key="asset_uri" value="icon_wired_variable_user_large_png" type="String"/>
+                                    <var key="pivot_point" value="center" type="String"/>
+                                    <var key="stretched_x" value="false" type="Boolean"/>
+                                    <var key="stretched_y" value="false" type="Boolean"/>
+                                  </variables>
+                                </static_bitmap>
+                              </children>
+                            </container>
+                            <container x="94" y="0" width="37" height="37" params="16" style="3" name="global_option">
+                              <children>
+                                <button x="0" y="0" width="37" height="36" params="131089" style="3" name="type_global_button" id="-10">
+                                  <variables>
+                                    <var key="tool_tip_caption" value="${wiredfurni.params.sourcetype.global}" type="String"/>
+                                    <var key="text_style" value="button_shiny_regular" type="String"/>
+                                  </variables>
+                                </button>
+                                <static_bitmap x="0" y="0" width="37" height="37" params="16" style="3">
+                                  <variables>
+                                    <var key="asset_uri" value="icon_wired_variable_global_large_png" type="String"/>
+                                    <var key="pivot_point" value="center" type="String"/>
+                                    <var key="stretched_x" value="false" type="Boolean"/>
+                                    <var key="stretched_y" value="false" type="Boolean"/>
+                                  </variables>
+                                </static_bitmap>
+                              </children>
+                            </container>
+                          </children>
+                          <variables>
+                            <var key="spacing" value="10" type="int"/>
+                          </variables>
+                        </itemlist_horizontal>
+                      </children>
+                    </border>
+                  </children>
+                </container>
+                <container x="183" y="17" width="303" height="351" params="16" style="3" name="variable_values_container">
+                  <children>
+                    <text x="0" y="0" width="188" height="19" params="16" style="3" name="title" caption="%24%7Bwiredmenu.inspection.variables%7D">
+                      <variables>
+                        <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                        <var key="bold" value="true" type="Boolean"/>
+                        <var key="spacing" value="0" type="Number"/>
+                        <var key="leading" value="0" type="Number"/>
+                      </variables>
+                    </text>
+                    <container x="0" y="20" width="303" height="297" params="2192" style="3" name="variable_values_table_container"/>
+                    <itemlist_horizontal x="0" y="326" width="303" height="30" params="1168" style="3">
+                      <children>
+                        <button x="0" y="0" width="145" height="25" params="131089" style="3" name="delete_var_btn" caption="%24%7Bwiredmenu.inspection.delete%7D" width_min="145" width_max="145">
+                          <variables>
+                            <var key="text_style" value="button_shiny_regular" type="String"/>
+                          </variables>
+                        </button>
+                        <button x="158" y="0" width="145" height="25" params="131089" style="3" name="add_var_btn" caption="%24%7Bwiredmenu.inspection.add%7D" width_min="145" width_max="145">
+                          <variables>
+                            <var key="text_style" value="button_shiny_regular" type="String"/>
+                          </variables>
+                        </button>
+                      </children>
+                      <variables>
+                        <var key="spacing" value="13" type="int"/>
+                      </variables>
+                    </itemlist_horizontal>
+                    <bubble x="122" y="181" width="186" height="145" params="1" style="7" name="create_var_bubble" visible="false">
+                      <children>
+                        <container x="6" y="6" width="158" height="42" params="144" style="3" name="variable_setting">
+                          <children>
+                            <text x="0" y="0" width="55" height="17" params="16" style="3" caption="%24%7Bwiredmenu.inspection.select_variable%7D">
+                              <variables>
+                                <var key="auto_size" value="left" type="String"/>
+                                <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                                <var key="bold" value="true" type="Boolean"/>
+                                <var key="spacing" value="0" type="Number"/>
+                                <var key="leading" value="0" type="Number"/>
+                              </variables>
+                            </text>
+                            <container x="0" y="20" width="158" height="22" params="144" style="3" name="var_picker_container"/>
+                          </children>
+                        </container>
+                        <container x="6" y="52" width="158" height="42" params="144" style="3" name="value_setting">
+                          <children>
+                            <text x="0" y="0" width="40" height="17" params="16" style="3" caption="%24%7Bwiredmenu.inspection.select_value%7D">
+                              <variables>
+                                <var key="auto_size" value="left" type="String"/>
+                                <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                                <var key="bold" value="true" type="Boolean"/>
+                                <var key="spacing" value="0" type="Number"/>
+                                <var key="leading" value="0" type="Number"/>
+                              </variables>
+                            </text>
+                            <border x="0" y="20" width="80" height="22" params="16" style="4" name="value_input_border">
+                              <children>
+                                <input x="5" y="3" width="71" height="17" params="2177" style="3" name="value_input" caption="0">
+                                  <variables>
+                                    <var key="restrict" value="0-9\-" type="String"/>
+                                    <var key="spacing" value="0" type="Number"/>
+                                    <var key="leading" value="0" type="Number"/>
+                                  </variables>
+                                </input>
+                              </children>
+                            </border>
+                          </children>
+                        </container>
+                        <button x="6" y="100" width="158" height="25" params="132241" style="3" name="create_var_btn" caption="%24%7Bwiredmenu.inspection.create%7D" width_min="158" width_max="158">
+                          <variables>
+                            <var key="text_style" value="button_shiny_regular" type="String"/>
+                          </variables>
+                        </button>
+                      </children>
+                      <variables>
+                        <var key="margin_left" value="8" type="int"/>
+                        <var key="margin_top" value="8" type="int"/>
+                        <var key="margin_right" value="8" type="int"/>
+                        <var key="margin_bottom" value="8" type="int"/>
+                        <var key="pointer_offset" value="5" type="int"/>
+                      </variables>
+                    </bubble>
+                  </children>
+                </container>
+                <container x="14" y="94" width="150" height="274" params="16" style="3" name="preview_container">
+                  <children>
+                    <text x="0" y="0" width="165" height="19" params="16" style="3" name="title" caption="%24%7Bwiredmenu.inspection.preview%7D">
+                      <variables>
+                        <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                        <var key="bold" value="true" type="Boolean"/>
+                        <var key="spacing" value="0" type="Number"/>
+                        <var key="leading" value="0" type="Number"/>
+                      </variables>
+                    </text>
+                    <border x="0" y="20" width="141" height="225" params="144" style="3" name="preview_border" color="0x0dadada">
+                      <children>
+                        <text x="0" y="104" width="141" height="17" params="144" style="3" name="preview_instruction_furni" caption="%24%7Bwiredmenu.inspection.preview_furni_instruction%7D" blend="0.6" visible="false">
+                          <variables>
+                            <var key="auto_size" value="center" type="String"/>
+                            <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                            <var key="spacing" value="0" type="Number"/>
+                            <var key="leading" value="0" type="Number"/>
+                          </variables>
+                        </text>
+                        <text x="0" y="104" width="141" height="17" params="144" style="3" name="preview_instruction_user" caption="%24%7Bwiredmenu.inspection.preview_user_instruction%7D" blend="0.6" visible="false">
+                          <variables>
+                            <var key="auto_size" value="center" type="String"/>
+                            <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                            <var key="spacing" value="0" type="Number"/>
+                            <var key="leading" value="0" type="Number"/>
+                          </variables>
+                        </text>
+                        <widget x="53" y="70" width="34" height="84" params="3932368" style="3" name="preview_avatar" visible="false">
+                          <variables>
+                            <var key="widget_type" value="avatar_image" type="String"/>
+                            <var key="avatar_image:cropped" value="true" type="Boolean"/>
+                          </variables>
+                        </widget>
+                        <widget x="46" y="93" width="49" height="38" params="1077674128" style="3" name="preview_pet" visible="false">
+                          <variables>
+                            <var key="widget_type" value="pet_image" type="String"/>
+                          </variables>
+                        </widget>
+                        <bitmap x="45" y="87" width="50" height="50" params="3932368" style="3" name="preview_image_bitmap" visible="false">
+                          <variables>
+                            <var key="pivot_point" value="center" type="String"/>
+                            <var key="stretched_x" value="false" type="Boolean"/>
+                            <var key="stretched_y" value="false" type="Boolean"/>
+                            <var key="fit_size_to_contents" value="true" type="Boolean"/>
+                          </variables>
+                        </bitmap>
+                        <static_bitmap x="10" y="64" width="120" height="97" params="208" style="3" name="global_placeholder" visible="false">
+                          <variables>
+                            <var key="asset_uri" value="wired_global_placeholder_png" type="String"/>
+                            <var key="pivot_point" value="center" type="String"/>
+                            <var key="stretched_x" value="false" type="Boolean"/>
+                            <var key="stretched_y" value="false" type="Boolean"/>
+                            <var key="fit_size_to_contents" value="true" type="Boolean"/>
+                          </variables>
+                        </static_bitmap>
+                        <container_button x="110" y="6" width="25" height="26" params="81" style="7" name="highlight_wired_btn">
+                          <children>
+                            <static_bitmap x="4" y="6" width="16" height="14" params="16" style="3">
+                              <variables>
+                                <var key="asset_uri" value="${image.library.url}catalogue/icon_80.png" type="String"/>
+                                <var key="fit_size_to_contents" value="true" type="Boolean"/>
+                              </variables>
+                            </static_bitmap>
+                          </children>
+                          <variables>
+                            <var key="tool_tip_caption" value="${wiredmenu.inspection.highlight_wireds}" type="String"/>
+                            <var key="tool_tip_delay" value="250" type="uint"/>
+                          </variables>
+                        </container_button>
+                      </children>
+                    </border>
+                    <container x="0" y="254" width="197" height="18" params="16" style="3" name="pin_option_container">
+                      <children>
+                        <checkbox x="0" y="1" width="17" height="17" params="17" style="3" name="pin_checkbox"/>
+                        <text x="20" y="0" width="82" height="17" params="16" style="3" caption="%24%7Bwiredmenu.inspection.pin%7D" height_min="17">
+                          <variables>
+                            <var key="auto_size" value="left" type="String"/>
+                            <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                            <var key="spacing" value="0" type="Number"/>
+                            <var key="leading" value="0" type="Number"/>
+                          </variables>
+                        </text>
+                      </children>
+                    </container>
+                  </children>
+                </container>
+              </children>
+            </container>
+            <container x="0" y="0" width="500" height="382" params="12582928" style="3" name="chests_container" visible="false">
+              <children>
+                <container x="14" y="18" width="472" height="110" params="16" style="3" name="chest_controls_container">
+                  <children>
+                    <text x="0" y="0" width="84" height="17" params="16" style="3" name="title" caption="%24%7Bwiredmenu.chests.chest_control%7D">
+                      <variables>
+                        <var key="auto_size" value="left" type="String"/>
+                        <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                        <var key="bold" value="true" type="Boolean"/>
+                        <var key="spacing" value="0" type="Number"/>
+                        <var key="leading" value="0" type="Number"/>
+                      </variables>
+                    </text>
+                    <border x="0" y="20" width="472" height="90" params="2192" style="3" name="preferences_border" color="0x0dadada">
+                      <children>
+                        <itemlist_horizontal x="10" y="10" width="452" height="30" params="16" style="3">
+                          <children>
+                            <button x="0" y="0" width="221" height="30" params="131089" style="3" name="lock_own_button" caption="%24%7Bwiredmenu.chests.chest_control.lock_own%7D" width_min="221" width_max="221">
+                              <variables>
+                                <var key="text_style" value="button_shiny_regular" type="String"/>
+                              </variables>
+                            </button>
+                            <button x="231" y="0" width="221" height="30" params="131089" style="3" name="unlock_own_button" caption="%24%7Bwiredmenu.chests.chest_control.unlock_own%7D" width_min="221" width_max="221">
+                              <variables>
+                                <var key="text_style" value="button_shiny_regular" type="String"/>
+                              </variables>
+                            </button>
+                          </children>
+                          <variables>
+                            <var key="spacing" value="10" type="int"/>
+                            <var key="resize_on_item_update" value="true" type="Boolean"/>
+                          </variables>
+                        </itemlist_horizontal>
+                        <itemlist_horizontal x="10" y="50" width="221" height="30" params="16" style="3">
+                          <children>
+                            <button x="0" y="0" width="221" height="30" params="131089" style="3" name="lock_all_button" caption="%24%7Bwiredmenu.chests.chest_control.lock_all%7D" width_min="221" width_max="221">
+                              <variables>
+                                <var key="text_style" value="button_shiny_regular" type="String"/>
+                              </variables>
+                            </button>
+                          </children>
+                          <variables>
+                            <var key="resize_on_item_update" value="true" type="Boolean"/>
+                          </variables>
+                        </itemlist_horizontal>
+                      </children>
+                    </border>
+                  </children>
+                </container>
+                <container x="14" y="139" width="472" height="228" params="16" style="3" name="logs_container">
+                  <children>
+                    <text x="0" y="0" width="136" height="17" params="16" style="3" name="title" caption="%24%7Bwiredmenu.chests.room_logs%7D">
+                      <variables>
+                        <var key="auto_size" value="left" type="String"/>
+                        <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                        <var key="bold" value="true" type="Boolean"/>
+                        <var key="spacing" value="0" type="Number"/>
+                        <var key="leading" value="0" type="Number"/>
+                      </variables>
+                    </text>
+                    <text x="272" y="0" width="197" height="17" params="262160" style="3" name="title_extra" caption="%24%7Bwiredmenu.chests.room_logs.extra%7D" blend="0.5">
+                      <variables>
+                        <var key="auto_size" value="left" type="String"/>
+                        <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                        <var key="spacing" value="0" type="Number"/>
+                        <var key="leading" value="0" type="Number"/>
+                      </variables>
+                    </text>
+                    <container x="0" y="20" width="472" height="168" params="2192" style="3" name="logs_table_container"/>
+                    <button x="0" y="197" width="114" height="30" params="131089" style="3" name="view_in_detail_button" caption="%24%7Bwiredmenu.chests.room_logs.view_detail%7D">
+                      <variables>
+                        <var key="text_style" value="button_shiny_regular" type="String"/>
+                      </variables>
+                    </button>
+                  </children>
+                </container>
+              </children>
+            </container>
+            <container x="0" y="0" width="500" height="382" params="12582928" style="3" name="settings_container" visible="false">
+              <children>
+                <container x="14" y="18" width="472" height="220" params="16" style="3" name="room_settings_container">
+                  <children>
+                    <text x="0" y="0" width="208" height="19" params="16" style="3" name="title" caption="%24%7Bwiredmenu.settings.room_settings%7D">
+                      <variables>
+                        <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                        <var key="bold" value="true" type="Boolean"/>
+                        <var key="spacing" value="0" type="Number"/>
+                        <var key="leading" value="0" type="Number"/>
+                      </variables>
+                    </text>
+                    <border x="0" y="20" width="227" height="111" params="144" style="3" name="room_settings_border" color="0x0dadada">
+                      <children>
+                        <container x="10" y="8" width="212" height="102" params="16" style="3" name="modify_settings_container">
+                          <children>
+                            <text x="0" y="0" width="205" height="20" params="16" style="3" caption="%24%7Bwiredmenu.settings.room_settings.modify_rights%7D">
+                              <variables>
+                                <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                                <var key="bold" value="true" type="Boolean"/>
+                                <var key="spacing" value="0" type="Number"/>
+                                <var key="leading" value="0" type="Number"/>
+                              </variables>
+                            </text>
+                            <container x="0" y="20" width="214" height="20" params="16" style="3" name="option_box">
+                              <children>
+                                <checkbox x="0" y="1" width="20" height="20" params="17" style="3" name="modify_1_checkbox" id="1"/>
+                                <text x="20" y="0" width="210" height="19" params="16" style="3" caption="%24%7Bwiredmenu.settings.permission_level.1%7D">
+                                  <variables>
+                                    <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                                    <var key="spacing" value="0" type="Number"/>
+                                    <var key="leading" value="0" type="Number"/>
+                                  </variables>
+                                </text>
+                              </children>
+                            </container>
+                            <container x="0" y="39" width="214" height="20" params="16" style="3" name="option_box">
+                              <children>
+                                <checkbox x="0" y="1" width="20" height="20" params="17" style="3" name="modify_2_checkbox" id="2"/>
+                                <text x="20" y="0" width="210" height="19" params="16" style="3" caption="%24%7Bwiredmenu.settings.permission_level.2%7D">
+                                  <variables>
+                                    <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                                    <var key="spacing" value="0" type="Number"/>
+                                    <var key="leading" value="0" type="Number"/>
+                                  </variables>
+                                </text>
+                              </children>
+                            </container>
+                            <container x="0" y="58" width="214" height="20" params="16" style="3" name="option_box">
+                              <children>
+                                <checkbox x="0" y="1" width="20" height="20" params="17" style="3" name="modify_3_checkbox" id="3"/>
+                                <text x="20" y="0" width="210" height="19" params="16" style="3" caption="%24%7Bwiredmenu.settings.permission_level.3%7D">
+                                  <variables>
+                                    <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                                    <var key="spacing" value="0" type="Number"/>
+                                    <var key="leading" value="0" type="Number"/>
+                                  </variables>
+                                </text>
+                              </children>
+                            </container>
+                          </children>
+                        </container>
+                      </children>
+                    </border>
+                    <border x="245" y="20" width="227" height="111" params="144" style="3" name="room_settings_border" color="0x0dadada">
+                      <children>
+                        <container x="10" y="8" width="233" height="102" params="16" style="3" name="read_settings_container">
+                          <children>
+                            <text x="0" y="0" width="195" height="20" params="16" style="3" caption="%24%7Bwiredmenu.settings.room_settings.read_rights%7D">
+                              <variables>
+                                <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                                <var key="bold" value="true" type="Boolean"/>
+                                <var key="spacing" value="0" type="Number"/>
+                                <var key="leading" value="0" type="Number"/>
+                              </variables>
+                            </text>
+                            <container x="0" y="20" width="214" height="20" params="16" style="3" name="option_box">
+                              <children>
+                                <checkbox x="0" y="1" width="20" height="20" params="17" style="3" name="read_0_checkbox"/>
+                                <text x="20" y="0" width="210" height="19" params="16" style="3" caption="%24%7Bwiredmenu.settings.permission_level.0%7D">
+                                  <variables>
+                                    <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                                    <var key="spacing" value="0" type="Number"/>
+                                    <var key="leading" value="0" type="Number"/>
+                                  </variables>
+                                </text>
+                              </children>
+                            </container>
+                            <container x="0" y="39" width="214" height="20" params="16" style="3" name="option_box">
+                              <children>
+                                <checkbox x="0" y="1" width="20" height="20" params="17" style="3" name="read_1_checkbox" id="1"/>
+                                <text x="20" y="0" width="210" height="19" params="16" style="3" caption="%24%7Bwiredmenu.settings.permission_level.1%7D">
+                                  <variables>
+                                    <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                                    <var key="spacing" value="0" type="Number"/>
+                                    <var key="leading" value="0" type="Number"/>
+                                  </variables>
+                                </text>
+                              </children>
+                            </container>
+                            <container x="0" y="58" width="214" height="20" params="16" style="3" name="option_box">
+                              <children>
+                                <checkbox x="0" y="1" width="20" height="20" params="17" style="3" name="read_2_checkbox" id="2"/>
+                                <text x="20" y="0" width="210" height="19" params="16" style="3" caption="%24%7Bwiredmenu.settings.permission_level.2%7D">
+                                  <variables>
+                                    <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                                    <var key="spacing" value="0" type="Number"/>
+                                    <var key="leading" value="0" type="Number"/>
+                                  </variables>
+                                </text>
+                              </children>
+                            </container>
+                            <container x="0" y="77" width="214" height="20" params="16" style="3" name="option_box">
+                              <children>
+                                <checkbox x="0" y="1" width="20" height="20" params="17" style="3" name="read_3_checkbox" id="3"/>
+                                <text x="20" y="0" width="210" height="19" params="16" style="3" caption="%24%7Bwiredmenu.settings.permission_level.3%7D">
+                                  <variables>
+                                    <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                                    <var key="spacing" value="0" type="Number"/>
+                                    <var key="leading" value="0" type="Number"/>
+                                  </variables>
+                                </text>
+                              </children>
+                            </container>
+                          </children>
+                        </container>
+                      </children>
+                    </border>
+                    <border x="0" y="143" width="227" height="64" params="144" style="3" name="room_settings_border" color="0x0dadada">
+                      <children>
+                        <container x="10" y="8" width="212" height="50" params="16" style="3" name="timezone_container">
+                          <children>
+                            <text x="0" y="0" width="205" height="20" params="16" style="3" caption="%24%7Bwiredmenu.settings.room_settings.timezone%7D">
+                              <variables>
+                                <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                                <var key="bold" value="true" type="Boolean"/>
+                                <var key="spacing" value="0" type="Number"/>
+                                <var key="leading" value="0" type="Number"/>
+                              </variables>
+                            </text>
+                            <dropmenu x="0" y="21" width="206" height="25" params="17" style="3" name="timezone_picker"/>
+                          </children>
+                        </container>
+                      </children>
+                    </border>
+                    <border x="245" y="143" width="227" height="64" params="144" style="3" name="room_settings_border" color="0x0dadada">
+                      <children>
+                        <container x="10" y="8" width="212" height="50" params="16" style="3" name="timezone_container">
+                          <children>
+                            <text x="0" y="0" width="205" height="20" params="16" style="3" caption="%24%7Bwiredmenu.settings.room_settings.room_state%7D">
+                              <variables>
+                                <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                                <var key="bold" value="true" type="Boolean"/>
+                                <var key="spacing" value="0" type="Number"/>
+                                <var key="leading" value="0" type="Number"/>
+                              </variables>
+                            </text>
+                            <button x="0" y="21" width="98" height="28" params="131089" style="3" name="reload_room_btn" caption="%24%7Bwiredmenu.settings.room_state.reload%7D" width_min="98" width_max="98">
+                              <variables>
+                                <var key="text_style" value="button_shiny_regular" type="String"/>
+                              </variables>
+                            </button>
+                            <button x="109" y="21" width="98" height="28" params="131089" style="5" name="roll_back_btn" caption="%24%7Bwiredmenu.settings.room_state.roll_back%7D" color="0x0e33934" width_min="98" width_max="98">
+                              <variables>
+                                <var key="text_style" value="button_shiny_regular" type="String"/>
+                              </variables>
+                            </button>
+                          </children>
+                        </container>
+                      </children>
+                    </border>
+                  </children>
+                </container>
+                <container x="14" y="237" width="472" height="131" params="16" style="3" name="preferences_container">
+                  <children>
+                    <text x="0" y="0" width="208" height="19" params="16" style="3" name="title" caption="%24%7Bwiredmenu.settings.preferences%7D">
+                      <variables>
+                        <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                        <var key="bold" value="true" type="Boolean"/>
+                        <var key="spacing" value="0" type="Number"/>
+                        <var key="leading" value="0" type="Number"/>
+                      </variables>
+                    </text>
+                    <border x="0" y="20" width="227" height="111" params="2192" style="3" name="preferences_border" color="0x0dadada">
+                      <children>
+                        <container x="10" y="8" width="213" height="101" params="2192" style="3" name="preferences_container">
+                          <children>
+                            <text x="0" y="0" width="205" height="20" params="16" style="3" caption="%24%7Bwiredmenu.settings.preferences.general%7D">
+                              <variables>
+                                <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                                <var key="bold" value="true" type="Boolean"/>
+                                <var key="spacing" value="0" type="Number"/>
+                                <var key="leading" value="0" type="Number"/>
+                              </variables>
+                            </text>
+                            <container x="0" y="20" width="450" height="20" params="16" style="3" name="option_container">
+                              <children>
+                                <checkbox x="0" y="1" width="19" height="18" params="17" style="3" name="preference_toolbar_checkbox"/>
+                                <text x="20" y="0" width="390" height="17" params="16" style="3" caption="%24%7Bwiredmenu.settings.preferences.toolbar%7D">
+                                  <variables>
+                                    <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                                    <var key="spacing" value="0" type="Number"/>
+                                    <var key="leading" value="0" type="Number"/>
+                                  </variables>
+                                </text>
+                              </children>
+                            </container>
+                            <container x="0" y="39" width="450" height="20" params="16" style="3" name="option_container">
+                              <children>
+                                <checkbox x="0" y="1" width="19" height="18" params="17" style="3" name="preference_inspect_button_checkbox"/>
+                                <text x="20" y="0" width="390" height="17" params="16" style="3" caption="%24%7Bwiredmenu.settings.preferences.inspect_button%7D">
+                                  <variables>
+                                    <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                                    <var key="spacing" value="0" type="Number"/>
+                                    <var key="leading" value="0" type="Number"/>
+                                  </variables>
+                                </text>
+                              </children>
+                            </container>
+                            <container x="0" y="58" width="450" height="20" params="16" style="3" name="option_container">
+                              <children>
+                                <checkbox x="0" y="1" width="19" height="18" params="17" style="3" name="preference_playtest_checkbox"/>
+                                <text x="20" y="0" width="430" height="17" params="16" style="3" caption="%24%7Bwiredmenu.settings.preferences.playtest%7D">
+                                  <variables>
+                                    <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                                    <var key="spacing" value="0" type="Number"/>
+                                    <var key="leading" value="0" type="Number"/>
+                                  </variables>
+                                </text>
+                              </children>
+                            </container>
+                            <container x="0" y="77" width="450" height="20" params="16" style="3" name="option_container">
+                              <children>
+                                <checkbox x="0" y="1" width="19" height="18" params="17" style="3" name="preference_all_notifications_checkbox"/>
+                                <text x="20" y="0" width="430" height="17" params="16" style="3" caption="%24%7Bwiredmenu.settings.preferences.show_all_errors%7D">
+                                  <variables>
+                                    <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                                    <var key="spacing" value="0" type="Number"/>
+                                    <var key="leading" value="0" type="Number"/>
+                                  </variables>
+                                </text>
+                              </children>
+                            </container>
+                          </children>
+                        </container>
+                      </children>
+                    </border>
+                    <border x="245" y="20" width="227" height="64" params="144" style="3" name="wired_style_border" color="0x0dadada">
+                      <children>
+                        <container x="10" y="8" width="212" height="50" params="16" style="3" name="wored_style_container">
+                          <children>
+                            <text x="0" y="0" width="205" height="20" params="16" style="3" caption="%24%7Bwiredmenu.settings.preferences.wired_style%7D">
+                              <variables>
+                                <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                                <var key="bold" value="true" type="Boolean"/>
+                                <var key="spacing" value="0" type="Number"/>
+                                <var key="leading" value="0" type="Number"/>
+                              </variables>
+                            </text>
+                            <dropmenu x="0" y="21" width="206" height="25" params="17" style="3" name="wired_style_picker"/>
+                          </children>
+                        </container>
+                      </children>
+                    </border>
+                  </children>
+                </container>
+              </children>
+            </container>
+            <container x="0" y="0" width="500" height="382" params="12582928" style="3" name="info_container" visible="false"/>
+            <container x="0" y="0" width="500" height="382" params="12582937" style="3" name="loading_view" color="0x9999e9e9e1" visible="false" background="true"/>
+          </children>
+        </container>
+      </children>
+      <variables>
+        <var key="margin_left" value="0" type="int"/>
+        <var key="margin_top" value="36" type="int"/>
+        <var key="margin_right" value="0" type="int"/>
+        <var key="margin_bottom" value="0" type="int"/>
+      </variables>
+    </frame>
+  </window>
+</layout>

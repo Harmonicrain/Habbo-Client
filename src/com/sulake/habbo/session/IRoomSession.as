@@ -57,6 +57,8 @@
         function set isRoomOwner(_arg_1:Boolean):void;
         function set roomControllerLevel(_arg_1:int):void;
         function get roomControllerLevel():int;
+        function set playTestMode(_arg_1:Boolean):void;
+        function get playTestMode():Boolean;
         function get isGuildRoom():Boolean;
         function set isGuildRoom(_arg_1:Boolean):void;
         function get isNoobRoom():Boolean;

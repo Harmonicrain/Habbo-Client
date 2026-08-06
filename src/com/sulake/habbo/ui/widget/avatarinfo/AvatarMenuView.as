@@ -78,6 +78,8 @@ package com.sulake.habbo.ui.widget.avatarinfo
                 return;
             }
             k.procedure = this.buttonEventProc;
+            this.ensureTextButton("wired_inspect",
+                "${infostand.button.wired_inspect}");
             k.autoArrangeItems = false;
             var _local_2:int = k.numListItems;
             var _local_3:int;
@@ -113,7 +115,9 @@ package com.sulake.habbo.ui.widget.avatarinfo
                 IInteractiveWindow(IWindowContainer(k.getListItemByName("trade")).getChildByName("button")).toolTipCaption = _local_7;
                 showButton("whisper");
                 showButton("group");
-                if (this.widget.configuration.getBoolean("handitem.give.enabled"))
+                if (this.widget.configuration.getBoolean("handitem.give.enabled")
+                    && !this.widget.handler.container.roomEngine
+                        .activeRoomHasHanditemControlBlocked)
                 {
                     _local_8 = _local_5.container.roomSession.ownUserRoomId;
                     _local_9 = _local_5.container.roomEngine.getRoomObject(_local_5.roomSession.roomId, _local_8, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER);
@@ -128,6 +132,9 @@ package com.sulake.habbo.ui.widget.avatarinfo
                 }
                 showButton("relationship", ((this.widget.configuration.getBoolean("relationship.status.enabled")) && (this._data.isFriend)));
                 showButton("ambassador", this.ambassadorMenuHasContent());
+                showButton("wired_inspect",
+                    this.widget.handler.container.userDefinedRoomEvents
+                        .showInspectButton());
             }
             if (this._mode == _Str_15297)
             {
@@ -268,6 +275,10 @@ package com.sulake.habbo.ui.widget.avatarinfo
                     _local_3 = true;
                     switch (_arg_2.parent.name)
                     {
+                        case "wired_inspect":
+                            _local_5 =
+                                RoomWidgetUserActionMessage.RWUAM_WIRED_INSPECT;
+                            break;
                         case "whisper":
                             _local_5 = RoomWidgetUserActionMessage.RWUAM_WHISPER_USER;
                             break;

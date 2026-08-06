@@ -12,9 +12,8 @@ package com.sulake.habbo.roomevents.wired_setup
     /**
      * Value struct snapshotting one built editor window's presets so the controller
      * can restore it from its keyed cache (May WiredConfigurationCache).
-     *
-     * Phase 2 note: inputSourcePresets is an untyped Array (always null in Phase 2)
-     * because InputSourceSection is deferred to the source-picking phase.
+     * Input-source presets remain an Array because a configuration can expose
+     * several independently typed source slots.
      */
     public class WiredConfigurationCache
     {

@@ -7,11 +7,12 @@ package com.sulake.habbo.communication.messages.outgoing.userdefinedroomevents
     {
         private var _array:Array;
 
-        public function WiredClickUserMessageComposer(k:int)
+        public function WiredClickUserMessageComposer(k:int, heldTicks:int=0)
         {
             this._array = new Array();
             super();
             this._array.push(k);
+            this._array.push(Math.max(0, Math.min(1728000, heldTicks)));
         }
 
         public function getMessageArray():Array

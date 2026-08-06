@@ -18,5 +18,8 @@
         function set uniqueSerialNumber(_arg_1:int):void;
         function set uniqueSeriesSize(_arg_1:int):void;
         function get rarityLevel():int;
+        function get contentsCount():int;
+        function get chestName():String;
+        function get state():int;
     }
 }

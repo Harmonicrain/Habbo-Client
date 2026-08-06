@@ -253,7 +253,7 @@
             switch (k.type)
             {
                 case RoomObjectRoomFloorHoleUpdateMessage.RORPFHUM_ADD:
-                    this._Str_2550.addFloorHole(k.id, k.x, k.y, k.width, k.height);
+                    this._Str_2550.addFloorHole(k.id, k.x, k.y, k.width, k.height, k.invert);
                     this._Str_15050 = true;
                     return;
                 case RoomObjectRoomFloorHoleUpdateMessage.RORPFHUM_REMOVE:

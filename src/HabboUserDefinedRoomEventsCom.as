@@ -74,7 +74,29 @@
         public static var radio_group_view_xml:Class = HabboUserDefinedRoomEventsCom_radio_group_view_xml;
         public static var vertical_scroll_list_view_xml:Class = HabboUserDefinedRoomEventsCom_vertical_scroll_list_view_xml;
         public static var static_bitmap_view_xml:Class = HabboUserDefinedRoomEventsCom_static_bitmap_view_xml;
+        public static var bitmap_wrapper_view_xml:Class = HabboUserDefinedRoomEventsCom_bitmap_wrapper_view_xml;
+        public static var border_view_xml:Class = HabboUserDefinedRoomEventsCom_border_view_xml;
+        public static var search_tree_dropdown_xml:Class = HabboUserDefinedRoomEventsCom_search_tree_dropdown_xml;
         public static var wired_style_illumina_xml:Class = HabboUserDefinedRoomEventsCom_wired_style_illumina_xml;
+        public static var wired_style_ubuntu_xml:Class = HabboUserDefinedRoomEventsCom_wired_style_ubuntu_xml;
+        public static var wired_menu_view_xml:Class = HabboUserDefinedRoomEventsCom_wired_menu_view_xml;
+        public static var wired_menu_logs_overview_xml:Class = HabboUserDefinedRoomEventsCom_wired_menu_logs_overview_xml;
+        public static var wired_menu_variables_management_overview_xml:Class = HabboUserDefinedRoomEventsCom_wired_menu_variables_management_overview_xml;
+        public static var wired_menu_variables_management_detail_xml:Class = HabboUserDefinedRoomEventsCom_wired_menu_variables_management_detail_xml;
+        public static var wired_menu_error_info_view_xml:Class = HabboUserDefinedRoomEventsCom_wired_menu_error_info_view_xml;
+        public static var chest_generic_xml:Class = HabboUserDefinedRoomEventsCom_chest_generic_xml;
+        public static var coins_chest_contents_xml:Class = HabboUserDefinedRoomEventsCom_coins_chest_contents_xml;
+        public static var furni_chest_contents_xml:Class = HabboUserDefinedRoomEventsCom_furni_chest_contents_xml;
+        public static var chest_upgrade_xml:Class = HabboUserDefinedRoomEventsCom_chest_upgrade_xml;
+        public static var chest_wired_upgrade_xml:Class =
+            HabboUserDefinedRoomEventsCom_chest_wired_upgrade_xml;
+        public static var transaction_overview_xml:Class =
+            HabboUserDefinedRoomEventsCom_transaction_overview_xml;
+        public static var transaction_details_xml:Class =
+            HabboUserDefinedRoomEventsCom_transaction_details_xml;
+        // Reuse the clean client's established table renderer inside the July
+        // Wired Menu rather than cloning unscrollable text controls.
+        public static var table_view_xml:Class = HabboRoomUICom_table_view_xml;
         public static var requiredClasses:Array = new Array(HabboUserDefinedRoomEventsBootstrap, IIDHabboUserDefinedRoomEvents);
     }
 }

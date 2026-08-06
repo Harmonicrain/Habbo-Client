@@ -34,6 +34,11 @@ package com.sulake.habbo.communication.messages.incoming.userdefinedroomevents
             return this._quantifierCode;
         }
 
+        public function set quantifierCode(k:int):void
+        {
+            this._quantifierCode = k;
+        }
+
         public function get quantifierType():int
         {
             return this._quantifierType;

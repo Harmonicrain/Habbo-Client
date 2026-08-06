@@ -4,7 +4,8 @@
 	<!-- shared variables -->
 
 	<variables>
-		<variable key="asset" value="habbo_blue_skin_png" type="String" />
+		<!-- July's style-11 border slice does not exist in the 2016 shared atlas. -->
+		<variable key="asset" value="wired_menu_border_skin_png" type="String" />
 	</variables>
 
 	<!-- the following maps layouts for render states -->

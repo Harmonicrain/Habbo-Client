@@ -58,6 +58,7 @@
     import com.sulake.habbo.room.object.logic.furniture.FurnitureMonsterplantSeedLogic;
     import com.sulake.habbo.room.object.logic.furniture.FurniturePurchasableClothingLogic;
     import com.sulake.habbo.room.object.logic.furniture.FurnitureRoomBackgroundColorLogic;
+    import com.sulake.habbo.room.object.logic.furniture.FurnitureAreaHideLogic;
     import com.sulake.habbo.room.object.logic.furniture.FurnitureMysterboxLogic;
     import com.sulake.habbo.room.object.logic.furniture.FurnitureEffectboxLogic;
     import com.sulake.habbo.room.object.logic.furniture.FurnitureMysterytrophyLogic;
@@ -305,6 +306,9 @@
                     break;
                 case RoomObjectLogicEnum.FURNITURE_BACKGROUND_COLOR:
                     classDefinition = FurnitureRoomBackgroundColorLogic;
+                    break;
+                case RoomObjectLogicEnum.FURNITURE_AREA_HIDE:
+                    classDefinition = FurnitureAreaHideLogic;
                     break;
                 case RoomObjectLogicEnum.FURNITURE_MYSTERYBOX:
                     classDefinition = FurnitureMysterboxLogic;

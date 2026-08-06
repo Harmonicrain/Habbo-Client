@@ -75,6 +75,16 @@
             return -1;
         }
 
+        public function get contentsCount():int
+        {
+            return 0;
+        }
+
+        public function get chestName():String
+        {
+            return "";
+        }
+
         public function get state():int
         {
             var k:Number = Number(this.getLegacyString());

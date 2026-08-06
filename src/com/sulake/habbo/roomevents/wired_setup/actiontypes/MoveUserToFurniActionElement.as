@@ -25,5 +25,8 @@ package com.sulake.habbo.roomevents.wired_setup.actiontypes
 
         override public function readIntParamsFromForm():Array { return [this._walkMode.selected]; }
         override public function onEditStart(_arg_1:Triggerable):void { this._walkMode.selected = (_arg_1.intData.length > 0) ? _arg_1.intData[0] : 0; }
+        override public function furniSelectionTitle(_arg_1:int):String { return "wiredfurni.params.sources.furni.title.mv.1"; }
+        override public function userSelectionTitle(_arg_1:int):String { return "wiredfurni.params.sources.furni.title.mv_user2"; }
+        override public function advancedAlwaysVisible():Boolean { return true; }
     }
 }

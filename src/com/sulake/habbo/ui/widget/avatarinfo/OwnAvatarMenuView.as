@@ -113,6 +113,8 @@ package com.sulake.habbo.ui.widget.avatarinfo
                     _window.findChildByName("minimize").addEventListener(WindowMouseEvent.OUT, onMinimizeButtonEvent);
                 }
                 _buttons = (_window.findChildByName("buttons") as IItemListWindow);
+                this.ensureTextButton("wired_inspect",
+                    "${infostand.button.wired_inspect}");
                 _buttons.procedure = this.buttonEventProc;
                 _local_1 = (_window.findChildByName("signs_grid") as IItemGridWindow);
                 _local_2 = _local_1.iterator;
@@ -169,11 +171,18 @@ package com.sulake.habbo.ui.widget.avatarinfo
                     {
                         showButton("effects", (!(_local_3)));
                     }
-                    showButton("handitem", (((this._data.carryItemType > 0) && (this._data.carryItemType < 999999)) && (this.widget.configuration.getBoolean("handitem.drop.enabled"))));
+                    showButton("handitem", (((this._data.carryItemType > 0)
+                        && (this._data.carryItemType < 999999))
+                        && this.widget.configuration.getBoolean("handitem.drop.enabled")
+                        && !this.widget.handler.roomEngine
+                            .activeRoomHasHanditemControlBlocked));
                     _local_4 = this.widget.configuration.getBoolean("avatar.expressions_menu.enabled");
                     showButton(((_local_4) ? "expressions" : "wave"));
                     _local_5 = this.widget.configuration.getBoolean("avatar.signs.enabled");
                     showButton("signs", _local_5);
+                    showButton("wired_inspect",
+                        this.widget.handler.container.userDefinedRoomEvents
+                            .showInspectButton());
                     break;
                 case MODE_CLUB_DANCES:
                     showButton("dance_stop", true, this.widget.isDancing);
@@ -298,6 +307,11 @@ package com.sulake.habbo.ui.widget.avatarinfo
                     _local_3 = true;
                     switch (_arg_2.parent.name)
                     {
+                        case "wired_inspect":
+                            _local_4 = new RoomWidgetUserActionMessage(
+                                RoomWidgetUserActionMessage
+                                    .RWUAM_WIRED_INSPECT, _Str_2306);
+                            break;
                         case "change_name":
                             _local_4 = new RoomWidgetUserActionMessage(RoomWidgetUserActionMessage.RWUAM_START_NAME_CHANGE);
                             break;

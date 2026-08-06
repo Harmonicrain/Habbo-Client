@@ -49,6 +49,13 @@ package com.sulake.habbo.ui.handler
             return k;
         }
 
+        public function isChooserDisabled():Boolean
+        {
+            return this._container != null
+                && this._container.roomEngine != null
+                && this._container.roomEngine.activeRoomHasChooserDisabled;
+        }
+
         public function processWidgetMessage(k:RoomWidgetMessage):RoomWidgetUpdateEvent
         {
             var _local_2:RoomWidgetRoomObjectMessage;

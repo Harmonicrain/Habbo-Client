@@ -116,6 +116,8 @@ package com.sulake.habbo.ui.widget.avatarinfo
                     _window.findChildByName("minimize").addEventListener(WindowMouseEvent.OUT, onMinimizeButtonEvent);
                 }
                 _buttons = (_window.findChildByName("buttons") as IItemListWindow);
+                this.ensureTextButton("wired_inspect",
+                    "${infostand.button.wired_inspect}");
                 _buttons.procedure = this.buttonEventProc;
                 _window.findChildByName("name").caption = _userName;
                 _window.visible = false;
@@ -253,6 +255,9 @@ package com.sulake.habbo.ui.widget.avatarinfo
                 }
             }
             this.widget.localizations.registerParameter("infostand.button.petrespect", "count", this._data.petRespectLeft.toString());
+            showButton("wired_inspect",
+                this.widget.handler.container.userDefinedRoomEvents
+                    .showInspectButton());
             _buttons.autoArrangeItems = true;
             _buttons.visible = true;
         }
@@ -384,6 +389,11 @@ package com.sulake.habbo.ui.widget.avatarinfo
                     Logger.log(("Own pet menu was clicked: " + _arg_2.parent.name));
                     switch (_arg_2.parent.name)
                     {
+                        case "wired_inspect":
+                            _local_4 = new RoomWidgetUserActionMessage(
+                                RoomWidgetUserActionMessage
+                                    .RWUAM_WIRED_INSPECT_PET, this.petId);
+                            break;
                         case "respect":
                             this._data.petRespectLeft--;
                             this._Str_2771();

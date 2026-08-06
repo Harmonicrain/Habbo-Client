@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout name="error_info_view" width="337" height="148" version="0.1" uid="04408E34-4CF7-42C1-151A-304D94B08390">
+  <window>
+    <frame x="35" y="30" width="337" height="148" params="1073790977" style="3" name="error_info_frame" caption="%24%7Bwiredmenu.error_info.title%7D" color="0xff418db0" width_min="300">
+      <filters>
+        <DropShadowFilter distance="4" alpha="0.34901960784313724" blurX="4" blurY="4"/>
+      </filters>
+      <children>
+        <container x="8" y="3" width="320" height="100" params="147600" style="3" name="contents" height_min="100">
+          <children>
+            <static_bitmap x="280" y="0" width="40" height="40" params="16" style="3" name="type_icon"/>
+            <text x="109" y="11" width="101" height="17" params="3932176" style="3" name="error_name" caption="EXECUTION_CAP">
+              <variables>
+                <var key="auto_size" value="left" type="String"/>
+                <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                <var key="bold" value="true" type="Boolean"/>
+                <var key="spacing" value="0" type="Number"/>
+                <var key="leading" value="0" type="Number"/>
+              </variables>
+            </text>
+            <text x="0" y="46" width="319" height="50" params="16400" style="3" name="error_text" height_min="50">
+              <variables>
+                <var key="auto_size" value="left" type="String"/>
+                <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                <var key="multiline" value="true" type="Boolean"/>
+                <var key="word_wrap" value="true" type="Boolean"/>
+                <var key="spacing" value="0" type="Number"/>
+                <var key="leading" value="0" type="Number"/>
+              </variables>
+            </text>
+          </children>
+        </container>
+      </children>
+      <variables>
+        <var key="margin_left" value="0" type="int"/>
+        <var key="margin_top" value="36" type="int"/>
+        <var key="margin_right" value="0" type="int"/>
+        <var key="margin_bottom" value="0" type="int"/>
+      </variables>
+    </frame>
+  </window>
+</layout>

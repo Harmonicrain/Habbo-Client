@@ -2,6 +2,7 @@ package com.sulake.habbo.roomevents.wired_setup.actiontypes
 {
     import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.Triggerable;
     import com.sulake.habbo.roomevents.wired_setup.DefaultElement;
+    import com.sulake.habbo.roomevents.wired_setup.inputsources.WiredInputSourcePicker;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.PresetManager;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.WiredUIBuilder;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.params.NumberInputParam;
@@ -28,11 +29,47 @@ package com.sulake.habbo.roomevents.wired_setup.actiontypes
         }
 
         override public function readIntParamsFromForm():Array { return [this._useUserSource ? 1 : 0, this._x.value, this._y.value]; }
+
         override public function onEditStart(_arg_1:Triggerable):void
         {
             this._useUserSource = (_arg_1.intData.length > 0) ? (_arg_1.intData[0] == 1) : true;
             this._x.value = (_arg_1.intData.length > 1) ? _arg_1.intData[1] : 0;
             this._y.value = (_arg_1.intData.length > 2) ? _arg_1.intData[2] : 0;
+        }
+
+        override public function mergedSelections():Array
+        {
+            return [[1, 0]];
+        }
+
+        override public function setMergedType(_arg_1:int, _arg_2:int):void
+        {
+            this._useUserSource = _arg_2 == WiredInputSourcePicker.USER_SOURCE;
+        }
+
+        override public function getMergedType(_arg_1:int):int
+        {
+            return this._useUserSource ? WiredInputSourcePicker.USER_SOURCE : WiredInputSourcePicker.FURNI_SOURCE;
+        }
+
+        override public function furniSelectionTitle(_arg_1:int):String
+        {
+            return "wiredfurni.params.sources.furni.title.mv.0";
+        }
+
+        override public function mergedSelectionTitle(_arg_1:int):String
+        {
+            return "wiredfurni.params.sources.merged.title.target_location";
+        }
+
+        override public function advancedAlwaysVisible():Boolean
+        {
+            return true;
+        }
+
+        override public function get forceHidePickFurniInstructions():Boolean
+        {
+            return true;
         }
     }
 }

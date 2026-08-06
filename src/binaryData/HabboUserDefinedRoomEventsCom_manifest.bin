@@ -74,7 +74,24 @@
         <asset mimeType="text/xml" name="radio_group_view_xml" />
         <asset mimeType="text/xml" name="vertical_scroll_list_view_xml" />
         <asset mimeType="text/xml" name="static_bitmap_view_xml" />
+        <asset mimeType="text/xml" name="bitmap_wrapper_view_xml" />
+        <asset mimeType="text/xml" name="border_view_xml" />
+        <asset mimeType="text/xml" name="search_tree_dropdown_xml" />
         <asset mimeType="text/xml" name="wired_style_illumina_xml" />
+        <asset mimeType="text/xml" name="wired_style_ubuntu_xml" />
+        <asset mimeType="text/xml" name="wired_menu_view_xml" />
+        <asset mimeType="text/xml" name="wired_menu_logs_overview_xml" />
+        <asset mimeType="text/xml" name="wired_menu_variables_management_overview_xml" />
+        <asset mimeType="text/xml" name="wired_menu_variables_management_detail_xml" />
+        <asset mimeType="text/xml" name="wired_menu_error_info_view_xml" />
+        <asset mimeType="text/xml" name="chest_generic_xml" />
+        <asset mimeType="text/xml" name="coins_chest_contents_xml" />
+        <asset mimeType="text/xml" name="furni_chest_contents_xml" />
+        <asset mimeType="text/xml" name="chest_upgrade_xml" />
+        <asset mimeType="text/xml" name="chest_wired_upgrade_xml" />
+        <asset mimeType="text/xml" name="transaction_overview_xml" />
+        <asset mimeType="text/xml" name="transaction_details_xml" />
+        <asset mimeType="text/xml" name="table_view_xml" />
 	   </assets>	
 	 </component> 
 	

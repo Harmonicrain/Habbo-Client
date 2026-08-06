@@ -30,19 +30,35 @@
         public static var BOT_TALK_DIRECT_TO_AVTR:int = 27;
         public static var CONTROL_CLOCK:int = 28;
         public static var SET_FURNI_ALTITUDE:int = 29;
+        public static var SEND_SIGNAL:int = 30;
         public static var FREEZE_USER:int = 31;
         public static var UNFREEZE_USER:int = 32;
         public static var RELATIVE_FURNI_MOVE:int = 33;
         public static var MOVE_FURNI_TO_FURNI:int = 34;
         public static var MOVE_FURNI_TO_USER:int = 35;
+        public static var NEG_CALL_ANOTHER_STACK:int = 36;
+        public static var NEG_SEND_SIGNAL:int = 37;
+        public static var ADJUST_CLOCK:int = 38;
+        public static var GIVE_VARIABLE:int = 39;
+        public static var REMOVE_VARIABLE:int = 40;
+        public static var CHANGE_VARIABLE:int = 41;
         public static var MOVE_USER:int = 42;
         public static var MOVE_USER_TO_FURNI:int = 43;
         public static var TELEPORT_TO_ROOM:int = 44;
+        public static var GIVE_CURRENCY_FROM_CHEST:int = 45;
+        public static var GIVE_FURNI_FROM_CHEST:int = 46;
+        public static var INITIATE_TRANSACTION:int = 47;
+        public static var CANCEL_TRANSACTION:int = 48;
+        public static var WRITE_TO_LOGS:int = 49;
+        public static var NEG_WRITE_TO_LOGS:int = 50;
         public static var PROGRESS_ACHIEVEMENT:int = 51;
         public static var GIVE_EFFECT:int = 52;
         public static var OVERRIDE_HEIGHT:int = 53;
+        public static var SET_CLICK_SETTINGS:int = 54;
         public static var PLACE_FURNI:int = 55;
         public static var REMOVE_FURNI:int = 56;
         public static var MOVE_AS_GROUP:int = 57;
+        public static var PROGRESS_REWARD_TRACK:int = 58;
+        public static var RESET_REWARD_TRACK:int = 59;
     }
 }

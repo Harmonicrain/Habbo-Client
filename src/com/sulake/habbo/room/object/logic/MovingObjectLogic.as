@@ -1,10 +1,12 @@
 ﻿package com.sulake.habbo.room.object.logic
 {
+    import com.sulake.habbo.room.events.RoomObjectMoveEvent;
     import com.sulake.room.object.logic.ObjectLogicBase;
     import com.sulake.room.utils.Vector3d;
     import com.sulake.room.object.IRoomObjectController;
     import com.sulake.room.utils.IVector3d;
     import com.sulake.habbo.room.messages.RoomObjectMoveUpdateMessage;
+    import com.sulake.room.events.RoomObjectEvent;
     import com.sulake.room.messages.RoomObjectUpdateMessage;
     import com.sulake.room.object.IRoomObjectModelController;
     import com.sulake.habbo.room.object.RoomObjectVariableEnum;
@@ -151,9 +153,16 @@
             return null;
         }
 
+        override public function getEventTypes():Array
+        {
+            var k:Array = [RoomObjectMoveEvent.ROME_SLIDE_ANIMATION];
+            return getAllEventTypes(super.getEventTypes(), k);
+        }
+
         override public function update(k:int):void
         {
             var _local_4:int;
+            var _local_5:RoomObjectEvent;
             var _local_2:IVector3d = this.getLocationOffset();
             var _local_3:IRoomObjectModelController = object.getModelController();
             if (_local_3 != null)
@@ -214,6 +223,8 @@
                     this._locDelta.y = 0;
                     this._locDelta.z = 0;
                 }
+                _local_5 = new RoomObjectMoveEvent(RoomObjectMoveEvent.ROME_SLIDE_ANIMATION, object);
+                eventDispatcher.dispatchEvent(_local_5);
             }
             this._lastUpdateTime = k;
         }

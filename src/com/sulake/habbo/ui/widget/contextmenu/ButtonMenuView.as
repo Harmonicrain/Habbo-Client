@@ -27,6 +27,36 @@
             super(k);
         }
 
+        protected function ensureTextButton(name:String,
+                                            caption:String):void
+        {
+            if (this._buttons == null ||
+                this._buttons.getListItemByName(name) != null ||
+                this._buttons.numListItems == 0)
+            {
+                return;
+            }
+            var source:IWindowContainer;
+            for (var i:int = 0; i < this._buttons.numListItems; i++)
+            {
+                source = this._buttons.getListItemAt(i) as IWindowContainer;
+                if (source != null &&
+                    source.getChildByName("button") != null)
+                {
+                    break;
+                }
+                source = null;
+            }
+            if (source == null) { return; }
+            var item:IWindowContainer = source.clone() as IWindowContainer;
+            item.name = name;
+            item.visible = false;
+            var label:ITextWindow =
+                item.findChildByName("label") as ITextWindow;
+            if (label != null) { label.caption = caption; }
+            this._buttons.addListItem(item);
+        }
+
         override public function dispose():void
         {
             this._buttons = null;

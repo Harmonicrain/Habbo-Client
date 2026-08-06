@@ -43,5 +43,10 @@ package com.sulake.habbo.roomevents.wired_setup.triggerconfs
         {
             this._botName.text = _arg_1.stringData;
         }
+
+        override public function userSelectionTitle(_arg_1:int):String
+        {
+            return "wiredfurni.params.sources.users.title.bots";
+        }
     }
 }

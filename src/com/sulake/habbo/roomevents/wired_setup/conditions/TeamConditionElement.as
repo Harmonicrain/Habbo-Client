@@ -35,7 +35,7 @@ package com.sulake.habbo.roomevents.wired_setup.conditions
 
         override public function buildInputs(_arg_1:PresetManager, _arg_2:WiredStyle, _arg_3:WiredUIBuilder):void
         {
-            this._team = _arg_1.createRadioGroup([new RadioButtonParam(1, l("team.1")), new RadioButtonParam(2, l("team.2")), new RadioButtonParam(3, l("team.3")), new RadioButtonParam(4, l("team.4"))], null, 2);
+            this._team = _arg_1.createRadioGroup([new RadioButtonParam(0, l("team.any"), null, null, true), new RadioButtonParam(1, l("team.1")), new RadioButtonParam(2, l("team.2")), new RadioButtonParam(3, l("team.3")), new RadioButtonParam(4, l("team.4"))], null, 2);
             _arg_3.addElements(_arg_1.createSection(l("team"), this._team));
         }
 
@@ -46,7 +46,7 @@ package com.sulake.habbo.roomevents.wired_setup.conditions
 
         override public function onEditStart(_arg_1:Triggerable):void
         {
-            this._team.selected = (_arg_1.intData.length > 0) ? _arg_1.intData[0] : 1;
+            this._team.selected = (_arg_1.intData.length > 0) ? _arg_1.intData[0] : 0;
         }
     }
 }

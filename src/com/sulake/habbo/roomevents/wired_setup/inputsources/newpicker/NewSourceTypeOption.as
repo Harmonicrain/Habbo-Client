@@ -60,7 +60,7 @@ package com.sulake.habbo.roomevents.wired_setup.inputsources.newpicker
             var color:uint = 0x1D84CD;
             if (this._option == WiredInputSourcePicker.USER_SOURCE)
             {
-                color = 0x268DE9;
+                color = 0x268E29;
             }
             else if (this._option == WiredInputSourcePicker.FURNI_SOURCE)
             {

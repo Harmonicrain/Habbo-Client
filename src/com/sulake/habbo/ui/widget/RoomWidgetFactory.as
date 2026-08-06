@@ -37,6 +37,7 @@
     import com.sulake.habbo.ui.widget.furniture.contextmenu.FurnitureContextMenuWidget;
     import com.sulake.habbo.ui.widget.camera.CameraWidget;
     import com.sulake.habbo.ui.widget.furniture.backgroundcolor.BackgroundColorFurniWidget;
+    import com.sulake.habbo.ui.widget.furniture.areahide.AreaHideFurniWidget;
     import com.sulake.habbo.ui.widget.furniture.requirementsmissing.CustomUserNotificationWidget;
     import com.sulake.habbo.ui.widget.furniture.friendfurni.FriendFurniConfirmWidget;
     import com.sulake.habbo.ui.widget.furniture.friendfurni.FriendFurniEngravingWidget;
@@ -146,6 +147,8 @@
                     return new CameraWidget(_arg_2, windowManager, assets, this._roomUI, this._roomUI.localization, this._roomUI);
                 case RoomWidgetEnum.ROOM_BACKGROUND_COLOR:
                     return new BackgroundColorFurniWidget(_arg_2, windowManager, assets);
+                case RoomWidgetEnum.AREA_HIDE:
+                    return new AreaHideFurniWidget(_arg_2, windowManager, assets, this._roomUI.localization, this._roomUI.roomEngine);
                 case RoomWidgetEnum.CUSTOM_USER_NOTIFICATION:
                     return new CustomUserNotificationWidget(_arg_2, windowManager, assets);
                 case RoomWidgetEnum.FRIEND_FURNI_CONFIRM:

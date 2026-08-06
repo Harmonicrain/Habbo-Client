@@ -1,55 +1,62 @@
 package com.sulake.habbo.roomevents.wired_setup.conditions
 {
     import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.Triggerable;
-    import com.sulake.habbo.roomevents.wired_setup.DefaultElement;
+    import com.sulake.habbo.roomevents.userdefinedroomevents.conditions.ConditionCodes;
+    import com.sulake.habbo.roomevents.wired_setup.common.utils.ChronoFieldRangeFilter;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.PresetManager;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.WiredUIBuilder;
-    import com.sulake.habbo.roomevents.wired_setup.uibuilder.params.NumberInputParam;
-    import com.sulake.habbo.roomevents.wired_setup.uibuilder.params.CheckboxOptionParam;
-    import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.CheckboxGroupPreset;
-    import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.combinations.NamedNumberInputPreset;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.applications.ChronoMaskFilterPreset;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.applications.ChronoRangeFilterPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.styles.WiredStyle;
-    import com.sulake.habbo.roomevents.userdefinedroomevents.conditions.ConditionCodes;
 
-    public class DateMatchesConditionElement extends DefaultElement
+    public class DateMatchesConditionElement extends ChronoConditionElement
     {
-        private var _use:CheckboxGroupPreset;
-        private var _weekdayMask:NamedNumberInputPreset;
-        private var _dayMin:NamedNumberInputPreset;
-        private var _dayMax:NamedNumberInputPreset;
-        private var _monthMask:NamedNumberInputPreset;
-        private var _yearMin:NamedNumberInputPreset;
-        private var _yearMax:NamedNumberInputPreset;
+        private var _weekdays:ChronoMaskFilterPreset;
+        private var _day:ChronoRangeFilterPreset;
+        private var _months:ChronoMaskFilterPreset;
+        private var _year:ChronoRangeFilterPreset;
 
         override public function get code():int { return ConditionCodes.DATE_MATCHES; }
         override public function get inputMode():int { return INPUTS_TYPE_UI_BUILDER; }
 
-        override public function buildInputs(_arg_1:PresetManager, _arg_2:WiredStyle, _arg_3:WiredUIBuilder):void
+        override public function buildInputs(m:PresetManager, style:WiredStyle, b:WiredUIBuilder):void
         {
-            this._use = _arg_1.createCheckboxGroup([new CheckboxOptionParam(l("time.day_selection"), 0), new CheckboxOptionParam(l("time.year_selection"), 1)]);
-            this._weekdayMask = _arg_1.createNamedNumberInput(new NumberInputParam(0, 0, 127), l("time.weekday_selection"));
-            this._dayMin = _arg_1.createNamedNumberInput(new NumberInputParam(1, 1, 31), "min");
-            this._dayMax = _arg_1.createNamedNumberInput(new NumberInputParam(1, 1, 31), "max");
-            this._monthMask = _arg_1.createNamedNumberInput(new NumberInputParam(0, 0, 4095), l("time.month_selection"));
-            this._yearMin = _arg_1.createNamedNumberInput(new NumberInputParam(0, 0, 9999), "min");
-            this._yearMax = _arg_1.createNamedNumberInput(new NumberInputParam(0, 0, 9999), "max");
-            _arg_3.addElements(_arg_1.createSection(l("time.filter_selection"), this._use), _arg_1.createSection(l("time.weekday_selection"), this._weekdayMask), _arg_1.createSection(l("time.day_selection"), _arg_1.createSimpleListView(true, [this._dayMin, this._dayMax])), _arg_1.createSection(l("time.month_selection"), this._monthMask), _arg_1.createSection(l("time.year_selection"), _arg_1.createSimpleListView(true, [this._yearMin, this._yearMax])));
+            this._weekdays = m.createChronoMaskFilter(labels("time.weekday.", 7), 2);
+            this._day = m.createChronoRangeFilter(l("time.skip"), l("time.exact"), l("time.range"), 1, 1, 31, 25);
+            this._months = m.createChronoMaskFilter(labels("time.month.", 12), 3);
+            this._year = m.createChronoRangeFilter(l("time.skip"), l("time.exact"), l("time.range"), 0, 0, 9999, 35);
+            b.addElements(m.createSection(l("time.weekday_selection"), this._weekdays),
+                m.createSection(l("time.day_selection"), this._day),
+                m.createSection(l("time.month_selection"), this._months),
+                m.createSection(l("time.year_selection"), this._year),
+                createTimezoneSection(m));
+        }
+
+        override public function onEditStart(d:Triggerable):void
+        {
+            super.onEditStart(d);
+            var a:Array = d.intData;
+            this._weekdays.mask = a.length > 2 ? a[2] : 0;
+            this._day.applyFilter(new ChronoFieldRangeFilter("day", a.length > 0 && a[0] == 1,
+                a.length > 3 ? a[3] : 1, a.length > 4 ? a[4] : 1, 1));
+            this._months.mask = a.length > 5 ? a[5] : 0;
+            this._year.applyFilter(new ChronoFieldRangeFilter("year", a.length > 1 && a[1] == 1,
+                a.length > 6 ? a[6] : 0, a.length > 7 ? a[7] : 0));
         }
 
         override public function readIntParamsFromForm():Array
         {
-            return [this._use.get(0).selected ? 1 : 0, this._use.get(1).selected ? 1 : 0, this._weekdayMask.value, this._dayMin.value, this._dayMax.value, this._monthMask.value, this._yearMin.value, this._yearMax.value];
+            var d:ChronoFieldRangeFilter = this._day.getFilter("day");
+            var y:ChronoFieldRangeFilter = this._year.getFilter("year");
+            return [d.useFilter ? 1 : 0, y.useFilter ? 1 : 0, this._weekdays.mask,
+                d.min, d.max, this._months.mask, y.min, y.max];
         }
 
-        override public function onEditStart(_arg_1:Triggerable):void
+        private function labels(prefix:String, count:int):Array
         {
-            this._use.mask = ((_arg_1.intData.length > 0 && _arg_1.intData[0] == 1) ? 1 : 0) | ((_arg_1.intData.length > 1 && _arg_1.intData[1] == 1) ? 2 : 0);
-            this._weekdayMask.value = (_arg_1.intData.length > 2) ? _arg_1.intData[2] : 0;
-            this._dayMin.value = (_arg_1.intData.length > 3) ? _arg_1.intData[3] : 1;
-            this._dayMax.value = (_arg_1.intData.length > 4) ? _arg_1.intData[4] : 1;
-            this._monthMask.value = (_arg_1.intData.length > 5) ? _arg_1.intData[5] : 0;
-            this._yearMin.value = (_arg_1.intData.length > 6) ? _arg_1.intData[6] : 0;
-            this._yearMax.value = (_arg_1.intData.length > 7) ? _arg_1.intData[7] : 0;
+            var result:Array = [];
+            for (var i:int = 1; i <= count; i++) result.push(l(prefix + i));
+            return result;
         }
     }
 }

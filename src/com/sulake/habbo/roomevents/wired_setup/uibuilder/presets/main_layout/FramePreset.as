@@ -10,16 +10,15 @@ package com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.main_layout
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.SpacerPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.WiredUIPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.interfaces.IListPreset;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.menu.MenuPreset;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.menu.elements.MenuItem;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.styles.WiredStyle;
 
     /**
      * The real builder layout engine (May FramePreset): frame window, sticky
      * header/footer list composition, resize guard, fixHeight and close button.
-     *
-     * Phase 2 note: the May quick menu (frame.menuButton / MenuPreset) is deferred —
-     * clean IFrameWindow has no menuButton. Save/close work through the footer
-     * buttons and the frame's "close" tagged child. The menu-related public
-     * methods are kept as no-op stubs so controller code can call them safely.
+     * The quick menu is attached to the clean frame's tagged header button while
+     * save and close remain available through the footer and close control.
      */
     public class FramePreset extends WiredUIPreset
     {
@@ -33,6 +32,17 @@ package com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.main_layout
         private var _topBottomMargin:int;
         private var _ignoreEvents:Boolean;
         private var _scrollParams:ListScrollParams;
+        private var _menu:MenuPreset;
+        private var _menuButton:IWindow;
+
+        private static const MENU_COPY:int = 0;
+        private static const MENU_PASTE:int = 1;
+        private static const MENU_COPY_INTO:int = 2;
+        private static const MENU_CLEAR_PICKS:int = 3;
+        private static const MENU_RESET:int = 4;
+        private static const MENU_OPEN_WIRED_MENU:int = 5;
+        private static const MENU_SAVE:int = 6;
+        private static const MENU_CLOSE:int = 7;
 
         public function FramePreset(_arg_1:HabboUserDefinedRoomEvents, _arg_2:PresetManager, _arg_3:WiredStyle, _arg_4:Array, _arg_5:Function, _arg_6:String, _arg_7:int, _arg_8:Boolean = false, _arg_9:Boolean = false, _arg_10:ListScrollParams = null)
         {
@@ -53,6 +63,16 @@ package com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.main_layout
             {
                 this._frame.setParamFlag(65536, true);
                 this._frame.addEventListener(WindowEvent.WINDOW_EVENT_RESIZED, this.onFrameResized);
+            }
+            if (_arg_9)
+            {
+                this._menuButton = this._frame.findChildByName("header_button_menu");
+                if (this._menuButton != null)
+                {
+                    this._menuButton.visible = true;
+                    this._menuButton.addEventListener(WindowMouseEvent.CLICK, this.onMenuButtonClick);
+                    this.createMenuPreset();
+                }
             }
         }
 
@@ -153,12 +173,49 @@ package com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.main_layout
 
         public function refreshForNewTriggerable():void
         {
-            // Quick menu deferred for Phase 2 — nothing to refresh.
+            if (this._menu != null)
+            {
+                this._menu.setSelected(MENU_COPY_INTO, false);
+                this.updateButtonDisabledStates();
+            }
         }
 
         public function updateButtonDisabledStates():void
         {
-            // Quick menu deferred for Phase 2 — no menu buttons to update.
+            if (this._menu == null) { return; }
+            var ctrl:* = this._roomEvents.wiredCtrl;
+            this._menu.setDisabled(MENU_COPY, false);
+            this._menu.setDisabled(MENU_PASTE, !ctrl.hasCurrentElementInClipboard());
+            this._menu.setDisabled(MENU_COPY_INTO, false);
+            this._menu.setDisabled(MENU_CLEAR_PICKS, ctrl.getStuffIds().length + ctrl.getStuffIds2().length == 0);
+            this._menu.setDisabled(MENU_RESET, false);
+            this._menu.setDisabled(MENU_SAVE, false);
+            this._menu.setDisabled(MENU_CLOSE, false);
+        }
+
+        private function onMenuButtonClick(_arg_1:WindowMouseEvent):void
+        {
+            if (this._menu != null)
+            {
+                this.updateButtonDisabledStates();
+                this._menu.requestOpen();
+            }
+        }
+
+        private function createMenuPreset():void
+        {
+            this._menu = this._presetManager.createMenuPreset([
+                new MenuItem("${wiredfurni.params.menu.copy}", this.onCopyConfigMenuClick, "${wiredfurni.params.menu.copy_paste.tooltip}"),
+                new MenuItem("${wiredfurni.params.menu.paste}", this.onPasteConfigMenuClick, "${wiredfurni.params.menu.copy_paste.tooltip}"),
+                new MenuItem("${wiredfurni.params.menu.paste_into}", null, "${wiredfurni.params.menu.paste_into.tooltip}", true),
+                MenuPreset.SPACER,
+                new MenuItem("${wiredfurni.params.menu.clear_picks}", this.onClearPicksMenuClick),
+                new MenuItem("${wiredfurni.params.menu.reset}", this.onResetMenuClick),
+                MenuPreset.SPACER,
+                new MenuItem("${wiredfurni.params.menu.open_wired_menu}", this.onOpenWiredMenuClick),
+                new MenuItem("${wiredfurni.params.menu.save}", this.onSaveMenuClick, "${wiredfurni.params.menu.save.tooltip}"),
+                new MenuItem("${wiredfurni.params.menu.close}", this.onCloseMenuClick)
+            ], this._menuButton);
         }
 
         private function onFrameResized(_arg_1:WindowEvent):void
@@ -187,7 +244,7 @@ package com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.main_layout
 
         public function get isCopyingIntoMode():Boolean
         {
-            return false;
+            return this._menu != null && this._menu.getSelected(MENU_COPY_INTO);
         }
 
         override public function get window():IWindow
@@ -227,13 +284,17 @@ package com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.main_layout
 
         override protected function get childPresets():Array
         {
-            return [this._listPreset];
+            return this._menu == null ? [this._listPreset] : [this._listPreset, this._menu];
         }
 
         override public function dispose():void
         {
             this._listPreset.window.removeEventListener(WindowEvent.WINDOW_EVENT_RESIZED, this.onContentsResized);
             this._frame.removeEventListener(WindowEvent.WINDOW_EVENT_RESIZED, this.onFrameResized);
+            if (this._menuButton != null)
+            {
+                this._menuButton.removeEventListener(WindowMouseEvent.CLICK, this.onMenuButtonClick);
+            }
             if (disposed)
             {
                 return;
@@ -243,6 +304,16 @@ package com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.main_layout
             this._frame = null;
             this._listPreset = null;
             this._onClose = null;
+            this._menu = null;
+            this._menuButton = null;
         }
+
+        public function onCopyConfigMenuClick():void { this._roomEvents.wiredCtrl.createClipboardCopy(); }
+        public function onPasteConfigMenuClick():void { this._roomEvents.wiredCtrl.pasteFromClipboard(); }
+        public function onClearPicksMenuClick():void { this._roomEvents.wiredCtrl.clearStuffPicks(); }
+        public function onResetMenuClick():void { this._roomEvents.wiredCtrl.resetToDefault(); }
+        public function onOpenWiredMenuClick():void { this._roomEvents.openWiredMenu(); }
+        public function onSaveMenuClick():void { this._roomEvents.wiredCtrl.saveBuilderFromMenu(); }
+        public function onCloseMenuClick():void { this._roomEvents.wiredCtrl.close(); }
     }
 }

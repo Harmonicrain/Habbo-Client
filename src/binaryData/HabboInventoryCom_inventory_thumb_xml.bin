@@ -10,6 +10,13 @@
                 <var key="asset_uri" value="unique_item_label_1" type="String"/>
               </variables>
             </static_bitmap>
+            <static_bitmap x="2" y="2" width="36" height="36" params="16" style="0" name="chest_background_bitmap" visible="false">
+              <variables>
+                <var key="asset_uri" value="chest_overlay_brown_background" type="String"/>
+                <var key="stretched_x" value="false" type="Boolean"/>
+                <var key="stretched_y" value="false" type="Boolean"/>
+              </variables>
+            </static_bitmap>
             <bitmap x="0" y="0" width="40" height="40" params="16" style="0" name="bitmap" tags="BITMAP" width_min="40" width_max="40">
               <variables>
                 <var key="pivot_point" value="center" type="String"/>
@@ -33,6 +40,11 @@
             <widget x="2" y="2" width="36" height="36" params="16" style="0" name="unique_item_overlay_container" visible="false">
               <variables>
                 <var key="widget_type" value="limited_item_overlay_grid" type="String"/>
+              </variables>
+            </widget>
+            <widget x="2" y="2" width="36" height="36" params="16" style="0" name="chest_overlay_container" visible="false">
+              <variables>
+                <var key="widget_type" value="chest_overlay_grid" type="String"/>
               </variables>
             </widget>
             <widget x="2" y="2" width="36" height="36" params="16" style="0" name="rarity_item_overlay_container" visible="false">

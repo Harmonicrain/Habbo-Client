@@ -1,6 +1,7 @@
 ﻿package com.sulake.habbo.roomevents
 {
     import com.sulake.core.runtime.IDisposable;
+    import com.sulake.core.utils.Map;
     import __AS3__.vec.Vector;
     import com.sulake.core.communication.messages.IMessageEvent;
     import com.sulake.habbo.communication.IHabboCommunicationManager;
@@ -14,8 +15,9 @@
     import com.sulake.habbo.communication.messages.incoming.room.engine.ObjectRemoveMessageEvent;
     import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.WiredEffectDataEvent;
     import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.WiredValidationErrorEvent;
-    import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.WiredEnvironmentEvent;
-    import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.WiredClickUserResponseEvent;
+    import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.WiredValidationErrorParameter;
+    import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.WiredAddonDataEvent;
+    import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.WiredVariableDataEvent;
     import com.sulake.habbo.communication.messages.incoming.handshake.UserObjectEvent;
     import com.sulake.habbo.communication.messages.incoming.users.GuildMembershipsMessageEvent;
     import com.sulake.habbo.communication.messages.parser.userdefinedroomevents.OpenMessageParser;
@@ -28,9 +30,9 @@
     import com.sulake.habbo.communication.messages.parser.room.engine.ObjectRemoveMessageParser;
     import com.sulake.habbo.communication.messages.parser.userdefinedroomevents.WiredRewardResultMessageParser;
     import com.sulake.habbo.communication.messages.parser.userdefinedroomevents.WiredValidationErrorParser;
-    import com.sulake.habbo.communication.messages.parser.userdefinedroomevents.WiredEnvironmentMessageParser;
-    import com.sulake.habbo.communication.messages.parser.userdefinedroomevents.WiredClickUserResponseMessageParser;
-    import com.sulake.habbo.roomevents.events.WiredUserClickHandledEvent;
+    import com.sulake.habbo.communication.messages.parser.userdefinedroomevents.WiredAddonDataMessageParser;
+    import com.sulake.habbo.communication.messages.parser.userdefinedroomevents.WiredVariableDataMessageParser;
+    import com.sulake.habbo.roomevents.WiredCapabilityCodes;
     import __AS3__.vec.*;
 
     public class IncomingMessages implements IDisposable 
@@ -45,6 +47,8 @@
             var _local_2:IHabboCommunicationManager = this._roomEvents.communication;
             this.addMessageEvent(new WiredTriggerDataEvent(this._Str_22337));
             this.addMessageEvent(new WiredSelectorDataEvent(this.onSelectorData));
+            this.addMessageEvent(new WiredAddonDataEvent(this.onAddonData));
+            this.addMessageEvent(new WiredVariableDataEvent(this.onVariableData));
             this.addMessageEvent(new OpenEvent(this.onOpen));
             this.addMessageEvent(new WiredRewardResultMessageEvent(this._Str_23600));
             this.addMessageEvent(new WiredConditionDataEvent(this._Str_23144));
@@ -53,22 +57,35 @@
             this.addMessageEvent(new ObjectRemoveMessageEvent(this.onObjectRemove));
             this.addMessageEvent(new WiredEffectDataEvent(this._Str_23979));
             this.addMessageEvent(new WiredValidationErrorEvent(this._Str_25729));
-            this.addMessageEvent(new WiredEnvironmentEvent(this.onWiredEnvironment));
-            this.addMessageEvent(new WiredClickUserResponseEvent(this.onWiredClickUserResponse));
             this.addMessageEvent(new UserObjectEvent(this.onUserObject));
             this.addMessageEvent(new GuildMembershipsMessageEvent(this.onGuildMemberships));
         }
 
-        private function onWiredClickUserResponse(k:IMessageEvent):void
+
+        private function onAddonData(k:IMessageEvent):void
         {
-            var _local_2:WiredClickUserResponseMessageParser = (k as WiredClickUserResponseEvent).getParser();
-            this._roomEvents.events.dispatchEvent(new WiredUserClickHandledEvent(WiredUserClickHandledEvent.WIRED_USER_CLICK_HANDLED, _local_2.index, _local_2.openMenu));
+            if (!this._roomEvents.isWiredFeatureEnabled(WiredCapabilityCodes.ADDONS))
+            {
+                return;
+            }
+            var _local_2:WiredAddonDataMessageParser = (k as WiredAddonDataEvent).getParser();
+            if (_local_2.definition != null)
+            {
+                this._roomEvents._Str_7247._Str_18351(_local_2.definition);
+            }
         }
 
-        private function onWiredEnvironment(k:IMessageEvent):void
+        private function onVariableData(k:IMessageEvent):void
         {
-            var _local_2:WiredEnvironmentMessageParser = (k as WiredEnvironmentEvent).getParser();
-            this._roomEvents.setWiredEnvironment(_local_2.hasClickUserWired);
+            if (!this._roomEvents.isWiredFeatureEnabled(WiredCapabilityCodes.VARIABLES))
+            {
+                return;
+            }
+            var _local_2:WiredVariableDataMessageParser = (k as WiredVariableDataEvent).getParser();
+            if (_local_2.definition != null)
+            {
+                this._roomEvents._Str_7247._Str_18351(_local_2.definition);
+            }
         }
 
         private function onGuildMemberships(k:IMessageEvent):void
@@ -119,6 +136,7 @@
 
         private function onRoomExit(k:IMessageEvent):void
         {
+            this._roomEvents.resetWiredRoomState();
             this._roomEvents._Str_7247.close();
         }
 
@@ -151,13 +169,21 @@
 
         private function _Str_25729(k:IMessageEvent):void
         {
+            this._roomEvents.wiredCtrl.onSaveFailure();
             var _local_2:WiredValidationErrorParser = WiredValidationErrorEvent(k).getParser();
-            this._roomEvents.windowManager.alert("Update failed", _local_2.info, 0, null);
+            var _local_3:Map = new Map();
+            for each (var _local_4:WiredValidationErrorParameter in _local_2.parameters)
+            {
+                _local_3.add(_local_4.key, _local_4.value);
+            }
+            var _local_5:String = this._roomEvents.localization.getLocalizationWithParamMap(_local_2.localizationKey, _local_2.localizationKey, _local_3);
+            var _local_6:String = this._roomEvents.localization.getLocalization("wiredfurni.error.title", "Update failed");
+            this._roomEvents.windowManager.alert(_local_6, _local_5, 0, null);
         }
 
         private function _Str_25470(k:IMessageEvent):void
         {
-            this._roomEvents._Str_7247.close();
+            this._roomEvents.wiredCtrl.onSaveSuccess();
         }
 
         public function dispose():void

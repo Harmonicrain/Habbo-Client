@@ -3,6 +3,7 @@ package com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.main_layout
     import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.Triggerable;
     import com.sulake.habbo.roomevents.HabboUserDefinedRoomEvents;
     import com.sulake.habbo.roomevents.wired_setup.IWiredElement;
+    import com.sulake.habbo.roomevents.wired_setup.inputsources.ISourceTypeListener;
     import com.sulake.habbo.roomevents.wired_setup.inputsources.WiredInputSourcePicker;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.PresetManager;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.params.SectionParam;
@@ -17,7 +18,7 @@ package com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.main_layout
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.sections.AbstractSectionPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.styles.WiredStyle;
 
-    public class InputSourceSection extends AbstractSectionPreset
+    public class InputSourceSection extends AbstractSectionPreset implements ISourceTypeListener
     {
         private var _preset:WiredUIPreset;
         private var _listPreset:SimpleListViewPreset;

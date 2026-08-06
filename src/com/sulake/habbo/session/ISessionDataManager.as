@@ -56,8 +56,10 @@
         function givePetRespect(_arg_1:int):void;
         function getProductData(_arg_1:String):IProductData;
         function getFloorItemData(_arg_1:int):IFurnitureData;
+        function getAllFloorItemDatas():Array;
         function getFloorItemsDataByCategory(_arg_1:int):Array;
         function getWallItemData(_arg_1:int):IFurnitureData;
+        function getAllWallItemDatas():Array;
         function getFloorItemDataByName(_arg_1:String, _arg_2:int=0):IFurnitureData;
         function getWallItemDataByName(_arg_1:String, _arg_2:int=0):IFurnitureData;
         function openHabboHomePage(_arg_1:int, _arg_2:String):void;

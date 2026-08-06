@@ -20,7 +20,7 @@ package com.sulake.habbo.roomevents.wired_setup.conditions
      */
     public class ActorHasHandItemConditionElement extends DefaultElement
     {
-        private static const DEFAULT_CODES:Array = [0, 2, 5, 7, 8, 9, 10, 27, 1126, 1127, 1128];
+        private static const DEFAULT_CODES:Array = [0, 2, 5, 7, 8, 9, 10, 27];
 
         private var _handItemDropdown:DropdownPreset;
         private var _captureButton:ButtonPreset;
@@ -39,7 +39,7 @@ package com.sulake.habbo.roomevents.wired_setup.conditions
         override public function buildInputs(_arg_1:PresetManager, _arg_2:WiredStyle, _arg_3:WiredUIBuilder):void
         {
             this._options = this.createOptions(DEFAULT_CODES);
-            this._handItemDropdown = _arg_1.createDropdown(new DropdownParam(loc("wiredfurni.tooltip.bot.handitem"), this._options));
+            this._handItemDropdown = _arg_1.createDropdown(new DropdownParam(loc("wiredfurni.tooltip.handitem"), this._options));
             this._captureButton = _arg_1.createButton(l("capture.handitem"), this.captureHanditem);
             _arg_3.addElements(_arg_1.createSection(l("handitem"), _arg_1.createSimpleListView(true, [this._handItemDropdown, this._captureButton])));
         }
@@ -110,8 +110,12 @@ package com.sulake.habbo.roomevents.wired_setup.conditions
             {
                 return;
             }
-            var _local_1:int = roomEvents.roomEngine.getRoomObject(roomEvents.roomSession.roomId, roomEvents.roomSession.ownUserRoomId, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER).getModel().getNumber(RoomObjectVariableEnum.FIGURE_CARRY_OBJECT);
-            this.setSelectedHandItemByCode(_local_1);
+            var _local_1:Object = roomEvents.roomEngine.getRoomObject(roomEvents.roomSession.roomId, roomEvents.roomSession.ownUserRoomId, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER);
+            if ((_local_1 == null) || (_local_1.getModel() == null))
+            {
+                return;
+            }
+            this.setSelectedHandItemByCode(_local_1.getModel().getNumber(RoomObjectVariableEnum.FIGURE_CARRY_OBJECT));
         }
     }
 }

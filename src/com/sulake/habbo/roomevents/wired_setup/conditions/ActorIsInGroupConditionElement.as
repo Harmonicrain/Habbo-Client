@@ -89,15 +89,20 @@ package com.sulake.habbo.roomevents.wired_setup.conditions
         {
             var _local_2:HabboGroupEntryData;
             var _local_3:Vector.<ExpandableDropdownOption> = new Vector.<ExpandableDropdownOption>();
+            var selectedIndex:int = -1;
             this._guilds = _arg_1;
             var _local_4:int = 0;
             while (_local_4 < this._guilds.length)
             {
                 _local_2 = this._guilds[_local_4];
+                if (_local_2.groupId == this._selectedGroupId)
+                {
+                    selectedIndex = _local_3.length;
+                }
                 _local_3.push(new ExpandableDropdownOption(_local_2.groupId, _local_2.groupName));
                 _local_4++;
             }
-            this._groupDropdown.reinit(_local_3, this._selectedGroupId);
+            this._groupDropdown.reinit(_local_3, selectedIndex);
         }
 
         override public function onGuildMemberships(_arg_1:Array):void

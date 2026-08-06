@@ -18,10 +18,15 @@
         public static var BOT_REACHED_AVATAR:int = 14;
         public static var CLOCK_REACH_TIME:int = 15;
         public static var USER_PERFORMS_ACTION:int = 16;
+        public static var RECEIVE_SIGNAL:int = 17;
         public static var AVATAR_CLICKS_FURNI:int = 18;
         public static var PERIODIC_SHORT:int = 19;
         public static var STATE_CHANGE:int = 20;
+        public static var AVATAR_CLICKS_TILE:int = 21;
+        public static var VARIABLE_CHANGED:int = 22;
         public static var AVATAR_LEAVES_ROOM:int = 23;
         public static var USER_CLICKS_USER:int = 24;
+        public static var TRANSACTION_COMPLETED:int = 25;
+        public static var TRANSACTION_FAILED:int = 26;
     }
 }

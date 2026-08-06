@@ -16,6 +16,7 @@
         public static var inventory_effects_xml:Class = HabboInventoryCom_inventory_effects_xml;
         public static var inventory_trading_xml:Class = HabboInventoryCom_inventory_trading_xml;
         public static var inventory_trading_minimized_xml:Class = HabboInventoryCom_inventory_trading_minimized_xml;
+        public static var inventory_trading_wired_xml:Class = HabboInventoryCom_inventory_trading_wired_xml;
         public static var buy_marketplace_tokens_xml:Class = HabboInventoryCom_buy_marketplace_tokens_xml;
         public static var make_marketplace_offer_xml:Class = HabboInventoryCom_make_marketplace_offer_xml;
         public static var marketplace_no_credits_xml:Class = HabboInventoryCom_marketplace_no_credits_xml;
