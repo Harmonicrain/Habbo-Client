@@ -94,11 +94,45 @@
             {
                 return false;
             }
-            var _local_2:HabboNotificationItemView = new HabboNotificationItemView(this._assetLibrary.getAssetByName("layout_notification_xml"), this._windowManager, this._styleConfig, this._viewConfig, k);
+            var layoutName:String = k.style.customLayout == null ? "layout_notification_xml" : k.style.customLayout;
+            var viewName:String = k.style.customView;
+            var viewConfig:Map = viewName == null ? this._viewConfig["view"] : this._viewConfig[viewName];
+            var _local_2:HabboNotificationItemView = new HabboNotificationItemView(this._assetLibrary.getAssetByName(layoutName), this._windowManager, this._styleConfig, viewConfig, k);
             _local_2.reposition(this._Str_22218());
             this._viewItems.push(_local_2);
             this._viewItems.sortOn("verticalPosition", Array.NUMERIC);
             return true;
+        }
+
+        public function hasNotificationById(id:String):Boolean
+        {
+            if (id == null)
+            {
+                return false;
+            }
+            for each (var item:HabboNotificationItemView in this._viewItems)
+            {
+                if (item.notificationId == id && !item.ready)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public function removeNotificationById(id:String):void
+        {
+            if (id == null)
+            {
+                return;
+            }
+            for each (var item:HabboNotificationItemView in this._viewItems)
+            {
+                if (item.notificationId == id)
+                {
+                    item.remove();
+                }
+            }
         }
 
         public function _Str_19647():Boolean

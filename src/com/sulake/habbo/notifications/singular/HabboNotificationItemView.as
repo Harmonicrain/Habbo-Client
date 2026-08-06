@@ -12,6 +12,7 @@
     import com.sulake.habbo.window.IHabboWindowManager;
     import flash.display.BitmapData;
     import com.sulake.core.window.components.IStaticBitmapWrapperWindow;
+    import com.sulake.core.window.components.IButtonWindow;
     import com.sulake.habbo.session.events.BadgeImageReadyEvent;
     import com.sulake.core.window.components.IBitmapWrapperWindow;
     import flash.geom.Point;
@@ -40,6 +41,8 @@
         private var _resizeMargin:int;
         private var _windowMinHeight:int;
         private var _state:int;
+        private var _toggleButtonCallback:Function;
+        private var _toggleButtonSelected:Boolean;
 
         public function HabboNotificationItemView(k:IAsset, _arg_2:IHabboWindowManager, _arg_3:Map, _arg_4:Map, _arg_5:HabboNotificationItem)
         {
@@ -87,6 +90,11 @@
             return this._margin;
         }
 
+        public function get notificationId():String
+        {
+            return this._item != null ? this._item.notificationId : null;
+        }
+
         private function showItem(k:HabboNotificationItem):void
         {
             var _local_3:BitmapData;
@@ -106,8 +114,39 @@
                 IStaticBitmapWrapperWindow(IWindowContainer(this._window).findChildByTag("notification_icon_static")).assetUri = k.style._Str_21712;
             }
             this._item = k;
+            if (k.style.styleName == "wired"
+                && k.style.extraData != null
+                && "toggle_callback" in k.style.extraData)
+            {
+                this._toggleButtonCallback = k.style.extraData["toggle_callback"];
+                var button:IButtonWindow =
+                    IWindowContainer(this._window).findChildByTag("button") as IButtonWindow;
+                if (button != null)
+                {
+                    button.caption = "${notification.stop}";
+                    button.visible = true;
+                    button.addEventListener(WindowMouseEvent.CLICK, this.onToggleButtonClicked);
+                }
+            }
             this.reposition();
             this.startFadeIn();
+        }
+
+        private function onToggleButtonClicked(event:WindowMouseEvent):void
+        {
+            if (this._state != STATE_DISPLAY || this._toggleButtonCallback == null)
+            {
+                return;
+            }
+            this._toggleButtonSelected = !this._toggleButtonSelected;
+            var button:IButtonWindow =
+                IWindowContainer(this._window).findChildByTag("button") as IButtonWindow;
+            if (button != null)
+            {
+                button.caption = this._toggleButtonSelected
+                    ? "${notification.resume}" : "${notification.stop}";
+            }
+            this._toggleButtonCallback(this._toggleButtonSelected);
         }
 
         public function replaceIcon(k:BadgeImageReadyEvent):void
@@ -141,7 +180,15 @@
                     return;
                 case STATE_DISPLAY:
                     this._displayStart = (this._displayStart + k);
-                    if (((this._displayStart > int(this._viewConfig["time_display"])) && (!(this._hovering))))
+                    var displayTime:int = this._item != null
+                        && this._item.style.extraData != null
+                        && "time_display" in this._item.style.extraData
+                        ? int(this._item.style.extraData["time_display"])
+                        : int(this._viewConfig["time_display"]);
+                    var staysVisible:Boolean = this._item != null
+                        && this._item.style.extraData != null
+                        && "stay" in this._item.style.extraData;
+                    if (((this._displayStart > displayTime) && (!(this._hovering)) && !staysVisible))
                     {
                         this.startFadeOut();
                     }
@@ -250,6 +297,17 @@
             this._state = STATE_FADE_OUT;
         }
 
+        public function remove():void
+        {
+            if (this._window == null || this._state == STATE_IDLE
+                || this._state == STATE_FADE_OUT)
+            {
+                return;
+            }
+            this._hovering = false;
+            this.startFadeOut();
+        }
+
         private function startDisplay():void
         {
             this._displayStart = 0;
@@ -304,7 +362,11 @@
                         if (this._item != null)
                         {
                             this._item._Str_25246();
-                            this.startFadeOut();
+                            if (!(this._item.style.extraData != null
+                                && "stay" in this._item.style.extraData))
+                            {
+                                this.startFadeOut();
+                            }
                         }
                     }
                 }

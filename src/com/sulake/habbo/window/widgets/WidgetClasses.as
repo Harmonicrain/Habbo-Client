@@ -18,6 +18,7 @@
             _Str_3059[IlluminaChatBubbleWidget.ILLUMINA_CHAT_BUBBLE] = IlluminaChatBubbleWidget;
             _Str_3059[IlluminaInputWidget.ILLUMINA_INPUT] = IlluminaInputWidget;
             _Str_3059[ProgressIndicatorWidget.PROGRESS_INDICATOR] = ProgressIndicatorWidget;
+            _Str_3059[ChestItemGridOverlayWidget.TYPE] = ChestItemGridOverlayWidget;
             _Str_3059[LimitedItemGridOverlayWidget.LIMITED_ITEM_OVERLAY_GRID] = LimitedItemGridOverlayWidget;
             _Str_3059[LimitedItemPreviewOverlayWidget.LIMITED_ITEM_OVERLAY_PREVIEW] = LimitedItemPreviewOverlayWidget;
             _Str_3059[LimitedItemSupplyLeftOverlayWidget.LIMITED_ITEM_OVERLAY_SUPPLY] = LimitedItemSupplyLeftOverlayWidget;
@@ -29,6 +30,7 @@
             _Str_3059[PetImageWidget.PET_IMAGE] = PetImageWidget;
             _Str_3059[FurnitureImageWidget.FURNITURE_IMAGE] = FurnitureImageWidget;
             _Str_3059[ProductIconWidget.PRODUCT_ICON] = ProductIconWidget;
+            _Str_3059[ProductImageWidget.PRODUCT_IMAGE] = ProductImageWidget;
             _Str_3059[RoomPreviewerWidget.ROOM_PREVIEWER] = RoomPreviewerWidget;
             _Str_3059[PixelLimitWidget.PIXEL_LIMIT] = PixelLimitWidget;
             _Str_3059[RoomThumbnailWidget.ROOM_THUMBNAIL] = RoomThumbnailWidget;

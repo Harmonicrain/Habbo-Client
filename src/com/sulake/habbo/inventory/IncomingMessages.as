@@ -90,6 +90,15 @@
     import com.sulake.habbo.inventory.enum.InventorySubCategory;
     import com.sulake.habbo.session.RoomUserData;
     import com.sulake.habbo.inventory.trading.TradingModel;
+    import com.sulake.habbo.inventory.wired_trading.WiredTradingModel;
+    import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.wiredtrading.trade.WiredTradeInitiateMessageEvent;
+    import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.wiredtrading.trade.WiredTradeCancelledMessageEvent;
+    import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.wiredtrading.trade.WiredTradeCompletedMessageEvent;
+    import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.wiredtrading.trade.WiredTradeItemUpdateMessageEvent;
+    import com.sulake.habbo.communication.messages.parser.userdefinedroomevents.wiredtrading.trade.WiredTradeInitiateMessageParser;
+    import com.sulake.habbo.communication.messages.parser.userdefinedroomevents.wiredtrading.trade.WiredTradeCancelledMessageParser;
+    import com.sulake.habbo.communication.messages.parser.userdefinedroomevents.wiredtrading.trade.WiredTradeItemUpdateMessageParser;
+    import com.sulake.habbo.communication.messages.parser.userdefinedroomevents.wiredtrading.trade.WiredTradingItems;
     import com.sulake.habbo.communication.messages.incoming.inventory.trading.ItemDataStructure;
     import com.sulake.habbo.inventory.enum.FurniCategory;
     import com.sulake.habbo.catalog.enum.ProductTypeEnum;
@@ -128,6 +137,14 @@
             this._com.addHabboConnectionMessageEvent(new TradingConfirmationEvent(this._Str_25011, TradingConfirmationParser));
             this._com.addHabboConnectionMessageEvent(new TradingCompletedEvent(this._Str_23780, TradingCompletedParser));
             this._com.addHabboConnectionMessageEvent(new TradingItemListEvent(this._Str_25320, TradingItemListParser));
+            this._com.addHabboConnectionMessageEvent(
+                new WiredTradeInitiateMessageEvent(this.onWiredTradeInitiate));
+            this._com.addHabboConnectionMessageEvent(
+                new WiredTradeCancelledMessageEvent(this.onWiredTradeCancelled));
+            this._com.addHabboConnectionMessageEvent(
+                new WiredTradeCompletedMessageEvent(this.onWiredTradeCompleted));
+            this._com.addHabboConnectionMessageEvent(
+                new WiredTradeItemUpdateMessageEvent(this.onWiredTradeItemUpdate));
             this._com.addHabboConnectionMessageEvent(new BotRemovedFromInventoryEvent(this._Str_24595));
             this._com.addHabboConnectionMessageEvent(new FurniListInvalidateEvent(this._Str_18656));
             this._com.addHabboConnectionMessageEvent(new FigureSetIdsEvent(this._Str_25862));
@@ -683,6 +700,94 @@
             }
         }
 
+        private function onWiredTradeInitiate(
+            event:WiredTradeInitiateMessageEvent):void
+        {
+            if (this._inventory == null || this._inventory.sessionData == null
+                || this._inventory.roomSession == null)
+            {
+                return;
+            }
+            var parser:WiredTradeInitiateMessageParser = event.getParser();
+            if (parser == null || parser.requirement == null)
+            {
+                return;
+            }
+            if (parser.requirement.rules != null
+                && parser.requirement.rules.youGiveRule == null)
+            {
+                ErrorReportStorage.addDebugData(
+                    "IncomingEvent",
+                    "Initiated a Wired Trade where the user gives nothing");
+                return;
+            }
+            var model:WiredTradingModel = this._inventory.wiredTradingModel;
+            if (model != null)
+            {
+                model.onWiredTradeInitiate(
+                    parser.requirement,
+                    parser.showRequirementsImmediate,
+                    parser.overridePreviousTrade,
+                    parser.timeoutSeconds);
+            }
+        }
+
+        private function onWiredTradeCancelled(
+            event:WiredTradeCancelledMessageEvent):void
+        {
+            var model:WiredTradingModel = this._inventory.wiredTradingModel;
+            var parser:WiredTradeCancelledMessageParser = event.getParser();
+            if (model != null && parser != null)
+            {
+                model.tradeIsCancelled(parser.transactionFailureTypeId);
+            }
+        }
+
+        private function onWiredTradeCompleted(
+            event:WiredTradeCompletedMessageEvent):void
+        {
+            var model:WiredTradingModel = this._inventory.wiredTradingModel;
+            if (model != null)
+            {
+                model.tradeIsCompleted();
+            }
+        }
+
+        private function onWiredTradeItemUpdate(
+            event:WiredTradeItemUpdateMessageEvent):void
+        {
+            var parser:WiredTradeItemUpdateMessageParser = event.getParser();
+            if (parser == null || this._inventory.furniModel == null)
+            {
+                return;
+            }
+            var tradingItems:WiredTradingItems = parser.tradingItems;
+            var own:Map = new Map();
+            var wired:Map = new Map();
+            if (tradingItems.secondUserNumCredits > 0)
+            {
+                wired.add(
+                    CREDIT_GROUPITEM_TYPE_ID,
+                    this._inventory.furniModel.createCreditGroupItem(
+                        tradingItems.secondUserNumCredits));
+            }
+            this._Str_21714(tradingItems.firstUserItemArray, own, true);
+            this._Str_21714(tradingItems.secondUserItemArray, wired, false);
+            var model:WiredTradingModel = this._inventory.wiredTradingModel;
+            if (model != null)
+            {
+                model.updateItemGroupMaps(
+                    own,
+                    tradingItems.firstUserNumItems,
+                    tradingItems.firstUserNumCredits,
+                    wired,
+                    tradingItems.secondUserNumItems,
+                    tradingItems.secondUserNumCredits,
+                    parser.canAccept,
+                    parser.extra);
+            }
+        }
+
         private function _Str_20661(k:int):Boolean
         {
             var _local_2:IFurnitureData = this._inventory.getFurnitureData(k, ProductTypeEnum.WALL);
@@ -718,6 +823,11 @@
 
         private function _Str_15910(k:IMessageEvent):void
         {
+            if (this._inventory.wiredTradingModel != null
+                && this._inventory.wiredTradingModel.running)
+            {
+                this._inventory.wiredTradingModel.close(false, false);
+            }
             this._inventory._Str_13252();
             this._inventory.furniModel.roomLeft();
         }

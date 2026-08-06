@@ -137,6 +137,39 @@ package com.sulake.habbo.window.utils.tableview
                 return;
             }
 
+            var sameStructure:Boolean =
+                objects.length == this._rowModels.length;
+            if (sameStructure)
+            {
+                index = 0;
+                while (index < objects.length)
+                {
+                    if (this._rowModels[index].object.identifier
+                        != objects[index].identifier)
+                    {
+                        sameStructure = false;
+                        break;
+                    }
+                    index++;
+                }
+            }
+            if (sameStructure)
+            {
+                index = 0;
+                while (index < objects.length)
+                {
+                    this._rowModels[index].update(objects[index]);
+                    index++;
+                }
+                if (resetScroll)
+                {
+                    this._tableItems.scrollV = 0;
+                }
+                this.updateEmptyText();
+                this.onScrollBarVisibilityMayHaveChanged();
+                return;
+            }
+
             this.clear(false);
             if (objects.length == 0)
             {

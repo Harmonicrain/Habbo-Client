@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout name="chest_generic" width="460" height="463" version="0.1" uid="A3878C81-A498-20C9-59DB-770085692F4E">
+  <window>
+    <frame x="60" y="50" width="460" height="463" params="98337" style="3" caption="%24%7Bwiredchests.furni_chest%7D" color="0xff418db0" width_min="415" width_max="595" height_min="390" height_max="730">
+      <filters>
+        <DropShadowFilter distance="4" alpha="0.34901960784313724" blurX="4" blurY="4"/>
+      </filters>
+      <children>
+        <itemlist_vertical x="0" y="0" width="460" height="428" params="144" style="3" name="main_list">
+          <children>
+            <container x="0" y="0" width="460" height="51" params="144" style="3" name="header">
+              <children>
+                <container x="1" y="0" width="458" height="51" params="2192" style="3" name="layout_1" color="0xffffdadada" background="true"/>
+                <container x="1" y="50" width="458" height="1" params="1168" style="3" name="splitter" color="0xffffc0c0c0" background="true"/>
+                <text x="10" y="10" width="380" height="30" params="8388752" style="3" name="desc" caption="%20A%20cozy%20chest%20waiting%20to%20be%20filled%20with%20all%20sorts%20of%20treasures%21" blend="0.6" height_min="30">
+                  <variables>
+                    <var key="auto_size" value="left" type="String"/>
+                    <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                    <var key="max_chars" value="300" type="int"/>
+                    <var key="multiline" value="true" type="Boolean"/>
+                    <var key="word_wrap" value="true" type="Boolean"/>
+                    <var key="bold" value="true" type="Boolean"/>
+                    <var key="spacing" value="0" type="Number"/>
+                    <var key="leading" value="0" type="Number"/>
+                  </variables>
+                </text>
+                <html x="10" y="10" width="406" height="47" params="2185" style="3" name="warning_text" visible="false">
+                  <variables>
+                    <var key="multiline" value="true" type="Boolean"/>
+                    <var key="word_wrap" value="true" type="Boolean"/>
+                    <var key="spacing" value="0" type="Number"/>
+                    <var key="leading" value="1" type="Number"/>
+                    <var key="editable" value="false" type="Boolean"/>
+                    <var key="selectable" value="false" type="Boolean"/>
+                    <var key="editable" value="false" type="Boolean"/>
+                    <var key="selectable" value="false" type="Boolean"/>
+                  </variables>
+                </html>
+                <container_button x="397" y="7" width="24" height="24" params="65" style="7" dynamic_style="button" name="notification_settings_button">
+                  <children>
+                    <static_bitmap x="6" y="4" width="12" height="15" params="16" style="3" tags="%23icon">
+                      <variables>
+                        <var key="asset_uri" value="wired_chests_bell_icon" type="String"/>
+                        <var key="stretched_x" value="false" type="Boolean"/>
+                        <var key="stretched_y" value="false" type="Boolean"/>
+                        <var key="etching_color" value="0x48000000" type="hex"/>
+                        <var key="fit_size_to_contents" value="true" type="Boolean"/>
+                      </variables>
+                    </static_bitmap>
+                  </children>
+                  <variables>
+                    <var key="tool_tip_caption" value="${tooltip.notification_settings}" type="String"/>
+                  </variables>
+                </container_button>
+                <container_button x="426" y="7" width="24" height="24" params="65" style="7" dynamic_style="button" name="settings_button">
+                  <children>
+                    <static_bitmap x="5" y="5" width="14" height="14" params="16" style="3" tags="%23icon">
+                      <variables>
+                        <var key="asset_uri" value="wired_chests_gear_icon" type="String"/>
+                        <var key="stretched_x" value="false" type="Boolean"/>
+                        <var key="stretched_y" value="false" type="Boolean"/>
+                        <var key="etching_color" value="0x48000000" type="hex"/>
+                        <var key="fit_size_to_contents" value="true" type="Boolean"/>
+                      </variables>
+                    </static_bitmap>
+                  </children>
+                  <variables>
+                    <var key="tool_tip_caption" value="${tooltip.settings}" type="String"/>
+                  </variables>
+                </container_button>
+              </children>
+            </container>
+            <container x="1" y="51" width="458" height="254" params="144" style="3" name="chest_contents"/>
+            <container x="0" y="305" width="460" height="123" params="144" style="3" name="footer">
+              <children>
+                <container x="1" y="0" width="458" height="110" params="2192" style="3" name="layout_1" color="0xffffdadada" background="true"/>
+                <border x="1" y="87" width="458" height="36" params="1168" style="2" name="layout_2" color="0x0dadada"/>
+                <container x="1" y="0" width="458" height="1" params="144" style="3" name="splitter" color="0xffffc0c0c0" background="true"/>
+                <region x="423" y="6" width="18" height="18" params="81" style="3" name="lock_info_button" treshold="0">
+                  <children>
+                    <static_bitmap x="0" y="0" width="18" height="18" params="16" style="3">
+                      <variables>
+                        <var key="asset_uri" value="icons_info_grey" type="String"/>
+                        <var key="stretched_x" value="false" type="Boolean"/>
+                        <var key="stretched_y" value="false" type="Boolean"/>
+                        <var key="fit_size_to_contents" value="true" type="Boolean"/>
+                      </variables>
+                    </static_bitmap>
+                  </children>
+                </region>
+                <bubble x="440" y="-245" width="385" height="536" params="1" style="7" name="lock_info_bubble" visible="false">
+                  <children>
+                    <itemlist_vertical x="8" y="8" width="353" height="504" params="8388752" style="3" name="lock_info_bubble_texts">
+                      <children>
+                        <text x="0" y="0" width="105" height="19" params="16" style="3" name="title" caption="%24%7Bwiredchests.lock_info.title%7D">
+                          <variables>
+                            <var key="auto_size" value="left" type="String"/>
+                            <var key="font_size" value="14" type="uint"/>
+                            <var key="text_style" value="u_bold" type="String"/>
+                            <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                            <var key="spacing" value="0" type="Number"/>
+                            <var key="leading" value="0" type="Number"/>
+                          </variables>
+                        </text>
+                        <container x="0" y="20" width="30" height="7" params="16" style="3" name="spacerr"/>
+                        <text x="0" y="28" width="353" height="17" params="16" style="3" caption="%24%7Bwiredchests.lock_info.desc%7D" width_min="353" width_max="353">
+                          <variables>
+                            <var key="auto_size" value="left" type="String"/>
+                            <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                            <var key="multiline" value="true" type="Boolean"/>
+                            <var key="word_wrap" value="true" type="Boolean"/>
+                            <var key="spacing" value="0" type="Number"/>
+                            <var key="leading" value="0" type="Number"/>
+                          </variables>
+                        </text>
+                        <html x="0" y="46" width="353" height="30" params="129" style="3" name="rule1" caption="%24%7Bwiredchests.lock_info.rule_1%7D" width_min="353" width_max="353">
+                          <variables>
+                            <var key="auto_size" value="left" type="String"/>
+                            <var key="multiline" value="true" type="Boolean"/>
+                            <var key="word_wrap" value="true" type="Boolean"/>
+                            <var key="spacing" value="0" type="Number"/>
+                            <var key="leading" value="0" type="Number"/>
+                            <var key="editable" value="false" type="Boolean"/>
+                            <var key="selectable" value="false" type="Boolean"/>
+                            <var key="editable" value="false" type="Boolean"/>
+                            <var key="selectable" value="false" type="Boolean"/>
+                          </variables>
+                        </html>
+                        <html x="0" y="77" width="353" height="44" params="129" style="3" name="rule2" caption="%24%7Bwiredchests.lock_info.rule_2%7D" width_min="353" width_max="353">
+                          <variables>
+                            <var key="auto_size" value="left" type="String"/>
+                            <var key="multiline" value="true" type="Boolean"/>
+                            <var key="word_wrap" value="true" type="Boolean"/>
+                            <var key="spacing" value="0" type="Number"/>
+                            <var key="leading" value="0" type="Number"/>
+                            <var key="editable" value="false" type="Boolean"/>
+                            <var key="selectable" value="false" type="Boolean"/>
+                            <var key="editable" value="false" type="Boolean"/>
+                            <var key="selectable" value="false" type="Boolean"/>
+                          </variables>
+                        </html>
+                        <html x="0" y="122" width="353" height="44" params="129" style="3" name="rule3" caption="%24%7Bwiredchests.lock_info.rule_3%7D" width_min="353" width_max="353">
+                          <variables>
+                            <var key="auto_size" value="left" type="String"/>
+                            <var key="multiline" value="true" type="Boolean"/>
+                            <var key="word_wrap" value="true" type="Boolean"/>
+                            <var key="spacing" value="0" type="Number"/>
+                            <var key="leading" value="0" type="Number"/>
+                            <var key="editable" value="false" type="Boolean"/>
+                            <var key="selectable" value="false" type="Boolean"/>
+                            <var key="editable" value="false" type="Boolean"/>
+                            <var key="selectable" value="false" type="Boolean"/>
+                          </variables>
+                        </html>
+                        <html x="0" y="167" width="353" height="30" params="129" style="3" name="rule4" caption="%24%7Bwiredchests.lock_info.rule_4%7D" width_min="353" width_max="353">
+                          <variables>
+                            <var key="auto_size" value="left" type="String"/>
+                            <var key="multiline" value="true" type="Boolean"/>
+                            <var key="word_wrap" value="true" type="Boolean"/>
+                            <var key="spacing" value="0" type="Number"/>
+                            <var key="leading" value="0" type="Number"/>
+                            <var key="editable" value="false" type="Boolean"/>
+                            <var key="selectable" value="false" type="Boolean"/>
+                            <var key="editable" value="false" type="Boolean"/>
+                            <var key="selectable" value="false" type="Boolean"/>
+                          </variables>
+                        </html>
+                        <html x="0" y="198" width="353" height="44" params="129" style="3" name="rule5" caption="%24%7Bwiredchests.lock_info.rule_5%7D" width_min="353" width_max="353">
+                          <variables>
+                            <var key="auto_size" value="left" type="String"/>
+                            <var key="multiline" value="true" type="Boolean"/>
+                            <var key="word_wrap" value="true" type="Boolean"/>
+                            <var key="spacing" value="0" type="Number"/>
+                            <var key="leading" value="0" type="Number"/>
+                            <var key="editable" value="false" type="Boolean"/>
+                            <var key="selectable" value="false" type="Boolean"/>
+                            <var key="editable" value="false" type="Boolean"/>
+                            <var key="selectable" value="false" type="Boolean"/>
+                          </variables>
+                        </html>
+                        <html x="0" y="243" width="353" height="30" params="129" style="3" name="rule6" caption="%24%7Bwiredchests.lock_info.rule_6%7D" width_min="353" width_max="353">
+                          <variables>
+                            <var key="auto_size" value="left" type="String"/>
+                            <var key="multiline" value="true" type="Boolean"/>
+                            <var key="word_wrap" value="true" type="Boolean"/>
+                            <var key="spacing" value="0" type="Number"/>
+                            <var key="leading" value="0" type="Number"/>
+                            <var key="editable" value="false" type="Boolean"/>
+                            <var key="selectable" value="false" type="Boolean"/>
+                            <var key="editable" value="false" type="Boolean"/>
+                            <var key="selectable" value="false" type="Boolean"/>
+                          </variables>
+                        </html>
+                        <html x="0" y="274" width="353" height="17" params="129" style="3" name="rule7" caption="%24%7Bwiredchests.lock_info.rule_7%7D" width_min="353" width_max="353">
+                          <variables>
+                            <var key="auto_size" value="left" type="String"/>
+                            <var key="multiline" value="true" type="Boolean"/>
+                            <var key="word_wrap" value="true" type="Boolean"/>
+                            <var key="spacing" value="0" type="Number"/>
+                            <var key="leading" value="0" type="Number"/>
+                            <var key="editable" value="false" type="Boolean"/>
+                            <var key="selectable" value="false" type="Boolean"/>
+                            <var key="editable" value="false" type="Boolean"/>
+                            <var key="selectable" value="false" type="Boolean"/>
+                          </variables>
+                        </html>
+                        <container x="0" y="292" width="30" height="14" params="16" style="3" name="spacerr"/>
+                        <text x="0" y="307" width="100" height="19" params="16" style="3" name="ctitle" caption="%24%7Bwiredchests.capacity_info.title%7D">
+                          <variables>
+                            <var key="auto_size" value="left" type="String"/>
+                            <var key="font_size" value="14" type="uint"/>
+                            <var key="text_style" value="u_bold" type="String"/>
+                            <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                            <var key="spacing" value="0" type="Number"/>
+                            <var key="leading" value="0" type="Number"/>
+                          </variables>
+                        </text>
+                        <container x="0" y="327" width="30" height="7" params="16" style="3" name="spacerr"/>
+                        <text x="0" y="335" width="353" height="17" params="16" style="3" caption="%24%7Bwiredchests.capacity_info.desc%7D" width_min="353" width_max="353">
+                          <variables>
+                            <var key="auto_size" value="left" type="String"/>
+                            <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                            <var key="multiline" value="true" type="Boolean"/>
+                            <var key="word_wrap" value="true" type="Boolean"/>
+                            <var key="spacing" value="0" type="Number"/>
+                            <var key="leading" value="0" type="Number"/>
+                          </variables>
+                        </text>
+                        <html x="0" y="353" width="353" height="44" params="129" style="3" name="crule1" caption="%24%7Bwiredchests.capacity_info.rule_1%7D" width_min="353" width_max="353">
+                          <variables>
+                            <var key="auto_size" value="left" type="String"/>
+                            <var key="multiline" value="true" type="Boolean"/>
+                            <var key="word_wrap" value="true" type="Boolean"/>
+                            <var key="spacing" value="0" type="Number"/>
+                            <var key="leading" value="0" type="Number"/>
+                            <var key="editable" value="false" type="Boolean"/>
+                            <var key="selectable" value="false" type="Boolean"/>
+                            <var key="editable" value="false" type="Boolean"/>
+                            <var key="selectable" value="false" type="Boolean"/>
+                          </variables>
+                        </html>
+                        <html x="0" y="398" width="353" height="44" params="129" style="3" name="crule2" caption="%24%7Bwiredchests.capacity_info.rule_2%7D" width_min="353" width_max="353">
+                          <variables>
+                            <var key="auto_size" value="left" type="String"/>
+                            <var key="multiline" value="true" type="Boolean"/>
+                            <var key="word_wrap" value="true" type="Boolean"/>
+                            <var key="spacing" value="0" type="Number"/>
+                            <var key="leading" value="0" type="Number"/>
+                            <var key="editable" value="false" type="Boolean"/>
+                            <var key="selectable" value="false" type="Boolean"/>
+                            <var key="editable" value="false" type="Boolean"/>
+                            <var key="selectable" value="false" type="Boolean"/>
+                          </variables>
+                        </html>
+                        <html x="0" y="443" width="353" height="30" params="129" style="3" name="crule3" caption="%24%7Bwiredchests.capacity_info.rule_3%7D" width_min="353" width_max="353">
+                          <variables>
+                            <var key="auto_size" value="left" type="String"/>
+                            <var key="multiline" value="true" type="Boolean"/>
+                            <var key="word_wrap" value="true" type="Boolean"/>
+                            <var key="spacing" value="0" type="Number"/>
+                            <var key="leading" value="0" type="Number"/>
+                            <var key="editable" value="false" type="Boolean"/>
+                            <var key="selectable" value="false" type="Boolean"/>
+                            <var key="editable" value="false" type="Boolean"/>
+                            <var key="selectable" value="false" type="Boolean"/>
+                          </variables>
+                        </html>
+                        <html x="0" y="474" width="353" height="30" params="129" style="3" name="crule4" caption="%24%7Bwiredchests.capacity_info.rule_4%7D" width_min="353" width_max="353">
+                          <variables>
+                            <var key="auto_size" value="left" type="String"/>
+                            <var key="multiline" value="true" type="Boolean"/>
+                            <var key="word_wrap" value="true" type="Boolean"/>
+                            <var key="spacing" value="0" type="Number"/>
+                            <var key="leading" value="0" type="Number"/>
+                            <var key="editable" value="false" type="Boolean"/>
+                            <var key="selectable" value="false" type="Boolean"/>
+                            <var key="editable" value="false" type="Boolean"/>
+                            <var key="selectable" value="false" type="Boolean"/>
+                          </variables>
+                        </html>
+                      </children>
+                      <variables>
+                        <var key="spacing" value="1" type="int"/>
+                        <var key="resize_on_item_update" value="true" type="Boolean"/>
+                      </variables>
+                    </itemlist_vertical>
+                  </children>
+                  <variables>
+                    <var key="margin_left" value="8" type="int"/>
+                    <var key="margin_top" value="8" type="int"/>
+                    <var key="margin_right" value="8" type="int"/>
+                    <var key="margin_bottom" value="8" type="int"/>
+                    <var key="direction" value="left" type="String"/>
+                  </variables>
+                </bubble>
+                <itemlist_vertical x="17" y="7" width="443" height="75" params="8388752" style="3" name="footer_options">
+                  <children>
+                    <itemlist_vertical x="0" y="0" width="443" height="41" params="144" style="3" name="locking_options">
+                      <children>
+                        <itemlist_horizontal x="0" y="0" width="106" height="16" params="16" style="3">
+                          <children>
+                            <checkbox x="0" y="1" width="15" height="15" params="17" style="3" name="lock_chest_cbx"/>
+                            <text x="20" y="0" width="86" height="17" params="16" style="3" caption="%24%7Bwiredchests.lock_chest%7D">
+                              <variables>
+                                <var key="auto_size" value="left" type="String"/>
+                                <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                                <var key="spacing" value="0" type="Number"/>
+                                <var key="leading" value="0" type="Number"/>
+                              </variables>
+                            </text>
+                          </children>
+                          <variables>
+                            <var key="spacing" value="5" type="int"/>
+                            <var key="resize_on_item_update" value="true" type="Boolean"/>
+                          </variables>
+                        </itemlist_horizontal>
+                        <itemlist_horizontal x="0" y="20" width="286" height="16" params="16" style="3">
+                          <children>
+                            <checkbox x="0" y="1" width="15" height="15" params="17" style="3" name="auto_lock_chest_cbx"/>
+                            <text x="20" y="0" width="266" height="17" params="16" style="3" caption="%24%7Bwiredchests.auto_lock_chest%7D">
+                              <variables>
+                                <var key="auto_size" value="left" type="String"/>
+                                <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                                <var key="spacing" value="0" type="Number"/>
+                                <var key="leading" value="0" type="Number"/>
+                              </variables>
+                            </text>
+                          </children>
+                          <variables>
+                            <var key="spacing" value="5" type="int"/>
+                            <var key="resize_on_item_update" value="true" type="Boolean"/>
+                          </variables>
+                        </itemlist_horizontal>
+                        <container x="0" y="40" width="429" height="1" params="144" style="3" name="splitter" color="0xffffb0b0b0" background="true"/>
+                      </children>
+                      <variables>
+                        <var key="spacing" value="4" type="int"/>
+                        <var key="resize_on_item_update" value="true" type="Boolean"/>
+                      </variables>
+                    </itemlist_vertical>
+                    <container x="0" y="45" width="443" height="30" params="144" style="3" name="capacity_options">
+                      <children>
+                        <text x="0" y="4" width="184" height="17" params="16" style="3" name="item_count_text" caption="%24%7Bwiredchests.space_used%7D" blend="0.6" visible="false">
+                          <variables>
+                            <var key="auto_size" value="left" type="String"/>
+                            <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                            <var key="spacing" value="0" type="Number"/>
+                            <var key="leading" value="0" type="Number"/>
+                          </variables>
+                        </text>
+                        <itemlist_horizontal x="0" y="2" width="156" height="22" params="16" style="0" name="capacity_override_container">
+                          <children>
+                            <text x="0" y="2" width="85" height="17" params="16" style="3" caption="%24%7Bwiredchests.capacity%7D">
+                              <variables>
+                                <var key="auto_size" value="left" type="String"/>
+                                <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                                <var key="spacing" value="0" type="Number"/>
+                                <var key="leading" value="0" type="Number"/>
+                              </variables>
+                            </text>
+                            <border x="91" y="0" width="65" height="22" params="16" style="4" name="capacity_input_border">
+                              <children>
+                                <input x="5" y="3" width="55" height="17" params="1" style="3" name="capacity_input" caption="100000">
+                                  <variables>
+                                    <var key="restrict" value="0-9" type="String"/>
+                                    <var key="spacing" value="0" type="Number"/>
+                                    <var key="leading" value="0" type="Number"/>
+                                  </variables>
+                                </input>
+                              </children>
+                            </border>
+                          </children>
+                          <variables>
+                            <var key="spacing" value="6" type="int"/>
+                            <var key="resize_on_item_update" value="true" type="Boolean"/>
+                          </variables>
+                        </itemlist_horizontal>
+                        <itemlist_horizontal x="227" y="0" width="200" height="25" params="262224" style="3" name="upgrade_capacity_container">
+                          <children>
+                            <text x="0" y="4" width="172" height="17" params="16" style="3" name="max_capacity_txt" caption="%24%7Bwiredchests.max_capacity%7D" blend="0.6">
+                              <variables>
+                                <var key="auto_size" value="left" type="String"/>
+                                <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                                <var key="spacing" value="0" type="Number"/>
+                                <var key="leading" value="0" type="Number"/>
+                              </variables>
+                            </text>
+                            <region x="178" y="2" width="22" height="22" params="17" style="3" name="upgrade_capacity_region" treshold="0">
+                              <children>
+                                <iconbutton x="0" y="0" width="22" height="22" params="17" style="3" name="upgrade_capacity_btn" background="true" treshold="0"/>
+                              </children>
+                              <variables>
+                                <var key="tool_tip_delay" value="0" type="uint"/>
+                                <var key="interactive_cursor_disabled" value="true" type="Boolean"/>
+                              </variables>
+                            </region>
+                          </children>
+                          <variables>
+                            <var key="spacing" value="6" type="int"/>
+                            <var key="resize_on_item_update" value="true" type="Boolean"/>
+                          </variables>
+                        </itemlist_horizontal>
+                        <container x="0" y="29" width="429" height="1" params="144" style="3" name="splitter" color="0xffffb0b0b0" background="true"/>
+                      </children>
+                    </container>
+                  </children>
+                  <variables>
+                    <var key="spacing" value="4" type="int"/>
+                    <var key="resize_on_item_update" value="true" type="Boolean"/>
+                  </variables>
+                </itemlist_vertical>
+                <container x="0" y="87" width="460" height="30" params="1168" style="3" name="button_row">
+                  <children>
+                    <itemlist_horizontal x="17" y="0" width="194" height="30" params="16" style="3" name="footer_buttons_left">
+                      <children>
+                        <button x="0" y="0" width="89" height="30" params="131089" style="3" name="withdraw_all_btn" caption="%24%7Bwiredchests.withdraw_all%7D"/>
+                        <button x="102" y="0" width="92" height="30" params="131089" style="3" name="start_deposit_btn" caption="%24%7Bwiredchests.start_deposit%7D"/>
+                      </children>
+                      <variables>
+                        <var key="spacing" value="13" type="int"/>
+                        <var key="resize_on_item_update" value="true" type="Boolean"/>
+                      </variables>
+                    </itemlist_horizontal>
+                    <itemlist_horizontal x="370" y="0" width="73" height="30" params="262224" style="3" name="footer_buttons_left">
+                      <children>
+                        <button x="0" y="0" width="73" height="30" params="131089" style="3" name="view_logs_btn" caption="%24%7Bwiredchests.view_logs%7D"/>
+                      </children>
+                      <variables>
+                        <var key="spacing" value="10" type="int"/>
+                        <var key="resize_on_item_update" value="true" type="Boolean"/>
+                      </variables>
+                    </itemlist_horizontal>
+                    <text x="261" y="7" width="184" height="17" params="262224" style="3" name="item_count_text_bottom" caption="%24%7Bwiredchests.space_used%7D" blend="0.6" visible="false">
+                      <variables>
+                        <var key="auto_size" value="left" type="String"/>
+                        <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                        <var key="spacing" value="0" type="Number"/>
+                        <var key="leading" value="0" type="Number"/>
+                      </variables>
+                    </text>
+                  </children>
+                </container>
+              </children>
+            </container>
+          </children>
+          <variables>
+            <var key="resize_on_item_update" value="true" type="Boolean"/>
+          </variables>
+        </itemlist_vertical>
+      </children>
+      <variables>
+        <var key="margin_left" value="0" type="int"/>
+        <var key="margin_top" value="33" type="int"/>
+        <var key="margin_right" value="0" type="int"/>
+        <var key="margin_bottom" value="0" type="int"/>
+      </variables>
+    </frame>
+  </window>
+</layout>

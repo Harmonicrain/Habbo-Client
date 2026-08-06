@@ -8,6 +8,7 @@
     import com.sulake.core.window.IWindowContainer;
     import com.sulake.core.window.components.ITextWindow;
     import com.sulake.core.window.events.WindowMouseEvent;
+    import com.sulake.habbo.inventory.wired_trading.requirements.WiredTradeRequirementsModel;
     import __AS3__.vec.*;
 
     public class FurniGridView 
@@ -29,6 +30,7 @@
         private var _currentPage:int = -1;
         private var _currentPageItems:Vector.<GroupItem>;
         private var _filter:String = "";
+        private var _wiredRequirements:WiredTradeRequirementsModel;
 
         public function FurniGridView(k:IItemGridWindow, _arg_2:IItemListWindow)
         {
@@ -80,6 +82,13 @@
             this._showingRentedItems = _arg_3;
             this._placement = _arg_5;
             this._filter = _arg_4.toLowerCase();
+            this.update();
+        }
+
+        public function setWiredRequirements(
+            requirements:WiredTradeRequirementsModel):void
+        {
+            this._wiredRequirements = requirements;
             this.update();
         }
 
@@ -299,6 +308,11 @@
                 {
                     return false;
                 }
+            }
+            if (this._wiredRequirements != null
+                && !this._wiredRequirements.canOfferFurni(k))
+            {
+                return false;
             }
             return true;
         }

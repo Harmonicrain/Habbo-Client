@@ -31,6 +31,8 @@
     import com.sulake.habbo.communication.messages.incoming.room.pets.PetRespectFailedEvent;
     import com.sulake.habbo.communication.messages.incoming.room.engine.RoomEntryInfoMessageEvent;
     import com.sulake.habbo.communication.messages.incoming.availability.HotelClosedAndOpensEvent;
+    import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.wiredtrading.WiredTransactionSuccessContents;
+    import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.wiredtrading.trade.WiredTransactionSuccessMessageEvent;
     import com.sulake.habbo.notifications.feed.data.GenericNotificationItemData;
     import com.sulake.habbo.communication.messages.parser.notifications.MOTDNotificationParser;
     import com.sulake.habbo.notifications.NotificationPopup;
@@ -105,6 +107,7 @@
             this.addMessageEvent(new PetRespectFailedEvent(this.onPetRespectFailed));
             this.addMessageEvent(new RoomEntryInfoMessageEvent(this.onRoomEnter));
             this.addMessageEvent(new HotelClosedAndOpensEvent(this.onLoginFailedHotelClosed));
+            this.addMessageEvent(new WiredTransactionSuccessMessageEvent(this.onWiredTransactionSuccess));
 			this.addMessageEvent(new SimpleAlertMessageEvent(this.alertMessageHandler));
             this._notifications.activate();
         }
@@ -112,6 +115,26 @@
         private function addMessageEvent(k:IMessageEvent):void
         {
             this._messageEvents.push(this._communication.addHabboConnectionMessageEvent(k));
+        }
+
+        private function onWiredTransactionSuccess(
+            event:WiredTransactionSuccessMessageEvent):void
+        {
+            var contents:WiredTransactionSuccessContents =
+                event.getParser().contents;
+            var key:String = "wired_transactions.notification.success." +
+                contents.transactionSuccessTypeId;
+            if (contents.rewardContents != null && !contents.openByDefault)
+                key += ".click_to_popup";
+            var link:String = contents.rewardContents == null ? null :
+                "wiredrewards/open/" + contents.internalId;
+            var message:String =
+                this._notifications.localization.getLocalizationWithParams(
+                    key,
+                    this._notifications.localization.getLocalization(
+                        "wired_transactions.notification.success"));
+            this._notifications.addItem(message, NotificationType.INFO,
+                "chests_icon_successful", link);
         }
 
         public function dispose():void

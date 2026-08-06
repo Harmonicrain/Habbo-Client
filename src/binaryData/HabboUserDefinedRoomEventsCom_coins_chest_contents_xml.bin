@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?><layout name="coins_chest_contents" width="413" height="263" version="0.1" uid="8A64C76C-B3D9-70AD-9B36-5F09842DF62D">
+  <window>
+    <container x="0" y="0" width="413" height="263" params="16" style="3" name="coins_chest">
+      <children>
+        <container x="44" y="24" width="324" height="228" params="3280" style="3" name="moving_container">
+          <children>
+            <static_bitmap x="0" y="0" width="324" height="228" params="12582928" style="3" name="bg_img">
+              <variables>
+                <var key="asset_uri" value="wired_chests_images_light_coins_chest_balance_zero" type="String"/>
+                <var key="stretched_x" value="false" type="Boolean"/>
+                <var key="stretched_y" value="false" type="Boolean"/>
+                <var key="fit_size_to_contents" value="true" type="Boolean"/>
+              </variables>
+            </static_bitmap>
+            <container x="9" y="68" width="54" height="47" params="16" style="3" name="balance_cont">
+              <children>
+                <text x="2" y="7" width="45" height="16" params="786448" style="3" name="balance_txt" caption="%24%7Bwiredchests.coin_chest.balance%7D">
+                  <variables>
+                    <var key="auto_size" value="left" type="String"/>
+                    <var key="font_size" value="11" type="uint"/>
+                    <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                    <var key="spacing" value="0" type="Number"/>
+                    <var key="leading" value="0" type="Number"/>
+                  </variables>
+                </text>
+                <itemlist_horizontal x="15" y="22" width="24" height="15" params="786448" style="3" name="balance_container">
+                  <children>
+                    <text x="0" y="0" width="10" height="17" params="16" style="3" name="coins_amount_txt" caption="0">
+                      <variables>
+                        <var key="auto_size" value="left" type="String"/>
+                        <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                        <var key="bold" value="true" type="Boolean"/>
+                        <var key="spacing" value="0" type="Number"/>
+                        <var key="leading" value="0" type="Number"/>
+                      </variables>
+                    </text>
+                    <icon x="11" y="2" width="13" height="15" params="17" style="35" name="coin_icon"/>
+                  </children>
+                  <variables>
+                    <var key="spacing" value="1" type="int"/>
+                    <var key="resize_on_item_update" value="true" type="Boolean"/>
+                  </variables>
+                </itemlist_horizontal>
+              </children>
+            </container>
+            <itemlist_horizontal x="160" y="18" width="105" height="28" params="934992" style="3" name="withdraw_cont">
+              <children>
+                <input x="0" y="1" width="27" height="19" params="262145" style="3" name="withdraw_input" caption="1" background="true" width_min="27" width_max="27">
+                  <variables>
+                    <var key="always_show_selection" value="true" type="Boolean"/>
+                    <var key="border" value="true" type="Boolean"/>
+                    <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                    <var key="spacing" value="0" type="Number"/>
+                    <var key="leading" value="0" type="Number"/>
+                  </variables>
+                </input>
+                <button x="32" y="0" width="73" height="22" params="393233" style="3" name="withdraw_btn" caption="%24%7Bwiredchests.withdraw%7D" width_min="60"/>
+              </children>
+              <variables>
+                <var key="spacing" value="5" type="int"/>
+              </variables>
+            </itemlist_horizontal>
+          </children>
+        </container>
+      </children>
+    </container>
+  </window>
+</layout>

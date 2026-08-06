@@ -25,6 +25,15 @@
             return this._content;
         }
 
+        public function get notificationId():String
+        {
+            if (this._style == null || this._style.extraData == null)
+            {
+                return null;
+            }
+            return this._style.extraData["id"];
+        }
+
         public function dispose():void
         {
             this._content = null;

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?><layout name="chest_overlay_griditem" width="36" height="36" version="0.1" uid="0520789F-D069-49A4-83BA-231F68CE8D8A">
+  <window>
+    <container x="0" y="0" width="36" height="36" params="16" style="0" name="chest_overlay_container_internal">
+      <children>
+        <static_bitmap x="0" y="0" width="36" height="36" params="16" style="0" name="chest_plaque_bitmap">
+          <variables>
+            <var key="asset_uri" value="chest_overlay_brown_plaque" type="String"/>
+            <var key="stretched_x" value="false" type="Boolean"/>
+            <var key="stretched_y" value="false" type="Boolean"/>
+          </variables>
+        </static_bitmap>
+        <bitmap x="6" y="28" width="24" height="5" params="16" style="0" name="chest_plaque_number_bitmap">
+          <variables>
+            <var key="stretched_x" value="false" type="Boolean"/>
+            <var key="stretched_y" value="false" type="Boolean"/>
+          </variables>
+        </bitmap>
+        <static_bitmap x="0" y="0" width="36" height="36" params="16" style="0" name="chest_overlay_glaze_bitmap" blend="0.6">
+          <variables>
+            <var key="asset_uri" value="chest_overlay_shine" type="String"/>
+          </variables>
+        </static_bitmap>
+      </children>
+    </container>
+  </window>
+</layout>
