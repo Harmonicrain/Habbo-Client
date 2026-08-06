@@ -17,6 +17,10 @@ package com.sulake.habbo.communication.messages.parser.userdefinedroomevents
 
         public function parse(k:IMessageDataWrapper):Boolean
         {
+            if (k.bytesAvailable != 5)
+            {
+                return false;
+            }
             this._index = k.readInteger();
             this._openMenu = k.readBoolean();
             return true;
