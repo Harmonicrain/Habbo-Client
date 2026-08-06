@@ -8,3 +8,9 @@
 
 node_modules/
 tools/dist/
+
+# Dated SWF build outputs. bin/Habbo.swf stays tracked.
+bin/PRODUCTION-*.swf
+
+# Codex session attachments
+.codex-remote-attachments/
