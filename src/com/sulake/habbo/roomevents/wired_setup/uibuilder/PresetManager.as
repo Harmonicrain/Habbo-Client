@@ -17,6 +17,9 @@ package com.sulake.habbo.roomevents.wired_setup.uibuilder
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.params.TextAreaParam;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.params.TextInputParam;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.params.TextParam;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.AssetButtonPreset;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.AssetButtonRowPreset;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.BitmapViewPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.ButtonPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.ButtonRowPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.CenteredContainerPreset;
@@ -26,6 +29,7 @@ package com.sulake.habbo.roomevents.wired_setup.uibuilder
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.ContainerButtonPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.DropdownPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.HtmlPreset;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.HorizontalSectionListPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.IconButtonPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.NumberInputPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.PaddedContainerPreset;
@@ -47,26 +51,43 @@ package com.sulake.habbo.roomevents.wired_setup.uibuilder
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.TextualButtonPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.WindowWrapperPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.WiredUIPreset;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.VariablePickerPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.combinations.NamedDropdownPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.combinations.NamedNumberInputPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.combinations.NamedTextInputPreset;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.combinations.RewardListPreset;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.combinations.RewardRowPreset;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.contracts.ChestItemIconPreviewerPreset;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.contracts.ItemTypeSelectionPreset;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.contracts.NodeOverviewPreset;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.contracts.TradeRuleEditorPreset;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.contracts.TradeRuleListEditorPreset;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.applications.FloorDrawingPreset;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.applications.FloorEditorPreset;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.applications.ChronoMaskFilterPreset;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.applications.ChronoRangeFilterPreset;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.applications.SubVariableCreatorPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.main_layout.AdvancedSettingsWrapperPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.main_layout.FooterPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.main_layout.FramePreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.main_layout.HeaderPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.main_layout.IlluminaHeaderPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.main_layout.InputSourceSection;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.menu.MenuPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.sections.BorderSection;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.sections.ChooseVariableSection;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.sections.ItemTypeSelectionSection;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.sections.PlaceholderNameSection;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.sections.PlaceholderTypeSection;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.sections.SliderSection;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.sections.UsageInfoSection;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.sections.ValueOrVariableSection;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.sections.VariablePlaceholderModeSection;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.sections.VariableNameSection;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.styles.WiredStyle;
 
     /**
-     * Central preset factory (May PresetManager, Phase 2 trimmed). Domain factories
-     * (variable picker, rewards, floor editor, source-type selector, contracts,
-     * chests, menu, avatar image, chrono filters) are deferred to their owning
-     * phases and intentionally not present — do not add their imports until the
-     * backing preset classes are ported.
+     * Central May/July Wired preset factory adapted to the clean window framework.
      */
     public class PresetManager
     {
@@ -114,6 +135,47 @@ package com.sulake.habbo.roomevents.wired_setup.uibuilder
             return new UsageInfoSection(this._roomEvents, this, this.wiredStyle, _arg_1, _arg_2, _arg_3);
         }
 
+        public function createVariableNameSection():VariableNameSection
+        {
+            return new VariableNameSection(this._roomEvents, this, this.wiredStyle);
+        }
+
+        public function createPlaceholderNameSection(title:String, prefix:String):PlaceholderNameSection
+        {
+            return new PlaceholderNameSection(this._roomEvents, this, this.wiredStyle, title, prefix);
+        }
+
+        public function createPlaceholderTypeSection(type:String = null):PlaceholderTypeSection
+        {
+            return new PlaceholderTypeSection(this._roomEvents, this, this.wiredStyle, type);
+        }
+
+        public function createVariablePlaceholderModeSection(title:String):VariablePlaceholderModeSection
+        {
+            return new VariablePlaceholderModeSection(this._roomEvents, this, this.wiredStyle, title);
+        }
+
+        public function createChooseVariableSection(mergedSelectionId:int, sourceOptions:Array,
+                                                    filter:Function, onSelected:Function,
+                                                    title:String = null):ChooseVariableSection
+        {
+            return new ChooseVariableSection(this._roomEvents, this, this.wiredStyle,
+                mergedSelectionId, sourceOptions, filter, onSelected, title);
+        }
+
+        public function createValueOrVariableSection(_arg_1:int, _arg_2:Array,
+                                                     _arg_3:String, _arg_4:int,
+                                                     _arg_5:int):ValueOrVariableSection
+        {
+            return new ValueOrVariableSection(this._roomEvents, this, this.wiredStyle,
+                _arg_1, _arg_2, _arg_3, _arg_4, _arg_5);
+        }
+
+        public function createVariablePicker(_arg_1:Function = null, _arg_2:Function = null):VariablePickerPreset
+        {
+            return new VariablePickerPreset(this._roomEvents, this, this.wiredStyle, _arg_1, _arg_2);
+        }
+
         public function createCollapseExpandSectionButton(_arg_1:Function = null, _arg_2:Boolean = true):CollapseExpandSectionButtonPreset
         {
             return new CollapseExpandSectionButtonPreset(this._roomEvents, this, this.wiredStyle, _arg_1, _arg_2);
@@ -144,6 +206,29 @@ package com.sulake.habbo.roomevents.wired_setup.uibuilder
             return new NamedDropdownPreset(this._roomEvents, this, this.wiredStyle, _arg_1, _arg_2, _arg_3);
         }
 
+        public function createRewardList(_arg_1:int, _arg_2:int):RewardListPreset
+        {
+            return new RewardListPreset(this._roomEvents, this, this.wiredStyle,
+                _arg_1, _arg_2);
+        }
+
+        public function createRewardRow():RewardRowPreset
+        {
+            return new RewardRowPreset(this._roomEvents, this, this.wiredStyle);
+        }
+
+        public function createChronoRangeFilter(skip:String, exact:String, range:String, initial:int,
+                                                minimum:int, maximum:int, width:int):ChronoRangeFilterPreset
+        {
+            return new ChronoRangeFilterPreset(this._roomEvents, this, this.wiredStyle,
+                skip, exact, range, initial, minimum, maximum, width);
+        }
+
+        public function createChronoMaskFilter(labels:Array, columns:int = 1):ChronoMaskFilterPreset
+        {
+            return new ChronoMaskFilterPreset(this._roomEvents, this, this.wiredStyle, labels, columns);
+        }
+
         public function createTextArea(_arg_1:TextAreaParam):TextAreaPreset
         {
             return new TextAreaPreset(this._roomEvents, this, this.wiredStyle, _arg_1);
@@ -152,6 +237,12 @@ package com.sulake.habbo.roomevents.wired_setup.uibuilder
         public function createSimpleListView(_arg_1:Boolean, _arg_2:Array, _arg_3:Boolean = false):SimpleListViewPreset
         {
             return new SimpleListViewPreset(this._roomEvents, this, this.wiredStyle, _arg_1, _arg_2, _arg_3);
+        }
+
+        public function createHorizontalSectionListPreset(presets:Array):HorizontalSectionListPreset
+        {
+            return new HorizontalSectionListPreset(this._roomEvents, this,
+                this.wiredStyle, presets);
         }
 
         public function createScrollList(_arg_1:Array, _arg_2:ListScrollParams, _arg_3:Boolean = false):ScrollListPreset
@@ -205,8 +296,8 @@ package com.sulake.habbo.roomevents.wired_setup.uibuilder
 
         public function createHeaderPreset(_arg_1:String, _arg_2:IWiredTypeHolder, _arg_3:int, _arg_4:Function, _arg_5:Function, _arg_6:Function):HeaderPreset
         {
-            // Phase 2: only the Illumina header exists; Volter is deferred and
-            // unknown styles fall back to Illumina instead of crashing.
+            // The clean client uses the Illumina header for all registered styles;
+            // unknown styles fall back to it instead of failing editor creation.
             return new IlluminaHeaderPreset(this._roomEvents, this, this.wiredStyle, _arg_1, _arg_2, _arg_3, _arg_4, _arg_5, _arg_6);
         }
 
@@ -218,6 +309,11 @@ package com.sulake.habbo.roomevents.wired_setup.uibuilder
         public function createMiniAssetIconButtonPreset(_arg_1:String, _arg_2:String, _arg_3:Function):PressedButtonMiniAssetIconButtonPreset
         {
             return new PressedButtonMiniAssetIconButtonPreset(this._roomEvents, this, this.wiredStyle, _arg_1, _arg_2, _arg_3);
+        }
+
+        public function createAssetButtonPreset(_arg_1:String, _arg_2:String, _arg_3:Function):AssetButtonPreset
+        {
+            return new AssetButtonPreset(this._roomEvents, this, this.wiredStyle, _arg_1, _arg_2, _arg_3);
         }
 
         public function createSliderPreset(_arg_1:Number = 0, _arg_2:Number = 1, _arg_3:Number = 0):SliderPreset
@@ -240,6 +336,32 @@ package com.sulake.habbo.roomevents.wired_setup.uibuilder
             return new ButtonRowPreset(this._roomEvents, this, this.wiredStyle, _arg_1);
         }
 
+        public function createAssetButtonRow(_arg_1:Array):AssetButtonRowPreset
+        {
+            return new AssetButtonRowPreset(this._roomEvents, this, this.wiredStyle, _arg_1);
+        }
+
+        public function createBitmapViewPreset():BitmapViewPreset
+        {
+            return new BitmapViewPreset(this._roomEvents, this, this.wiredStyle);
+        }
+
+        public function createFloorDrawingPreset(_arg_1:Function):FloorDrawingPreset
+        {
+            return new FloorDrawingPreset(this._roomEvents, this, this.wiredStyle, _arg_1);
+        }
+
+        public function createFloorEditorPreset(_arg_1:AssetButtonRowPreset, _arg_2:FloorDrawingPreset):FloorEditorPreset
+        {
+            return new FloorEditorPreset(this._roomEvents, this, this.wiredStyle, _arg_1, _arg_2);
+        }
+
+        public function createSubVariableCreator(localizationPrefix:String, variables:Array):SubVariableCreatorPreset
+        {
+            return new SubVariableCreatorPreset(this._roomEvents, this, this.wiredStyle,
+                localizationPrefix, variables);
+        }
+
         public function createFooterPreset(_arg_1:Function, _arg_2:Function):FooterPreset
         {
             return new FooterPreset(this._roomEvents, this, this.wiredStyle, _arg_1, _arg_2);
@@ -247,8 +369,13 @@ package com.sulake.habbo.roomevents.wired_setup.uibuilder
 
         public function createFramePreset(_arg_1:Array, _arg_2:Function, _arg_3:String = null, _arg_4:int = -1, _arg_5:Boolean = false, _arg_6:Boolean = false, _arg_7:ListScrollParams = null):FramePreset
         {
-            // Phase 2: InnerBorderFramePreset (useInnerBorder styles) is deferred.
+            // The clean window framework uses the standard frame for both border modes.
             return new FramePreset(this._roomEvents, this, this.wiredStyle, _arg_1, _arg_2, _arg_3, _arg_4, _arg_5, _arg_6, _arg_7);
+        }
+
+        public function createMenuPreset(_arg_1:Array, _arg_2:IWindow):MenuPreset
+        {
+            return new MenuPreset(this._roomEvents, this, this.wiredStyle, _arg_1, _arg_2);
         }
 
         public function createAdvancedSettingsWrapperPreset(_arg_1:Array, _arg_2:Boolean):AdvancedSettingsWrapperPreset
@@ -269,6 +396,46 @@ package com.sulake.habbo.roomevents.wired_setup.uibuilder
         public function createPaddedContainerPreset(_arg_1:WiredUIPreset, _arg_2:int, _arg_3:int, _arg_4:int, _arg_5:int, _arg_6:IWindowContainer = null, _arg_7:Boolean = false):PaddedContainerPreset
         {
             return new PaddedContainerPreset(this._roomEvents, this, this.wiredStyle, _arg_1, _arg_2, _arg_3, _arg_4, _arg_5, _arg_6, _arg_7);
+        }
+
+        public function createRuleEditorPreset(title:String, onEdit:Function,
+            onAdd:Function, onRemove:Function = null,
+            onChange:Function = null):TradeRuleEditorPreset
+        {
+            return new TradeRuleEditorPreset(this._roomEvents, this,
+                this.wiredStyle, title, onEdit, onAdd, onRemove, onChange);
+        }
+
+        public function createRuleListEditorPreset(onEdit:Function,
+            onAdd:Function):TradeRuleListEditorPreset
+        {
+            return new TradeRuleListEditorPreset(this._roomEvents, this,
+                this.wiredStyle, onEdit, onAdd);
+        }
+
+        public function createChestItemIconPreviewerPreset():ChestItemIconPreviewerPreset
+        {
+            return new ChestItemIconPreviewerPreset(this._roomEvents, this,
+                this.wiredStyle);
+        }
+
+        public function createItemTypeSelectionPreset():ItemTypeSelectionPreset
+        {
+            return new ItemTypeSelectionPreset(this._roomEvents, this,
+                this.wiredStyle);
+        }
+
+        public function createItemTypeSelectionSection():ItemTypeSelectionSection
+        {
+            return new ItemTypeSelectionSection(this._roomEvents, this,
+                this.wiredStyle);
+        }
+
+        public function createNodeOverviewPreset(title:String,
+            onNodeClick:Function = null):NodeOverviewPreset
+        {
+            return new NodeOverviewPreset(this._roomEvents, this,
+                this.wiredStyle, title, onNodeClick);
         }
 
         public function createContainerButtonPreset(_arg_1:WiredUIPreset, _arg_2:Function, _arg_3:Boolean = true):ContainerButtonPreset

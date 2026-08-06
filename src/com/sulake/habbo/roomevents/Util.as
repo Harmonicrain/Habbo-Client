@@ -13,6 +13,23 @@
 
     public class Util 
     {
+        /**
+         * Wired 2.0 represents a signed 32-bit value as the high/low pair used
+         * by the AIR variable action definitions.  The high word is only a sign
+         * marker here; the low word retains the exact ActionScript int value.
+         */
+        public static function pushIntAsLong(target:Array, value:int):void
+        {
+            target.push(value < 0 ? -1 : 0);
+            target.push(value);
+        }
+
+        public static function splitVariableName(variable:Object):Array
+        {
+            return variable == null || variable.variableName == null
+                ? [] : String(variable.variableName).split(".");
+        }
+
         public static function _Str_6937(k:IWindow, _arg_2:Function):void
         {
             k.setParamFlag(WindowParam.WINDOW_PARAM_INPUT_EVENT_PROCESSOR, true);

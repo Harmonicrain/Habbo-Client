@@ -18,6 +18,11 @@
     import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.ActionDefinition;
     import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.ConditionDefinition;
     import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.SelectorDefinition;
+    import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.AddonDefinition;
+    import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.VariableDefinition;
+    import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.WiredVariable;
+    import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.AllVariablesInRoom;
+    import __AS3__.vec.Vector;
     import com.sulake.habbo.roomevents.Util;
     import flash.events.Event;
     import com.sulake.core.window.IWindow;
@@ -31,6 +36,8 @@
     import com.sulake.habbo.communication.messages.outgoing.userdefinedroomevents.UpdateActionMessageComposer;
     import com.sulake.habbo.communication.messages.outgoing.userdefinedroomevents.UpdateConditionMessageComposer;
     import com.sulake.habbo.communication.messages.outgoing.userdefinedroomevents.UpdateSelectorMessageComposer;
+    import com.sulake.habbo.communication.messages.outgoing.userdefinedroomevents.UpdateAddonMessageComposer;
+    import com.sulake.habbo.communication.messages.outgoing.userdefinedroomevents.UpdateVariableMessageComposer;
     import com.sulake.habbo.communication.messages.outgoing.userdefinedroomevents.ApplySnapshotMessageComposer;
     import com.sulake.habbo.session.furniture.IFurnitureData;
     import com.sulake.core.window.components.ITextWindow;
@@ -44,14 +51,21 @@
     import com.sulake.habbo.roomevents.wired_setup.IWiredElement;
     import com.sulake.habbo.roomevents.wired_setup.IWiredTypeHolder;
     import com.sulake.habbo.roomevents.wired_setup.WiredConfigurationCache;
+    import com.sulake.habbo.roomevents.wired_setup.ClipboardWiredEntry;
     import com.sulake.habbo.roomevents.wired_setup.DefaultElement;
     import com.sulake.habbo.roomevents.wired_setup.actiontypes.*;
+    import com.sulake.habbo.roomevents.wired_setup.actiontypes.chests.*;
+    import com.sulake.habbo.roomevents.wired_setup.addons.*;
+    import com.sulake.habbo.roomevents.wired_setup.addons.chests.*;
     import com.sulake.habbo.roomevents.wired_setup.conditions.*;
+    import com.sulake.habbo.roomevents.wired_setup.conditions.chests.*;
     import com.sulake.habbo.roomevents.wired_setup.selectors.*;
     import com.sulake.habbo.roomevents.wired_setup.triggerconfs.*;
+    import com.sulake.habbo.roomevents.wired_setup.variables.*;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.PresetManager;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.WiredUIBuilder;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.params.CheckboxOptionParam;
+    import com.sulake.habbo.roomevents.wired_setup.uibuilder.params.RadioButtonParam;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.params.TextParam;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.CheckboxGroupPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.RadioGroupPreset;
@@ -65,6 +79,7 @@
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.sections.SliderSection;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.styles.IlluminaWiredStyle;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.styles.WiredStyle;
+    import com.sulake.habbo.roomevents.WiredCapabilityCodes;
 
     public class UserDefinedRoomEventsCtrl 
     {
@@ -88,14 +103,16 @@
         private var _dualFurniPickingMode:Boolean = false;
         private var _activeFurniPicks:int = 1;
 
-        // Wired 2.0 UI builder (Phase 2): dual-mode state. Builder-based types render
-        // through the wired_setup pipeline; XML-based legacy types keep the old path.
+        // Builder-based types render through the Wired 2.0 pipeline; XML-based
+        // legacy types retain the compatibility editor path.
         private var _wiredStyle:WiredStyle;
         private var _presetManager:PresetManager;
         private var _builderTriggerHolder:BuilderTypeHolder;
         private var _builderActionHolder:BuilderTypeHolder;
         private var _builderConditionHolder:BuilderTypeHolder;
         private var _builderSelectorHolder:BuilderTypeHolder;
+        private var _builderAddonHolder:BuilderTypeHolder;
+        private var _builderVariableHolder:BuilderTypeHolder;
         private var _builderHolder:IWiredTypeHolder;
         private var _builderElement:IWiredElement;
         private var _configurationCache:Dictionary = new Dictionary();
@@ -109,6 +126,13 @@
         private var _inputSourcePresets:Array;
         private var _footerPreset:FooterPreset;
         private var _initialWidth:int;
+        private var _builderSaveConfirmed:Boolean = false;
+        private var _builderConfirmationItemId:int = -1;
+        private var _builderConfirmationElement:IWiredElement;
+        private var _wiredClipboard:Dictionary = new Dictionary();
+        private var _builderUpdateMode:int = 0;
+        private var _builderRequestedUpdateMode:int = 0;
+        private var _builderRequestedTargetId:int = -1;
 
         public function UserDefinedRoomEventsCtrl(k:HabboUserDefinedRoomEvents)
         {
@@ -124,6 +148,8 @@
             this._builderActionHolder = new BuilderTypeHolder("action", function(t:Triggerable):Boolean { return (t as ActionDefinition) != null; });
             this._builderConditionHolder = new BuilderTypeHolder("condition", function(t:Triggerable):Boolean { return (t as ConditionDefinition) != null; });
             this._builderSelectorHolder = new BuilderTypeHolder("selector", function(t:Triggerable):Boolean { return (t as SelectorDefinition) != null; });
+            this._builderAddonHolder = new BuilderTypeHolder("addon", function(t:Triggerable):Boolean { return (t as AddonDefinition) != null; });
+            this._builderVariableHolder = new BuilderTypeHolder("variable", function(t:Triggerable):Boolean { return (t as VariableDefinition) != null; });
             this._builderTriggerHolder.register(new AvatarSaysSomethingElement());
             this._builderTriggerHolder.register(new AvatarWalksOnFurniElement());
             this._builderTriggerHolder.register(new AvatarWalksOffFurniElement());
@@ -140,18 +166,23 @@
             this._builderTriggerHolder.register(new BotReachedAvatarElement());
             this._builderTriggerHolder.register(new ClockReachTimeElement());
             this._builderTriggerHolder.register(new UserPerformsActionElement());
+            this._builderTriggerHolder.register(new ReceiveSignalTriggerElement());
+            this._builderTriggerHolder.register(new VariableChangedTriggerElement());
             this._builderTriggerHolder.register(new FurniTriggerElement(WiredTriggerType.AVATAR_CLICKS_FURNI));
             this._builderTriggerHolder.register(new PeriodicShortElement());
-            this._builderTriggerHolder.register(new FurniTriggerElement(WiredTriggerType.STATE_CHANGE));
+            this._builderTriggerHolder.register(new StateChangeTriggerElement());
+            this._builderTriggerHolder.register(new UserClicksTileElement());
             this._builderTriggerHolder.register(new SimpleTriggerElement(WiredTriggerType.AVATAR_LEAVES_ROOM));
             this._builderTriggerHolder.register(new UserClicksUserElement());
+            this._builderTriggerHolder.register(new TransactionCompletedTriggerElement());
+            this._builderTriggerHolder.register(new TransactionFailedTriggerElement());
             this._builderActionHolder.register(new ToggleFurniStateElement());
             this._builderActionHolder.register(new SimpleActionElement(ActionTypeCodes.RESET));
             this._builderActionHolder.register(new SetFurniStateToElement());
             this._builderActionHolder.register(new MoveFurniElement());
             this._builderActionHolder.register(new ScoreActionElement(ActionTypeCodes.GIVE_SCORE));
             this._builderActionHolder.register(new ShowMessageActionElement());
-            this._builderActionHolder.register(new SimpleActionElement(ActionTypeCodes.TELEPORT));
+            this._builderActionHolder.register(new TeleportActionElement());
             this._builderActionHolder.register(new JoinTeamActionElement());
             this._builderActionHolder.register(new SimpleActionElement(ActionTypeCodes.LEAVE_TEAM));
             this._builderActionHolder.register(new SimpleActionElement(ActionTypeCodes.CHASE));
@@ -159,8 +190,10 @@
             this._builderActionHolder.register(new MoveToDirectionElement());
             this._builderActionHolder.register(new ScoreActionElement(ActionTypeCodes.GIVE_SCORE_TO_PREDEFINED_TEAM, true));
             this._builderActionHolder.register(new SimpleActionElement(ActionTypeCodes.TOGGLE_TO_RANDOM_STATE));
+            this._builderActionHolder.register(new GiveRewardActionElement());
             this._builderActionHolder.register(new MoveFurniToElement());
-            this._builderActionHolder.register(new SimpleActionElement(ActionTypeCodes.CALL_ANOTHER_STACK));
+            this._builderActionHolder.register(new SimpleActionElement(
+                ActionTypeCodes.CALL_ANOTHER_STACK, ActionTypeCodes.NEG_CALL_ANOTHER_STACK));
             this._builderActionHolder.register(new TextActionElement(ActionTypeCodes.KICK_FROM_ROOM, "${wiredfurni.params.message}"));
             this._builderActionHolder.register(new MuteUserElement());
             this._builderActionHolder.register(new BotNameActionElement(ActionTypeCodes.BOT_TELEPORT));
@@ -172,20 +205,33 @@
             this._builderActionHolder.register(new BotMessageActionElement(ActionTypeCodes.BOT_TALK_DIRECT_TO_AVTR, "${wiredfurni.params.whisper}", 1, "${wiredfurni.params.talk}", 0));
             this._builderActionHolder.register(new ControlClockActionElement());
             this._builderActionHolder.register(new SetFurniAltitudeActionElement());
+            this._builderActionHolder.register(new SendSignalActionElement());
             this._builderActionHolder.register(new FreezeUserActionElement());
             this._builderActionHolder.register(new SimpleActionElement(ActionTypeCodes.UNFREEZE_USER));
             this._builderActionHolder.register(new RelativeFurniMoveActionElement());
             this._builderActionHolder.register(new MoveFurniToFurniActionElement());
-            this._builderActionHolder.register(new FurniPickingActionElement(ActionTypeCodes.MOVE_FURNI_TO_USER));
+            this._builderActionHolder.register(new MoveFurniToUserActionElement());
+            this._builderActionHolder.register(new AdjustClockActionElement());
             this._builderActionHolder.register(new MoveUserActionElement());
             this._builderActionHolder.register(new MoveUserToFurniActionElement());
             this._builderActionHolder.register(new SimpleActionElement(ActionTypeCodes.TELEPORT_TO_ROOM));
-            this._builderActionHolder.register(new TextActionElement(ActionTypeCodes.PROGRESS_ACHIEVEMENT, "${wiredfurni.params.progress_achievement.name}"));
+            this._builderActionHolder.register(new ProgressAchievementActionElement());
             this._builderActionHolder.register(new GiveEffectActionElement());
             this._builderActionHolder.register(new SetFurniAltitudeActionElement(ActionTypeCodes.OVERRIDE_HEIGHT));
-            this._builderActionHolder.register(new NumberActionElement(ActionTypeCodes.PLACE_FURNI, "${wiredfurni.params.place_furni.furni_type}"));
-            this._builderActionHolder.register(new FurniPickingActionElement(ActionTypeCodes.REMOVE_FURNI));
+            this._builderActionHolder.register(new SetClickSettingsActionElement());
+            this._builderActionHolder.register(new PlaceFurniActionElement());
+            this._builderActionHolder.register(new RemoveFurniActionElement());
             this._builderActionHolder.register(new MoveAsGroupActionElement());
+            this._builderActionHolder.register(new ProgressRewardTrackActionElement());
+            this._builderActionHolder.register(new ResetRewardTrackActionElement());
+            this._builderActionHolder.register(new GiveVariableActionElement());
+            this._builderActionHolder.register(new RemoveVariableActionElement());
+            this._builderActionHolder.register(new ChangeVariableActionElement());
+            this._builderActionHolder.register(new GiveCurrencyFromChestActionElement());
+            this._builderActionHolder.register(new GiveFurniFromChestActionElement());
+            this._builderActionHolder.register(new InitiateTransactionActionElement());
+            this._builderActionHolder.register(new CancelTransactionActionElement());
+            this._builderActionHolder.register(new WriteToLogsActionElement());
             this._builderConditionHolder.register(new SimpleConditionElement(ConditionCodes.TRIGGERER_IS_ON_FURNI, ConditionCodes.NOT_ACTOR_ON_FURNI));
             this._builderConditionHolder.register(new FurnisHaveAvatarsConditionElement());
             this._builderConditionHolder.register(new MatchSnapshotConditionElement());
@@ -194,7 +240,7 @@
             this._builderConditionHolder.register(new UserCountInConditionElement());
             this._builderConditionHolder.register(new TeamConditionElement());
             this._builderConditionHolder.register(new StackedFurnisConditionElement(ConditionCodes.HAS_STACKED_FURNIS, -1, "requireall", "requireall"));
-            this._builderConditionHolder.register(new SimpleConditionElement(ConditionCodes.STUFF_TYPE_MATCHES, ConditionCodes.NOT_FURNI_IS_OF_TYPE));
+            this._builderConditionHolder.register(new FurniTypeMatchesConditionElement());
             this._builderConditionHolder.register(new StuffsInFormationElement());
             this._builderConditionHolder.register(new ActorIsInGroupConditionElement());
             this._builderConditionHolder.register(new StringConditionElement(ConditionCodes.ACTOR_IS_WEARING_BADGE, ConditionCodes.NOT_ACTOR_WEARS_BADGE, "${wiredfurni.params.badgecode}"));
@@ -212,19 +258,68 @@
             this._builderConditionHolder.register(new ClockTimeMatchesConditionElement());
             this._builderConditionHolder.register(new FurniHasAltitudeConditionElement());
             this._builderConditionHolder.register(new UserDirectionConditionElement());
+            this._builderConditionHolder.register(new InputSourceQuantityConditionElement());
             this._builderConditionHolder.register(new FurniPickingConditionElement(ConditionCodes.CAN_PERFORM_MOVE));
+            this._builderConditionHolder.register(new HasVariableConditionElement());
+            this._builderConditionHolder.register(new VariableValueConditionElement());
+            this._builderConditionHolder.register(new VariableAgeConditionElement());
+            this._builderConditionHolder.register(new UserLevelConditionElement());
+            this._builderConditionHolder.register(new ChestHasAmountConditionElement());
+            this._builderConditionHolder.register(new ChestHasItemTypesConditionElement());
             this._builderSelectorHolder.register(new SelectorElement(SelectorCodes.FURNI_BY_TYPE, SelectorElement.MODE_STATE_MATCH));
             this._builderSelectorHolder.register(new SelectorElement(SelectorCodes.FURNI_CHOOSER, SelectorElement.MODE_NONE, true));
             this._builderSelectorHolder.register(new SelectorElement(SelectorCodes.USERS_BY_TYPE, SelectorElement.MODE_USER_TYPE));
             this._builderSelectorHolder.register(new SelectorElement(SelectorCodes.USERS_IN_TEAM, SelectorElement.MODE_TEAM));
             this._builderSelectorHolder.register(new SelectorElement(SelectorCodes.FURNI_ON_FURNI, SelectorElement.MODE_ON_FURNI, true));
+            this._builderSelectorHolder.register(new FurniFromSignalSelectorElement());
             this._builderSelectorHolder.register(new AreaSelectorElement(SelectorCodes.FURNI_IN_AREA));
             this._builderSelectorHolder.register(new SelectorElement(SelectorCodes.USERS_ON_FURNI, SelectorElement.MODE_NONE, true));
             this._builderSelectorHolder.register(new SelectorElement(SelectorCodes.USERS_BY_NAME, SelectorElement.MODE_NAMES));
             this._builderSelectorHolder.register(new AreaSelectorElement(SelectorCodes.USERS_IN_AREA));
-            this._builderSelectorHolder.register(new SelectorElement(SelectorCodes.USERS_WITH_HANDITEM, SelectorElement.MODE_HANDITEM));
-            this._builderSelectorHolder.register(new SelectorElement(SelectorCodes.USERS_IN_GROUP, SelectorElement.MODE_GROUP));
+            this._builderSelectorHolder.register(new UsersWithHanditemSelectorElement());
+            this._builderSelectorHolder.register(new UsersInGroupSelectorElement());
             this._builderSelectorHolder.register(new FurniWithAltitudeSelectorElement());
+            this._builderSelectorHolder.register(new UsersByActionSelectorElement());
+            this._builderSelectorHolder.register(new UsersFromSignalSelectorElement());
+            this._builderSelectorHolder.register(new FurniInNeighborhoodSelectorElement());
+            this._builderSelectorHolder.register(new UsersInNeighborhoodSelectorElement());
+            this._builderSelectorHolder.register(new FurniWithVariableSelectorElement());
+            this._builderSelectorHolder.register(new UsersWithVariableSelectorElement());
+            this._builderSelectorHolder.register(new RemoteSelectorElement());
+            this._builderAddonHolder.register(new ConditionEvaluationAddonElement());
+            this._builderAddonHolder.register(new RandomEffectAddonElement());
+            this._builderAddonHolder.register(new UnseenEffectAddonElement());
+            this._builderAddonHolder.register(new ExecutionLimitAddonElement());
+            this._builderAddonHolder.register(new NoMoveAnimationAddonElement());
+            this._builderAddonHolder.register(new MovementPhysicsAddonElement());
+            this._builderAddonHolder.register(new CarryUsersAddonElement());
+            this._builderAddonHolder.register(new AnimationTimeAddonElement());
+            this._builderAddonHolder.register(new FurniSelectorFilterAddonElement());
+            this._builderAddonHolder.register(new UserSelectorFilterAddonElement());
+            this._builderAddonHolder.register(new FurniVariableFilterAddonElement());
+            this._builderAddonHolder.register(new UserVariableFilterAddonElement());
+            this._builderAddonHolder.register(new UsernamePlaceholderAddonElement());
+            this._builderAddonHolder.register(new VariablePlaceholderAddonElement());
+            this._builderAddonHolder.register(new VariableCapturerAddonElement());
+            this._builderAddonHolder.register(new ExecuteInOrderAddonElement());
+            this._builderAddonHolder.register(new FurniNamePlaceholderAddonElement());
+            this._builderAddonHolder.register(new ProjectileAddonElement());
+            this._builderAddonHolder.register(new JumpStrengthAddonElement());
+            this._builderAddonHolder.register(new VariableTextConverterAddonElement());
+            this._builderAddonHolder.register(new VariableLevelUpAddonElement());
+            this._builderAddonHolder.register(new VariableTimeUtilityAddonElement());
+            this._builderAddonHolder.register(new GlobalPlaceholderAddonElement());
+            this._builderAddonHolder.register(new AchievementEnablerAddonElement());
+            this._builderAddonHolder.register(new ChestItemTypeScannerAddonElement());
+            this._builderAddonHolder.register(new CustomContractAddonElement());
+            this._builderVariableHolder.register(new FurniVariableElement());
+            this._builderVariableHolder.register(new UserVariableElement());
+            this._builderVariableHolder.register(new GlobalVariableElement());
+            this._builderVariableHolder.register(new ContextVariableElement());
+            this._builderVariableHolder.register(new ReferenceVariableElement());
+            this._builderVariableHolder.register(new QuestVariableElement());
+            this._builderVariableHolder.register(new QuestChainVariableElement());
+            this._builderVariableHolder.register(new EchoVariableElement());
         }
 
         public function get wiredStyle():WiredStyle
@@ -312,7 +407,20 @@
             {
                 return this._builderSelectorHolder;
             }
+            if ((k as AddonDefinition) != null)
+            {
+                return this._builderAddonHolder;
+            }
+            if ((k as VariableDefinition) != null)
+            {
+                return this._builderVariableHolder;
+            }
             return null;
+        }
+
+        private function isBuilderElementEnabled(k:IWiredElement):Boolean
+        {
+            return (k.requiredCapability == 0) || this._roomEvents.isWiredFeatureEnabled(k.requiredCapability);
         }
 
         private function get builderEditorVisible():Boolean
@@ -329,6 +437,14 @@
             }
             this._frame.window.center();
             this._frame.window.activate();
+        }
+
+        public function resizeFrame():void
+        {
+            if (this._frame != null && this._builderElement != null)
+            {
+                this._frame.resizeToWidth(int(this._initialWidth * this._builderElement.widthModifier));
+            }
         }
 
         private function hideBuilderFrame():void
@@ -395,9 +511,14 @@
                 if (SelectorDefinition(k).isInvert) { _local_9 = _local_9 | 2; }
                 this._selectorOptionsPreset.mask = _local_9;
             }
+            if ((this._conditionQuantifierOptions != null) && ((k as ConditionDefinition) != null))
+            {
+                this._conditionQuantifierOptions.selected = ConditionDefinition(k).quantifierCode;
+            }
             this.refreshBuilderPickCount();
             this.refreshAdvancedInputSources();
             this._builderElement.onEditInitialized();
+            this._frame.refreshForNewTriggerable();
         }
 
         private function createBuilderWindow(k:IWiredTypeHolder, _arg_2:IWiredElement):void
@@ -419,7 +540,16 @@
                 return;
             }
             var _local_3:WiredUIBuilder = new WiredUIBuilder(this.presetManager, this.closeBuilder, k.getKey(), _arg_2.code, false);
-            this._headerPreset = this.presetManager.createHeaderPreset(this._Str_16874(this._updated.spriteId), k, (_arg_2.hasStateSnapshot) ? HeaderPreset.BUTTON_MODE_APPLY_SNAPSHOT : HeaderPreset.BUTTON_MODE_NONE, this.onBuilderApplySnapshot, null, null);
+            var headerButtonMode:int = (_arg_2.hasStateSnapshot)
+                ? HeaderPreset.BUTTON_MODE_APPLY_SNAPSHOT
+                : HeaderPreset.BUTTON_MODE_NONE;
+            if (_arg_2 is WriteToLogsActionElement)
+            {
+                headerButtonMode = HeaderPreset.BUTTON_MODE_VIEW_LOGS;
+            }
+            this._headerPreset = this.presetManager.createHeaderPreset(
+                this._Str_16874(this._updated.spriteId), k, headerButtonMode,
+                this.onBuilderApplySnapshot, null, this.viewWiredLogs);
             _local_3.addElements(this._headerPreset);
             _arg_2.setRoomEvents(this._roomEvents);
             _arg_2.buildInputs(this.presetManager, this.wiredStyle, _local_3);
@@ -485,25 +615,43 @@
         private function createAdvancedSections(k:Triggerable, _arg_2:IWiredTypeHolder, _arg_3:IWiredElement, _arg_4:WiredUIBuilder):void
         {
             var _local_5:Array;
-            if (!k.advancedMode)
+            var _local_6:Array = [];
+            var _local_7:ConditionDefinition = k as ConditionDefinition;
+            var _local_8:Boolean = (_local_7 != null) && (_local_7.quantifierType != 0);
+            if (!k.advancedMode || ((k.inputSourcesConf.amountFurniSelections == 0) && (k.inputSourcesConf.amountUserSelections == 0) && !_local_8))
             {
                 return;
             }
-            _local_5 = this.createAdvancedInputSources(k, _arg_3);
-            if (_local_5.length == 0)
+            if (_local_8)
             {
-                return;
+                var _local_9:String = this.getQuantifierKey(_local_7);
+                this._conditionQuantifierOptions = this.presetManager.createRadioGroup([
+                    new RadioButtonParam(0, "${" + _local_9 + "0}"),
+                    new RadioButtonParam(1, "${" + _local_9 + "1}")
+                ]);
+                _local_6.push(this.presetManager.createSection("${wiredfurni.params.quantifier_selection}", this._conditionQuantifierOptions));
+            }
+            _local_5 = this.createAdvancedInputSources(k, _arg_3);
+            for each (var _local_10:* in _local_5)
+            {
+                _local_6.push(_local_10);
             }
             if (_arg_3.inputSourcesAlwaysVisible())
             {
-                for each (var _local_6:* in _local_5)
+                for each (var _local_11:* in _local_6)
                 {
-                    _arg_4.addElements(_local_6);
+                    _arg_4.addElements(_local_11);
                 }
                 return;
             }
-            this._advancedSettingsWrapperPreset = this.presetManager.createAdvancedSettingsWrapperPreset(_local_5, _arg_3.advancedAlwaysVisible());
+            this._advancedSettingsWrapperPreset = this.presetManager.createAdvancedSettingsWrapperPreset(_local_6, _arg_3.advancedAlwaysVisible());
             _arg_4.addElements(this._advancedSettingsWrapperPreset);
+        }
+
+        private function getQuantifierKey(k:ConditionDefinition):String
+        {
+            var _local_1:String = (k.quantifierType == 1) ? "furni" : ((k.quantifierType == 2) ? "users" : ((k.quantifierType == 3) ? "variables" : ""));
+            return "wiredfurni.params.quantifier." + _local_1 + (k.isInvert ? ".neg." : ".");
         }
 
         private function createAdvancedInputSources(k:Triggerable, _arg_2:IWiredElement):Array
@@ -565,6 +713,10 @@
             for each (k in this._inputSourcePresets)
             {
                 k.refresh(this._updated, this._builderElement);
+                if (k.baseSourceType == WiredInputSourcePicker.MERGED_SOURCE)
+                {
+                    k.sourceType = this._builderElement.getMergedType(k.id);
+                }
             }
             if (this._advancedSettingsWrapperPreset != null)
             {
@@ -604,6 +756,111 @@
                 k.push(int(_local_2));
             }
             return k;
+        }
+
+        public function clearStuffPicks():void
+        {
+            this.hideFurniHighlights();
+            this._stuffs = new Dictionary();
+            this._stuffs2 = new Dictionary();
+            this.refreshBuilderPickCount();
+            this.refreshAdvancedInputSources();
+            if (this._frame != null) { this._frame.updateButtonDisabledStates(); }
+        }
+
+        public function resetToDefault():void
+        {
+            if (this._updated == null || this._builderElement == null) { return; }
+            this._updated.intParams = this._updated.defaultIntParams.concat();
+            this._updated.stringParam = "";
+            var variables:Array = [];
+            for (var index:int = 0; index < this._updated.variableIds.length; index++)
+            {
+                variables.push("");
+            }
+            this._updated.variableIds = variables;
+            this._updated.stuffIds = [];
+            this._updated.stuffIds2 = [];
+            this._updated.furniSourceTypes = this._updated.inputSourcesConf.defaultFurniSources.concat();
+            this._updated.userSourceTypes = this._updated.inputSourcesConf.defaultUserSources.concat();
+            var action:ActionDefinition = this._updated as ActionDefinition;
+            var condition:ConditionDefinition = this._updated as ConditionDefinition;
+            var selector:SelectorDefinition = this._updated as SelectorDefinition;
+            if (action != null) { action.delayInPulses = 0; }
+            if (condition != null) { condition.quantifierCode = 0; }
+            if (selector != null) { selector.isFilter = false; selector.isInvert = false; }
+            this.reloadCurrentBuilder();
+        }
+
+        public function createClipboardCopy():void
+        {
+            if (this._builderHolder == null || this._builderElement == null || this._updated == null) { return; }
+            var variableIds:Array = this._builderElement.readVariableIdsFromForm();
+            var furniSources:Array = this._builderElement.readFurniSourceTypesFromForm();
+            var userSources:Array = this._builderElement.readUserSourceTypesFromForm();
+            var stuffIds2:Array = this._builderElement.readFurniIds2FromForm();
+            if (variableIds == null) { variableIds = this._updated.variableIds; }
+            if (furniSources == null) { furniSources = this._updated.furniSourceTypes; }
+            if (userSources == null) { userSources = this._updated.userSourceTypes; }
+            if (stuffIds2 == null) { stuffIds2 = this.getStuffIds2(); }
+            var entry:ClipboardWiredEntry = new ClipboardWiredEntry(
+                this._builderElement.readIntParamsFromForm(),
+                this._builderElement.readStringParamFromForm(), variableIds,
+                this.getStuffIds(), stuffIds2, furniSources, userSources);
+            if ((this._updated as ActionDefinition) != null) { entry.delayInPulses = this.getBuilderDelay(); }
+            if ((this._updated as ConditionDefinition) != null) { entry.quantifierCode = this.getBuilderQuantifier(); }
+            if ((this._updated as SelectorDefinition) != null && this._selectorOptionsPreset != null)
+            {
+                entry.isFilter = (this._selectorOptionsPreset.mask & 1) != 0;
+                entry.isInvert = (this._selectorOptionsPreset.mask & 2) != 0;
+            }
+            this._wiredClipboard[this.currentClipboardKey] = entry;
+            if (this._frame != null) { this._frame.updateButtonDisabledStates(); }
+            this._roomEvents.showWiredNotification("notification.wired.copied");
+        }
+
+        public function pasteFromClipboard():void
+        {
+            if (!this.hasCurrentElementInClipboard()) { return; }
+            var entry:ClipboardWiredEntry = this._wiredClipboard[this.currentClipboardKey] as ClipboardWiredEntry;
+            this._updated.intParams = entry.intParams.concat();
+            this._updated.stringParam = entry.stringParam;
+            this._updated.variableIds = entry.variableIds.concat();
+            this._updated.stuffIds = entry.stuffIds.concat();
+            this._updated.stuffIds2 = entry.stuffIds2.concat();
+            this._updated.furniSourceTypes = entry.furniSourceTypes.concat();
+            this._updated.userSourceTypes = entry.userSourceTypes.concat();
+            var action:ActionDefinition = this._updated as ActionDefinition;
+            var condition:ConditionDefinition = this._updated as ConditionDefinition;
+            var selector:SelectorDefinition = this._updated as SelectorDefinition;
+            if (action != null) { action.delayInPulses = entry.delayInPulses; }
+            if (condition != null) { condition.quantifierCode = entry.quantifierCode; }
+            if (selector != null) { selector.isFilter = entry.isFilter; selector.isInvert = entry.isInvert; }
+            this.reloadCurrentBuilder();
+        }
+
+        public function hasCurrentElementInClipboard():Boolean
+        {
+            return this._builderHolder != null && this._builderElement != null &&
+                this._wiredClipboard[this.currentClipboardKey] != null;
+        }
+
+        private function get currentClipboardKey():String
+        {
+            return this._builderHolder.getKey() + "-" + this._builderElement.code;
+        }
+
+        private function reloadCurrentBuilder():void
+        {
+            var definition:Triggerable = this._updated;
+            var holder:IWiredTypeHolder = this._builderHolder;
+            var element:IWiredElement = this._builderElement;
+            var x:int = this._frame.window.x;
+            var y:int = this._frame.window.y;
+            this.openBuilderEditor(definition, holder, element);
+            this._frame.window.x = x;
+            this._frame.window.y = y;
+            this._frame.window.activate();
         }
 
         public function set activeFurniPicks(k:int):void
@@ -664,12 +921,36 @@
             this._roomEvents.send(new ApplySnapshotMessageComposer(this._updated.id));
         }
 
+        private function viewWiredLogs():void
+        {
+            this._roomEvents.context.createLinkEvent("wiredmenu/logs");
+        }
+
         private function saveBuilder():void
         {
+            if (!this.isBuilderElementEnabled(this._builderElement))
+            {
+                this.onSaveFailure();
+                return;
+            }
+            if (!this._builderSaveConfirmed)
+            {
+                var confirmation:Object = this._builderElement.requireConfirmation;
+                if (confirmation != null)
+                {
+                    this._builderConfirmationItemId = this._updated.id;
+                    this._builderConfirmationElement = this._builderElement;
+                    this._roomEvents.windowManager.confirm(confirmation.title,
+                        confirmation.body, 0, this.onBuilderSaveConfirmation);
+                    return;
+                }
+            }
+            this._builderSaveConfirmed = false;
             var _local_1:String = this._builderElement.validate();
             if (_local_1 != null)
             {
                 this._roomEvents.windowManager.alert("${wiredfurni.error.title}", _local_1, 0, null);
+                this.onSaveFailure();
                 return;
             }
             var _local_2:Array = this._builderElement.readIntParamsFromForm();
@@ -680,27 +961,79 @@
             var _local_7:Array = this._builderElement.readUserSourceTypesFromForm();
             var _local_8:Array = this._builderElement.readVariableIdsFromForm();
             var _local_9:Array = this._builderElement.readFurniIds2FromForm();
+            var targetId:int = (this._builderRequestedTargetId == -1) ? this._updated.id : this._builderRequestedTargetId;
             if (_local_6 == null) { _local_6 = this._updated.furniSourceTypes.concat(); }
             if (_local_7 == null) { _local_7 = this._updated.userSourceTypes.concat(); }
             if (_local_8 == null) { _local_8 = this._updated.variableIds.concat(); }
             if (_local_9 == null) { _local_9 = this._dualFurniPickingMode ? this.getStuffIds2() : this._updated.selectedItems2.concat(); }
             if ((this._updated as TriggerDefinition) != null)
             {
-                this._roomEvents.send(new UpdateTriggerMessageComposer(this._updated.id, _local_2, _local_3, _local_4, _local_5, _local_6, _local_7, _local_8, _local_9));
+                this._roomEvents.send(new UpdateTriggerMessageComposer(targetId, _local_2, _local_3, _local_4, _local_5, _local_6, _local_7, _local_8, _local_9));
             }
             else if ((this._updated as ActionDefinition) != null)
             {
-                this._roomEvents.send(new UpdateActionMessageComposer(this._updated.id, _local_2, _local_3, _local_4, this.getBuilderDelay(), _local_5, _local_6, _local_7, _local_8, _local_9));
+                this._roomEvents.send(new UpdateActionMessageComposer(targetId, _local_2, _local_3, _local_4, this.getBuilderDelay(), _local_5, _local_6, _local_7, _local_8, _local_9));
             }
             else if ((this._updated as ConditionDefinition) != null)
             {
-                this._roomEvents.send(new UpdateConditionMessageComposer(this._updated.id, _local_2, _local_3, _local_4, _local_5, _local_6, _local_7, _local_8, _local_9));
+                this._roomEvents.send(new UpdateConditionMessageComposer(targetId, _local_2, _local_3, _local_4, this.getBuilderQuantifier(), _local_6, _local_7, _local_8, _local_9));
             }
             else if ((this._updated as SelectorDefinition) != null)
             {
                 var _local_10:int = (this._selectorOptionsPreset != null) ? this._selectorOptionsPreset.mask : 0;
-                this._roomEvents.send(new UpdateSelectorMessageComposer(this._updated.id, _local_2, _local_3, _local_4, ((_local_10 & 1) != 0), ((_local_10 & 2) != 0), _local_6, _local_7, _local_8, _local_9));
+                this._roomEvents.send(new UpdateSelectorMessageComposer(targetId, _local_2, _local_3, _local_4, ((_local_10 & 1) != 0), ((_local_10 & 2) != 0), _local_6, _local_7, _local_8, _local_9));
             }
+            else if ((this._updated as AddonDefinition) != null)
+            {
+                if (!this._roomEvents.isWiredFeatureEnabled(WiredCapabilityCodes.ADDONS)) { this.onSaveFailure(); return; }
+                this._roomEvents.send(new UpdateAddonMessageComposer(targetId, _local_2, _local_8, _local_3, _local_4, _local_9, _local_6, _local_7));
+            }
+            else if ((this._updated as VariableDefinition) != null)
+            {
+                if (!this._roomEvents.isWiredFeatureEnabled(WiredCapabilityCodes.VARIABLES)) { this.onSaveFailure(); return; }
+                this._roomEvents.send(new UpdateVariableMessageComposer(targetId, _local_2, _local_8, _local_3, _local_4, _local_9, _local_6, _local_7));
+            }
+            this._builderUpdateMode = this._builderRequestedUpdateMode;
+            this._builderRequestedUpdateMode = 0;
+            this._builderRequestedTargetId = -1;
+        }
+
+        public function saveBuilderFromMenu():void
+        {
+            this._builderRequestedUpdateMode = 1;
+            this._builderRequestedTargetId = -1;
+            this.saveBuilder();
+        }
+
+        private function saveBuilderInto(targetId:int):void
+        {
+            this._builderRequestedUpdateMode = 2;
+            this._builderRequestedTargetId = targetId;
+            this.saveBuilder();
+        }
+
+        public function onSaveFailure():void
+        {
+            this._builderUpdateMode = 0;
+            this._builderRequestedUpdateMode = 0;
+            this._builderRequestedTargetId = -1;
+        }
+
+        public function onSaveSuccess():void
+        {
+            if (this._builderUpdateMode == 0)
+            {
+                this.close();
+            }
+            else if (this._builderUpdateMode == 1)
+            {
+                this._roomEvents.showWiredNotification("notification.wired.saved");
+            }
+            else if (this._builderUpdateMode == 2)
+            {
+                this._roomEvents.showWiredNotification("notification.wired.pasted_into");
+            }
+            this._builderUpdateMode = 0;
         }
 
         private function getBuilderDelay():int
@@ -710,6 +1043,11 @@
                 return 0;
             }
             return this._delayPreset.value;
+        }
+
+        private function getBuilderQuantifier():int
+        {
+            return (this._conditionQuantifierOptions != null) ? this._conditionQuantifierOptions.selected : 0;
         }
 
         public function onGuildMemberships(k:Array):void
@@ -741,6 +1079,9 @@
             this._builderHolder = null;
             this._builderElement = null;
             this._updated = null;
+            this._builderSaveConfirmed = false;
+            this._builderConfirmationItemId = -1;
+            this._builderConfirmationElement = null;
         }
 
         private function isStuffSelectionMode():Boolean
@@ -913,9 +1254,63 @@
             var _local_4:IWindowContainer;
             var _local_5:ActionDefinition;
             var _local_6:int;
+            if (this._frame != null && this._builderElement != null && this._frame.isCopyingIntoMode)
+            {
+                var targetHolder:IWiredTypeHolder = this.resolveBuilderHolder(k);
+                var targetElement:IWiredElement = targetHolder != null ? targetHolder.getElementByCode(k.code) : null;
+                if (targetElement == this._builderElement)
+                {
+                    this.saveBuilderInto(k.id);
+                }
+                else
+                {
+                    this._roomEvents.showWiredNotification("notification.wired.pasted_into_fail");
+                }
+                return;
+            }
+            if (((k as AddonDefinition) != null) && (!this._roomEvents.isWiredFeatureEnabled(WiredCapabilityCodes.ADDONS)))
+            {
+                return;
+            }
+            if (((k as VariableDefinition) != null) && (!this._roomEvents.isWiredFeatureEnabled(WiredCapabilityCodes.VARIABLES)))
+            {
+                return;
+            }
+            if (k.wiredContext != null && k.wiredContext.roomVariablesList != null &&
+                k.wiredContext.roomVariablesList.needsSynchronize)
+            {
+                var pendingDefinition:Triggerable = k;
+                var pendingVariables:AllVariablesInRoom = k.wiredContext.roomVariablesList;
+                var pendingRoomId:int = this._roomEvents.roomId;
+                this._roomEvents.variablesSynchronizer.getAllVariables(function(values:Vector.<WiredVariable>):void
+                {
+                    // A room change/disconnect fails queued synchronization with an
+                    // empty result. Never resume an editor whose context belonged
+                    // to the old room (or was replaced while the request was live).
+                    if (_roomEvents.roomId != pendingRoomId ||
+                        pendingDefinition.wiredContext == null ||
+                        pendingDefinition.wiredContext.roomVariablesList !== pendingVariables)
+                    {
+                        return;
+                    }
+                    var synchronizedValues:Array = [];
+                    for each (var value:WiredVariable in values) { synchronizedValues.push(value); }
+                    pendingVariables.synchronize(synchronizedValues);
+                    _Str_18351(pendingDefinition);
+                }, true, k.wiredContext.roomVariablesList.hash);
+                return;
+            }
             // Wired 2.0 dual mode: builder-based types take the wired_setup pipeline.
             var _local_7:IWiredTypeHolder = this.resolveBuilderHolder(k);
             var _local_8:IWiredElement = (_local_7 != null) ? _local_7.getElementByCode(k.code) : null;
+            if ((_local_8 != null) && (!this.isBuilderElementEnabled(_local_8)))
+            {
+                return;
+            }
+            if ((((k as AddonDefinition) != null) || ((k as VariableDefinition) != null)) && (_local_8 == null))
+            {
+                return;
+            }
             if ((_local_8 != null) && (_local_8.inputMode == DefaultElement.INPUTS_TYPE_UI_BUILDER))
             {
                 this.openBuilderEditor(k, _local_7, _local_8);
@@ -1031,6 +1426,23 @@
             {
                 delete this._stuffs[k];
                 this.refresh();
+            }
+        }
+
+        private function onBuilderSaveConfirmation(k:IConfirmDialog, event:WindowEvent):void
+        {
+            k.dispose();
+            var matchesEditor:Boolean = this._builderElement != null &&
+                this._builderElement == this._builderConfirmationElement &&
+                this._updated != null &&
+                this._updated.id == this._builderConfirmationItemId;
+            this._builderConfirmationItemId = -1;
+            this._builderConfirmationElement = null;
+            if (event.type == WindowEvent.WINDOW_EVENT_OK &&
+                matchesEditor)
+            {
+                this._builderSaveConfirmed = true;
+                this.saveBuilder();
             }
         }
 
