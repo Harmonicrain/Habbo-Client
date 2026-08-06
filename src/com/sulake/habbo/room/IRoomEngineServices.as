@@ -41,6 +41,12 @@
         function setMoveBlocked(_arg_1:Boolean):void;
         function isMoveBlocked():Boolean;
         function isWhereYouClickWhereYouGo():Boolean;
+        function setClickSettings(_arg_1:String, _arg_2:Boolean, _arg_3:Boolean):void;
+        function get clickThroughUsers():Boolean;
+        function get clickThroughFurni():Boolean;
+        function get activeRoomHasHanditemControlBlocked():Boolean;
+        function get activeRoomHasChooserDisabled():Boolean;
+        function get activeRoomHasFreeFurniMovementsMode():Boolean;
         function getLegacyGeometry(_arg_1:int):LegacyWallGeometry;
         function getFurniStackingHeightMap(_arg_1:int):FurniStackingHeightMap;
         function getTileObjectMap(_arg_1:int):TileObjectMap;

@@ -18,6 +18,7 @@
     import com.sulake.room.utils.NumberBank;
     import com.sulake.core.utils.Map;
     import com.sulake.habbo.game.IHabboGameManager;
+    import com.sulake.habbo.roomevents.IHabboUserDefinedRoomEvents;
     import com.sulake.core.runtime.IContext;
     import com.sulake.core.communication.connection.IConnection;
     import com.sulake.core.runtime.IHabboConfigurationManager;
@@ -37,6 +38,7 @@
     import com.sulake.habbo.toolbar.events.HabboToolbarEvent;
     import com.sulake.iid.IIDHabboCatalog;
     import com.sulake.iid.IIDHabboGameManager;
+    import com.sulake.iid.IIDHabboUserDefinedRoomEvents;
     import com.sulake.iid.IIDHabboWindowManager;
     import __AS3__.vec.Vector;
     import flash.display.DisplayObjectContainer;
@@ -57,6 +59,7 @@
     import com.sulake.habbo.session.enum.RoomControllerLevel;
     import com.sulake.room.object.IRoomObjectController;
     import com.sulake.habbo.room.messages.RoomObjectRoomFloorHoleUpdateMessage;
+    import com.sulake.habbo.room.events.RoomEngineAreaHideStateWidgetEvent;
     import com.sulake.habbo.room.object.RoomObjectVariableEnum;
     import com.sulake.habbo.room.utils.FurnitureData;
     import com.sulake.room.RoomInstance;
@@ -214,6 +217,7 @@
         private var _mouseCursorUpdate:Boolean;
         private var _badgeListenerObjects:Map = null;
         private var _gameManager:IHabboGameManager;
+        private var _roomEvents:IHabboUserDefinedRoomEvents;
         private var _isSelectedObjectInValidPosition:Boolean;
         private var _playerUnderCursor:int = -1;
         private var _mouseEventsDisabledAboveY:int = 0;
@@ -222,6 +226,8 @@
         private var _mouseEventsDisabledLeftToXWas:int = 0;
         private var _areaSelectionManager:RoomAreaSelectionManager;
         private var _moveBlocked:Boolean = false;
+        private var _clickThroughUserOwners:Array = [];
+        private var _clickThroughFurniOwners:Array = [];
 
         public function RoomEngine(k:IContext, _arg_2:uint=0)
         {
@@ -363,6 +369,9 @@
             }]), new ComponentDependency(new IIDHabboCatalog(), function (k:IHabboCatalog):void
             {
                 _catalog = k;
+            }, false), new ComponentDependency(new IIDHabboUserDefinedRoomEvents(), function (k:IHabboUserDefinedRoomEvents):void
+            {
+                _roomEvents = k;
             }, false), new ComponentDependency(new IIDHabboGameManager(), function (k:IHabboGameManager):void
             {
                 _gameManager = k;
@@ -948,7 +957,7 @@
             }
         }
 
-        private function updateRoomCamera(k:int, _arg_2:int, _arg_3:IVector3d, _arg_4:uint):void
+        public function updateRoomCamera(k:int, _arg_2:int, _arg_3:IVector3d, _arg_4:uint):void
         {
             var _local_10:Number;
             var _local_11:Rectangle;
@@ -1311,7 +1320,7 @@
                     _local_3 = (this._roomDatas.getWithIndex(_local_2) as RoomData);
                     if (_local_3 != null)
                     {
-                        this.initializeRoom(_local_3.roomId, _local_3.data);
+                        this.initializeRoom(_local_3.roomId, _local_3.data, _local_3.cameraInitPosition, _local_3.areaHideData);
                     }
                     _local_2++;
                 }
@@ -1384,6 +1393,10 @@
         public function getIsPlayingGame(k:int):Boolean
         {
             var _local_3:Number;
+            if (((k == this._activeRoomId) && (this._roomEvents != null)) && this._roomEvents.isGameMode)
+            {
+                return true;
+            }
             var _local_2:IRoomInstance = this.getRoom(k);
             if (_local_2 != null)
             {
@@ -1396,9 +1409,106 @@
             return false;
         }
 
+        public function updateAreaHide(k:int, _arg_2:int, _arg_3:Boolean, _arg_4:int, _arg_5:int, _arg_6:int, _arg_7:int, _arg_8:Boolean):void
+        {
+            events.dispatchEvent(new RoomEngineAreaHideStateWidgetEvent(k, _arg_2, RoomObjectCategoryEnum.OBJECT_CATEGORY_FURNITURE, _arg_3));
+            var _local_9:IRoomObjectController = this.getObjectRoom(k);
+            if (((_local_9 == null) || (_local_9.getEventHandler() == null)))
+            {
+                return;
+            }
+            var _local_10:String = ((_arg_3) ? RoomObjectRoomFloorHoleUpdateMessage.RORPFHUM_ADD : RoomObjectRoomFloorHoleUpdateMessage.RORPFHUM_REMOVE);
+            _local_9.getEventHandler().processUpdateMessage(new RoomObjectRoomFloorHoleUpdateMessage(_local_10, _arg_2, _arg_4, _arg_5, _arg_6, _arg_7, _arg_8));
+        }
+
+        public function setHanditemControlBlocked(k:int, _arg_2:Boolean):void
+        {
+            this.setRoomBoolean(k, RoomVariableEnum.HANDITEM_CONTROL_BLOCKED, _arg_2);
+        }
+
+        public function setChooserDisabled(k:int, _arg_2:Boolean):void
+        {
+            this.setRoomBoolean(k, RoomVariableEnum.CHOOSER_DISABLED, _arg_2);
+        }
+
+        public function setFreeFurniMovementsMode(k:int, _arg_2:Boolean):void
+        {
+            this.setRoomBoolean(k, RoomVariableEnum.FREE_FURNI_MOVEMENTS_MODE, _arg_2);
+        }
+
+        public function setInvisibleFurni(k:int, _arg_2:Boolean):void
+        {
+            var _local_3:IRoomInstance = this.getRoom(k);
+            var _local_4:IRoomObject;
+            var _local_5:Array;
+            if (_local_3 == null)
+            {
+                return;
+            }
+            _local_3.setNumber(RoomVariableEnum.INVISIBLE_FURNI, ((_arg_2) ? 1 : 0));
+            _local_5 = this.getRoomObjects(k, RoomObjectCategoryEnum.OBJECT_CATEGORY_FURNITURE);
+            for each (_local_4 in _local_5)
+            {
+                this.applyInvisibleFurniState(_local_4, _arg_2);
+            }
+            _local_5 = this.getRoomObjects(k, RoomObjectCategoryEnum.OBJECT_CATEGORY_WALLITEM);
+            for each (_local_4 in _local_5)
+            {
+                this.applyInvisibleFurniState(_local_4, _arg_2);
+            }
+        }
+
+        private function applyInvisibleFurniState(k:IRoomObject, _arg_2:Boolean):void
+        {
+            var _local_3:IRoomObjectController = k as IRoomObjectController;
+            if (((_local_3 != null) && (_local_3.getModelController() != null)))
+            {
+                _local_3.getModelController().setNumber(RoomObjectVariableEnum.FURNITURE_INVISIBLE_LAYER, ((_arg_2) ? 1 : 0));
+            }
+        }
+
+        private function applyCurrentInvisibleFurniState(k:int, _arg_2:IRoomObjectController):void
+        {
+            var _local_3:IRoomInstance = this.getRoom(k);
+            this.applyInvisibleFurniState(_arg_2, ((_local_3 != null) && (_local_3.getNumber(RoomVariableEnum.INVISIBLE_FURNI) > 0)));
+        }
+
         public function getActiveRoomIsPlayingGame():Boolean
         {
             return this.getIsPlayingGame(this._activeRoomId);
+        }
+
+        public function get activeRoomHasHanditemControlBlocked():Boolean
+        {
+            return this.isRoomBooleanActive(
+                this._activeRoomId, RoomVariableEnum.HANDITEM_CONTROL_BLOCKED);
+        }
+
+        public function get activeRoomHasChooserDisabled():Boolean
+        {
+            return this.isRoomBooleanActive(
+                this._activeRoomId, RoomVariableEnum.CHOOSER_DISABLED);
+        }
+
+        public function get activeRoomHasFreeFurniMovementsMode():Boolean
+        {
+            return this.isRoomBooleanActive(
+                this._activeRoomId, RoomVariableEnum.FREE_FURNI_MOVEMENTS_MODE);
+        }
+
+        private function setRoomBoolean(k:int, _arg_2:String, _arg_3:Boolean):void
+        {
+            var _local_4:IRoomInstance = this.getRoom(k);
+            if (_local_4 != null)
+            {
+                _local_4.setNumber(_arg_2, ((_arg_3) ? 1 : 0));
+            }
+        }
+
+        private function isRoomBooleanActive(k:int, _arg_2:String):Boolean
+        {
+            var _local_3:IRoomInstance = this.getRoom(k);
+            return _local_3 != null && _local_3.getNumber(_arg_2) > 0;
         }
 
         public function getRoom(k:int):IRoomInstance
@@ -1412,7 +1522,7 @@
             return _local_3;
         }
 
-        public function initializeRoom(k:int, _arg_2:XML):void
+        public function initializeRoom(k:int, _arg_2:XML, _arg_3:IVector3d=null, _arg_4:Vector.<IAreaHideInfo>=null):void
         {
             var _local_3:String = this.getRoomIdentifier(k);
             var _local_4:RoomData;
@@ -1432,6 +1542,8 @@
                 _local_4.floorType = _local_5;
                 _local_4.wallType = _local_6;
                 _local_4.landscapeType = _local_7;
+                _local_4.cameraInitPosition = _arg_3;
+                _local_4.areaHideData = _arg_4;
                 this._roomDatas.add(_local_3, _local_4);
                 Logger.log("Room Engine not initilized yet, can not create room. Room data stored for later initialization.");
                 return;
@@ -1456,8 +1568,23 @@
                 {
                     _local_7 = _local_4.landscapeType;
                 }
+                if (_local_4.cameraInitPosition != null)
+                {
+                    _arg_3 = _local_4.cameraInitPosition;
+                }
+                if (_local_4.areaHideData != null)
+                {
+                    _arg_4 = _local_4.areaHideData;
+                }
             }
-            var _local_8:IRoomInstance = this.createRoom(_local_3, _arg_2, _local_5, _local_6, _local_7, this.getWorldType(k), this.isPublicRoom(k));
+            var _local_8:IRoomInstance = this.createRoom(_local_3, _arg_2, _local_5, _local_6, _local_7, this.getWorldType(k), this.isPublicRoom(k), _arg_3);
+            if (_arg_4 != null)
+            {
+                for each (var _local_9:IAreaHideInfo in _arg_4)
+                {
+                    this.updateAreaHide(k, _local_9.furniId, _local_9.on, _local_9.rootX, _local_9.rootY, _local_9.width, _local_9.length, _local_9.invert);
+                }
+            }
             if (_local_8 == null)
             {
                 return;
@@ -1465,7 +1592,7 @@
             events.dispatchEvent(new RoomEngineEvent(RoomEngineEvent.INITIALIZED, k));
         }
 
-        private function createRoom(k:String, _arg_2:XML, _arg_3:String, _arg_4:String, _arg_5:String, _arg_6:String, _arg_7:Boolean=false):IRoomInstance
+        private function createRoom(k:String, _arg_2:XML, _arg_3:String, _arg_4:String, _arg_5:String, _arg_6:String, _arg_7:Boolean=false, _arg_8:IVector3d=null):IRoomInstance
         {
             var _local_11:int;
             var _local_12:XML;
@@ -1516,6 +1643,12 @@
                 _local_9.getModelController().setNumber(RoomVariableEnum.AD_DISPLAY_DELAY, _local_32, true);
             }
             _local_7.setNumber(RoomVariableEnum.ROOM_Z_SCALE, _local_10, true);
+            if (_arg_8 != null)
+            {
+                _local_7.setNumber(RoomVariableEnum.CAMERA_INIT_X, _arg_8.x);
+                _local_7.setNumber(RoomVariableEnum.CAMERA_INIT_Y, _arg_8.y);
+                _local_7.setNumber(RoomVariableEnum.CAMERA_INIT_Z, _arg_8.z);
+            }
             if (_arg_2 != null)
             {
                 _local_11 = 0;
@@ -2835,6 +2968,7 @@
                 _local_8.getModelController().setNumber(RoomObjectVariableEnum.FURNITURE_OWNER_ID, _arg_3.ownerId);
                 _local_8.getModelController().setString(RoomObjectVariableEnum.FURNITURE_OWNER_NAME, _arg_3.ownerName);
             }
+            this.applyCurrentInvisibleFurniState(k, _local_8);
             if (!this.updateObjectFurniture(k, _arg_2, _arg_3.loc, _arg_3.dir, _arg_3.state, _arg_3.data, _arg_3.extra))
             {
                 return false;
@@ -3090,6 +3224,7 @@
                 _local_8.getModelController().setNumber(RoomObjectVariableEnum.FURNITURE_OWNER_ID, _arg_3.ownerId);
                 _local_8.getModelController().setString(RoomObjectVariableEnum.FURNITURE_OWNER_NAME, _arg_3.ownerName);
             }
+            this.applyCurrentInvisibleFurniState(k, _local_8);
             _local_4 = "";
             if (_arg_3.data != null)
             {
@@ -3428,6 +3563,81 @@
             }
             _local_6.getEventHandler().processUpdateMessage(_local_7);
             return true;
+        }
+
+        /** Aggregates independent click-through owners (Wired, object-moving, etc.). */
+        public function setClickSettings(k:String, _arg_2:Boolean, _arg_3:Boolean):void
+        {
+            var _local_4:Boolean = this.clickThroughUsers;
+            var _local_5:Boolean = this.clickThroughFurni;
+            this.setClickSettingOwner(this._clickThroughUserOwners, k, _arg_2);
+            this.setClickSettingOwner(this._clickThroughFurniOwners, k, _arg_3);
+            if ((!(_local_4)) && _arg_2)
+            {
+                this.removeButtonMouseCursorOwners(
+                    this._activeRoomId,
+                    RoomObjectCategoryEnum.OBJECT_CATEGORY_USER);
+            }
+            if ((!(_local_5)) && _arg_3)
+            {
+                this.removeButtonMouseCursorOwners(
+                    this._activeRoomId,
+                    RoomObjectCategoryEnum.OBJECT_CATEGORY_FURNITURE);
+                this.removeButtonMouseCursorOwners(
+                    this._activeRoomId,
+                    RoomObjectCategoryEnum.OBJECT_CATEGORY_WALLITEM);
+            }
+        }
+
+        public function get clickThroughUsers():Boolean
+        {
+            return this._clickThroughUserOwners.length > 0;
+        }
+
+        public function get clickThroughFurni():Boolean
+        {
+            return this._clickThroughFurniOwners.length > 0;
+        }
+
+        private function setClickSettingOwner(k:Array, _arg_2:String, _arg_3:Boolean):void
+        {
+            var _local_4:int = k.indexOf(_arg_2);
+            if (_arg_3)
+            {
+                if (_local_4 < 0)
+                {
+                    k.push(_arg_2);
+                }
+            }
+            else if (_local_4 >= 0)
+            {
+                k.splice(_local_4, 1);
+            }
+        }
+
+        private function removeButtonMouseCursorOwners(k:int, _arg_2:int):void
+        {
+            var _local_3:RoomInstanceData = this.getRoomInstanceData(k);
+            if (_local_3 == null)
+            {
+                return;
+            }
+            var _local_4:Array = [];
+            var _local_5:String;
+            for each (_local_5 in _local_3.mouseButtonCursorOwners)
+            {
+                if (_local_5.indexOf((_arg_2 + "_")) == 0)
+                {
+                    _local_4.push(_local_5);
+                }
+            }
+            for each (_local_5 in _local_4)
+            {
+                if (_local_3.removeButtonMouseCursorOwner(_local_5))
+                {
+                    this._mouseCursorUpdate = true;
+                }
+            }
         }
 
         public function updateObjectUserPosture(k:int, _arg_2:int, _arg_3:String, _arg_4:String=""):Boolean

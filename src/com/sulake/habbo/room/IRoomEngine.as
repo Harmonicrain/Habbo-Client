@@ -91,7 +91,8 @@
         function getFurnitureTypeId(_arg_1:String):int;
         function getWallItemType(_arg_1:int, _arg_2:String=null):String;
         function useRoomObjectInActiveRoom(_arg_1:int, _arg_2:int):Boolean;
-        function initializeRoom(_arg_1:int, _arg_2:XML):void;
+        function initializeRoom(_arg_1:int, _arg_2:XML, _arg_3:IVector3d=null, _arg_4:Vector.<IAreaHideInfo>=null):void;
+        function updateAreaHide(_arg_1:int, _arg_2:int, _arg_3:Boolean, _arg_4:int, _arg_5:int, _arg_6:int, _arg_7:int, _arg_8:Boolean):void;
         function disposeRoom(_arg_1:int):void;
         function get getIsSelectedObjectInValidPosition():Boolean;
         function set setIsSelectedObjectInValidPosition(_arg_1:Boolean):void;
@@ -105,6 +106,7 @@
         function snapshotRoomCanvasToBitmap(_arg_1:int, _arg_2:int, _arg_3:BitmapData, _arg_4:Matrix, _arg_5:Boolean):Boolean;
         function set disableUpdate(_arg_1:Boolean):void;
         function runUpdate():void;
+        function updateRoomCamera(_arg_1:int, _arg_2:int, _arg_3:IVector3d, _arg_4:uint):void;
         function updateObjectRoomVisibilities(_arg_1:int, _arg_2:Boolean, _arg_3:Boolean=true):Boolean;
         function get mouseEventsDisabledAboveY():int;
         function set mouseEventsDisabledAboveY(_arg_1:int):void;
@@ -112,6 +114,9 @@
         function set mouseEventsDisabledLeftToX(_arg_1:int):void;
         function getRenderRoomMessage(_arg_1:Rectangle, _arg_2:uint, _arg_3:Boolean=false, _arg_4:Boolean=true, _arg_5:Boolean=false, _arg_6:int=-1):IMessageComposer;
         function createScreenShot(_arg_1:int, _arg_2:int, _arg_3:String):void;
+        function get activeRoomHasHanditemControlBlocked():Boolean;
+        function get activeRoomHasChooserDisabled():Boolean;
+        function get activeRoomHasFreeFurniMovementsMode():Boolean;
 		
 		function _SafeStr_7811(k:int, _arg_2:int, _arg_3:IVector3d, _arg_4:int):Boolean;
 		function _SafeStr_7817(k:int, _arg_2:int, _arg_3:IVector3d, _arg_4:int):Boolean;

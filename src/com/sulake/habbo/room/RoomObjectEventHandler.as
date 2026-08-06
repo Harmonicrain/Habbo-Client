@@ -13,6 +13,7 @@
     import com.sulake.habbo.room.events.RoomEngineObjectEvent;
     import com.sulake.room.utils.RoomEnterEffect;
     import flash.events.MouseEvent;
+    import flash.utils.getTimer;
     import com.sulake.room.events.RoomSpriteMouseEvent;
     import com.sulake.room.object.IRoomObject;
     import com.sulake.room.utils.IRoomGeometry;
@@ -80,6 +81,7 @@
     import com.sulake.habbo.communication.messages.outgoing.room.engine.PlaceObjectMessageComposer;
     import com.sulake.habbo.room.events.RoomEngineObjectPlacedEvent;
     import com.sulake.habbo.communication.messages.outgoing.room.engine.UseFurnitureMessageComposer;
+    import com.sulake.habbo.communication.messages.outgoing.room.engine.ClickFurniMessageComposer;
     import com.sulake.habbo.communication.messages.outgoing.room.furniture.SetRandomStateMessageComposer;
     import com.sulake.habbo.communication.messages.outgoing.room.engine.UseWallItemMessageComposer;
     import com.sulake.habbo.communication.messages.outgoing.room.furniture.ThrowDiceMessageComposer;
@@ -93,6 +95,8 @@
 
     public class RoomObjectEventHandler implements IRoomRenderingCanvasMouseListener 
     {
+        public static var wiredHeldTicks:int = 0;
+
         private var _roomEngine:IRoomEngineServices = null;
         private var _eventIds:Map = null;
         private var _selectedAvatarId:int = -1;
@@ -100,6 +104,9 @@
         private var _selectedObjectCategory:int = -2;
         private var _whereYouClickIsWhereYouGo:Boolean = true;
         private var _objectPlacementSource:String;
+        private var _wiredMouseDownAt:int = -1;
+        private var _wiredMouseDownObjectId:int = -1;
+        private var _wiredMouseDownCategory:int = RoomObjectCategoryEnum.OBJECT_CATEGORY_UNKNOWN;
 
         public function RoomObjectEventHandler(k:IRoomEngineServices)
         {
@@ -294,6 +301,10 @@
             }
             var _local_4:String = _arg_2.getType();
             var _local_5:int = this._roomEngine.getRoomObjectCategory(_local_4);
+            if (((_local_5 == RoomObjectCategoryEnum.OBJECT_CATEGORY_USER) && this._roomEngine.clickThroughUsers) || (((_local_5 == RoomObjectCategoryEnum.OBJECT_CATEGORY_FURNITURE) || (_local_5 == RoomObjectCategoryEnum.OBJECT_CATEGORY_WALLITEM)) && this._roomEngine.clickThroughFurni))
+            {
+                return;
+            }
             var _local_6:int = _local_5;
             if (_local_5 != RoomObjectCategoryEnum.OBJECT_CATEGORY_ROOM)
             {
@@ -358,6 +369,9 @@
                 case RoomObjectMoveEvent.ROME_OBJECT_REMOVED:
                     this.handleSelectedObjectRemove(k, _arg_2);
                     return;
+                case RoomObjectMoveEvent.ROME_SLIDE_ANIMATION:
+                    this.handleObjectSlide(k, _arg_2);
+                    return;
                 case RoomObjectRoomActionEvent.RORAE_TRY_BUS:
                     if (((!(this._roomEngine == null)) && (!(this._roomEngine.connection == null))))
                     {
@@ -391,6 +405,7 @@
                 case RoomObjectWidgetRequestEvent.MONSTERPLANT_SEED_PLANT_CONFIRMATION_DIALOG:
                 case RoomObjectWidgetRequestEvent.PURCHASABLE_CLOTHING_CONFIRMATION_DIALOG:
                 case RoomObjectWidgetRequestEvent.BACKGROUND_COLOR:
+                case RoomObjectWidgetRequestEvent.AREA_HIDE:
                 case RoomObjectWidgetRequestEvent.MYSTERYBOX_OPEN_DIALOG:
                 case RoomObjectWidgetRequestEvent.EFFECTBOX_OPEN_DIALOG:
                 case RoomObjectWidgetRequestEvent.MYSTERYTROPHY_OPEN_DIALOG:
@@ -524,6 +539,8 @@
             {
                 return;
             }
+            wiredHeldTicks = this.consumeWiredHeldTicks(k);
+            this.clickRoomObject(k);
             var _local_3:Boolean;
             var _local_4:String = RoomObjectOperationEnum.OBJECT_UNDEFINED;
             var _local_5:SelectedRoomObjectData = this.getSelectedObjectData(_arg_2);
@@ -722,6 +739,49 @@
             }
         }
 
+        /**
+         * July sends this independently from use/double-click handling.  The notification
+         * deliberately precedes selection/movement so a single unmodified click is enough
+         * for Wired's "user clicks furni" trigger.
+         */
+        private function clickRoomObject(k:RoomObjectMouseEvent):void
+        {
+            if (((((k == null) || (k.altKey)) || (k.ctrlKey)) || (k.shiftKey)))
+            {
+                return;
+            }
+            if (((this._roomEngine == null) || (this._roomEngine.connection == null)))
+            {
+                return;
+            }
+            var _local_2:int = this._roomEngine.getRoomObjectCategory(k.objectType);
+            if (_local_2 == RoomObjectCategoryEnum.OBJECT_CATEGORY_FURNITURE)
+            {
+                this._roomEngine.connection.send(
+                    new ClickFurniMessageComposer(k.objectId, wiredHeldTicks));
+            }
+            else if (_local_2 == RoomObjectCategoryEnum.OBJECT_CATEGORY_WALLITEM)
+            {
+                this._roomEngine.connection.send(
+                    new ClickFurniMessageComposer(-(k.objectId), wiredHeldTicks));
+            }
+        }
+
+        private function consumeWiredHeldTicks(k:RoomObjectMouseEvent):int
+        {
+            var category:int = this._roomEngine.getRoomObjectCategory(k.objectType);
+            var matches:Boolean = this._wiredMouseDownAt >= 0
+                && this._wiredMouseDownObjectId == k.objectId
+                && this._wiredMouseDownCategory == category;
+            var ticks:int = matches
+                ? Math.max(0, int((getTimer() - this._wiredMouseDownAt) / 50))
+                : 0;
+            this._wiredMouseDownAt = -1;
+            this._wiredMouseDownObjectId = -1;
+            this._wiredMouseDownCategory = RoomObjectCategoryEnum.OBJECT_CATEGORY_UNKNOWN;
+            return Math.min(1728000, ticks);
+        }
+
         private function handleRoomObjectMouseMove(k:RoomObjectMouseEvent, _arg_2:int):void
         {
             var _local_7:IRoomObjectController;
@@ -906,6 +966,10 @@
             {
                 return;
             }
+            this._wiredMouseDownAt = getTimer();
+            this._wiredMouseDownObjectId = k.objectId;
+            this._wiredMouseDownCategory =
+                this._roomEngine.getRoomObjectCategory(k.objectType);
             var _local_3:String = RoomObjectOperationEnum.OBJECT_UNDEFINED;
             var _local_4:SelectedRoomObjectData = this.getSelectedObjectData(_arg_2);
             if (_local_4 != null)
@@ -1360,6 +1424,9 @@
                     case RoomObjectWidgetRequestEvent.BACKGROUND_COLOR:
                         _local_6.dispatchEvent(new RoomEngineTriggerWidgetEvent(RoomEngineTriggerWidgetEvent.RETWE_REQUEST_BACKGROUND_COLOR, _arg_2, _local_3, _local_5));
                         return;
+                    case RoomObjectWidgetRequestEvent.AREA_HIDE:
+                        _local_6.dispatchEvent(new RoomEngineTriggerWidgetEvent(RoomEngineTriggerWidgetEvent.RETWE_REQUEST_AREA_HIDE, _arg_2, _local_3, _local_5));
+                        return;
                     case RoomObjectWidgetRequestEvent.MYSTERYBOX_OPEN_DIALOG:
                         _local_6.dispatchEvent(new RoomEngineTriggerWidgetEvent(RoomEngineTriggerWidgetEvent.RETWE_REQUEST_MYSTERYBOX_OPEN_DIALOG, _arg_2, _local_3, _local_5));
                         return;
@@ -1732,6 +1799,19 @@
         private function handleSelectedObjectRemove(k:RoomObjectEvent, _arg_2:int):void
         {
             this.setSelectedAvatar(_arg_2, 0, false);
+        }
+
+        private function handleObjectSlide(k:RoomObjectEvent, _arg_2:int):void
+        {
+            if (this._roomEngine == null)
+            {
+                return;
+            }
+            var _local_3:int = this._roomEngine.getRoomObjectCategory(k.objectType);
+            if (_local_3 == RoomObjectCategoryEnum.OBJECT_CATEGORY_WALLITEM)
+            {
+                this._roomEngine.updateObjectRoomWindow(_arg_2, k.objectId);
+            }
         }
 
         private function handleFurnitureMove(k:IRoomObjectController, _arg_2:SelectedRoomObjectData, _arg_3:int, _arg_4:int, _arg_5:FurniStackingHeightMap):Boolean
@@ -2110,6 +2190,14 @@
             {
                 return false;
             }
+            var playTestSession:IRoomSession =
+                this._roomEngine.roomSessionManager.getSession(k);
+            if (playTestSession != null
+                && playTestSession.playTestMode
+                && !this._roomEngine.activeRoomHasFreeFurniMovementsMode)
+            {
+                return false;
+            }
             var _local_6:int;
             var _local_7:int;
             var _local_8:int;
@@ -2374,6 +2462,19 @@
         {
             if (((!(this._roomEngine == null)) && (!(this._roomEngine.connection == null))))
             {
+                var playTestSession:IRoomSession =
+                    this._roomEngine.roomSessionManager.getSession(k);
+                var usedObject:IRoomObject =
+                    this._roomEngine.getRoomObject(k, _arg_2, _arg_3);
+                if (playTestSession != null
+                    && playTestSession.playTestMode
+                    && !this._roomEngine.activeRoomHasFreeFurniMovementsMode
+                    && usedObject != null
+                    && usedObject.getModel().getNumber(
+                        RoomObjectVariableEnum.FURNITURE_USAGE_POLICY) < 2)
+                {
+                    return false;
+                }
                 if (_arg_3 == RoomObjectCategoryEnum.OBJECT_CATEGORY_FURNITURE)
                 {
                     if (!_arg_5)
