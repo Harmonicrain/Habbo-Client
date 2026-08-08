@@ -23,19 +23,19 @@ package com.sulake.habbo.window.widgets
 
         private var _disposed:Boolean;
         private var _widgetWindow:IWidgetWindow;
-        private var _windowManager:HabboWindowManagerComponent;
-        private var _root:IWindowContainer;
+        protected var _windowManager:HabboWindowManagerComponent;
+        protected var _root:IWindowContainer;
         private var _productInfo:IProductDisplayInfo;
         private var _imageCallbackId:int = -1;
         private var _blend:Number = 1;
         private var _pendingHabbiconId:int = 0;
 
-        public function ProductIconWidget(widgetWindow:IWidgetWindow, windowManager:HabboWindowManagerComponent)
+        public function ProductIconWidget(widgetWindow:IWidgetWindow, windowManager:HabboWindowManagerComponent, layoutAssetName:String="product_icon_xml")
         {
             super();
             this._widgetWindow = widgetWindow;
             this._windowManager = windowManager;
-            this._root = (this._windowManager.buildFromXML((this._windowManager.assets.getAssetByName("product_icon_xml").content as XML)) as IWindowContainer);
+            this._root = (this._windowManager.buildFromXML((this._windowManager.assets.getAssetByName(layoutAssetName).content as XML)) as IWindowContainer);
             this._widgetWindow.rootWindow = this._root;
             this._root.width = this._widgetWindow.width;
             this._root.height = this._widgetWindow.height;
@@ -156,7 +156,7 @@ package com.sulake.habbo.window.widgets
             }
         }
 
-        private function set imageResult(value:ImageResult):void
+        protected function set imageResult(value:ImageResult):void
         {
             this.clearPreviewer();
             if (value != null)
@@ -350,7 +350,7 @@ package com.sulake.habbo.window.widgets
             return this._disposed;
         }
 
-        private function get productPreviewBitmap():IBitmapWrapperWindow
+        protected function get productPreviewBitmap():IBitmapWrapperWindow
         {
             return (this._root == null) ? null : this._root.findChildByName("bitmap") as IBitmapWrapperWindow;
         }

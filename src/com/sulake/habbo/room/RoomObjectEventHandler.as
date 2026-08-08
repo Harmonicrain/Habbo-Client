@@ -26,6 +26,7 @@
     import com.sulake.habbo.room.events.RoomObjectFloorHoleEvent;
     import com.sulake.habbo.room.events.RoomObjectRoomAdEvent;
     import com.sulake.habbo.room.events.RoomObjectBadgeAssetEvent;
+    import com.sulake.habbo.room.events.RoomObjectFurniIconAssetEvent;
     import com.sulake.habbo.room.events.RoomObjectPlaySoundIdEvent;
     import com.sulake.habbo.room.events.RoomObjectSamplePlaybackEvent;
     import com.sulake.habbo.room.events.RoomObjectHSLColorEnableEvent;
@@ -453,6 +454,9 @@
                     return;
                 case RoomObjectBadgeAssetEvent.ROGBE_LOAD_BADGE:
                     this.handleObjectGroupBadgeEvent(k, _arg_2);
+                    return;
+                case RoomObjectFurniIconAssetEvent.LOAD_FURNI_ICON:
+                    this.handleObjectFurniIconAssetEvent(k, _arg_2);
                     return;
                 case RoomObjectFurnitureActionEvent.MOUSE_ARROW:
                 case RoomObjectFurnitureActionEvent.MOUSE_BUTTON:
@@ -1642,6 +1646,19 @@
                 {
                     this._roomEngine.requestBadgeImageAsset(_arg_2, _local_3, _local_5, _local_6.badgeId, _local_6._Str_14095);
                 }
+            }
+        }
+
+        private function handleObjectFurniIconAssetEvent(k:RoomObjectEvent, roomId:int):void
+        {
+            if (this._roomEngine == null || this._roomEngine.events == null || k == null || k.type != RoomObjectFurniIconAssetEvent.LOAD_FURNI_ICON)
+            {
+                return;
+            }
+            var furniIconEvent:RoomObjectFurniIconAssetEvent = k as RoomObjectFurniIconAssetEvent;
+            if (furniIconEvent != null)
+            {
+                this._roomEngine.requestFurniIconAsset(roomId, k.objectId, this._roomEngine.getRoomObjectCategory(k.objectType), furniIconEvent.wallItem, furniIconEvent.typeId, furniIconEvent.extra);
             }
         }
 

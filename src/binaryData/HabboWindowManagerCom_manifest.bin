@@ -1003,6 +1003,7 @@
             <asset mimeType="text/xml" name="avatar_image_xml"/>
             <asset mimeType="text/xml" name="badge_image_xml"/>
             <asset mimeType="text/xml" name="product_icon_xml"/>
+            <asset mimeType="text/xml" name="product_image_xml"/>
             <asset mimeType="text/xml" name="balloon_xml"/>
             <asset mimeType="text/xml" name="clock_base_xml"/>
             <asset mimeType="text/xml" name="hover_bitmap_xml"/>

@@ -970,6 +970,7 @@
         public static var avatar_image_xml:Class = HabboWindowManagerCom_avatar_image_xml;
         public static var badge_image_xml:Class = HabboWindowManagerCom_badge_image_xml;
         public static var product_icon_xml:Class = HabboWindowManagerCom_product_icon_xml;
+        public static var product_image_xml:Class = HabboWindowManagerCom_product_image_xml;
         public static var balloon_xml:Class = HabboWindowManagerCom_balloon_xml;
         public static var clock_base_xml:Class = HabboWindowManagerCom_clock_base_xml;
         public static var hover_bitmap_xml:Class = HabboWindowManagerCom_hover_bitmap_xml;

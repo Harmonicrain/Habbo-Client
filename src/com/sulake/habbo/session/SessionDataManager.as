@@ -113,6 +113,7 @@
         private var _furnitureParser:FurnitureDataParser;
         private var _Str_7432:_Str_8883;
         private var _badgeImageManager:BadgeImageManager;
+        private var _furniIconImageManager:FurniIconImageManager;
         private var _habboGroupInfoManager:HabboGroupInfoManager;
         private var _ignoredUsersManager:IgnoredUsersManager;
         private var _localizationManager:IHabboLocalizationManager;
@@ -174,6 +175,7 @@
             this.initFurnitureData();
             this.initProductData();
             this.initBadgeImageManager();
+            this.initFurniIconImageManager();
         }
 
         override protected function initComponent():void
@@ -251,6 +253,11 @@
                 this._productParser.dispose();
                 this._productParser = null;
             }
+            if (this._furniIconImageManager != null)
+            {
+                this._furniIconImageManager.dispose();
+                this._furniIconImageManager = null;
+            }
             super.dispose();
         }
 
@@ -261,6 +268,14 @@
                 return;
             }
             this._badgeImageManager = new BadgeImageManager(assets, events, this);
+        }
+
+        private function initFurniIconImageManager():void
+        {
+            if (this._furniIconImageManager == null)
+            {
+                this._furniIconImageManager = new FurniIconImageManager(assets, events, this, this);
+            }
         }
 
         private function initFurnitureData():void
@@ -738,6 +753,16 @@
         public function getGroupBadgeSmallAssetName(k:String):String
         {
             return this._badgeImageManager.getSmallScaleBadgeAssetName(k, BadgeImageManager.GROUP_BADGE);
+        }
+
+        public function getFurniIconImage(wallItem:Boolean, typeId:int, extra:String):BitmapData
+        {
+            return this._furniIconImageManager == null ? null : this._furniIconImageManager.getFurniIconImage(wallItem, typeId, extra);
+        }
+
+        public function getFurniIconImageAssetName(wallItem:Boolean, typeId:int, extra:String):String
+        {
+            return this._furniIconImageManager == null ? "" : this._furniIconImageManager.getFurniIconImageAssetName(wallItem, typeId, extra);
         }
 
         public function hasPurchasableChatStyle(k:int):Boolean

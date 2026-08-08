@@ -8,6 +8,7 @@
         public static const REMOVED:String = "REOE_REMOVED";
         public static const PLACED:String = "REOE_PLACED";
         public static const PLACED_ON_USER:String = "REOE_PLACED_ON_USER";
+        public static const UPDATED:String = "REOE_UPDATED";
         public static const CONTENT_UPDATED:String = "REOE_CONTENT_UPDATED";
         public static const REQUEST_MOVE:String = "REOE_REQUEST_MOVE";
         public static const REQUEST_ROTATE:String = "REOE_REQUEST_ROTATE";

@@ -43,6 +43,8 @@
         function getGroupBadgeSmallImage(_arg_1:String):BitmapData;
         function getGroupBadgeAssetName(_arg_1:String):String;
         function getGroupBadgeSmallAssetName(_arg_1:String):String;
+        function getFurniIconImage(_arg_1:Boolean, _arg_2:int, _arg_3:String):BitmapData;
+        function getFurniIconImageAssetName(_arg_1:Boolean, _arg_2:int, _arg_3:String):String;
         function hasPurchasableChatStyle(_arg_1:int):Boolean;
         function isAccountSafetyLocked():Boolean;
         function isIgnored(_arg_1:String):Boolean;

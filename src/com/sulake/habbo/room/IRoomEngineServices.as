@@ -60,6 +60,7 @@
         function removeFloorHole(_arg_1:int, _arg_2:int):void;
         function getActiveRoomActiveCanvas():IRoomRenderingCanvas;
         function requestBadgeImageAsset(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:String, _arg_5:Boolean=true):void;
+        function requestFurniIconAsset(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:Boolean, _arg_5:int, _arg_6:String):void;
         function get getIsSelectedObjectInValidPosition():Boolean;
         function get setIsSelectedObjectInValidPosition():Boolean;
         function get playerUnderCursor():int;

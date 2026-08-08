@@ -148,9 +148,12 @@
     import com.sulake.habbo.room.messages.RoomObjectRoomAdUpdateMessage;
     import com.sulake.core.assets.IAssetLibrary;
     import com.sulake.habbo.session.events.BadgeImageReadyEvent;
+    import com.sulake.habbo.session.events.FurniIconImageReadyEvent;
     import com.sulake.habbo.room.utils.RoomObjectBadgeImageAssetListener;
+    import com.sulake.habbo.room.utils.RoomObjectFurniIconAssetListener;
     import com.sulake.habbo.room.utils.RoomAreaSelectionManager;
     import com.sulake.habbo.room.messages.RoomObjectGroupBadgeUpdateMessage;
+    import com.sulake.habbo.room.messages.RoomObjectFurniIconUpdateMessage;
     import com.sulake.habbo.room.events.RoomEngineUseProductEvent;
     import com.sulake.habbo.room.utils.SpriteDataCollector;
     import com.sulake.habbo.communication.messages.outgoing.camera.RenderRoomThumbnailMessageComposer;
@@ -176,6 +179,7 @@
         private static const SELECTION_ARROW:String = "selection_arrow";
         private static const OVERLAY:String = "overlay";
         private static const OBJECT_ICON_SPRITE:String = "object_icon_sprite";
+        private static const FURNI_ICON_PLACEHOLDER:String = "loading_icon";
         private static const ROOM_DRAG_THRESHOLD:int = 15;
         private static const FURNITURE_CREATION_TIME_LIMIT_MILLISECONDS:int = 40;
 
@@ -216,6 +220,8 @@
         private var _skipFurnitureCreationForNextFrame:Boolean = false;
         private var _mouseCursorUpdate:Boolean;
         private var _badgeListenerObjects:Map = null;
+        private var _furniIconListenerObjects:Map = null;
+        private var _furniIconListenerAttached:Boolean = false;
         private var _gameManager:IHabboGameManager;
         private var _roomEvents:IHabboUserDefinedRoomEvents;
         private var _isSelectedObjectInValidPosition:Boolean;
@@ -232,6 +238,11 @@
         public function RoomEngine(k:IContext, _arg_2:uint=0)
         {
             super(k, _arg_2);
+        }
+
+        private static function furniIconListenerKey(wallItem:Boolean, typeId:int, extra:String):String
+        {
+            return (wallItem ? "1" : "0") + "-" + typeId + "-" + (extra == null ? "" : extra);
         }
 
         public function get mouseEventsDisabledAboveY():int
@@ -493,6 +504,12 @@
             {
                 this._badgeListenerObjects.dispose();
                 this._badgeListenerObjects = null;
+            }
+            this.detachFurniIconListener();
+            if (this._furniIconListenerObjects != null)
+            {
+                this._furniIconListenerObjects.dispose();
+                this._furniIconListenerObjects = null;
             }
             super.dispose();
         }
@@ -3055,6 +3072,12 @@
             {
                 _local_8.getEventHandler().processUpdateMessage(_local_9);
                 _local_8.getEventHandler().processUpdateMessage(_local_10);
+                if (events != null)
+                {
+                    events.dispatchEvent(new RoomEngineObjectEvent(
+                        RoomEngineObjectEvent.UPDATED, k, _arg_2,
+                        RoomObjectCategoryEnum.OBJECT_CATEGORY_FURNITURE));
+                }
             }
             return true;
         }
@@ -4719,6 +4742,154 @@
             {
                 this._sessionDataManager.events.removeEventListener(BadgeImageReadyEvent.BIRE_BADGE_IMAGE_READY, this.onBadgeLoaded);
             }
+        }
+
+        public function requestFurniIconAsset(roomId:int, objectId:int, category:int, wallItem:Boolean, typeId:int, extra:String):void
+        {
+            if (this._sessionDataManager == null)
+            {
+                return;
+            }
+
+            var roomObject:IRoomObjectController = this.resolveFurniIconListenerObject(roomId, objectId, category);
+            if (!this.isFurniIconListenerObjectValid(roomObject))
+            {
+                return;
+            }
+
+            extra = extra == null ? "" : extra;
+            var assetName:String = this._sessionDataManager.getFurniIconImageAssetName(wallItem, typeId, extra);
+            if (assetName == null)
+            {
+                assetName = FURNI_ICON_PLACEHOLDER;
+                var key:String = furniIconListenerKey(wallItem, typeId, extra);
+                if (this._furniIconListenerObjects == null)
+                {
+                    this._furniIconListenerObjects = new Map();
+                }
+                var listeners:Array = this._furniIconListenerObjects.getValue(key) as Array;
+                if (listeners == null)
+                {
+                    listeners = [];
+                    this._furniIconListenerObjects.add(key, listeners);
+                }
+                if (!this.hasFurniIconWaiter(listeners, roomId, objectId, category))
+                {
+                    listeners.push(new RoomObjectFurniIconAssetListener(roomId, objectId, category));
+                }
+                this.attachFurniIconListener();
+            }
+            else if (assetName != FURNI_ICON_PLACEHOLDER)
+            {
+                this.addFurniIconGraphicAsset(roomObject, assetName, wallItem, typeId, extra);
+            }
+
+            roomObject.getEventHandler().processUpdateMessage(new RoomObjectFurniIconUpdateMessage(assetName, wallItem, typeId, extra));
+        }
+
+        private function hasFurniIconWaiter(listeners:Array, roomId:int, objectId:int, category:int):Boolean
+        {
+            for each (var listener:RoomObjectFurniIconAssetListener in listeners)
+            {
+                if (listener != null && listener.roomId == roomId && listener.objectId == objectId && listener.category == category)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private function resolveFurniIconListenerObject(roomId:int, objectId:int, category:int):IRoomObjectController
+        {
+            if (this._roomManager == null)
+            {
+                return null;
+            }
+            if (roomId == 0)
+            {
+                var temporaryRoom:IRoomInstance = this._roomManager.getRoom(TEMPORARY_ROOM);
+                return temporaryRoom == null ? null : temporaryRoom.getObject(objectId, category) as IRoomObjectController;
+            }
+            return this.getRoomObject(roomId, objectId, category) as IRoomObjectController;
+        }
+
+        private function isFurniIconListenerObjectValid(roomObject:IRoomObjectController):Boolean
+        {
+            return roomObject != null && roomObject.isInitialized() && roomObject.getEventHandler() != null;
+        }
+
+        private function addFurniIconGraphicAsset(roomObject:IRoomObjectController, assetName:String, wallItem:Boolean, typeId:int, extra:String):void
+        {
+            if (this._roomContentLoader == null || this._sessionDataManager == null || assetName == null || assetName.length == 0)
+            {
+                return;
+            }
+            var image:BitmapData = this._sessionDataManager.getFurniIconImage(wallItem, typeId, extra);
+            if (image == null)
+            {
+                return;
+            }
+            if (!this._roomContentLoader._Str_16696(roomObject.getType(), assetName, image, false))
+            {
+                image.dispose();
+            }
+        }
+
+        private function onFurniIconLoaded(event:FurniIconImageReadyEvent):void
+        {
+            if (this._furniIconListenerObjects == null || event == null)
+            {
+                return;
+            }
+
+            var key:String = furniIconListenerKey(event.wallItem, event.typeId, event.extra);
+            var listeners:Array = this._furniIconListenerObjects.remove(key) as Array;
+            if (listeners == null)
+            {
+                if (this._furniIconListenerObjects.length == 0)
+                {
+                    this.detachFurniIconListener();
+                }
+                return;
+            }
+
+            for each (var listener:RoomObjectFurniIconAssetListener in listeners)
+            {
+                var roomObject:IRoomObjectController = listener == null ? null : this.resolveFurniIconListenerObject(listener.roomId, listener.objectId, listener.category);
+                if (!this.isFurniIconListenerObjectValid(roomObject))
+                {
+                    continue;
+                }
+                var resolvedAssetName:String = event.success ? event.assetName : FURNI_ICON_PLACEHOLDER;
+                if (event.success && resolvedAssetName != null && resolvedAssetName.length > 0)
+                {
+                    this.addFurniIconGraphicAsset(roomObject, resolvedAssetName, event.wallItem, event.typeId, event.extra);
+                }
+                roomObject.getEventHandler().processUpdateMessage(new RoomObjectFurniIconUpdateMessage(resolvedAssetName, event.wallItem, event.typeId, event.extra));
+            }
+
+            if (this._furniIconListenerObjects.length == 0)
+            {
+                this.detachFurniIconListener();
+            }
+        }
+
+        private function attachFurniIconListener():void
+        {
+            if (!this._furniIconListenerAttached && this._sessionDataManager != null && this._sessionDataManager.events != null)
+            {
+                this._sessionDataManager.events.addEventListener(FurniIconImageReadyEvent.ICON_READY, this.onFurniIconLoaded);
+                this._furniIconListenerAttached = true;
+            }
+        }
+
+        private function detachFurniIconListener():void
+        {
+            if (this._furniIconListenerAttached && this._sessionDataManager != null && this._sessionDataManager.events != null)
+            {
+                this._sessionDataManager.events.removeEventListener(FurniIconImageReadyEvent.ICON_READY, this.onFurniIconLoaded);
+            }
+            this._furniIconListenerAttached = false;
         }
 
         public function get getIsSelectedObjectInValidPosition():Boolean
