@@ -200,12 +200,14 @@ package com.sulake.habbo.roomevents.wired_trading.chests.subcontrollers.views
         }
         public function clear():void
         {
+            // Clear selection while its view is still alive. Deactivating a
+            // disposed view dereferences its null window during chunk refresh.
+            this.selectItemView(null);
             this.itemGrid.removeGridItems();
             for each (var view:FurniChestItemView in this._views) { view.dispose(); }
             this._views = new Vector.<FurniChestItemView>();
             this._groupedViews.reset();
             this._storageViews.reset();
-            this.selectItemView(null);
             this.updatePreviewUI();
         }
         public function updateGrid():void
@@ -249,9 +251,19 @@ package com.sulake.habbo.roomevents.wired_trading.chests.subcontrollers.views
         }
         public function selectItemView(view:FurniChestItemView):void
         {
-            if (this._selected != null) { this._selected.deactivate(); }
+            if (this._selected != null && !this._selected.disposed)
+            {
+                this._selected.deactivate();
+            }
             this._selected = view;
-            if (this._selected != null) { this._selected.activate(); }
+            if (this._selected != null && !this._selected.disposed)
+            {
+                this._selected.activate();
+            }
+            else if (this._selected != null)
+            {
+                this._selected = null;
+            }
             this.updatePreviewUI();
         }
         private function selectFirstIfNeeded():void

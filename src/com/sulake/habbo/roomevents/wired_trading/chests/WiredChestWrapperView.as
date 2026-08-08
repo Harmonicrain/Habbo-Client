@@ -26,6 +26,7 @@ package com.sulake.habbo.roomevents.wired_trading.chests
     import com.sulake.habbo.roomevents.wired_trading.chests.settings.ChestSettingsUI;
     import com.sulake.habbo.roomevents.wired_trading.chests.subcontrollers.IChestSubController;
     import com.sulake.habbo.roomevents.wired_trading.chests.upgrade_confirmation.WiredChestUpgradeConfirmationView;
+    import com.sulake.habbo.room.object.RoomObjectVariableEnum;
     import com.sulake.habbo.session.furniture.IFurnitureData;
     import com.sulake.habbo.window.IHabboWindowManager;
     import com.sulake.habbo.window.utils.IConfirmDialog;
@@ -110,7 +111,8 @@ package com.sulake.habbo.roomevents.wired_trading.chests
         private function onSettingsClick(event:WindowMouseEvent):void
         {
             var data:Map = this.getStuffDataMap();
-            if (data == null || this._chestId == 0 || this._subController == null) { return; }
+            if (data == null || this._chestId == 0 || this._subController == null
+                || this._chestObject == null) { return; }
             this.chestSettingsUI.onEdit(this._chestId, this._subController.type,
                 this._chestObject.getModel().getNumber("furniture_type_id"),
                 this.isStarterChest, data);
@@ -261,6 +263,7 @@ package com.sulake.habbo.roomevents.wired_trading.chests
         }
         public function updateLayout():void
         {
+            this.refreshChestOwner();
             var data:Map = this.getStuffDataMap();
             if (data == null || this._subController == null) { return; }
             var wired:Boolean = data.getValue("is_wired_enabled") == "1";
@@ -298,6 +301,7 @@ package com.sulake.habbo.roomevents.wired_trading.chests
         }
         public function updateUI():void
         {
+            this.refreshChestOwner();
             var data:Map = this.getStuffDataMap();
             if (data == null || this._subController == null) { return; }
             var canDonate:Boolean = data.getValue("everyone_can_donate") == "1";
@@ -325,8 +329,12 @@ package com.sulake.habbo.roomevents.wired_trading.chests
             Util.disableSection(this.startDepositButton,
                 !canDonate && (!this.canEdit
                     || (this.lockCheckbox.Selected && !this._isChestOwner)));
-            Util.disableSection(this.settingsButton, !this._isChestOwner);
-            Util.disableSection(this.notificationSettingsButton, !this._isChestOwner);
+            // The clean client's room-object owner metadata is absent for some
+            // legacy rooms. Keep these controls clickable when the user can
+            // edit the room; the server remains authoritative on every save.
+            Util.disableSection(this.settingsButton, !this._isChestOwner && !this.canEdit);
+            Util.disableSection(this.notificationSettingsButton,
+                !this._isChestOwner && !this.canEdit);
             Util.disableSection(this.viewLogsButton, !this.canRead);
             Util.disableSection(this.upgradeButton, this.isStarterChest || !this._isChestOwner);
             this.upgradeRegion.toolTipCaption = this.isStarterChest
@@ -334,6 +342,24 @@ package com.sulake.habbo.roomevents.wired_trading.chests
                 : !this._isChestOwner
                     ? "${wiredchests.upgrade.error.reason.not_owner}" : "";
             this._subController.updateUI();
+        }
+        private function refreshChestOwner():void
+        {
+            if (this._chestObject == null || this._chestObject.getModel() == null) { return; }
+            var ownerId:Number = this._chestObject.getModel()
+                .getNumber(RoomObjectVariableEnum.FURNITURE_OWNER_ID);
+            var ownerName:String = this._chestObject.getModel()
+                .getString(RoomObjectVariableEnum.FURNITURE_OWNER_NAME);
+            var matchesId:Boolean = !isNaN(ownerId) && ownerId > 0
+                && int(ownerId) == this._controller.sessionDataManager.userId;
+            var userName:String = this._controller.sessionDataManager.userName;
+            var matchesName:Boolean = ownerName != null && userName != null
+                && ownerName.toLowerCase() == userName.toLowerCase();
+            if ((!isNaN(ownerId) && ownerId > 0)
+                || (ownerName != null && ownerName.length > 0))
+            {
+                this._isChestOwner = matchesId || matchesName;
+            }
         }
         private function onOptionsChanged(event:WindowEvent):void
         {

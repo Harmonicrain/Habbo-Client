@@ -193,6 +193,7 @@
             <var key="margin_bottom" value="8" type="int"/>
           </variables>
         </frame>
+        <container_button x="0" y="0" width="30" height="30" params="17" style="7" name="container_button" visible="false"/>
         <border x="0" y="0" width="30" height="30" params="16" style="3" name="border" color="0x0dadada" visible="false"/>
       </children>
     </container>

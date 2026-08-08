@@ -67,8 +67,9 @@ package com.sulake.habbo.inventory.wired_trading.requirements
                 ? ProductTypeEnum.WALL : ProductTypeEnum.FLOOR;
             var data:IFurnitureData =
                 this._tradingModel.inventory.getFurnitureData(item.type, productType);
-            var className:String = data == null ? "" : data.className;
-            var isCreditFurni:Boolean = className.indexOf("CF_") == 0;
+            var className:String = data == null ? "" : data.className.toUpperCase();
+            var isCreditFurni:Boolean = className.indexOf("CF_") == 0
+                || className.indexOf("CFC_") == 0;
 
             switch (this._wrapper.requirement.type)
             {

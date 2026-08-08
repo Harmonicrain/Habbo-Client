@@ -90,8 +90,14 @@ package com.sulake.habbo.roomevents.wired_trading.chests.subcontrollers.views
         }
         private function updateColoring():void
         {
-            this.focusOutline.visible = this._active;
-            this.border.color = this._hovered ? HOVERED_COLOR : NOT_HOVERED_COLOR;
+            if (this._window == null) { return; }
+            var outline:IStaticBitmapWrapperWindow = this.focusOutline;
+            var itemBorder:IBorderWindow = this.border;
+            if (outline != null) { outline.visible = this._active; }
+            if (itemBorder != null)
+            {
+                itemBorder.color = this._hovered ? HOVERED_COLOR : NOT_HOVERED_COLOR;
+            }
         }
         private function onOut(event:WindowMouseEvent):void
         {

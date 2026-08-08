@@ -52,7 +52,7 @@ package com.sulake.habbo.roomevents.wired_trading.chests
             this._subControllers.push(new CoinChestSubController(this));
             roomEvents.roomEngine.events.addEventListener(RoomEngineObjectEvent.REMOVED,
                 this.onRoomObjectRemoved);
-            roomEvents.roomEngine.events.addEventListener(RoomEngineObjectEvent.CONTENT_UPDATED,
+            roomEvents.roomEngine.events.addEventListener(RoomEngineObjectEvent.UPDATED,
                 this.onRoomObjectUpdated);
         }
 
@@ -186,7 +186,7 @@ package com.sulake.habbo.roomevents.wired_trading.chests
             if (this._disposed) { return; }
             this._roomEvents.roomEngine.events.removeEventListener(RoomEngineObjectEvent.REMOVED,
                 this.onRoomObjectRemoved);
-            this._roomEvents.roomEngine.events.removeEventListener(RoomEngineObjectEvent.CONTENT_UPDATED,
+            this._roomEvents.roomEngine.events.removeEventListener(RoomEngineObjectEvent.UPDATED,
                 this.onRoomObjectUpdated);
             // The wrapper still owns the active sub-controller view. Detach it
             // before disposing the sub-controllers so hide() cannot call into an
