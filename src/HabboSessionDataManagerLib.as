@@ -3,13 +3,13 @@
     import mx.core.SimpleApplication;
     import com.sulake.bootstrap.SessionDataManagerBootstrap;
     import com.sulake.iid.IIDSessionDataManager;
-    import binaryData.*;
-    import images.*;
 
     public class HabboSessionDataManagerLib extends SimpleApplication 
     {
         public static var requiredClasses:Array = new Array(SessionDataManagerBootstrap, IIDSessionDataManager);
-        public static var manifest:Class = HabboSessionDataManagerLib_manifest;
-        public static var loading_icon:Class = HabboSessionDataManagerLib_loading_icon;
+        [Embed(source="binaryData/HabboSessionDataManagerLib_manifest.bin", mimeType="application/octet-stream")]
+        public static var manifest:Class;
+        [Embed(source="images/HabboSessionDataManagerLib_loading_icon.png")]
+        public static var loading_icon:Class;
     }
 }

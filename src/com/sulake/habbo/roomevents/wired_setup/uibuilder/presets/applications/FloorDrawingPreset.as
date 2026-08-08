@@ -1,5 +1,6 @@
 package com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.applications
 {
+    import com.sulake.core.assets.BitmapDataAsset;
     import com.sulake.core.window.IWindow;
     import com.sulake.core.window.components.IBitmapWrapperWindow;
     import com.sulake.core.window.events.WindowEvent;
@@ -10,33 +11,18 @@ package com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.applications
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.BitmapViewPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.WiredUIPreset;
     import com.sulake.habbo.roomevents.wired_setup.uibuilder.styles.WiredStyle;
-    import flash.display.Bitmap;
     import flash.display.BitmapData;
     import flash.geom.ColorTransform;
     import flash.geom.Point;
     import flash.geom.Rectangle;
-    import images.HabboUserDefinedRoomEventsCom_floor_editor_border_E;
-    import images.HabboUserDefinedRoomEventsCom_floor_editor_border_N;
-    import images.HabboUserDefinedRoomEventsCom_floor_editor_border_NE;
-    import images.HabboUserDefinedRoomEventsCom_floor_editor_border_NW;
-    import images.HabboUserDefinedRoomEventsCom_floor_editor_border_S;
-    import images.HabboUserDefinedRoomEventsCom_floor_editor_border_SE;
-    import images.HabboUserDefinedRoomEventsCom_floor_editor_border_SW;
-    import images.HabboUserDefinedRoomEventsCom_floor_editor_border_W;
-    import images.HabboUserDefinedRoomEventsCom_floor_editor_tile_base;
-    import images.HabboUserDefinedRoomEventsCom_floor_editor_tile_entry;
 
     public class FloorDrawingPreset extends WiredUIPreset
     {
-        private static const FLOOR_EDITOR_BORDERS:Array = [
-            Bitmap(new HabboUserDefinedRoomEventsCom_floor_editor_border_N()).bitmapData,
-            Bitmap(new HabboUserDefinedRoomEventsCom_floor_editor_border_NE()).bitmapData,
-            Bitmap(new HabboUserDefinedRoomEventsCom_floor_editor_border_E()).bitmapData,
-            Bitmap(new HabboUserDefinedRoomEventsCom_floor_editor_border_SE()).bitmapData,
-            Bitmap(new HabboUserDefinedRoomEventsCom_floor_editor_border_S()).bitmapData,
-            Bitmap(new HabboUserDefinedRoomEventsCom_floor_editor_border_SW()).bitmapData,
-            Bitmap(new HabboUserDefinedRoomEventsCom_floor_editor_border_W()).bitmapData,
-            Bitmap(new HabboUserDefinedRoomEventsCom_floor_editor_border_NW()).bitmapData
+        private static const FLOOR_EDITOR_BORDER_NAMES:Array = [
+            "floor_editor_border_N", "floor_editor_border_NE",
+            "floor_editor_border_E", "floor_editor_border_SE",
+            "floor_editor_border_S", "floor_editor_border_SW",
+            "floor_editor_border_W", "floor_editor_border_NW"
         ];
         private static const TAKEN_TILE_RGB:Array = [0, 0.4, 0.8];
         private static const UNTAKEN_TILE_RGB:Array = [0.2, 0.2, 0.2];
@@ -44,8 +30,9 @@ package com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.applications
 
         private var _bitmapPreset:BitmapViewPreset;
         private var _onRootTileChanged:Function;
-        private var _tileImageBase:BitmapData = Bitmap(new HabboUserDefinedRoomEventsCom_floor_editor_tile_base()).bitmapData;
-        private var _tileImageEntry:BitmapData = Bitmap(new HabboUserDefinedRoomEventsCom_floor_editor_tile_entry()).bitmapData;
+        private var _floorEditorBorders:Array;
+        private var _tileImageBase:BitmapData;
+        private var _tileImageEntry:BitmapData;
         private var _tileTaken:BitmapData;
         private var _tileUntaken:BitmapData;
         private var _drawing:Boolean;
@@ -60,12 +47,30 @@ package com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.applications
         {
             super(roomEvents, presets, style);
             this._onRootTileChanged = onRootTileChanged;
+            this._floorEditorBorders = [];
+            for each (var borderName:String in FLOOR_EDITOR_BORDER_NAMES)
+            {
+                this._floorEditorBorders.push(this.getBitmapAsset(borderName));
+            }
+            this._tileImageBase = this.getBitmapAsset("floor_editor_tile_base");
+            this._tileImageEntry = this.getBitmapAsset("floor_editor_tile_entry");
             this._bitmapPreset = presets.createBitmapViewPreset();
             this._bitmapPreset.bitmapWindow.procedure = this.editorWindowProcedure;
             this._tileTaken = this._tileImageBase.clone();
             this._tileTaken.colorTransform(this._tileImageBase.rect, new ColorTransform(TAKEN_TILE_RGB[0], TAKEN_TILE_RGB[1], TAKEN_TILE_RGB[2]));
             this._tileUntaken = this._tileImageBase.clone();
             this._tileUntaken.colorTransform(this._tileImageBase.rect, new ColorTransform(UNTAKEN_TILE_RGB[0], UNTAKEN_TILE_RGB[1], UNTAKEN_TILE_RGB[2]));
+        }
+
+        private function getBitmapAsset(name:String):BitmapData
+        {
+            var asset:BitmapDataAsset = this._roomEvents.assets.getAssetByName(name)
+                as BitmapDataAsset;
+            if (asset == null || asset.content == null)
+            {
+                throw new Error("Missing Wired floor editor asset: " + name);
+            }
+            return asset.content as BitmapData;
         }
 
         private static function transformFromScreenSpace(x:int, y:int):Point
@@ -240,18 +245,18 @@ package com.sulake.habbo.roomevents.wired_setup.uibuilder.presets.applications
 
             for (x = 0; x < this._floor.visualizingDimension; x++)
             {
-                layers.push({point:transformToScreenSpace(x, -1), image:FLOOR_EDITOR_BORDERS[0]});
-                layers.push({point:transformToScreenSpace(x, this._floor.visualizingDimension), image:FLOOR_EDITOR_BORDERS[4]});
+                layers.push({point:transformToScreenSpace(x, -1), image:this._floorEditorBorders[0]});
+                layers.push({point:transformToScreenSpace(x, this._floor.visualizingDimension), image:this._floorEditorBorders[4]});
             }
             for (y = 0; y < this._floor.visualizingDimension; y++)
             {
-                layers.push({point:transformToScreenSpace(-1, y), image:FLOOR_EDITOR_BORDERS[6]});
-                layers.push({point:transformToScreenSpace(this._floor.visualizingDimension, y), image:FLOOR_EDITOR_BORDERS[2]});
+                layers.push({point:transformToScreenSpace(-1, y), image:this._floorEditorBorders[6]});
+                layers.push({point:transformToScreenSpace(this._floor.visualizingDimension, y), image:this._floorEditorBorders[2]});
             }
-            layers.push({point:transformToScreenSpace(-1, -1), image:FLOOR_EDITOR_BORDERS[7]});
-            layers.push({point:transformToScreenSpace(this._floor.visualizingDimension, -1), image:FLOOR_EDITOR_BORDERS[1]});
-            layers.push({point:transformToScreenSpace(this._floor.visualizingDimension, this._floor.visualizingDimension), image:FLOOR_EDITOR_BORDERS[3]});
-            layers.push({point:transformToScreenSpace(-1, this._floor.visualizingDimension), image:FLOOR_EDITOR_BORDERS[5]});
+            layers.push({point:transformToScreenSpace(-1, -1), image:this._floorEditorBorders[7]});
+            layers.push({point:transformToScreenSpace(this._floor.visualizingDimension, -1), image:this._floorEditorBorders[1]});
+            layers.push({point:transformToScreenSpace(this._floor.visualizingDimension, this._floor.visualizingDimension), image:this._floorEditorBorders[3]});
+            layers.push({point:transformToScreenSpace(-1, this._floor.visualizingDimension), image:this._floorEditorBorders[5]});
 
             var minX:int = int.MAX_VALUE;
             var minY:int = int.MAX_VALUE;

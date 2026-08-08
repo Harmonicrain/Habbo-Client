@@ -1,9 +1,0 @@
-package binaryData
-{
-    import mx.core.ByteArrayAsset;
-
-    [Embed(source="HabboRoomUICom_new_furni_chooser_item.bin", mimeType="application/octet-stream")]
-    public class HabboRoomUICom_new_furni_chooser_item extends ByteArrayAsset
-    {
-    }
-}

@@ -1,6 +1,6 @@
 package com.sulake.habbo.ui.widget.furniture.gamehall.leaderboard
 {
-    import binaryData.HabboRoomUICom_gamehall_leaderboard_xml;
+    import com.sulake.core.assets.IAsset;
     import com.sulake.core.assets.IAssetLibrary;
     import com.sulake.core.window.IWindow;
     import com.sulake.core.window.IWindowContainer;
@@ -20,7 +20,6 @@ package com.sulake.habbo.ui.widget.furniture.gamehall.leaderboard
     import com.sulake.habbo.utils.HabboFaceFocuser;
     import com.sulake.habbo.window.IHabboWindowManager;
     import flash.display.BitmapData;
-    import flash.utils.ByteArray;
 
     public class GamehallLeaderboardView implements IAvatarImageListener
     {
@@ -31,6 +30,7 @@ package com.sulake.habbo.ui.widget.furniture.gamehall.leaderboard
         private var _disposed:Boolean = false;
         private var _windowManager:IHabboWindowManager;
         private var _localizations:IHabboLocalizationManager;
+        private var _assets:IAssetLibrary;
         private var _requestCallback:Function;
         private var _profileCallback:Function;
         private var _avatarRenderManager:IAvatarRenderManager;
@@ -45,10 +45,11 @@ package com.sulake.habbo.ui.widget.furniture.gamehall.leaderboard
         private var _currentOffset:int = 0;
         private var _currentLimit:int = 10;
 
-        public function GamehallLeaderboardView(windowManager:IHabboWindowManager, localizations:IHabboLocalizationManager, requestCallback:Function, profileCallback:Function, avatarRenderManager:IAvatarRenderManager)
+        public function GamehallLeaderboardView(windowManager:IHabboWindowManager, localizations:IHabboLocalizationManager, assets:IAssetLibrary, requestCallback:Function, profileCallback:Function, avatarRenderManager:IAvatarRenderManager)
         {
             this._windowManager = windowManager;
             this._localizations = localizations;
+            this._assets = assets;
             this._requestCallback = requestCallback;
             this._profileCallback = profileCallback;
             this._avatarRenderManager = avatarRenderManager;
@@ -121,6 +122,7 @@ package com.sulake.habbo.ui.widget.furniture.gamehall.leaderboard
             }
             this._windowManager = null;
             this._localizations = null;
+            this._assets = null;
             this._disposed = true;
         }
 
@@ -135,9 +137,12 @@ package com.sulake.habbo.ui.widget.furniture.gamehall.leaderboard
 
         private function createWindow():void
         {
-            var bytes:ByteArray = new HabboRoomUICom_gamehall_leaderboard_xml() as ByteArray;
-            bytes.position = 0;
-            this._window = this._windowManager.buildFromXML(new XML(bytes.readUTFBytes(bytes.length)), 1) as IWindowContainer;
+            var asset:IAsset = this._assets == null ? null : this._assets.getAssetByName("gamehall_leaderboard_xml");
+            if (asset == null || asset.content == null)
+            {
+                return;
+            }
+            this._window = this._windowManager.buildFromXML(XML(asset.content), 1) as IWindowContainer;
             if (this._window == null)
             {
                 return;

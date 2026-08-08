@@ -4,6 +4,16 @@
 	<component class="com.sulake.bootstrap.HabboUserDefinedRoomEventsBootstrap" version="0.0" >
 	  <interface iid="com.sulake.iid.IIDHabboUserDefinedRoomEvents" />
 	  <assets>
+        <asset mimeType="image/png" name="floor_editor_border_N"/>
+        <asset mimeType="image/png" name="floor_editor_border_NE"/>
+        <asset mimeType="image/png" name="floor_editor_border_E"/>
+        <asset mimeType="image/png" name="floor_editor_border_SE"/>
+        <asset mimeType="image/png" name="floor_editor_border_S"/>
+        <asset mimeType="image/png" name="floor_editor_border_SW"/>
+        <asset mimeType="image/png" name="floor_editor_border_W"/>
+        <asset mimeType="image/png" name="floor_editor_border_NW"/>
+        <asset mimeType="image/png" name="floor_editor_tile_base"/>
+        <asset mimeType="image/png" name="floor_editor_tile_entry"/>
         <asset mimeType="image/png" name="icon_action_png"/>
         <asset mimeType="image/png" name="icon_condition_png"/>
         <asset mimeType="image/png" name="icon_trigger_png"/>

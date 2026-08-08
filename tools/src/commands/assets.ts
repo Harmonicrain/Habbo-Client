@@ -460,36 +460,33 @@ async function embedIntoComponents(args: ReturnType<typeof parseArgs>): Promise<
 
   console.log(`Found ${classMap.size} asset classes in ${totalWrapperFiles} files.\n`);
 
-  // Step 2: Find component files to update (src/*.as, excluding asset dirs, bak/, com/, snowwar/)
-  const skipDirs = new Set(assetDirs.map((ad) => path.join(srcDir, ad.dir)));
+  // Step 2: Find component roots only. Asset declarations live in src/*.as;
+  // scanning recursively can rewrite implementation classes on Windows because
+  // path separators do not match the old "/com/" exclusion.
   const componentFiles = (await walkFiles(srcDir, (f) => f.toLowerCase().endsWith(".as")))
-    .filter((f) => !f.includes("/bak/") && !f.includes("/com/") && !f.includes("/snowwar/") && !Array.from(skipDirs).some((d) => f.startsWith(d)));
+    .filter((f) => path.dirname(f) === srcDir);
 
   // Step 3: Process each component file
   // Match: (public|private|protected) static (var|const) X:Class = ClassName;
-  const assignRegex = /(?:public|private|protected)\s+static\s+(var|const)\s+(\w+)\s*:\s*Class\s*=\s*(\w+)\s*;/g;
+  const assignRegex = /^([ \t]*)(public|private|protected)\s+static\s+(var|const)\s+(\w+)\s*:\s*Class\s*=\s*(\w+)\s*;/gm;
   let totalReplacements = 0;
 
   for (const filePath of componentFiles) {
-    let text = await readText(filePath);
+    let text = (await readText(filePath)).replace(/\r\n?/g, "\n");
     let hasChanges = false;
 
     // --- A) Replace static Class assignments with [Embed] annotations ---
-    text = text.replace(assignRegex, (fullMatch, varOrConst, propertyName, className) => {
+    text = text.replace(assignRegex, (fullMatch, indent, visibility, varOrConst, propertyName, className) => {
       const info = classMap.get(className);
       if (!info) {
         return fullMatch; // Not an asset class (e.g., manifest, other)
       }
       const action = apply ? "" : "[DRY] ";
-      const matchPrivate = fullMatch.startsWith("private") ? "private " : "";
-      const matchProtected = fullMatch.startsWith("protected") ? "protected " : "";
-      const matchPublic = (!matchPrivate && !matchProtected) ? "public " : "";
-      const visibility = matchPrivate || matchProtected || matchPublic;
-      console.log(`  ${action}${relativeToRoot(filePath)}: ${visibility}static ${varOrConst} ${propertyName}:Class = ${className}`);
+      console.log(`  ${action}${relativeToRoot(filePath)}: ${visibility} static ${varOrConst} ${propertyName}:Class = ${className}`);
       totalReplacements++;
       hasChanges = true;
       const mimeAttr = info.mimeType ? `, mimeType="${info.mimeType}"` : "";
-      return `[Embed(source="${info.dir}/${info.source}"${mimeAttr})]\n    ${visibility}static ${varOrConst} ${propertyName}:Class;`;
+      return `${indent}[Embed(source="${info.dir}/${info.source}"${mimeAttr})]\n${indent}${visibility} static ${varOrConst} ${propertyName}:Class;`;
     });
 
     // --- B) Remove import images.* / import binaryData.*; ---
@@ -526,7 +523,7 @@ async function embedIntoComponents(args: ReturnType<typeof parseArgs>): Promise<
   // --- E) Handle HabboAir.as: add [Embed] static consts for its own images ---
   const habboAirPath = path.join(srcDir, "HabboAir.as");
   if (await exists(habboAirPath)) {
-    let habboAirText = await readText(habboAirPath);
+    let habboAirText = (await readText(habboAirPath)).replace(/\r\n?/g, "\n");
     const originalHabboAir = habboAirText;
 
     // Find image classes that belong to HabboAir prefix

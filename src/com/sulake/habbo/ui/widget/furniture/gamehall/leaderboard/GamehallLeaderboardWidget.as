@@ -32,7 +32,7 @@ package com.sulake.habbo.ui.widget.furniture.gamehall.leaderboard
         {
             if (this._view == null)
             {
-                this._view = new GamehallLeaderboardView(this.windowManager, this.localizations, this.requestLeaderboard, this.showProfile, this.avatarRenderManager);
+                this._view = new GamehallLeaderboardView(this.windowManager, this.localizations, this.assets, this.requestLeaderboard, this.showProfile, this.avatarRenderManager);
             }
             this._view.show(data);
         }

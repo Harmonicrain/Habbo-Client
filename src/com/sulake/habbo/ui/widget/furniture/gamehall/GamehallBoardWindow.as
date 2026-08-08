@@ -1,6 +1,5 @@
 package com.sulake.habbo.ui.widget.furniture.gamehall
 {
-    import binaryData.HabboRoomUICom_gamehall_board_xml;
     import com.sulake.core.assets.IAsset;
     import com.sulake.core.assets.IAssetLibrary;
     import com.sulake.core.window.IWindow;
@@ -11,7 +10,6 @@ package com.sulake.habbo.ui.widget.furniture.gamehall
     import com.sulake.core.window.enum.WindowStyle;
     import com.sulake.core.window.enum.WindowType;
     import com.sulake.habbo.window.IHabboWindowManager;
-    import flash.utils.ByteArray;
     import flash.display.Sprite;
     import flash.geom.Rectangle;
 
@@ -182,11 +180,6 @@ package com.sulake.habbo.ui.widget.furniture.gamehall
                 {
                     xml = XML(asset.content);
                 }
-            }
-            if (xml == null)
-            {
-                var bytes:ByteArray = new HabboRoomUICom_gamehall_board_xml() as ByteArray;
-                xml = new XML(bytes.readUTFBytes(bytes.length));
             }
             if (xml == null)
             {
