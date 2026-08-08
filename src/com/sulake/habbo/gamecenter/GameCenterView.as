@@ -123,10 +123,19 @@
 
         public function initialize(k:int, _arg_2:Boolean):void
         {
+            var _local_3:Array;
             this._startPlaying = _arg_2;
             if (!this._layout)
             {
                 this._layout = new GameCenterLayout(this);
+            }
+            if (!GameConfigurations.isGameEnabled(k))
+            {
+                _local_3 = GameConfigurations.gameIds();
+                if (((_local_3) && (_local_3.length > 0)))
+                {
+                    k = _local_3[0];
+                }
             }
             if (GameConfigurations.isGameEnabled(k))
             {

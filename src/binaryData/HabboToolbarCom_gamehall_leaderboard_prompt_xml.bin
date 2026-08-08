@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout name="gamehall_leaderboard_prompt" width="192" height="86" version="0.1">
+  <window>
+    <container x="0" y="0" width="192" height="86" params="0" style="3" color="0x0686661">
+      <children>
+        <border x="0" y="0" width="192" height="86" params="16" style="9" color="0x0686661">
+          <children>
+            <border x="4" y="4" width="184" height="78" params="16" style="3" color="0x024231e">
+              <children>
+                <formatted_text x="10" y="8" width="164" height="38" params="16" style="0" name="prompt_message" caption="%24%7Bgamehall.leaderboard.prompt.message%7D">
+                  <variables>
+                    <var key="text_color" value="0xFFFFFF" type="hex"/>
+                    <var key="text_style" value="u_regular" type="String"/>
+                    <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                    <var key="multiline" value="true" type="Boolean"/>
+                    <var key="word_wrap" value="true" type="Boolean"/>
+                    <var key="spacing" value="0" type="Number"/>
+                    <var key="leading" value="0" type="Number"/>
+                  </variables>
+                </formatted_text>
+                <container_button x="36" y="53" width="112" height="20" params="129" style="0" name="view_high_scores_button" caption="" color="0x02781b5" clipping="false">
+                  <children>
+                    <label x="0" y="1" width="112" height="17" params="1838288" style="3" name="view_high_scores_label" caption="%24%7Bgamehall.leaderboard.prompt.button%7D">
+                      <variables>
+                        <var key="text_color" value="0xffffff" type="hex"/>
+                        <var key="text_style" value="u_bold" type="String"/>
+                      </variables>
+                    </label>
+                  </children>
+                </container_button>
+              </children>
+            </border>
+          </children>
+        </border>
+      </children>
+    </container>
+  </window>
+</layout>

@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<skin name="border_16" version="0.0">
+
+	<variables>
+		<variable key="asset" value="habbo_border_hsv_layers2_png" type="String" />
+	</variables>
+
+	<states>
+		<state name="default" layout="border_16" template="border_16" />
+		<state name="active" layout="border_16" template="border_16" />
+	</states>
+
+	<templates>
+		<template name="border_16" asset="$asset">
+			<entities>
+				<entity name="dark_top_left" type="bitmap"><region><Rectangle x="2" y="2" width="6" height="6" /></region></entity>
+				<entity name="dark_top_center" type="bitmap"><region><Rectangle x="8" y="2" width="4" height="6" /></region></entity>
+				<entity name="dark_top_right" type="bitmap"><region><Rectangle x="12" y="2" width="6" height="6" /></region></entity>
+				<entity name="dark_mid_left" type="bitmap"><region><Rectangle x="2" y="8" width="6" height="4" /></region></entity>
+				<entity name="dark_mid_center" type="bitmap"><region><Rectangle x="8" y="8" width="4" height="4" /></region></entity>
+				<entity name="dark_mid_right" type="bitmap"><region><Rectangle x="12" y="8" width="6" height="4" /></region></entity>
+				<entity name="dark_btm_left" type="bitmap"><region><Rectangle x="2" y="12" width="6" height="6" /></region></entity>
+				<entity name="dark_btm_center" type="bitmap"><region><Rectangle x="8" y="12" width="4" height="6" /></region></entity>
+				<entity name="dark_btm_right" type="bitmap"><region><Rectangle x="12" y="12" width="6" height="6" /></region></entity>
+
+				<entity name="mid_top_left" type="bitmap"><region><Rectangle x="2" y="22" width="6" height="6" /></region></entity>
+				<entity name="mid_top_center" type="bitmap"><region><Rectangle x="8" y="22" width="4" height="6" /></region></entity>
+				<entity name="mid_top_right" type="bitmap"><region><Rectangle x="12" y="22" width="6" height="6" /></region></entity>
+				<entity name="mid_mid_left" type="bitmap"><region><Rectangle x="2" y="28" width="6" height="4" /></region></entity>
+				<entity name="mid_mid_center" type="bitmap"><region><Rectangle x="8" y="28" width="4" height="4" /></region></entity>
+				<entity name="mid_mid_right" type="bitmap"><region><Rectangle x="12" y="28" width="6" height="4" /></region></entity>
+				<entity name="mid_btm_left" type="bitmap"><region><Rectangle x="2" y="32" width="6" height="6" /></region></entity>
+				<entity name="mid_btm_center" type="bitmap"><region><Rectangle x="8" y="32" width="4" height="6" /></region></entity>
+				<entity name="mid_btm_right" type="bitmap"><region><Rectangle x="12" y="32" width="6" height="6" /></region></entity>
+
+				<entity name="light_top_left" type="bitmap"><region><Rectangle x="22" y="2" width="6" height="6" /></region></entity>
+				<entity name="light_top_center" type="bitmap"><region><Rectangle x="28" y="2" width="4" height="6" /></region></entity>
+				<entity name="light_top_right" type="bitmap"><region><Rectangle x="32" y="2" width="6" height="6" /></region></entity>
+				<entity name="light_mid_left" type="bitmap"><region><Rectangle x="22" y="8" width="6" height="4" /></region></entity>
+				<entity name="light_mid_center" type="bitmap"><region><Rectangle x="28" y="8" width="4" height="4" /></region></entity>
+				<entity name="light_mid_right" type="bitmap"><region><Rectangle x="32" y="8" width="6" height="4" /></region></entity>
+				<entity name="light_btm_left" type="bitmap"><region><Rectangle x="22" y="12" width="6" height="6" /></region></entity>
+				<entity name="light_btm_center" type="bitmap"><region><Rectangle x="28" y="12" width="4" height="6" /></region></entity>
+				<entity name="light_btm_right" type="bitmap"><region><Rectangle x="32" y="12" width="6" height="6" /></region></entity>
+			</entities>
+		</template>
+	</templates>
+
+	<layouts>
+		<layout name="border_16" transparent="true">
+			<entities>
+				<entity name="dark_top_left" id="0" colorizeMethod="hsv_layer" shade="0.5"><region><Rectangle x="0" y="0" width="6" height="6" /></region><scale horizontal="fixed" vertical="fixed" /></entity>
+				<entity name="dark_top_center" id="0" colorizeMethod="hsv_layer" shade="0.5"><region><Rectangle x="6" y="0" width="4" height="6" /></region><scale horizontal="strech" vertical="fixed" /></entity>
+				<entity name="dark_top_right" id="0" colorizeMethod="hsv_layer" shade="0.5"><region><Rectangle x="10" y="0" width="6" height="6" /></region><scale horizontal="move" vertical="fixed" /></entity>
+				<entity name="dark_mid_left" id="0" colorizeMethod="hsv_layer" shade="0.5"><region><Rectangle x="0" y="6" width="6" height="4" /></region><scale horizontal="fixed" vertical="strech" /></entity>
+				<entity name="dark_mid_center" id="0" colorizeMethod="hsv_layer" shade="0.5"><region><Rectangle x="6" y="6" width="4" height="4" /></region><scale horizontal="strech" vertical="strech" /></entity>
+				<entity name="dark_mid_right" id="0" colorizeMethod="hsv_layer" shade="0.5"><region><Rectangle x="10" y="6" width="6" height="4" /></region><scale horizontal="move" vertical="strech" /></entity>
+				<entity name="dark_btm_left" id="0" colorizeMethod="hsv_layer" shade="0.5"><region><Rectangle x="0" y="10" width="6" height="6" /></region><scale horizontal="fixed" vertical="move" /></entity>
+				<entity name="dark_btm_center" id="0" colorizeMethod="hsv_layer" shade="0.5"><region><Rectangle x="6" y="10" width="4" height="6" /></region><scale horizontal="strech" vertical="move" /></entity>
+				<entity name="dark_btm_right" id="0" colorizeMethod="hsv_layer" shade="0.5"><region><Rectangle x="10" y="10" width="6" height="6" /></region><scale horizontal="move" vertical="move" /></entity>
+
+				<entity name="mid_top_left" id="0" colorizeMethod="hsv_layer" shade="0.16"><region><Rectangle x="0" y="0" width="6" height="6" /></region><scale horizontal="fixed" vertical="fixed" /></entity>
+				<entity name="mid_top_center" id="0" colorizeMethod="hsv_layer" shade="0.16"><region><Rectangle x="6" y="0" width="4" height="6" /></region><scale horizontal="strech" vertical="fixed" /></entity>
+				<entity name="mid_top_right" id="0" colorizeMethod="hsv_layer" shade="0.16"><region><Rectangle x="10" y="0" width="6" height="6" /></region><scale horizontal="move" vertical="fixed" /></entity>
+				<entity name="mid_mid_left" id="0" colorizeMethod="hsv_layer" shade="0.16"><region><Rectangle x="0" y="6" width="6" height="4" /></region><scale horizontal="fixed" vertical="strech" /></entity>
+				<entity name="mid_mid_center" id="0" colorizeMethod="hsv_layer" shade="0.16"><region><Rectangle x="6" y="6" width="4" height="4" /></region><scale horizontal="strech" vertical="strech" /></entity>
+				<entity name="mid_mid_right" id="0" colorizeMethod="hsv_layer" shade="0.16"><region><Rectangle x="10" y="6" width="6" height="4" /></region><scale horizontal="move" vertical="strech" /></entity>
+				<entity name="mid_btm_left" id="0" colorizeMethod="hsv_layer" shade="0.16"><region><Rectangle x="0" y="10" width="6" height="6" /></region><scale horizontal="fixed" vertical="move" /></entity>
+				<entity name="mid_btm_center" id="0" colorizeMethod="hsv_layer" shade="0.16"><region><Rectangle x="6" y="10" width="4" height="6" /></region><scale horizontal="strech" vertical="move" /></entity>
+				<entity name="mid_btm_right" id="0" colorizeMethod="hsv_layer" shade="0.16"><region><Rectangle x="10" y="10" width="6" height="6" /></region><scale horizontal="move" vertical="move" /></entity>
+
+				<entity name="light_top_left" id="0" colorizeMethod="hsv_layer" shade="0"><region><Rectangle x="0" y="0" width="6" height="6" /></region><scale horizontal="fixed" vertical="fixed" /></entity>
+				<entity name="light_top_center" id="0" colorizeMethod="hsv_layer" shade="0"><region><Rectangle x="6" y="0" width="4" height="6" /></region><scale horizontal="strech" vertical="fixed" /></entity>
+				<entity name="light_top_right" id="0" colorizeMethod="hsv_layer" shade="0"><region><Rectangle x="10" y="0" width="6" height="6" /></region><scale horizontal="move" vertical="fixed" /></entity>
+				<entity name="light_mid_left" id="0" colorizeMethod="hsv_layer" shade="0"><region><Rectangle x="0" y="6" width="6" height="4" /></region><scale horizontal="fixed" vertical="strech" /></entity>
+				<entity name="light_mid_center" id="0" colorizeMethod="hsv_layer" shade="0"><region><Rectangle x="6" y="6" width="4" height="4" /></region><scale horizontal="strech" vertical="strech" /></entity>
+				<entity name="light_mid_right" id="0" colorizeMethod="hsv_layer" shade="0"><region><Rectangle x="10" y="6" width="6" height="4" /></region><scale horizontal="move" vertical="strech" /></entity>
+				<entity name="light_btm_left" id="0" colorizeMethod="hsv_layer" shade="0"><region><Rectangle x="0" y="10" width="6" height="6" /></region><scale horizontal="fixed" vertical="move" /></entity>
+				<entity name="light_btm_center" id="0" colorizeMethod="hsv_layer" shade="0"><region><Rectangle x="6" y="10" width="4" height="6" /></region><scale horizontal="strech" vertical="move" /></entity>
+				<entity name="light_btm_right" id="0" colorizeMethod="hsv_layer" shade="0"><region><Rectangle x="10" y="10" width="6" height="6" /></region><scale horizontal="move" vertical="move" /></entity>
+			</entities>
+		</layout>
+	</layouts>
+</skin>

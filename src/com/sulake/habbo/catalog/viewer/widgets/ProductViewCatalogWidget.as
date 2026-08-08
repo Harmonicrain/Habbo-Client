@@ -500,6 +500,9 @@ _local_4 = _local_10.getCroppedImage(AvatarSetType.FULL);
                                 break;
                             case ProductTypeEnum.HABBO_CLUB:
                                 break;
+                            case ProductTypeEnum.CHAT_STYLE:
+                                _local_4 = this._habboCatalog.createChatStyleBubblePreview(parseInt(_local_7.extraParam));
+                                break;
                             default:
                                 Logger.log(("[ProductViewCatalogWidget] Unknown Product Type: " + _local_7.productType));
                         }

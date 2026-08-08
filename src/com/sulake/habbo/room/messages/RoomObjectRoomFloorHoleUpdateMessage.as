@@ -13,8 +13,9 @@
         private var _y:int;
         private var _width:int;
         private var _height:int;
+        private var _invert:Boolean;
 
-        public function RoomObjectRoomFloorHoleUpdateMessage(k:String, _arg_2:int, _arg_3:int=0, _arg_4:int=0, _arg_5:int=0, _arg_6:int=0)
+        public function RoomObjectRoomFloorHoleUpdateMessage(k:String, _arg_2:int, _arg_3:int=0, _arg_4:int=0, _arg_5:int=0, _arg_6:int=0, _arg_7:Boolean=false)
         {
             super(null, null);
             this._type = k;
@@ -23,6 +24,7 @@
             this._y = _arg_4;
             this._width = _arg_5;
             this._height = _arg_6;
+            this._invert = _arg_7;
         }
 
         public function get type():String
@@ -53,6 +55,11 @@
         public function get height():int
         {
             return this._height;
+        }
+
+        public function get invert():Boolean
+        {
+            return this._invert;
         }
     }
 }

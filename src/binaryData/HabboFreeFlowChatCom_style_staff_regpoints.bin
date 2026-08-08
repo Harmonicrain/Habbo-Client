@@ -1,10 +1,12 @@
-9sliceXY = 32,21
+9sliceXY = 39,15
 9sliceWH = 1,1
-pointerY = 27
-faceXY = 17,16
-textFieldMargins = 31,8,12,7
+pointerY = 25
+faceXY = 16,15
+textFieldMargins = 33,7,17,11
 textColorRGB = 0x000000
 fontFace = Ubuntu
 fontSize = 12
 overlapRect = 3,2,0,0
-
+usePixelPerfectNineSlice = true
+emblemXY = 0,0
+emblemMultilineXY = 0,0

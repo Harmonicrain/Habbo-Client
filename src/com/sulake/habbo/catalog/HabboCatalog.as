@@ -15,6 +15,8 @@
     import com.sulake.habbo.room.IRoomEngine;
     import com.sulake.habbo.session.IRoomSessionManager;
     import com.sulake.habbo.session.IRoomSession;
+    import com.sulake.habbo.freeflowchat.IHabboFreeFlowChat;
+    import com.sulake.habbo.freeflowchat.style.IChatStyle;
     import com.sulake.habbo.localization.IHabboLocalizationManager;
     import com.sulake.habbo.inventory.IHabboInventory;
     import com.sulake.habbo.session.ISessionDataManager;
@@ -76,6 +78,7 @@
     import com.sulake.iid.IIDAvatarRenderManager;
     import com.sulake.iid.IIDHabboSoundManager;
     import com.sulake.iid.IIDHabboRoomSessionManager;
+    import com.sulake.iid.IIDHabboFreeFlowChat;
     import com.sulake.habbo.session.events.RoomSessionEvent;
     import com.sulake.iid.IIDHabboFriendList;
     import com.sulake.iid.IIDHabboNewNavigator;
@@ -257,6 +260,7 @@
     import com.sulake.habbo.utils._Str_6093;
     import com.sulake.habbo.catalog.offers.IOfferExtension;
     import com.sulake.habbo.catalog.offers.IOfferCenter;
+    import com.sulake.habbo.catalog.habbicons.HabbiconController;
     import __AS3__.vec.*;
     import com.sulake.iid.*;
 
@@ -274,6 +278,7 @@
         private var _roomEngine:IRoomEngine;
         private var _roomSessionManager:IRoomSessionManager;
         private var _roomSession:IRoomSession;
+        private var _freeFlowChat:IHabboFreeFlowChat;
         private var _localization:IHabboLocalizationManager;
         private var _inventory:IHabboInventory;
         private var _sessionDataManager:ISessionDataManager;
@@ -347,6 +352,7 @@
             registerUpdateReceiver(this, 1);
             this._requestedPage = new RequestedPage();
             k.attachComponent(new HabboClubCenter(k, 0, _arg_3), [new IIDHabboClubCenter()]);
+            k.attachComponent(new HabbiconController(k, 0, _arg_3), [new IIDHabbiconController()]);
         }
 
         public static function setElementImageCentered(k:IWindow, _arg_2:BitmapData, _arg_3:int=0):void
@@ -523,7 +529,10 @@
             }, {
                 "type":RoomSessionEvent.ENDED,
                 "callback":this.onRoomSessionEvent
-            }]), new ComponentDependency(new IIDHabboFriendList(), function (k:IHabboFriendsList):void
+            }]), new ComponentDependency(new IIDHabboFreeFlowChat(), function (k:IHabboFreeFlowChat):void
+            {
+                _freeFlowChat = k;
+            }, false), new ComponentDependency(new IIDHabboFriendList(), function (k:IHabboFriendsList):void
             {
                 _friendsList = k;
             }, false), new ComponentDependency(new IIDHabboNewNavigator(), function (k:IHabboNewNavigator):void
@@ -1206,6 +1215,31 @@
                 return (_local_2.content as BitmapData).clone();
             }
             return new BitmapData(1, 1, true, 0xFFFFFF);
+        }
+
+        public function createChatStylePreview(k:int):BitmapData
+        {
+            var _local_2:IChatStyle;
+            if (((this._freeFlowChat == null) || (this._freeFlowChat.chatStyleLibrary == null)))
+            {
+                return new BitmapData(1, 1, true, 0);
+            }
+            _local_2 = this._freeFlowChat.chatStyleLibrary.getStyle(k);
+            if (((_local_2 == null) || (_local_2.selectorPreview == null)))
+            {
+                return new BitmapData(1, 1, true, 0);
+            }
+            return _local_2.selectorPreview.clone();
+        }
+
+        public function createChatStyleBubblePreview(k:int):BitmapData
+        {
+            if (this._freeFlowChat == null)
+            {
+                return new BitmapData(1, 1, true, 0);
+            }
+            var _local_2:BitmapData = this._freeFlowChat.createChatStylePreviewBitmap(k, this._sessionDataManager.userName, this._sessionDataManager.figure, "");
+            return ((_local_2 == null) ? new BitmapData(1, 1, true, 0) : _local_2);
         }
 
         public function getSubscriptionProductIcon(k:int):BitmapData

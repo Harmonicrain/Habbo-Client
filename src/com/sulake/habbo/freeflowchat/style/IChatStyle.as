@@ -10,8 +10,10 @@
         function get selectorPreview():BitmapData;
         function get isSystemStyle():Boolean;
         function get isHcOnly():Boolean;
+        function get purchasable():Boolean;
         function get isAmbassadorOnly():Boolean;
         function get isStaffOverrideable():Boolean;
+        function get isNotification():Boolean;
         function getNewBackgroundSprite(_arg_1:uint=0xFFFFFF):Sprite;
         function get overlap():Rectangle;
         function get textFormat():TextFormat;

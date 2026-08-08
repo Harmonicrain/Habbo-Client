@@ -11,6 +11,7 @@
         private var _tag:String = "";
         private var _identifier:String = "";
         private var _clickHandling:Boolean = false;
+        private var _skipMouseHandling:Boolean = false;
         private var _varyingDepth:Boolean = false;
         private var _bitmapData:ExtendedBitmapData = null;
         private var _width:int = 0;
@@ -34,6 +35,16 @@
         public function set alphaTolerance(k:int):void
         {
             this._threshold = k;
+        }
+
+        public function get skipMouseHandling():Boolean
+        {
+            return this._skipMouseHandling;
+        }
+
+        public function set skipMouseHandling(k:Boolean):void
+        {
+            this._skipMouseHandling = k;
         }
 
         public function get tag():String

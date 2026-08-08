@@ -82,8 +82,69 @@
             }
             _local_5.disabledStyles = {"colorTransform":[0.5, 0.5, 0.5, 0.7, 0, 0, 0, 0]};
             shadowUnderStyle.childDynamicStyles["#bg"] = _local_5;
+            var gentleStyle:DynamicStyle = new DynamicStyle(DynamicStyle.BRIGHTNESS_AND_SHADOW_UNDER_GENTLE);
+            gentleStyle.defaultStyles = {};
+            var gentleIconStyle:DynamicStyle = new DynamicStyle();
+            gentleIconStyle.defaultStyles = {
+                "etchingColor":0x48000000,
+                "etchingPoint":[0, 1]
+            }
+            gentleIconStyle.pressedSyles = {
+                "etchingColor":0x80000000,
+                "etchingPoint":[0, -1],
+                "offsetY":1,
+                "colorTransform":[0.8, 0.8, 0.8, 1, 0, 0, 0, 0]
+            }
+            gentleIconStyle.hoverStyles = {
+                "etchingColor":0x48000000,
+                "etchingPoint":[0, 1],
+                "colorTransform":[1.1, 1.1, 1.1, 1, 30, 30, 30, 0]
+            }
+            gentleStyle.childDynamicStyles["#icon"] = gentleIconStyle;
+            var rewardTrackItemStyle:DynamicStyle = new DynamicStyle(DynamicStyle.REWARD_TRACK_ITEM);
+            rewardTrackItemStyle.defaultStyles = {};
+            var rewardTrackIconStyle:DynamicStyle = new DynamicStyle();
+            rewardTrackIconStyle.defaultStyles = {
+                "etchingColor":0x48000000,
+                "etchingPoint":[0, 1]
+            }
+            rewardTrackIconStyle.pressedSyles = {
+                "etchingColor":0x80000000,
+                "etchingPoint":[0, -1],
+                "offsetY":1,
+                "colorTransform":[0.8, 0.8, 0.8, 1, 0, 0, 0, 0]
+            }
+            rewardTrackIconStyle.hoverStyles = {
+                "etchingColor":0x48000000,
+                "etchingPoint":[0, 1],
+                "colorTransform":[1.1, 1.1, 1.1, 1, 15, 15, 15, 0]
+            }
+            rewardTrackIconStyle.disabledStyles = {"colorTransform":[0.75, 0.75, 0.75, 0.8, 0, 0, 0, 0]};
+            rewardTrackItemStyle.childDynamicStyles["#icon"] = rewardTrackIconStyle;
+            var buttonStyle:DynamicStyle = new DynamicStyle(DynamicStyle.BUTTON);
+            buttonStyle.defaultStyles = {};
+            var buttonIconStyle:DynamicStyle = new DynamicStyle();
+            buttonIconStyle.defaultStyles = {
+                "etchingColor":0x48000000,
+                "etchingPoint":[0, 0]
+            }
+            buttonIconStyle.pressedSyles = {
+                "etchingColor":0x80000000,
+                "etchingPoint":[0, 0],
+                "offsetY":1,
+                "colorTransform":[0.8, 0.8, 0.8, 1, 0, 0, 0, 0]
+            }
+            buttonIconStyle.hoverStyles = {
+                "etchingColor":0x48000000,
+                "etchingPoint":[0, 0],
+                "colorTransform":[1.1, 1.1, 1.1, 1, 15, 15, 15, 0]
+            }
+            buttonStyle.childDynamicStyles["#icon"] = buttonIconStyle;
             _styles[DynamicStyle.STYLE_LIFTED_HOVER] = dynamicStyle;
             _styles[DynamicStyle.BRIGHTNESS_AND_SHADOW_UNDER] = shadowUnderStyle;
+            _styles[DynamicStyle.BRIGHTNESS_AND_SHADOW_UNDER_GENTLE] = gentleStyle;
+            _styles[DynamicStyle.REWARD_TRACK_ITEM] = rewardTrackItemStyle;
+            _styles[DynamicStyle.BUTTON] = buttonStyle;
         }
     }
 }

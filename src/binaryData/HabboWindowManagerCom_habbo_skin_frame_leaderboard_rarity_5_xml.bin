@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<skin name="default_frame_leaderboard_rarity_5_skin" version="0.0">
+
+	<variables>
+		<variable key="asset" value="ubuntu_frame_leaderboard_rarity_5_png" type="String" />
+	</variables>
+
+	<states>
+		<state name="default" layout="frame_leaderboard" template="default_frame_leaderboard_rarity_5" />
+	</states>
+
+	<templates>
+		<template name="default_frame_leaderboard_rarity_5" asset="$asset">
+			<entities>
+				<entity name="top_left" type="bitmap"><region><Rectangle x="0" y= "0" width="96" height="87" /></region></entity>
+				<entity name="top_center" type="bitmap"><region><Rectangle x="96" y= "0" width="1" height="87" /></region></entity>
+				<entity name="top_right" type="bitmap"><region><Rectangle x="97" y= "0" width="96" height="87" /></region></entity>
+				<entity name="center_left" type="bitmap"><region><Rectangle x="0" y= "87" width="96" height="1" /></region></entity>
+				<entity name="center_center" type="bitmap"><region><Rectangle x="96" y= "87" width="1" height="1" /></region></entity>
+				<entity name="center_right" type="bitmap"><region><Rectangle x="97" y= "87" width="96" height="1" /></region></entity>
+				<entity name="bottom_left" type="bitmap"><region><Rectangle x="0" y= "88" width="96" height="42" /></region></entity>
+				<entity name="bottom_center" type="bitmap"><region><Rectangle x="96" y= "88" width="1" height="42" /></region></entity>
+				<entity name="bottom_right" type="bitmap"><region><Rectangle x="97" y= "88" width="96" height="42" /></region></entity>
+			</entities>
+		</template>
+	</templates>
+
+	<layouts>
+		<layout name="null" transparent="true">
+			<entities>
+				<entity name="null" id="0">
+					<color>$color</color>
+					<blend>$blend</blend>
+					<region><Rectangle x="0" y="0" width="10" height="10" /></region>
+					<scale horizontal="strech" vertical="strech" />
+				</entity>
+			</entities>
+		</layout>
+
+		<layout name="frame_leaderboard" transparent="true">
+			<entities>
+				<entity name="top_left" id="0"><region><Rectangle x="0" y="0" width="96" height="87" /></region><scale horizontal="fixed" vertical="fixed" /></entity>
+				<entity name="top_center" id="0"><region><Rectangle x="96" y="0" width="1" height="87" /></region><scale horizontal="strech" vertical="fixed" /></entity>
+				<entity name="top_right" id="0"><region><Rectangle x="97" y="0" width="96" height="87" /></region><scale horizontal="move" vertical="fixed" /></entity>
+				<entity name="center_left" id="0" colorize="false"><region><Rectangle x="0" y="87" width="96" height="1" /></region><scale horizontal="fixed" vertical="strech" /></entity>
+				<entity name="center_center" id="0" colorize="false"><region><Rectangle x="96" y="87" width="1" height="1" /></region><scale horizontal="strech" vertical="strech" /></entity>
+				<entity name="center_right" id="0" colorize="false"><region><Rectangle x="97" y="87" width="96" height="1" /></region><scale horizontal="move" vertical="strech" /></entity>
+				<entity name="bottom_left" id="0" colorize="false"><region><Rectangle x="0" y="88" width="96" height="42" /></region><scale horizontal="fixed" vertical="move" /></entity>
+				<entity name="bottom_center" id="0" colorize="false"><region><Rectangle x="96" y="88" width="1" height="42" /></region><scale horizontal="strech" vertical="move" /></entity>
+				<entity name="bottom_right" id="0" colorize="false"><region><Rectangle x="97" y="88" width="96" height="42" /></region><scale horizontal="move" vertical="move" /></entity>
+			</entities>
+		</layout>
+	</layouts>
+</skin>

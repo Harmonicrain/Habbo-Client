@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?><layout name="container_view" width="0" height="0" version="0.1" uid="E8FF15C8-C03E-726D-375A-F1E668C3AF5D">
+  <window>
+    <container x="0" y="0" width="0" height="0" params="16" style="3" name="container"/>
+  </window>
+</layout>

@@ -38,6 +38,7 @@
     import com.sulake.core.window.events.WindowEvent;
     import com.sulake.core.window.IWindow;
     import com.sulake.habbo.utils.FriendlyTime;
+    import com.sulake.habbo.inventory.enum.InventorySubCategory;
 
     public class FurniView implements IInventoryView, IUpdateReceiver 
     {
@@ -449,6 +450,18 @@
             var _local_2:IDropMenuWindow = (this._view.findChildByName("placement.options") as IDropMenuWindow);
             var _local_3:String = this._view.findChildByName("filter").caption;
             var _local_4:String = k.items()[k.selection];
+            if (this._model.controller._Str_18332()
+                == InventorySubCategory.WIRED_TRADING
+                && this._model.controller.wiredTradingModel != null
+                && this._model.controller.wiredTradingModel.running)
+            {
+                this._grid.setWiredRequirements(
+                    this._model.controller.wiredTradingModel.requirementsModel);
+            }
+            else
+            {
+                this._grid.setWiredRequirements(null);
+            }
             this._grid._Str_25694(k.selection, _local_4, this._model._Str_22702, _local_3, _local_2.selection);
         }
 

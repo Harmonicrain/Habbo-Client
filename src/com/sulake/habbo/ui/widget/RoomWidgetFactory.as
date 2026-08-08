@@ -37,10 +37,13 @@
     import com.sulake.habbo.ui.widget.furniture.contextmenu.FurnitureContextMenuWidget;
     import com.sulake.habbo.ui.widget.camera.CameraWidget;
     import com.sulake.habbo.ui.widget.furniture.backgroundcolor.BackgroundColorFurniWidget;
+    import com.sulake.habbo.ui.widget.furniture.areahide.AreaHideFurniWidget;
     import com.sulake.habbo.ui.widget.furniture.requirementsmissing.CustomUserNotificationWidget;
     import com.sulake.habbo.ui.widget.furniture.friendfurni.FriendFurniConfirmWidget;
     import com.sulake.habbo.ui.widget.furniture.friendfurni.FriendFurniEngravingWidget;
     import com.sulake.habbo.ui.widget.furniture.highscore.HighScoreDisplayWidget;
+    import com.sulake.habbo.ui.widget.furniture.gamehall.GamehallGameWidget;
+    import com.sulake.habbo.ui.widget.furniture.gamehall.leaderboard.GamehallLeaderboardWidget;
     import com.sulake.habbo.ui.widget.furniture.customstackheight.CustomStackHeightWidget;
     import com.sulake.habbo.ui.widget.furniture.video.YoutubeDisplayWidget;
     import com.sulake.habbo.ui.widget.furniture.rentablespace.RentableSpaceDisplayWidget;
@@ -144,6 +147,8 @@
                     return new CameraWidget(_arg_2, windowManager, assets, this._roomUI, this._roomUI.localization, this._roomUI);
                 case RoomWidgetEnum.ROOM_BACKGROUND_COLOR:
                     return new BackgroundColorFurniWidget(_arg_2, windowManager, assets);
+                case RoomWidgetEnum.AREA_HIDE:
+                    return new AreaHideFurniWidget(_arg_2, windowManager, assets, this._roomUI.localization, this._roomUI.roomEngine);
                 case RoomWidgetEnum.CUSTOM_USER_NOTIFICATION:
                     return new CustomUserNotificationWidget(_arg_2, windowManager, assets);
                 case RoomWidgetEnum.FRIEND_FURNI_CONFIRM:
@@ -152,6 +157,10 @@
                     return new FriendFurniEngravingWidget(_arg_2, windowManager, assets, this._roomUI.localization);
                 case RoomWidgetEnum.HIGH_SCORE_DISPLAY:
                     return new HighScoreDisplayWidget(_arg_2, windowManager, assets, this._roomUI.localization);
+                case RoomWidgetEnum.GAMEHALL_BOARD:
+                    return new GamehallGameWidget(_arg_2, windowManager, assets, this._roomUI.localization);
+                case RoomWidgetEnum.GAMEHALL_LEADERBOARD:
+                    return new GamehallLeaderboardWidget(_arg_2, windowManager, assets, this._roomUI.localization);
                 case RoomWidgetEnum.CUSTOM_STACK_HEIGHT:
                     return new CustomStackHeightWidget(_arg_2, windowManager, assets, this._roomUI.localization);
                 case RoomWidgetEnum.YOUTUBE:

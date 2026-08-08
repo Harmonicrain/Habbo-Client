@@ -12,6 +12,7 @@
     import com.sulake.room.object.visualization.IRoomObjectVisualizationData;
     import com.sulake.habbo.room.object.visualization.room.RoomVisualization;
     import com.sulake.habbo.room.object.visualization.room.publicroom.PublicRoomVisualization;
+    import com.sulake.habbo.room.object.visualization.room.publicroom.PublicRoomParkVisualization;
     import com.sulake.habbo.room.object.visualization.room.publicroom.PublicRoomVisualizationData;
     import com.sulake.habbo.room.object.visualization.room.TileCursorVisualization;
     import com.sulake.habbo.room.object.visualization.avatar.AvatarVisualization;
@@ -23,6 +24,8 @@
     import com.sulake.habbo.room.object.visualization.furniture.FurnitureHabbowheelVisualization;
     import com.sulake.habbo.room.object.visualization.furniture.FurnitureValRandomizerVisualization;
     import com.sulake.habbo.room.object.visualization.furniture.FurnitureBottleVisualization;
+    import com.sulake.habbo.room.object.visualization.furniture.FurnitureFurniChestVisualization;
+    import com.sulake.habbo.room.object.visualization.furniture.FurnitureCoinsChestVisualization;
     import com.sulake.habbo.room.object.visualization.furniture.FurniturePlanetSystemVisualization;
     import com.sulake.habbo.room.object.visualization.furniture.FurnitureQueueTileVisualization;
     import com.sulake.habbo.room.object.visualization.furniture.FurniturePartyBeamerVisualization;
@@ -118,6 +121,9 @@
                 case RoomObjectVisualizationType.PUBLIC_ROOM:
                     _local_2 = PublicRoomVisualization;
                     break;
+                case RoomObjectVisualizationType.PUBLIC_ROOM_PARK:
+                    _local_2 = PublicRoomParkVisualization;
+                    break;
                 case RoomObjectVisualizationType.TILE_CURSOR:
                     _local_2 = TileCursorVisualization;
                     break;
@@ -151,6 +157,12 @@
                     break;
                 case RoomObjectVisualizationType.FURNITURE_BOTTLE:
                     _local_2 = FurnitureBottleVisualization;
+                    break;
+                case RoomObjectVisualizationType.FURNITURE_FURNI_CHEST:
+                    _local_2 = FurnitureFurniChestVisualization;
+                    break;
+                case RoomObjectVisualizationType.FURNITURE_COINS_CHEST:
+                    _local_2 = FurnitureCoinsChestVisualization;
                     break;
                 case RoomObjectVisualizationType.FURNITURE_PLANET_SYSTEM:
                     _local_2 = FurniturePlanetSystemVisualization;
@@ -264,6 +276,8 @@
                     _local_5 = FurnitureVisualizationData;
                     break;
                 case RoomObjectVisualizationType.FURNITURE_ANIMATED:
+                case RoomObjectVisualizationType.FURNITURE_FURNI_CHEST:
+                case RoomObjectVisualizationType.FURNITURE_COINS_CHEST:
                 case RoomObjectVisualizationType.FURNITURE_RESETTING_ANIMATED:
                 case RoomObjectVisualizationType.FURNITURE_POSTER:
                 case RoomObjectVisualizationType.FURNITURE_HABBOWHEEL:
@@ -295,6 +309,7 @@
                     _local_5 = RoomVisualizationData;
                     break;
                 case RoomObjectVisualizationType.PUBLIC_ROOM:
+                case RoomObjectVisualizationType.PUBLIC_ROOM_PARK:
                     _local_5 = PublicRoomVisualizationData;
                     break;
                 case RoomObjectVisualizationType.USER:

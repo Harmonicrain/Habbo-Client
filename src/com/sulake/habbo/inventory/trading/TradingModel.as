@@ -51,7 +51,7 @@
     import com.sulake.habbo.communication.messages.outgoing.inventory.trading.CloseTradingComposer;
     import __AS3__.vec.*;
 
-    public class TradingModel implements IInventoryModel, IGetImageListener 
+    public class TradingModel implements IInventoryModel, IGetImageListener, ITradingModel
     {
         public static const MAX_ITEMS_TO_TRADE:uint = 9;
         public static const TRADING_STATE_READY:uint = 0;
@@ -467,6 +467,11 @@
                 _local_4++;
             }
             return k;
+        }
+
+        public function getOwnItemIdsInTrade():Array
+        {
+            return this._Str_21112();
         }
 
         public function get _Str_24153():int

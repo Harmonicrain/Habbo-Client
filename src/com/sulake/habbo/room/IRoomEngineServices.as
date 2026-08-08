@@ -36,6 +36,17 @@
         function get connection():IConnection;
         function get events():IEventDispatcher;
         function get gameEngine():IHabboGameManager;
+        function get areaSelectionManager():IRoomAreaSelectionManager;
+        function isAreaSelectionMode():Boolean;
+        function setMoveBlocked(_arg_1:Boolean):void;
+        function isMoveBlocked():Boolean;
+        function isWhereYouClickWhereYouGo():Boolean;
+        function setClickSettings(_arg_1:String, _arg_2:Boolean, _arg_3:Boolean):void;
+        function get clickThroughUsers():Boolean;
+        function get clickThroughFurni():Boolean;
+        function get activeRoomHasHanditemControlBlocked():Boolean;
+        function get activeRoomHasChooserDisabled():Boolean;
+        function get activeRoomHasFreeFurniMovementsMode():Boolean;
         function getLegacyGeometry(_arg_1:int):LegacyWallGeometry;
         function getFurniStackingHeightMap(_arg_1:int):FurniStackingHeightMap;
         function getTileObjectMap(_arg_1:int):TileObjectMap;
@@ -49,6 +60,7 @@
         function removeFloorHole(_arg_1:int, _arg_2:int):void;
         function getActiveRoomActiveCanvas():IRoomRenderingCanvas;
         function requestBadgeImageAsset(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:String, _arg_5:Boolean=true):void;
+        function requestFurniIconAsset(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:Boolean, _arg_5:int, _arg_6:String):void;
         function get getIsSelectedObjectInValidPosition():Boolean;
         function get setIsSelectedObjectInValidPosition():Boolean;
         function get playerUnderCursor():int;

@@ -1,42 +1,99 @@
 <chatstyles>
-	<style id="0" assetId="normal" systemStyle="false" hcOnly="false" staffOverrideable="true"/>
+	<style id="0" assetId="normal" systemStyle="false" hcOnly="false" staffOverrideable="false"/>
 	<style id="1" assetId="generic" systemStyle="true" staffOverrideable="false"/>
-	<style id="2" assetId="bot" systemStyle="true" staffOverrideable="false" allowHTML="false"/>
-	<style id="3" assetId="normal_red" systemStyle="false" hcOnly="false" staffOverrideable="true"/>
-	<style id="4" assetId="normal_blue" systemStyle="false" hcOnly="false" staffOverrideable="true"/>
-	<style id="5" assetId="normal_yellow" systemStyle="false" hcOnly="false" staffOverrideable="true"/>
-	<style id="6" assetId="normal_green" systemStyle="false" hcOnly="false" staffOverrideable="true"/>
-	<style id="7" assetId="normal_grey" systemStyle="false" hcOnly="false" staffOverrideable="true"/>
-	<style id="8" assetId="fortune_teller" systemStyle="false" staffOverrideable="true"/>
-	<style id="9" assetId="zombie_hand" systemStyle="false" hcOnly="false" staffOverrideable="true"/>
-	<style id="10" assetId="skeleton" systemStyle="false" hcOnly="false" staffOverrideable="true"/>
-	<style id="11" assetId="normal_sky_blue" systemStyle="false" hcOnly="false" staffOverrideable="true"/>
-	<style id="12" assetId="normal_pink" systemStyle="false" hcOnly="false" staffOverrideable="true"/>
-	<style id="13" assetId="normal_purple" systemStyle="false" hcOnly="false" staffOverrideable="true"/>
-	<style id="14" assetId="normal_dark_yellow" systemStyle="false" hcOnly="false" staffOverrideable="true"/>
-	<style id="15" assetId="normal_dark_turquoise" systemStyle="false" hcOnly="false" staffOverrideable="true"/>
-	<style id="16" assetId="hearts" systemStyle="false" hcOnly="false" staffOverrideable="true"/>
-	<style id="17" assetId="gothicrose" systemStyle="false" hcOnly="false" staffOverrideable="true"/>
-	<style id="19" assetId="piglet" systemStyle="false" hcOnly="false" staffOverrideable="true"/>
-	<style id="20" assetId="sausagedog" systemStyle="false" hcOnly="false" staffOverrideable="true"/>
-	<style id="21" assetId="firingmylazer" systemStyle="false" hcOnly="false" staffOverrideable="true"/>
-	<style id="22" assetId="dragon" systemStyle="false" hcOnly="false" staffOverrideable="true"/>
-	<style id="23" assetId="staff" systemStyle="false" staffOverrideable="true" allowHTML="true"/>
-	<style id="24" assetId="bats" systemStyle="false" hcOnly="false" staffOverrideable="true"/>
-	<style id="25" assetId="console" systemStyle="false" hcOnly="false" staffOverrideable="true"/>
-	<style id="26" assetId="steampunk_pipe" systemStyle="false" hcOnly="false" staffOverrideable="true"/>
-	<style id="27" assetId="storm" systemStyle="false" hcOnly="false" staffOverrideable="true"/>
-	<style id="28" assetId="parrot" systemStyle="false" staffOverrideable="true"/>
-	<style id="29" assetId="pirate" systemStyle="false" hcOnly="false" staffOverrideable="true"/>
-	<style id="30" assetId="bot_guide" systemStyle="true" staffOverrideable="false" allowHTML="false"/>
-	<style id="31" assetId="bot_rentable" systemStyle="true" staffOverrideable="false"/>
-	<style id="32" assetId="skelestock" systemStyle="false" staffOverrideable="true"/>
-    <style id="33" assetId="bot_frank_large" systemStyle="true" staffOverrideable="false" allowHTML="false"/>
-    <style id="34" assetId="notification" systemStyle="true" staffOverrideable="false"/>
-    <style id="35" assetId="goat" systemStyle="false" staffOverrideable="true"/>
-    <style id="36" assetId="santa" systemStyle="false" staffOverrideable="true"/>
+	<style id="2" assetId="bot" systemStyle="true" staffOverrideable="false" allowHTML="true"/>
+	<style id="3" assetId="normal_red" systemStyle="false" hcOnly="false" staffOverrideable="false" purchasable="true"/>
+	<style id="4" assetId="normal_blue" systemStyle="false" hcOnly="false" staffOverrideable="false" purchasable="true"/>
+	<style id="5" assetId="normal_yellow" systemStyle="false" hcOnly="false" staffOverrideable="false" purchasable="true"/>
+	<style id="6" assetId="normal_green" systemStyle="false" hcOnly="false" staffOverrideable="false" purchasable="true"/>
+	<style id="7" assetId="normal_grey" systemStyle="false" hcOnly="false" staffOverrideable="false" purchasable="true"/>
+	<style id="8" assetId="fortune_teller" systemStyle="true" staffOverrideable="false"/>
+	<style id="9" assetId="zombie_hand" systemStyle="false" hcOnly="true" staffOverrideable="false" purchasable="true"/>
+	<style id="10" assetId="skeleton" systemStyle="false" hcOnly="true" staffOverrideable="false" purchasable="true"/>
+	<style id="11" assetId="normal_sky_blue" systemStyle="false" hcOnly="true" staffOverrideable="false" purchasable="true"/>
+	<style id="12" assetId="normal_pink" systemStyle="false" hcOnly="true" staffOverrideable="false" purchasable="true"/>
+	<style id="13" assetId="normal_purple" systemStyle="false" hcOnly="true" staffOverrideable="false" purchasable="true"/>
+	<style id="14" assetId="normal_dark_yellow" systemStyle="false" hcOnly="true" staffOverrideable="false" purchasable="true"/>
+	<style id="15" assetId="normal_dark_turquoise" systemStyle="false" hcOnly="true" staffOverrideable="false" purchasable="true"/>
+	<style id="16" assetId="hearts" systemStyle="false" hcOnly="true" staffOverrideable="false" purchasable="true"/>
+	<style id="17" assetId="gothicrose" systemStyle="false" hcOnly="true" staffOverrideable="false" purchasable="true"/>
+	<style id="19" assetId="piglet" systemStyle="false" hcOnly="true" staffOverrideable="false" purchasable="true"/>
+	<style id="20" assetId="sausagedog" systemStyle="false" hcOnly="true" staffOverrideable="false" purchasable="true"/>
+	<style id="21" assetId="firingmylazer" systemStyle="false" hcOnly="true" staffOverrideable="false" purchasable="true"/>
+	<style id="22" assetId="dragon" systemStyle="false" hcOnly="true" staffOverrideable="false" purchasable="true"/>
+	<style id="23" assetId="staff" systemStyle="false" staffOverrideable="true"/>
+	<style id="24" assetId="bats" systemStyle="false" hcOnly="true" staffOverrideable="false" purchasable="true"/>
+	<style id="25" assetId="console" systemStyle="false" hcOnly="true" staffOverrideable="false" purchasable="true"/>
+	<style id="26" assetId="steampunk_pipe" systemStyle="false" hcOnly="true" staffOverrideable="false" purchasable="true"/>
+	<style id="27" assetId="storm" systemStyle="false" hcOnly="true" staffOverrideable="false" purchasable="true"/>
+	<style id="28" assetId="parrot" systemStyle="true" staffOverrideable="false"/>
+	<style id="29" assetId="pirate" systemStyle="false" hcOnly="true" staffOverrideable="false" purchasable="true"/>
+	<style id="30" assetId="bot_guide" systemStyle="true" staffOverrideable="false" allowHTML="true"/>
+	<style id="31" assetId="bot_rentable" systemStyle="true" staffOverrideable="false" notification="true"/>
+	<style id="32" assetId="skelestock" systemStyle="true" staffOverrideable="false"/>
+    <style id="33" assetId="bot_frank_large" systemStyle="true" staffOverrideable="false" allowHTML="true"/>
+    <style id="34" assetId="notification" systemStyle="true" notification="true"/>
+    <style id="35" assetId="goat" systemStyle="true" staffOverrideable="false"/>
+    <style id="36" assetId="santa" systemStyle="true" staffOverrideable="false"/>
     <style id="37" assetId="ambassador" systemStyle="false" staffOverrideable="true" ambassadorOnly="true"/>
-    <style id="37" assetId="ambassador" systemStyle="false" staffOverrideable="true" ambassadorOnly="true"/>
-    <style id="38" assetId="radio" hcOnly="false" systemStyle="false" staffOverrideable="false"/>
+    <style id="38" assetId="radio" systemStyle="true" staffOverrideable="false"/>
+	<style id="120" assetId="snowstorm_red" systemStyle="true" staffOverrideable="false"/>
+	<style id="121" assetId="snowstorm_blue" systemStyle="true" staffOverrideable="false"/>
+	<style id="130" assetId="wired_team_red" systemStyle="true" staffOverrideable="false"/>
+	<style id="131" assetId="wired_team_blue" systemStyle="true" staffOverrideable="false"/>
+	<style id="132" assetId="wired_team_yellow" systemStyle="true" staffOverrideable="false"/>
+	<style id="133" assetId="wired_team_green" systemStyle="true" staffOverrideable="false"/>
+
+    <!--  Notification styles  -->
+    <style id="200" assetId="notification_red" systemStyle="true" notification="true" />
+    <style id="201" assetId="notification_green" systemStyle="true" notification="true"/>
+    <style id="202" assetId="notification_blue" systemStyle="true" notification="true"/>
+    <style id="210" assetId="notification_alert" systemStyle="true" notification="true"/>
+    <style id="211" assetId="notification_info" systemStyle="true" notification="true"/>
+    <style id="212" assetId="notification_warning" systemStyle="true" notification="true"/>
+    <style id="220" assetId="notification_wrong" systemStyle="true" notification="true"/>
+    <style id="221" assetId="notification_wrong_circle" systemStyle="true" notification="true"/>
+    <style id="222" assetId="notification_correct" systemStyle="true" notification="true"/>
+    <style id="223" assetId="notification_correct_circle" systemStyle="true" notification="true"/>
+    <style id="224" assetId="notification_question_mark" systemStyle="true" notification="true"/>
+    <style id="225" assetId="notification_question_mark_circle" systemStyle="true" notification="true"/>
+    <style id="226" assetId="notification_arrow_up" systemStyle="true" notification="true"/>
+    <style id="227" assetId="notification_arrow_up_circle" systemStyle="true" notification="true"/>
+    <style id="228" assetId="notification_arrow_down" systemStyle="true" notification="true"/>
+    <style id="229" assetId="notification_arrow_down_circle" systemStyle="true" notification="true"/>
+    <style id="250" assetId="notification_skull" systemStyle="true" notification="true"/>
+    <style id="251" assetId="notification_skull_2" systemStyle="true" notification="true"/>
+    <style id="252" assetId="notification_magnifier" systemStyle="true" notification="true"/>
+
+
+    <!--  NFT  -->
+	<style id="1000" assetId="nft_habbo_avatar_bronze" systemStyle="false" staffOverrideable="false" ambassadorOnly="false" purchasable="true"/>
+	<style id="1001" assetId="nft_habbo_avatar_gold" systemStyle="false" staffOverrideable="false" ambassadorOnly="false" purchasable="true"/>
+	<style id="1002" assetId="nft_habbo_avatar_diamond" systemStyle="false" staffOverrideable="false" ambassadorOnly="false" purchasable="true"/>
+	<style id="1003" assetId="nft_habbo_avatar_rainbow" systemStyle="false" staffOverrideable="false" ambassadorOnly="false" purchasable="true"/>
+	<style id="1004" assetId="nft_habbo_avatar_trippy" systemStyle="false" staffOverrideable="false" ambassadorOnly="false" purchasable="true"/>
+	<style id="1005" assetId="nft_habbo_avatar_ultra_trippy" systemStyle="false" staffOverrideable="false" ambassadorOnly="false" purchasable="true"/>
+	<style id="1006" assetId="nft_mvhq" systemStyle="false" staffOverrideable="false" ambassadorOnly="false" purchasable="true"/>
+	<style id="1007" assetId="nft_metakey" systemStyle="false" staffOverrideable="false" ambassadorOnly="false" purchasable="true"/>
+	<style id="1010" assetId="nft_crafted_habbo_avatar" systemStyle="false" staffOverrideable="false" ambassadorOnly="false" purchasable="true"/>
+	<style id="1011" assetId="nft_balloon_orange" systemStyle="false" staffOverrideable="false" ambassadorOnly="false" purchasable="true"/>
+	<style id="1012" assetId="nft_balloon_blue" systemStyle="false" staffOverrideable="false" ambassadorOnly="false" purchasable="true"/>
+	<style id="1013" assetId="nft_origami_orange" systemStyle="false" staffOverrideable="false" ambassadorOnly="false" purchasable="true"/>
+	<style id="1014" assetId="nft_origami_blue" systemStyle="false" staffOverrideable="false" ambassadorOnly="false" purchasable="true"/>
+	<style id="1015" assetId="nft_chocolate_dark" systemStyle="false" staffOverrideable="false" ambassadorOnly="false" purchasable="true"/>
+	<style id="1016" assetId="nft_chocolate_white" systemStyle="false" staffOverrideable="false" ambassadorOnly="false" purchasable="true"/>
+	<style id="1017" assetId="nft_clay" systemStyle="false" staffOverrideable="false" ambassadorOnly="false" purchasable="true"/>
+	<style id="1018" assetId="nft_scroll" systemStyle="false" staffOverrideable="false" ambassadorOnly="false" purchasable="true"/>
+	<style id="1019" assetId="nft_pillow" systemStyle="false" staffOverrideable="false" ambassadorOnly="false" purchasable="true"/>
+    <style id="1020" assetId="nft_bobba" systemStyle="false" staffOverrideable="false" ambassadorOnly="false" purchasable="true"/>
+    <style id="1021" assetId="nft_pinktube" systemStyle="false" staffOverrideable="false" ambassadorOnly="false" purchasable="true"/>
+    <style id="1022" assetId="nft_keycaps" systemStyle="false" staffOverrideable="false" ambassadorOnly="false" purchasable="true"/>
+    <style id="1023" assetId="nft_xmas22" systemStyle="false" staffOverrideable="false" ambassadorOnly="false" purchasable="true"/>
+    <style id="1024" assetId="nft_rocky" systemStyle="false" staffOverrideable="false" ambassadorOnly="false" purchasable="true"/>
+    <style id="1025" assetId="nft_ice" systemStyle="false" staffOverrideable="false" ambassadorOnly="false" purchasable="true"/>
+    <style id="1026" assetId="nft_aurora" systemStyle="false" staffOverrideable="false" ambassadorOnly="false" purchasable="true"/>
+
+    <!-- Purchasable styles-->
+    <style id="10000" assetId="recycled" purchasable="true"/>
 
 </chatstyles>

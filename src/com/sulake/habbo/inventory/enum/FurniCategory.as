@@ -25,5 +25,7 @@
         public static const MONSTERPLANT_REBREED:int = 21;
         public static const MONSTERPLANT_FERTILIZE:int = 22;
         public static const FIGURE_PURCHASABLE_SET:int = 23;
+        public static const FURNI_CHEST:int = 24;
+        public static const COINS_CHEST:int = 25;
     }
 }

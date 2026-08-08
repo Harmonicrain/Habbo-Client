@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?><layout name="transaction_overview" width="880" height="391" version="0.1" uid="31F1DB11-F859-409F-0B94-05DBFB69537E">
+  <window>
+    <frame x="138" y="86" width="880" height="391" params="98305" style="3" caption="%24%7Bwiredchests.logs.title%7D" color="0xff418db0" width_min="880" width_max="880" height_min="391" height_max="700">
+      <filters>
+        <DropShadowFilter distance="4" alpha="0.34901960784313724" blurX="4" blurY="4"/>
+      </filters>
+      <children>
+        <container x="0" y="0" width="880" height="62" params="144" style="3" name="header">
+          <children>
+            <html x="10" y="10" width="861" height="58" params="2185" style="3" name="warning_text" visible="false">
+              <variables>
+                <var key="multiline" value="true" type="Boolean"/>
+                <var key="word_wrap" value="true" type="Boolean"/>
+                <var key="spacing" value="0" type="Number"/>
+                <var key="leading" value="1" type="Number"/>
+                <var key="editable" value="false" type="Boolean"/>
+                <var key="selectable" value="false" type="Boolean"/>
+                <var key="editable" value="false" type="Boolean"/>
+                <var key="selectable" value="false" type="Boolean"/>
+              </variables>
+            </html>
+            <itemlist x="15" y="13" width="400" height="42" params="16" style="3" name="key_value_pairs">
+              <children>
+                <itemlist_horizontal x="0" y="0" width="94" height="20" params="16" style="3" name="pair">
+                  <children>
+                    <text x="0" y="0" width="57" height="17" params="16" style="3" name="list_type_key" caption="%24%7Bwiredchests.logs.list_type%7D">
+                      <variables>
+                        <var key="auto_size" value="left" type="String"/>
+                        <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                        <var key="bold" value="true" type="Boolean"/>
+                        <var key="spacing" value="0" type="Number"/>
+                        <var key="leading" value="0" type="Number"/>
+                      </variables>
+                    </text>
+                    <text x="59" y="0" width="35" height="17" params="16" style="3" name="list_type_value" caption="%24%7Bwiredchests.logs.type.0%7D">
+                      <variables>
+                        <var key="auto_size" value="left" type="String"/>
+                        <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                        <var key="spacing" value="0" type="Number"/>
+                        <var key="leading" value="0" type="Number"/>
+                      </variables>
+                    </text>
+                  </children>
+                  <variables>
+                    <var key="spacing" value="2" type="int"/>
+                    <var key="resize_on_item_update" value="true" type="Boolean"/>
+                  </variables>
+                </itemlist_horizontal>
+                <itemlist_horizontal x="0" y="22" width="93" height="20" params="16" style="3" name="pair">
+                  <children>
+                    <text x="0" y="0" width="53" height="17" params="16" style="3" name="id_key" caption="%24%7Bwiredchests.logs.chest_id%7D">
+                      <variables>
+                        <var key="auto_size" value="left" type="String"/>
+                        <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                        <var key="bold" value="true" type="Boolean"/>
+                        <var key="spacing" value="0" type="Number"/>
+                        <var key="leading" value="0" type="Number"/>
+                      </variables>
+                    </text>
+                    <text x="55" y="0" width="38" height="17" params="16" style="3" name="id_value" caption="12345">
+                      <variables>
+                        <var key="auto_size" value="left" type="String"/>
+                        <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                        <var key="spacing" value="0" type="Number"/>
+                        <var key="leading" value="0" type="Number"/>
+                      </variables>
+                    </text>
+                  </children>
+                  <variables>
+                    <var key="spacing" value="2" type="int"/>
+                    <var key="resize_on_item_update" value="true" type="Boolean"/>
+                  </variables>
+                </itemlist_horizontal>
+              </children>
+              <variables>
+                <var key="spacing" value="2" type="int"/>
+                <var key="resize_on_item_update" value="true" type="Boolean"/>
+              </variables>
+            </itemlist>
+            <button x="801" y="13" width="62" height="30" params="393297" style="3" name="refresh_btn" caption="%24%7Bwiredchests.logs.refresh%7D"/>
+            <icon x="777" y="20" width="15" height="15" params="16" style="23" name="searching_icon" visible="false"/>
+          </children>
+        </container>
+        <container x="1" y="62" width="878" height="234" params="2192" style="3" name="middle">
+          <children>
+            <container x="13" y="0" width="852" height="234" params="2192" style="3" name="table_view"/>
+          </children>
+        </container>
+        <container x="0" y="296" width="880" height="60" params="1049744" style="3" name="footer">
+          <children>
+            <container x="0" y="16" width="880" height="30" params="1168" style="3" name="pagination">
+              <children>
+                <itemlist_horizontal x="17" y="0" width="113" height="30" params="16" style="3" name="footer_buttons_left">
+                  <children>
+                    <container_button x="0" y="0" width="50" height="30" params="17" style="3" name="first_page_btn" width_min="50" width_max="50">
+                      <children>
+                        <icon x="18" y="10" width="10" height="10" params="16" style="4" color="0x00"/>
+                        <icon x="27" y="10" width="10" height="10" params="16" style="4" color="0x00"/>
+                      </children>
+                    </container_button>
+                    <container_button x="63" y="0" width="50" height="30" params="17" style="3" name="prev_page_btn" width_min="50" width_max="50">
+                      <children>
+                        <icon x="22" y="10" width="10" height="10" params="16" style="4" color="0x00"/>
+                      </children>
+                    </container_button>
+                  </children>
+                  <variables>
+                    <var key="spacing" value="13" type="int"/>
+                    <var key="resize_on_item_update" value="true" type="Boolean"/>
+                  </variables>
+                </itemlist_horizontal>
+                <itemlist_horizontal x="753" y="0" width="110" height="30" params="262224" style="3" name="footer_buttons_right">
+                  <children>
+                    <container_button x="0" y="0" width="50" height="30" params="17" style="3" name="next_page_btn" width_min="50" width_max="50">
+                      <children>
+                        <icon x="23" y="10" width="10" height="10" params="16" style="5" color="0x00"/>
+                      </children>
+                    </container_button>
+                    <container_button x="60" y="0" width="50" height="30" params="17" style="3" name="last_page_btn" width_min="50" width_max="50">
+                      <children>
+                        <icon x="18" y="10" width="10" height="10" params="16" style="5" color="0x00"/>
+                        <icon x="27" y="10" width="10" height="10" params="16" style="5" color="0x00"/>
+                      </children>
+                    </container_button>
+                  </children>
+                  <variables>
+                    <var key="spacing" value="10" type="int"/>
+                    <var key="resize_on_item_update" value="true" type="Boolean"/>
+                  </variables>
+                </itemlist_horizontal>
+                <itemlist_horizontal x="312" y="4" width="256" height="25" params="786640" style="3">
+                  <children>
+                    <text x="0" y="0" width="205" height="17" params="16" style="3" name="pagina_text_start" caption="X%20transactions%20found.%20Showing%20page%20" blend="0.7">
+                      <variables>
+                        <var key="auto_size" value="left" type="String"/>
+                        <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                        <var key="spacing" value="0" type="Number"/>
+                        <var key="leading" value="0" type="Number"/>
+                      </variables>
+                    </text>
+                    <input x="207" y="0" width="21" height="17" params="1" style="3" name="pagina_number_input" caption="1" background="true">
+                      <variables>
+                        <var key="border" value="true" type="Boolean"/>
+                        <var key="spacing" value="0" type="Number"/>
+                        <var key="leading" value="0" type="Number"/>
+                      </variables>
+                    </input>
+                    <text x="230" y="0" width="26" height="17" params="16" style="3" name="pagina_text_end" caption="of%20Y" blend="0.7">
+                      <variables>
+                        <var key="auto_size" value="left" type="String"/>
+                        <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                        <var key="spacing" value="0" type="Number"/>
+                        <var key="leading" value="0" type="Number"/>
+                      </variables>
+                    </text>
+                  </children>
+                  <variables>
+                    <var key="spacing" value="2" type="int"/>
+                    <var key="resize_on_item_update" value="true" type="Boolean"/>
+                  </variables>
+                </itemlist_horizontal>
+              </children>
+            </container>
+          </children>
+        </container>
+      </children>
+      <variables>
+        <var key="margin_left" value="0" type="int"/>
+        <var key="margin_top" value="33" type="int"/>
+        <var key="margin_right" value="0" type="int"/>
+        <var key="margin_bottom" value="0" type="int"/>
+      </variables>
+    </frame>
+  </window>
+</layout>

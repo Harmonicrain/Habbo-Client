@@ -1,10 +1,12 @@
 ﻿package com.sulake.habbo.roomevents
 {
     import com.sulake.core.runtime.IDisposable;
+    import com.sulake.core.utils.Map;
     import __AS3__.vec.Vector;
     import com.sulake.core.communication.messages.IMessageEvent;
     import com.sulake.habbo.communication.IHabboCommunicationManager;
     import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.WiredTriggerDataEvent;
+    import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.WiredSelectorDataEvent;
     import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.OpenEvent;
     import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.WiredRewardResultMessageEvent;
     import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.WiredConditionDataEvent;
@@ -13,16 +15,24 @@
     import com.sulake.habbo.communication.messages.incoming.room.engine.ObjectRemoveMessageEvent;
     import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.WiredEffectDataEvent;
     import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.WiredValidationErrorEvent;
+    import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.WiredValidationErrorParameter;
+    import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.WiredAddonDataEvent;
+    import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.WiredVariableDataEvent;
     import com.sulake.habbo.communication.messages.incoming.handshake.UserObjectEvent;
+    import com.sulake.habbo.communication.messages.incoming.users.GuildMembershipsMessageEvent;
     import com.sulake.habbo.communication.messages.parser.userdefinedroomevents.OpenMessageParser;
     import com.sulake.habbo.communication.messages.outgoing.userdefinedroomevents.OpenMessageComposer;
     import com.sulake.habbo.communication.messages.parser.userdefinedroomevents.WiredTriggerDataMessageParser;
     import com.sulake.habbo.communication.messages.parser.userdefinedroomevents.WiredEffectDataMessageParser;
     import com.sulake.habbo.communication.messages.parser.userdefinedroomevents.WiredConditionDataMessageParser;
+    import com.sulake.habbo.communication.messages.parser.userdefinedroomevents.WiredSelectorDataMessageParser;
     import com.sulake.habbo.communication.messages.parser.handshake.UserObjectMessageParser;
     import com.sulake.habbo.communication.messages.parser.room.engine.ObjectRemoveMessageParser;
     import com.sulake.habbo.communication.messages.parser.userdefinedroomevents.WiredRewardResultMessageParser;
     import com.sulake.habbo.communication.messages.parser.userdefinedroomevents.WiredValidationErrorParser;
+    import com.sulake.habbo.communication.messages.parser.userdefinedroomevents.WiredAddonDataMessageParser;
+    import com.sulake.habbo.communication.messages.parser.userdefinedroomevents.WiredVariableDataMessageParser;
+    import com.sulake.habbo.roomevents.WiredCapabilityCodes;
     import __AS3__.vec.*;
 
     public class IncomingMessages implements IDisposable 
@@ -36,6 +46,9 @@
             this._messageEvents = new Vector.<IMessageEvent>(0);
             var _local_2:IHabboCommunicationManager = this._roomEvents.communication;
             this.addMessageEvent(new WiredTriggerDataEvent(this._Str_22337));
+            this.addMessageEvent(new WiredSelectorDataEvent(this.onSelectorData));
+            this.addMessageEvent(new WiredAddonDataEvent(this.onAddonData));
+            this.addMessageEvent(new WiredVariableDataEvent(this.onVariableData));
             this.addMessageEvent(new OpenEvent(this.onOpen));
             this.addMessageEvent(new WiredRewardResultMessageEvent(this._Str_23600));
             this.addMessageEvent(new WiredConditionDataEvent(this._Str_23144));
@@ -45,6 +58,39 @@
             this.addMessageEvent(new WiredEffectDataEvent(this._Str_23979));
             this.addMessageEvent(new WiredValidationErrorEvent(this._Str_25729));
             this.addMessageEvent(new UserObjectEvent(this.onUserObject));
+            this.addMessageEvent(new GuildMembershipsMessageEvent(this.onGuildMemberships));
+        }
+
+
+        private function onAddonData(k:IMessageEvent):void
+        {
+            if (!this._roomEvents.isWiredFeatureEnabled(WiredCapabilityCodes.ADDONS))
+            {
+                return;
+            }
+            var _local_2:WiredAddonDataMessageParser = (k as WiredAddonDataEvent).getParser();
+            if (_local_2.definition != null)
+            {
+                this._roomEvents._Str_7247._Str_18351(_local_2.definition);
+            }
+        }
+
+        private function onVariableData(k:IMessageEvent):void
+        {
+            if (!this._roomEvents.isWiredFeatureEnabled(WiredCapabilityCodes.VARIABLES))
+            {
+                return;
+            }
+            var _local_2:WiredVariableDataMessageParser = (k as WiredVariableDataEvent).getParser();
+            if (_local_2.definition != null)
+            {
+                this._roomEvents._Str_7247._Str_18351(_local_2.definition);
+            }
+        }
+
+        private function onGuildMemberships(k:IMessageEvent):void
+        {
+            this._roomEvents._Str_7247.onGuildMemberships((k as GuildMembershipsMessageEvent).guilds);
         }
 
         private function addMessageEvent(k:IMessageEvent):void
@@ -76,6 +122,12 @@
             this._roomEvents._Str_7247._Str_18351(_local_2.definition);
         }
 
+        private function onSelectorData(k:IMessageEvent):void
+        {
+            var _local_2:WiredSelectorDataMessageParser = (k as WiredSelectorDataEvent).getParser();
+            this._roomEvents._Str_7247._Str_18351(_local_2.definition);
+        }
+
         private function onUserObject(k:IMessageEvent):void
         {
             var _local_2:UserObjectMessageParser = (k as UserObjectEvent).getParser();
@@ -84,6 +136,7 @@
 
         private function onRoomExit(k:IMessageEvent):void
         {
+            this._roomEvents.resetWiredRoomState();
             this._roomEvents._Str_7247.close();
         }
 
@@ -116,13 +169,21 @@
 
         private function _Str_25729(k:IMessageEvent):void
         {
+            this._roomEvents.wiredCtrl.onSaveFailure();
             var _local_2:WiredValidationErrorParser = WiredValidationErrorEvent(k).getParser();
-            this._roomEvents.windowManager.alert("Update failed", _local_2.info, 0, null);
+            var _local_3:Map = new Map();
+            for each (var _local_4:WiredValidationErrorParameter in _local_2.parameters)
+            {
+                _local_3.add(_local_4.key, _local_4.value);
+            }
+            var _local_5:String = this._roomEvents.localization.getLocalizationWithParamMap(_local_2.localizationKey, _local_2.localizationKey, _local_3);
+            var _local_6:String = this._roomEvents.localization.getLocalization("wiredfurni.error.title", "Update failed");
+            this._roomEvents.windowManager.alert(_local_6, _local_5, 0, null);
         }
 
         private function _Str_25470(k:IMessageEvent):void
         {
-            this._roomEvents._Str_7247.close();
+            this._roomEvents.wiredCtrl.onSaveSuccess();
         }
 
         public function dispose():void

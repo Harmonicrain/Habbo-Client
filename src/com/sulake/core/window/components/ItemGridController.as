@@ -322,19 +322,31 @@
             var _local_2:IItemListWindow;
             var k:uint = this.numColumns;
             var _local_3:uint;
-            while (_local_3 < k)
+            var _local_4:Boolean = this._shouldRebuildGridOnResize;
+            this._shouldRebuildGridOnResize = false;
+            try
             {
-                _local_2 = IItemListWindow(getListItemAt(_local_3));
-                _local_2.removeListItems();
-                if (!_horizontal)
+                while (_local_3 < k)
                 {
-                    _local_2.width = 0;
+                    _local_2 = IItemListWindow(getListItemAt(_local_3));
+                    if (_local_2)
+                    {
+                        _local_2.removeListItems();
+                        if (!_horizontal)
+                        {
+                            _local_2.width = 0;
+                        }
+                        else
+                        {
+                            _local_2.height = 0;
+                        }
+                    }
+                    _local_3++;
                 }
-                else
-                {
-                    _local_2.height = 0;
-                }
-                _local_3++;
+            }
+            finally
+            {
+                this._shouldRebuildGridOnResize = _local_4;
             }
         }
 
@@ -343,19 +355,31 @@
             var _local_2:IItemListWindow;
             var k:uint = this.numColumns;
             var _local_3:uint;
-            while (_local_3 < k)
+            var _local_4:Boolean = this._shouldRebuildGridOnResize;
+            this._shouldRebuildGridOnResize = false;
+            try
             {
-                _local_2 = IItemListWindow(getListItemAt(_local_3));
-                _local_2.destroyListItems();
-                if (!_horizontal)
+                while (_local_3 < k)
                 {
-                    _local_2.width = 0;
+                    _local_2 = IItemListWindow(getListItemAt(_local_3));
+                    if (_local_2)
+                    {
+                        _local_2.destroyListItems();
+                        if (!_horizontal)
+                        {
+                            _local_2.width = 0;
+                        }
+                        else
+                        {
+                            _local_2.height = 0;
+                        }
+                    }
+                    _local_3++;
                 }
-                else
-                {
-                    _local_2.height = 0;
-                }
-                _local_3++;
+            }
+            finally
+            {
+                this._shouldRebuildGridOnResize = _local_4;
             }
             destroyListItems();
         }

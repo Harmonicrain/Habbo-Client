@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout name="messenger_habbicon_picker" width="256" height="138" version="0.1" uid="34A4CAF6-D40F-F7F4-BB00-00963B285B8C">
+  <window>
+    <border x="0" y="0" width="256" height="138" params="1048577" style="107" name="messenger_habbicon_picker_window" treshold="0">
+      <children>
+        <itemlist_horizontal x="6" y="8" width="232" height="28" params="16" style="0" name="top_controls">
+          <children>
+            <border x="0" y="4" width="143" height="24" params="16" style="105" name="habbicon_search_border">
+              <children>
+                <input x="6" y="4" width="111" height="17" params="129" style="100" name="habbicon_search_input">
+                  <variables>
+                    <var key="text_color" value="0x333333" type="hex"/>
+                    <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                    <var key="max_chars" value="24" type="int"/>
+                    <var key="spacing" value="0" type="Number"/>
+                    <var key="leading" value="0" type="Number"/>
+                  </variables>
+                </input>
+                <text x="6" y="4" width="111" height="17" params="144" style="100" name="habbicon_search_placeholder" caption="%24%7Bgeneric.search%7D">
+                  <variables>
+                    <var key="text_color" value="0x888888" type="hex"/>
+                    <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                    <var key="spacing" value="0" type="Number"/>
+                    <var key="leading" value="0" type="Number"/>
+                  </variables>
+                </text>
+                <region x="120" y="4" width="17" height="17" params="3153" style="3" name="habbicon_search_clear_button" treshold="0">
+                  <children>
+                    <static_bitmap x="0" y="0" width="17" height="17" params="2192" style="3" blend="0.7">
+                      <variables>
+                        <var key="asset_uri" value="common_promo_arrow_close" type="String"/>
+                        <var key="pivot_point" value="center" type="String"/>
+                        <var key="stretched_x" value="false" type="Boolean"/>
+                        <var key="stretched_y" value="false" type="Boolean"/>
+                      </variables>
+                    </static_bitmap>
+                  </children>
+                </region>
+              </children>
+            </border>
+            <button x="152" y="4" width="90" height="24" params="131073" style="102" name="habbicon_open_hub_button" caption="%24%7Bhabbicons.hud.get_more%7D" width_min="90" width_max="90">
+              <variables>
+                <var key="text_style" value="il_button" type="String"/>
+              </variables>
+            </button>
+          </children>
+          <variables>
+            <var key="spacing" value="9" type="int"/>
+          </variables>
+        </itemlist_horizontal>
+        <scrollable_itemlist_vertical x="6" y="43" width="244" height="88" params="144" style="100" name="habbicon_section_list">
+          <children>
+            <container x="0" y="0" width="230" height="65" params="16" style="0" name="habbicon_section_template">
+              <children>
+                <text x="0" y="0" width="230" height="18" params="16" style="0" name="section_title" caption="Section">
+                  <variables>
+                    <var key="text_style" value="il_regular" type="String"/>
+                    <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                    <var key="spacing" value="0" type="Number"/>
+                    <var key="leading" value="0" type="Number"/>
+                  </variables>
+                </text>
+                <itemgrid_vertical x="0" y="20" width="230" height="45" params="16" style="0" name="habbicon_grid">
+                  <children>
+                    <region x="0" y="0" width="44" height="45" params="17" style="0" name="habbicon_item_template" treshold="0">
+                      <children>
+                        <border x="0" y="0" width="44" height="45" params="16" style="104" name="habbicon_item_bg" color="0x0dddddd"/>
+                        <bitmap x="2" y="2" width="40" height="40" params="16" style="3" name="habbicon_icon"/>
+                      </children>
+                    </region>
+                  </children>
+                  <variables>
+                    <var key="spacing" value="2" type="int"/>
+                    <var key="scale_to_fit_items" value="true" type="Boolean"/>
+                    <var key="resize_on_item_update" value="true" type="Boolean"/>
+                  </variables>
+                </itemgrid_vertical>
+              </children>
+            </container>
+          </children>
+          <variables>
+            <var key="spacing" value="4" type="int"/>
+          </variables>
+        </scrollable_itemlist_vertical>
+        <container x="0" y="40" width="256" height="96" params="2192" style="3" name="empty_view">
+          <children>
+            <text x="28" y="40" width="200" height="16" params="3935440" style="3" name="empty_text" caption="%24%7Bhabbicons.no_habbicons%7D" blend="0.83">
+              <variables>
+                <var key="auto_size" value="center" type="String"/>
+                <var key="text_style" value="il_regular" type="String"/>
+                <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                <var key="multiline" value="true" type="Boolean"/>
+                <var key="word_wrap" value="true" type="Boolean"/>
+                <var key="spacing" value="0" type="Number"/>
+                <var key="leading" value="0" type="Number"/>
+              </variables>
+            </text>
+          </children>
+        </container>
+      </children>
+    </border>
+  </window>
+</layout>

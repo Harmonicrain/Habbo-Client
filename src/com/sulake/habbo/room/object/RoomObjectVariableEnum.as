@@ -40,9 +40,13 @@
         public static const FIGURE_HIGHLIGHT_ENABLE:String = "figure_highlight_enable";
         public static const FIGURE_CAN_STAND_UP:String = "figure_can_stand_up";
         public static const FIGURE_VERTICAL_OFFSET:String = "figure_vertical_offset";
+        public static const FIGURE_JUMPING_POWER:String = "figure_jumping_power";
         public static const FIGURE_IS_PLAYING_GAME:String = "figure_is_playing_game";
         public static const FIGURE_IS_MUTED:String = "figure_is_muted";
         public static const FIGURE_GUIDE_STATUS:String = "figure_guide_status";
+        public static const FIGURE_HABBICON:String = "figure_habbicon";
+        public static const FIGURE_HABBICON_TRIGGER_SEQUENCE:String = "figure_habbicon_trigger_sequence";
+        public static const FIGURE_HABBICON_SPIN_OFFSET:String = "figure_habbicon_spin_offset";
         public static const HEAD_DIRECTION:String = "head_direction";
         public static const FURNITURE_REAL_ROOM_OBJECT:String = "furniture_real_room_object";
         public static const FURNITURE_COLOR:String = "furniture_color";
@@ -60,6 +64,7 @@
         public static const FURNITURE_EXTRAS:String = "furniture_extras";
         public static const FURNITURE_ITEMDATA:String = "furniture_itemdata";
         public static const FURNITURE_ALPHA_MULTIPLIER:String = "furniture_alpha_multiplier";
+        public static const FURNITURE_INVISIBLE_LAYER:String = "furniture_invisible_layer";
         public static const FURNITURE_EXPIRY_TIME:String = "furniture_expiry_time";
         public static const FURNITURE_EXPIRTY_TIMESTAMP:String = "furniture_expirty_timestamp";
         public static const FURNITURE_STATE_UPDATE_TIME:String = "furniture_state_update_time";
@@ -103,6 +108,13 @@
         public static const FURNITURE_ROOM_BACKGROUND_COLOR_HUE:String = "furniture_room_background_color_hue";
         public static const FURNITURE_ROOM_BACKGROUND_COLOR_SATURATION:String = "furniture_room_background_color_saturation";
         public static const FURNITURE_ROOM_BACKGROUND_COLOR_LIGHTNESS:String = "furniture_room_background_color_lightness";
+        public static const FURNITURE_AREA_HIDE_ROOT_X:String = "furniture_area_hide_root_x";
+        public static const FURNITURE_AREA_HIDE_ROOT_Y:String = "furniture_area_hide_root_y";
+        public static const FURNITURE_AREA_HIDE_WIDTH:String = "furniture_area_hide_width";
+        public static const FURNITURE_AREA_HIDE_LENGTH:String = "furniture_area_hide_length";
+        public static const FURNITURE_AREA_HIDE_INVISIBILITY:String = "furniture_area_hide_invisibility";
+        public static const FURNITURE_AREA_HIDE_WALLITEMS:String = "furniture_area_hide_wallitems";
+        public static const FURNITURE_AREA_HIDE_INVERT:String = "furniture_area_hide_invert";
         public static const FURNITURE_BADGE_ASSET_NAME:String = "furniture_badge_asset_name";
         public static const FURNITURE_BADGE_VISIBLE_IN_STATE:String = "furniture_badge_visible_in_state";
         public static const FURNITURE_BADGE_IMAGE_STATUS:String = "furniture_badge_image_status";
@@ -113,6 +125,8 @@
         public static const FURNITURE_HIGHSCORE_DATA_ENTRY_BASE_USERS_:String = "furniture_highscore_data_entry_base_users_";
         public static const FURNITURE_HIGHSCORE_DATA_ENTRY_BASE_SCORE_:String = "furniture_highscore_data_entry_base_score_";
         public static const FURNITURE_INTERNAL_LINK:String = "furniture_internal_link";
+        public static const FURNITURE_FURNI_CHEST_SHOWN_ASSET_NAMES:String = "furniture_furni_chest_shown_asset_names";
+        public static const FURNITURE_CHEST_IS_WIRED_ENABLED:String = "furniture_chest_is_wired_enabled";
         public static const SESSION_CURRENT_USER_ID:String = "session_current_user_id";
         public static const SESSION_URL_PREFIX:String = "session_url_prefix";
         public static const ROOM_PLANE_XML:String = "room_plane_xml";
@@ -134,6 +148,7 @@
         public static const ROOM_COLORIZE_BG_ONLY:String = "room_colorize_bg_only";
         public static const ROOM_RANDOM_SEED:String = "room_random_seed";
         public static const ROOM_WORLD_TYPE:String = "room_world_type";
+        public static const ROOM_PUBLIC_PARK_BUS_DOOR_STATUS:String = "room_public_park_bus_door_status";
         public static const BILLBOARD:String = "billboard";
         public static const ROOM_AD_IMAGE_ASSET:String = "room_ad_image_asset";
         public static const ROOM_AD_CLICK_URL:String = "room_ad_click_url";

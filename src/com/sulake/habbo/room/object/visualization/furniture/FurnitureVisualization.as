@@ -18,12 +18,38 @@
     {
         protected static const _Str_19020:Number = Math.sqrt(0.5);
 
+        private static function concatListWillEqual(first:Array, second:Array, current:Array):Boolean
+        {
+            if (current == null || first.length + second.length != current.length)
+            {
+                return false;
+            }
+            var index:int;
+            for (index = 0; index < first.length; index++)
+            {
+                if (first[index] !== current[index])
+                {
+                    return false;
+                }
+            }
+            for (index = 0; index < second.length; index++)
+            {
+                if (second[index] !== current[first.length + index])
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         private var _direction:int;
         private var _lastCameraAngle:Number = NaN;
         private var _selectedColor:int = -1;
         protected var _Str_1240:Number = 1;
         private var _clickUrl:String = null;
         private var _clickHandling:Boolean = false;
+        private var _lookThrough:Boolean = false;
+        private var _lookThroughChanged:Boolean = false;
         private var _data:FurnitureVisualizationData = null;
         private var _type:String = "";
         private var _assetNames:Array;
@@ -44,6 +70,10 @@
         protected var _Str_13574:int = -1;
         private var _maskLayerIndex:int = 0;
         private var Z_MULTIPLIER:Number = 0;
+        private var _filters:Array = null;
+        private var _filtersChanged:Boolean = false;
+        private var _invisibleLayer:Boolean = false;
+        private var _isInvisibleFurni:Boolean = false;
 
         public function FurnitureVisualization()
         {
@@ -119,6 +149,7 @@
             }
             this._data = (k as FurnitureVisualizationData);
             this._type = this._data.getType();
+            this._isInvisibleFurni = (this._type.indexOf("room_invisible_") == 0);
             return true;
         }
 
@@ -137,6 +168,16 @@
             if (this.updateModel(_local_6))
             {
                 _local_5 = true;
+            }
+            if (this._lookThroughChanged)
+            {
+                _local_5 = true;
+                this._lookThroughChanged = false;
+            }
+            if (this._filtersChanged)
+            {
+                _local_5 = true;
+                this._filtersChanged = false;
             }
             var _local_7:int;
             if (_arg_4)
@@ -220,7 +261,16 @@
                         _local_4.offsetX = (_local_5.offsetX + this.getSpriteXOffset(k, this._direction, _arg_2));
                         _local_4.offsetY = (_local_5.offsetY + this.getSpriteYOffset(k, this._direction, _arg_2));
                         _local_4.alphaTolerance = ((this.getSpriteMouseCapture(k, this._direction, _arg_2)) ? AlphaTolerance.MATCH_OPAQUE_PIXELS : AlphaTolerance.MATCH_NOTHING);
+                        if (((this._invisibleLayer) && (((_local_4.tag == "invisible")) || (this._isInvisibleFurni))))
+                        {
+                            _local_4.alpha = 0;
+                            _local_4.alphaTolerance = AlphaTolerance.MATCH_NOTHING;
+                        }
                         _local_4.blendMode = this.getBlendMode(this.getSpriteInk(k, this._direction, _arg_2));
+                        if (this.getSpriteFlipH(k, this._direction, _arg_2))
+                        {
+                            _local_4.flipH = !_local_4.flipH;
+                        }
                         _local_6 = this.getSpriteZOffset(k, this._direction, _arg_2);
                         _local_6 = (_local_6 - (_arg_2 * 0.001));
                     }
@@ -234,12 +284,17 @@
                         _local_4.alphaTolerance = AlphaTolerance.MATCH_NOTHING;
                         _local_6 = 1;
                     }
+                    if (this._lookThrough)
+                    {
+                        _local_4.alpha = (_local_4.alpha * 0.2);
+                    }
                     _local_6 = (_local_6 * _Str_19020);
                     _local_4.relativeDepth = _local_6;
                     _local_4.assetName = _local_5.assetName;
                     _local_4.libraryAssetName = this.getLibraryAssetNameForSprite(_local_5, _local_4);
                     _local_4.assetPosture = this.getPostureForAssetFile(k, _local_5.libraryAssetName);
                     _local_4.clickHandling = this._clickHandling;
+                    this.updateSpriteFilters(k, _local_4, _arg_2);
                 }
                 else
                 {
@@ -252,6 +307,39 @@
                 {
                     this.resetSprite(_local_4);
                 }
+            }
+        }
+
+        private function updateSpriteFilters(size:int, sprite:IRoomObjectSprite, spriteIndex:int):void
+        {
+            if (sprite.blendMode != BlendMode.ADD)
+            {
+                var spriteFilters:Array = this.getSpriteFilters(size, this._direction, spriteIndex);
+                if (spriteFilters == null)
+                {
+                    sprite.filters = this._filters;
+                }
+                else if (this._filters == null)
+                {
+                    sprite.filters = spriteFilters;
+                }
+                else if (!concatListWillEqual(this._filters, spriteFilters, sprite.filters))
+                {
+                    sprite.filters = this._filters.concat(spriteFilters);
+                }
+            }
+            else if (sprite.filters != null)
+            {
+                sprite.filters = null;
+            }
+        }
+
+        public function set lookThrough(k:Boolean):void
+        {
+            if (this._lookThrough != k)
+            {
+                this._lookThroughChanged = true;
+                this._lookThrough = k;
             }
         }
 
@@ -272,6 +360,7 @@
             k.offsetY = 0;
             k.relativeDepth = 0;
             k.clickHandling = false;
+            k.filters = null;
         }
 
         protected function getBlendMode(k:int):String
@@ -337,6 +426,12 @@
             if (_modelUpdateID != _local_3.getUpdateID())
             {
                 this._selectedColor = _local_3.getNumber(RoomObjectVariableEnum.FURNITURE_COLOR);
+                var _local_5:Boolean = (_local_3.getNumber(RoomObjectVariableEnum.FURNITURE_INVISIBLE_LAYER) > 0);
+                if (_local_5 != this._invisibleLayer)
+                {
+                    this._invisibleLayer = _local_5;
+                    this._Str_11460 = true;
+                }
                 _local_4 = _local_3.getNumber(RoomObjectVariableEnum.FURNITURE_ALPHA_MULTIPLIER);
                 if (isNaN(_local_4))
                 {
@@ -477,6 +572,11 @@
             return _local_4;
         }
 
+        protected function getSpriteFilters(k:int, _arg_2:int, _arg_3:int):Array
+        {
+            return null;
+        }
+
         protected function getSpriteAlpha(k:int, _arg_2:int, _arg_3:int):int
         {
             if (((!(this._spriteAlphas[_arg_3] == null)) && (!(this._Str_11460))))
@@ -588,6 +688,11 @@
             return _local_4;
         }
 
+        protected function getSpriteFlipH(k:int, _arg_2:int, _arg_3:int):Boolean
+        {
+            return false;
+        }
+
         protected function _Str_3033(k:int):int
         {
             if (this._data != null)
@@ -600,6 +705,17 @@
         protected function get data():FurnitureVisualizationData
         {
             return this._data;
+        }
+
+        public function set filters(k:Array):void
+        {
+            this._filters = k;
+            this._filtersChanged = true;
+        }
+
+        public function get filters():Array
+        {
+            return this._filters;
         }
     }
 }

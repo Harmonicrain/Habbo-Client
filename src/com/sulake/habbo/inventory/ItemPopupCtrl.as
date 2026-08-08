@@ -4,7 +4,7 @@
     import com.sulake.core.assets.IAssetLibrary;
     import com.sulake.core.window.IWindowContainer;
     import flash.display.BitmapData;
-    import com.sulake.habbo.inventory.trading.TradingModel;
+    import com.sulake.habbo.inventory.trading.ITradingModel;
     import com.sulake.habbo.window.IHabboWindowManager;
     import flash.events.TimerEvent;
     import com.sulake.core.assets.BitmapDataAsset;
@@ -44,11 +44,11 @@
         private var _preferredLocation:int = 2;
         private var _arrowImgLeft:BitmapData;
         private var _arrowImgRight:BitmapData;
-        private var _tradingModel:TradingModel;
+        private var _tradingModel:ITradingModel;
         private var _windowManager:IHabboWindowManager;
         private var _expectingExtImage:Boolean = false;
 
-        public function ItemPopupCtrl(k:IWindowContainer, _arg_2:IAssetLibrary, _arg_3:IHabboWindowManager, _arg_4:TradingModel)
+        public function ItemPopupCtrl(k:IWindowContainer, _arg_2:IAssetLibrary, _arg_3:IHabboWindowManager, _arg_4:ITradingModel)
         {
             this._openDelayTimer = new Timer(_Str_18361, 1);
             this._hideDelayTimer = new Timer(_Str_16920, 1);

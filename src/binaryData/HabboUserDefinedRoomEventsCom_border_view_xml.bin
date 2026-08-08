@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?><layout name="border_view" width="30" height="30" version="0.1" uid="D5C03FFA-5720-9E86-6FCB-6EEC1AE9916B">
+  <window>
+    <border x="0" y="0" width="30" height="30" params="16" style="2"/>
+  </window>
+</layout>

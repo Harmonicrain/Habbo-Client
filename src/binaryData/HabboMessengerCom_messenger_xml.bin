@@ -118,15 +118,8 @@
             <var key="spacing" value="4" type="int"/>
           </variables>
         </itemlist_horizontal>
-        <region x="253" y="57" width="20" height="20" params="81" style="102" name="close_conversation_button" caption="Close" treshold="0">
-          <children>
-            <static_bitmap x="0" y="0" width="20" height="20" params="16" style="100">
-              <variables>
-                <var key="asset_uri" value="illumina_light_button_frame_close_png" type="String"/>
-              </variables>
-            </static_bitmap>
-          </children>
-        </region>
+        <closebutton name="close_conversation_button" style="100" x="253" y="57" width="20" height="20">
+        </closebutton>
         <scrollable_itemlist_vertical x="7" y="84" width="266" height="212" params="2192" style="100" name="conversation">
           <children>
             <widget x="0" y="0" width="259" height="76" params="147472" style="100" name="msg_normal">
@@ -200,7 +193,23 @@
             </container>
           </children>
         </scrollable_itemlist_vertical>
-        <widget x="7" y="305" width="266" height="30" params="1168" style="100" name="input_widget">
+        <container_button x="243" y="305" width="30" height="28" params="1105" style="102" name="habbicon_button">
+          <children>
+            <static_bitmap x="8" y="7" width="14" height="14" params="16" style="100" name="habbicon_button_icon">
+              <variables>
+                <var key="asset_uri" value="habbicons_habbicons_dm" type="String"/>
+                <var key="pivot_point" value="center" type="String"/>
+                <var key="stretched_x" value="false" type="Boolean"/>
+                <var key="stretched_y" value="false" type="Boolean"/>
+                <var key="fit_size_to_contents" value="true" type="Boolean"/>
+              </variables>
+            </static_bitmap>
+          </children>
+          <variables>
+            <var key="tool_tip_caption" value="${messenger.habbicons.tooltip}" type="String"/>
+          </variables>
+        </container_button>
+        <widget x="7" y="305" width="232" height="30" params="1168" style="100" name="input_widget">
           <variables>
             <var key="widget_type" value="illumina_input" type="String"/>
             <var key="illumina_input:empty_message" value="${messenger.window.input.default}" type="String"/>

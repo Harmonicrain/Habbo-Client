@@ -55,6 +55,13 @@
             return this._data.readDouble();
         }
 
+        public function readLong():Number
+        {
+            var high:int = this._data.readInt();
+            var low:uint = this._data.readUnsignedInt();
+            return Number(high) * 4294967296 + Number(low);
+        }
+
         public function get bytesAvailable():uint
         {
             return this._data.bytesAvailable;

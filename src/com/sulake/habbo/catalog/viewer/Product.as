@@ -10,6 +10,7 @@
     import com.sulake.habbo.room.IRoomEngine;
     import com.sulake.habbo.room.ImageResult;
     import flash.display.BitmapData;
+    import flash.geom.Matrix;
     import com.sulake.habbo.catalog.viewer.widgets.BundleGridViewCatalogWidget;
     import com.sulake.habbo.avatar.IAvatarImageListener;
     import com.sulake.habbo.catalog.IPurchasableOffer;
@@ -59,7 +60,7 @@
             var _local_2:Vector.<IProduct> = new Vector.<IProduct>(0);
             for each (_local_3 in k)
             {
-                if (((!(_local_3.productType == ProductTypeEnum.BADGE)) && (!((_local_3.productType == ProductTypeEnum.EFFECT) && (_local_3.productClassId == _Str_10915)))))
+                if ((((!(_local_3.productType == ProductTypeEnum.BADGE)) && (!(_local_3.productType == ProductTypeEnum.CHAT_STYLE))) && (!((_local_3.productType == ProductTypeEnum.EFFECT) && (_local_3.productClassId == _Str_10915)))))
                 {
                     _local_2.push(_local_3);
                 }
@@ -213,6 +214,17 @@
                     _local_8 = catalog.sessionDataManager.getBadgeImage(this._extraParam);
                     this._productContainer = k;
                     break;
+                case ProductTypeEnum.CHAT_STYLE:
+                    _local_8 = catalog.createChatStylePreview(parseInt(this._extraParam));
+                    if (_local_8 != null)
+                    {
+                        _local_8 = this._Str_scaleChatStyleIcon(_local_8);
+                    }
+                    if (_arg_2 == this)
+                    {
+                        this.setIconImage(_local_8, true);
+                    }
+                    break;
                 case ProductTypeEnum.ROBOT:
                     _local_8 = _Str_12672(this._extraParam, _arg_3);
                     setIconImage(_local_8, false);
@@ -229,6 +241,15 @@
                 }
             }
             return _local_8;
+        }
+
+        private function _Str_scaleChatStyleIcon(k:BitmapData):BitmapData
+        {
+            var _local_2:int = Math.max(1, (k.width / 2));
+            var _local_3:int = Math.max(1, (k.height / 2));
+            var _local_4:BitmapData = new BitmapData(_local_2, _local_3, true, 0);
+            _local_4.draw(k, new Matrix(0.5, 0, 0, 0.5), null, null, null, true);
+            return _local_4;
         }
 
         public function imageReady(k:int, _arg_2:BitmapData):void

@@ -4,6 +4,7 @@
     import com.sulake.room.object.visualization.utils.IGraphicAssetCollection;
     import com.sulake.room.utils.IRoomGeometry;
     import flash.display.BitmapData;
+    import flash.display.BitmapDataChannel;
     import flash.geom.ColorTransform;
     import flash.geom.Matrix;
     import flash.geom.Rectangle;
@@ -262,20 +263,6 @@
                             colorTransform = new ColorTransform(1, 1, 1, (objectSprite.alpha / 0xFF));
                         }
                     }
-                    if (bgColor == 0)
-                    {
-                        if (objectSprite.blendMode == BlendMode.ADD)
-                        {
-                            if (colorTransform == null)
-                            {
-                                colorTransform = new ColorTransform(1, 1, 1, 0);
-                            }
-                            else
-                            {
-                                colorTransform.alphaMultiplier = 0;
-                            }
-                        }
-                    }
                     matrix = new Matrix();
                     if (objectSprite.flipH)
                     {
@@ -288,7 +275,23 @@
                         matrix.translate(0, data.height);
                     }
                     matrix.translate((objectSprite.offsetX - boundingRect.left), (objectSprite.offsetY - boundingRect.top));
-                    bitmapData.draw(data, matrix, colorTransform, objectSprite.blendMode, null, false);
+                    if (((bgColor == 0)) && ((objectSprite.blendMode == BlendMode.ADD)))
+                    {
+                        // On a transparent thumbnail an additive layer brightens the opaque
+                        // furni pixels beneath it (e.g. the dragon lamp's gold trim) but would
+                        // otherwise smear a black halo across the empty background. Add the
+                        // layer, then restore the pre-add alpha: the brightening only survives
+                        // where solid layers already drew, while pure-glow furni (nothing
+                        // opaque beneath) stay fully suppressed exactly as before.
+                        var addAlpha:BitmapData = bitmapData.clone();
+                        bitmapData.draw(data, matrix, colorTransform, BlendMode.ADD, null, false);
+                        bitmapData.copyChannel(addAlpha, bitmapData.rect, new Point(0, 0), BitmapDataChannel.ALPHA, BitmapDataChannel.ALPHA);
+                        addAlpha.dispose();
+                    }
+                    else
+                    {
+                        bitmapData.draw(data, matrix, colorTransform, objectSprite.blendMode, null, false);
+                    }
                 }
                 index = (index + 1);
             }

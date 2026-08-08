@@ -334,6 +334,9 @@
                             case ProductTypeEnum.HABBO_CLUB:
                                 _local_14 = this._catalog.getSubscriptionProductIcon(_local_15);
                                 break;
+                            case ProductTypeEnum.CHAT_STYLE:
+                                _local_14 = this._catalog.createChatStylePreview(parseInt(_local_16));
+                                break;
                             case ProductTypeEnum.ROBOT:
                                 _local_18 = this._catalog.avatarRenderManager.createAvatarImage(_local_16, AvatarScaleType.LARGE, null, this);
                                 _local_18.setDirection(AvatarSetType.FULL, 3);

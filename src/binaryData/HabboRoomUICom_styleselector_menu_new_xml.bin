@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?><layout name="styleselector_menu_new" width="67" height="41" version="0.1" uid="F47336FC-D886-5955-22B7-DBC5CF3218C9">
+<?xml version="1.0" encoding="UTF-8"?><layout name="styleselector_menu_new" width="67" height="70" version="0.1" uid="80EAFECA-7176-64F3-4A8F-92E05C3F9D8E">
   <window>
-    <border x="0" y="0" width="67" height="41" params="16" style="2" color="0x024231e" blend="0.8">
+    <border x="0" y="0" width="67" height="70" params="16" style="2" color="0x024231e" blend="0.8">
       <children>
         <itemgrid_vertical x="6" y="5" width="55" height="33" params="12582928" style="0" name="itemgrid">
           <variables>
@@ -9,6 +9,31 @@
             <var key="resize_on_item_update" value="true" type="Boolean"/>
           </variables>
         </itemgrid_vertical>
+        <background x="6" y="48" width="55" height="1" params="1104" style="1" name="divider" color="0xffffc7c7c7" visible="false" background="true" treshold="0"/>
+        <border x="6" y="44" width="56" height="26" params="1168" style="2" color="0x00" blend="0.3"/>
+        <text x="15" y="49" width="51" height="16" params="1040" style="0" name="font_size_title" caption="%24%7Bwidgets.chatinput.text_size%7D" treshold="0">
+          <variables>
+            <var key="antialias_type" value="advanced" type="String"/>
+            <var key="auto_size" value="left" type="String"/>
+            <var key="font_face" value="Ubuntu" type="String"/>
+            <var key="font_size" value="11" type="uint"/>
+            <var key="text_color" value="0x999999" type="hex"/>
+            <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+            <var key="sharpness" value="0" type="Number"/>
+            <var key="thickness" value="0" type="Number"/>
+            <var key="bold" value="true" type="Boolean"/>
+            <var key="kerning" value="false" type="Boolean"/>
+            <var key="spacing" value="0" type="Number"/>
+            <var key="leading" value="0" type="Number"/>
+          </variables>
+        </text>
+        <itemlist_horizontal x="-49" y="48" width="85" height="18" params="787536" style="0" name="font_size_list">
+          <variables>
+            <var key="spacing" value="2" type="int"/>
+            <var key="scale_to_fit_items" value="true" type="Boolean"/>
+            <var key="resize_on_item_update" value="true" type="Boolean"/>
+          </variables>
+        </itemlist_horizontal>
       </children>
     </border>
   </window>

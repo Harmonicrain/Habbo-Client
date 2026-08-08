@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<skin name="header_skin_leaderboard" version="0.0">
+
+	<variables>
+		<variable key="asset" value="ubuntu_frame_leaderboard_all_png" type="String" />
+	</variables>
+
+	<states>
+		<state name="default" layout="header_leaderboard" template="default_header_leaderboard_mode" />
+	</states>
+
+	<templates>
+		<template name="default_header_leaderboard_mode" asset="$asset">
+			<entities>
+				<entity name="header_transparent_fill" type="bitmap"><region><Rectangle x="0" y="0" width="1" height="1" /></region></entity>
+			</entities>
+		</template>
+	</templates>
+
+	<layouts>
+		<layout name="header_leaderboard" transparent="true">
+			<entities>
+				<entity name="header_transparent_fill" id="0" colorize="false">
+					<blend>0</blend>
+					<region><Rectangle x="0" y="0" width="1" height="1" /></region>
+					<scale horizontal="strech" vertical="strech" />
+				</entity>
+			</entities>
+		</layout>
+	</layouts>
+</skin>

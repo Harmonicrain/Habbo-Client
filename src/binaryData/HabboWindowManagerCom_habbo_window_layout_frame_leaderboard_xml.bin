@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<layout name="habbo_window_layout_frame_3" width="193" height="130" version="0.0">
+
+ 	<!-- filters -->
+
+	<filters>
+		<DropShadowFilter distance="4" angle="45" color="0" alpha="0.35" blurX="4" blurY="4" />
+	</filters>
+
+	<!-- window child layout -->
+
+	<window>
+
+		<header name="titlebar" x="76" y="3" width="41" height="32" tags="_HEADER, _EXCLUDE, _INTERNAL, _COLORIZE">
+			<params>
+				<param name="relative_horizontal_scale_strech" />
+				<param name="relative_vertical_scale_fixed" />
+				<param name="input_event_processor" />
+				<param name="use_parent_graphic_context" />
+				<param name="mouse_dragging_trigger" />
+                <param name="inherit_caption" />
+			</params>
+		</header>
+
+		<container name="content_area" x="10" y="52" width="173" height="69" tags="_CONTENT, _INTERNAL, _EXCLUDE">
+			<params>
+				<param name="relative_horizontal_scale_strech" />
+				<param name="relative_vertical_scale_strech" />
+				<param name="use_parent_graphic_context" />
+				<param name="reflect_resize_to_parent" />
+			</params>
+		</container>
+
+	</window>
+</layout>

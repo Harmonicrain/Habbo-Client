@@ -122,6 +122,8 @@
             <asset mimeType="text/xml" name="totalPriceWidget"/>
             <asset mimeType="text/xml" name="bundlesInfoItem"/>
             <asset mimeType="text/xml" name="soldLtdItemsWidget"/>
+            <asset mimeType="text/xml" name="habbicon_view_xml" />
+            <asset mimeType="text/xml" name="habbicon_purchase_confirmation_xml" />
             <asset mimeType="text/xml" name="rent_confirmation" />
             <asset mimeType="text/xml" name="badgeGridItem" />
             <asset mimeType="text/xml" name="builderWidget"/>

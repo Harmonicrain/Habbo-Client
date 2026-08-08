@@ -31,11 +31,17 @@
     import com.sulake.habbo.communication.messages.incoming.friendlist.NewConsoleMessageEvent;
     import com.sulake.habbo.communication.messages.incoming.friendlist.InstantMessageErrorEvent;
     import com.sulake.habbo.communication.messages.incoming.friendlist.RoomInviteEvent;
+    import com.sulake.habbo.communication.messages.incoming.habbicons.HabbiconInstantMessageEvent;
+    import com.sulake.habbo.communication.messages.incoming.habbicons.HabbiconMessengerHistoryMessageEvent;
     import com.sulake.core.communication.messages.IMessageComposer;
     import com.sulake.habbo.sound.HabboSoundTypesEnum;
     import com.sulake.habbo.communication.messages.parser.friendlist.NewConsoleMessageMessageParser;
     import com.sulake.habbo.communication.messages.parser.friendlist.RoomInviteMessageParser;
     import com.sulake.habbo.communication.messages.parser.friendlist.InstantMessageErrorMessageParser;
+    import com.sulake.habbo.communication.messages.parser.habbicons.HabbiconInstantMessageParser;
+    import com.sulake.habbo.communication.messages.parser.habbicons.HabbiconMessengerContent;
+    import com.sulake.habbo.communication.messages.parser.habbicons.HabbiconMessengerHistoryEntry;
+    import com.sulake.habbo.communication.messages.parser.habbicons.HabbiconMessengerHistoryMessageParser;
     import com.sulake.habbo.messenger.events.ActiveConversationEvent;
     import com.sulake.core.assets.IAsset;
     import com.sulake.core.assets.XmlAsset;
@@ -158,6 +164,8 @@
         {
             this._mainView = new MainView(this);
             this.addMessageEvent(new NewConsoleMessageEvent(this.onNewConsoleMessage));
+            this.addMessageEvent(new HabbiconInstantMessageEvent(this.onHabbiconInstantMessage));
+            this.addMessageEvent(new HabbiconMessengerHistoryMessageEvent(this.onHabbiconMessengerHistory));
             this.addMessageEvent(new InstantMessageErrorEvent(this.onInstantMessageError));
             this.addMessageEvent(new RoomInviteEvent(this.onRoomInvite));
         }
@@ -233,6 +241,40 @@
                 if (!this._mainView.isOpen)
                 {
                     this.playMessageReceivedSound();
+                }
+            }
+        }
+
+        private function onHabbiconInstantMessage(k:HabbiconInstantMessageEvent):void
+        {
+            var parser:HabbiconInstantMessageParser = k.getParser();
+            var content:HabbiconMessengerContent = parser.content;
+            Logger.log(("Received Habbicon console msg: " + ((content != null) ? content.habbiconId : 0) + ", " + parser.senderId));
+            if (this._mainView != null && content != null)
+            {
+                this._mainView.addHabbiconConsoleMessage(parser.chatId, content.messageType, content.messageText, content.habbiconId, parser.secondsSinceSent, parser.messageId, parser.confirmationId, parser.senderId, parser.senderName, parser.senderFigure);
+                if (!this._mainView.isOpen)
+                {
+                    this.playMessageReceivedSound();
+                }
+            }
+        }
+
+        private function onHabbiconMessengerHistory(k:HabbiconMessengerHistoryMessageEvent):void
+        {
+            var parser:HabbiconMessengerHistoryMessageParser = k.getParser();
+            var entry:HabbiconMessengerHistoryEntry;
+            var content:HabbiconMessengerContent;
+            if (this._mainView == null || parser == null)
+            {
+                return;
+            }
+            for each (entry in parser.entries)
+            {
+                content = entry.content;
+                if (content != null)
+                {
+                    this._mainView.addHabbiconConsoleMessage(parser.chatId, content.messageType, content.messageText, content.habbiconId, entry.secondsSinceSent, entry.messageId, 0, entry.senderId, entry.senderName, entry.senderFigure);
                 }
             }
         }

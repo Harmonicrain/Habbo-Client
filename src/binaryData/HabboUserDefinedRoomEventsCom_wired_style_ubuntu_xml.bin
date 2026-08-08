@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout name="wired_style_ubuntu" width="200" height="200" version="0.1" uid="BBF9D896-E5DA-76E1-919A-DF3408F1C92C">
+  <window>
+    <container x="0" y="0" width="200" height="200" params="16" style="3" color="0xffffe9e9e1" background="true">
+      <children>
+        <border x="0" y="0" width="193" height="68" params="17" style="5" name="requirement_rule" color="0x0dadada" visible="false" treshold="0">
+          <children>
+            <text x="6" y="3" width="106" height="17" params="16" style="3" name="title" caption="Payment%20option%201%3A">
+              <variables>
+                <var key="auto_size" value="left" type="String"/>
+                <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                <var key="spacing" value="0" type="Number"/>
+                <var key="leading" value="0" type="Number"/>
+              </variables>
+            </text>
+            <region x="174" y="3" width="15" height="15" params="65" style="3" dynamic_style="brightness_and_shadow_under" name="close_rule_region" treshold="0">
+              <children>
+                <border x="0" y="0" width="15" height="15" params="16" style="12" color="0x0dddddd" tags="%23bg">
+                  <children>
+                    <static_bitmap x="3" y="3" width="9" height="9" params="16" style="3" color="0x0777777" tags="%23bg">
+                      <variables>
+                        <var key="asset_uri" value="common_close_x" type="String"/>
+                        <var key="stretched_x" value="false" type="Boolean"/>
+                        <var key="stretched_y" value="false" type="Boolean"/>
+                        <var key="fit_size_to_contents" value="true" type="Boolean"/>
+                      </variables>
+                    </static_bitmap>
+                  </children>
+                </border>
+              </children>
+            </region>
+            <itemgrid_vertical x="6" y="21" width="181" height="42" params="8388752" style="3" name="grid">
+              <children>
+                <region x="0" y="0" width="42" height="42" params="1" style="0" dynamic_style="brightness_and_shadow_under_gentle" name="element_entry_template" treshold="0">
+                  <children>
+                    <border x="0" y="0" width="42" height="42" params="0" style="4" name="icon_border" color="0x0eeeeee" tags="%23icon">
+                      <children>
+                        <widget x="1" y="1" width="40" height="40" params="16" style="3" name="element_icon_widget">
+                          <variables>
+                            <var key="widget_type" value="product_icon" type="String"/>
+                          </variables>
+                        </widget>
+                        <static_bitmap x="8" y="12" width="25" height="18" params="16" style="3" name="coins_icon" visible="false">
+                          <variables>
+                            <var key="asset_uri" value="inventory_furni_icon_credits" type="String"/>
+                            <var key="stretched_x" value="false" type="Boolean"/>
+                            <var key="stretched_y" value="false" type="Boolean"/>
+                            <var key="fit_size_to_contents" value="true" type="Boolean"/>
+                          </variables>
+                        </static_bitmap>
+                        <border x="23" y="27" width="16" height="13" params="263248" style="4" name="quantity_border" color="0x0cccccc" blend="0.8" tags="%23ico">
+                          <children>
+                            <text x="3" y="-1" width="9" height="15" params="4194320" style="3" name="quantity_amount" caption="2" tags="%23ico">
+                              <variables>
+                                <var key="auto_size" value="left" type="String"/>
+                                <var key="font_size" value="10" type="uint"/>
+                                <var key="text_color" value="0x222222" type="hex"/>
+                                <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                                <var key="bold" value="true" type="Boolean"/>
+                                <var key="spacing" value="0" type="Number"/>
+                                <var key="leading" value="0" type="Number"/>
+                              </variables>
+                            </text>
+                          </children>
+                        </border>
+                        <region x="27" y="0" width="15" height="15" params="65" style="3" dynamic_style="brightness_and_shadow_under" name="close_region" treshold="0">
+                          <children>
+                            <border x="0" y="0" width="15" height="15" params="16" style="12" color="0x0dddddd" tags="%23bg">
+                              <children>
+                                <static_bitmap x="3" y="3" width="9" height="9" params="16" style="3" color="0x0777777" tags="%23bg">
+                                  <variables>
+                                    <var key="asset_uri" value="common_close_x" type="String"/>
+                                    <var key="stretched_x" value="false" type="Boolean"/>
+                                    <var key="stretched_y" value="false" type="Boolean"/>
+                                    <var key="fit_size_to_contents" value="true" type="Boolean"/>
+                                  </variables>
+                                </static_bitmap>
+                              </children>
+                            </border>
+                          </children>
+                        </region>
+                      </children>
+                    </border>
+                  </children>
+                </region>
+                <container x="0" y="0" width="26" height="42" params="16" style="3" name="add_more_container">
+                  <children>
+                    <iconbutton x="2" y="10" width="23" height="22" params="3281" style="3" name="add_more" background="true" treshold="0"/>
+                  </children>
+                </container>
+              </children>
+              <variables>
+                <var key="spacing" value="6" type="int"/>
+                <var key="scale_to_fit_items" value="true" type="Boolean"/>
+                <var key="resize_on_item_update" value="true" type="Boolean"/>
+              </variables>
+            </itemgrid_vertical>
+          </children>
+        </border>
+        <border x="0" y="0" width="42" height="42" params="16" style="3" name="product_icon_previewer" color="0x0dadada" visible="false">
+          <children>
+            <widget x="1" y="1" width="40" height="40" params="16" style="3" name="icon_preview">
+              <variables>
+                <var key="widget_type" value="product_icon" type="String"/>
+              </variables>
+            </widget>
+          </children>
+        </border>
+        <container x="0" y="0" width="228" height="1" params="16" style="3" name="ruler_view" visible="false">
+          <children>
+            <container x="0" y="0" width="228" height="1" params="4194448" style="3" color="0xffffb5b5b5" background="true"/>
+          </children>
+        </container>
+        <container x="0" y="0" width="1" height="50" params="16" style="3" name="ruler_view_vertical" visible="false">
+          <children>
+            <container x="0" y="0" width="1" height="50" params="4196368" style="3" color="0xffffb5b5b5" background="true"/>
+          </children>
+        </container>
+        <text x="0" y="0" width="60" height="17" params="147472" style="3" name="text_view" caption="some%20text" visible="false">
+          <variables>
+            <var key="auto_size" value="left" type="String"/>
+            <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+            <var key="spacing" value="0" type="Number"/>
+            <var key="leading" value="0" type="Number"/>
+          </variables>
+        </text>
+        <text x="0" y="0" width="88" height="17" params="147472" style="3" name="text_bold_view" caption="some%20bold%20text" visible="false">
+          <variables>
+            <var key="auto_size" value="left" type="String"/>
+            <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+            <var key="bold" value="true" type="Boolean"/>
+            <var key="spacing" value="0" type="Number"/>
+            <var key="leading" value="0" type="Number"/>
+          </variables>
+        </text>
+        <html x="0" y="0" width="100" height="17" params="1073741840" style="3" name="text_html" caption="Use%20this%20by%20typing" visible="false">
+          <variables>
+            <var key="auto_size" value="left" type="String"/>
+            <var key="spacing" value="0" type="Number"/>
+            <var key="leading" value="0" type="Number"/>
+            <var key="editable" value="false" type="Boolean"/>
+            <var key="selectable" value="false" type="Boolean"/>
+          </variables>
+        </html>
+        <border x="0" y="0" width="178" height="24" params="16" style="4" name="input_template" visible="false">
+          <children>
+            <input x="5" y="3" width="168" height="18" params="2177" style="3" name="field">
+              <variables>
+                <var key="always_show_selection" value="true" type="Boolean"/>
+                <var key="margin_left" value="5" type="int"/>
+                <var key="spacing" value="0" type="Number"/>
+                <var key="leading" value="0" type="Number"/>
+              </variables>
+            </input>
+          </children>
+        </border>
+        <dropmenu x="0" y="0" width="149" height="24" params="17" style="3" name="dropdown_view" visible="false"/>
+        <checkbox x="0" y="0" width="17" height="15" params="17" style="3" name="checkbox_view" treshold="0" height_min="15" height_max="15"/>
+        <radiobutton x="0" y="0" width="15" height="15" params="17" style="3" name="radiobutton_view" visible="false" treshold="0" height_min="15" height_max="15"/>
+        <region x="0" y="2" width="16" height="12" params="17" style="3" name="expand_collapse_region" color="0xff3d3d3d" visible="false" treshold="0">
+          <children>
+            <static_bitmap x="0" y="1" width="16" height="10" params="16" style="3" name="up_arrow" color="0x0999999">
+              <variables>
+                <var key="asset_uri" value="wired_volter_uparrow" type="String"/>
+                <var key="stretched_x" value="false" type="Boolean"/>
+                <var key="stretched_y" value="false" type="Boolean"/>
+                <var key="fit_size_to_contents" value="true" type="Boolean"/>
+              </variables>
+            </static_bitmap>
+            <static_bitmap x="0" y="1" width="16" height="10" params="16" style="3" name="down_arrow" color="0x0999999">
+              <variables>
+                <var key="asset_uri" value="wired_volter_downarrow" type="String"/>
+                <var key="stretched_x" value="false" type="Boolean"/>
+                <var key="stretched_y" value="false" type="Boolean"/>
+                <var key="fit_size_to_contents" value="true" type="Boolean"/>
+              </variables>
+            </static_bitmap>
+          </children>
+        </region>
+        <button x="0" y="0" width="43" height="24" params="131089" style="3" name="button" caption="text" visible="false">
+          <variables>
+            <var key="text_style" value="button_shiny_regular" type="String"/>
+          </variables>
+        </button>
+        <frame x="0" y="0" width="240" height="200" params="32769" style="3" name="frame" caption="%24%7Bwiredfurni.title%7D" color="0xff418db0" visible="false" width_min="100">
+          <filters>
+            <DropShadowFilter distance="4" alpha="0.34901960784313724" blurX="4" blurY="4"/>
+          </filters>
+          <variables>
+            <var key="margin_left" value="1" type="int"/>
+            <var key="margin_top" value="33" type="int"/>
+            <var key="margin_right" value="1" type="int"/>
+            <var key="margin_bottom" value="8" type="int"/>
+          </variables>
+        </frame>
+        <container_button x="0" y="0" width="30" height="30" params="17" style="7" name="container_button" visible="false"/>
+        <border x="0" y="0" width="30" height="30" params="16" style="3" name="border" color="0x0dadada" visible="false"/>
+      </children>
+    </container>
+  </window>
+</layout>

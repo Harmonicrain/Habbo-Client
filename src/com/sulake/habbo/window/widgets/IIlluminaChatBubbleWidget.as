@@ -14,6 +14,8 @@
         function set figure(_arg_1:String):void;
         function get message():String;
         function set message(_arg_1:String):void;
+        function get habbiconId():int;
+        function set habbiconId(_arg_1:int):void;
         function get timeStamp():Number;
         function set timeStamp(_arg_1:Number):void;
         function set friendOnlineStatus(_arg_1:Boolean):void;

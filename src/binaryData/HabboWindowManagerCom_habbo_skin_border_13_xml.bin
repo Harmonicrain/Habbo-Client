@@ -1,0 +1,116 @@
+<?xml version="1.0"?>
+<skin name="border_13" version="0.0">
+
+	<!-- shared variables -->
+
+	<variables>
+		<variable key="asset"	value="habbo_blue_skin_png"	type="String" />
+	</variables>
+
+	<!-- the following maps layouts for render states -->
+
+	<states>
+		<state name="default"  layout="border_13" template="border_13" />
+		<state name="active"   layout="border_13" template="border_13" />
+		<!--
+		<state name="pressed"  layout="border_outline" template="default_border" />
+		<state name="selected" layout="border_outline" template="default_border" />
+		-->
+	</states>
+
+	<!-- templates defines regions in bitmap asset -->
+
+	<templates>
+
+		<template name="border_13" asset="$asset">
+			<entities>
+                <entity name="top_left"	  type="bitmap"><region><Rectangle x="1"  y="270" width="12" height="11" /></region></entity>
+                <entity name="top_center" type="bitmap"><region><Rectangle x="13"  y="270" width="6" height="11" /></region></entity>
+                <entity name="top_right"  type="bitmap"><region><Rectangle x="19"  y="270" width="12" height="11" /></region></entity>
+
+                <entity name="mid_left"	  type="bitmap"><region><Rectangle x="1"  y="281" width="12" height="6" /></region></entity>
+                <entity name="mid_center" type="bitmap"><region><Rectangle x="13"  y="281" width="6" height="6" /></region></entity>
+                <entity name="mid_right"  type="bitmap"><region><Rectangle x="19"  y="281" width="12" height="6" /></region></entity>
+
+                <entity name="btm_left"	  type="bitmap"><region><Rectangle x="1"  y="287" width="12" height="11" /></region></entity>
+                <entity name="btm_center" type="bitmap"><region><Rectangle x="13"  y="287" width="6" height="11" /></region></entity>
+                <entity name="btm_right"  type="bitmap"><region><Rectangle x="19"  y="287" width="12" height="11" /></region></entity>
+			</entities>
+		</template>
+
+	</templates>
+
+	<!-- markup for layout drawer -->
+
+	<layouts>
+		<layout name="border_13" transparent="true">
+			<entities>
+
+				<!-- top left -->
+
+				<entity name="top_left" id="0">
+					<region><Rectangle x="0" y="0" width="12" height="11" /></region>
+					<scale horizontal="fixed" vertical="fixed" />
+				</entity>
+
+				<!-- top center -->
+
+				<entity name="top_center" id="0">
+					<region><Rectangle x="12"  y="0" width="6" height="11" /></region>
+					<scale horizontal="strech" vertical="fixed" />
+				</entity>
+
+				<!-- top right -->
+
+				<entity name="top_right" id="0">
+					<region><Rectangle x="18" y="0" width="12" height="11" /></region>
+					<scale horizontal="move" vertical="fixed" />
+				</entity>
+
+				<!-- mid left -->
+
+				<entity name="mid_left" id="0">
+					<region><Rectangle x="0" y="11" width="12" height="6" /></region>
+					<scale horizontal="fixed" vertical="strech" />
+				</entity>
+
+				<!-- mid center -->
+
+				<entity name="mid_center" id="0">
+					<region><Rectangle x="12" y="11" width="6" height="6" /></region>
+					<scale horizontal="strech" vertical="strech" />
+				</entity>
+
+				<!-- mid right -->
+
+				<entity name="mid_right" id="0">
+					<region><Rectangle x="18" y="11" width="12" height="6" /></region>
+					<scale horizontal="move" vertical="strech" />
+				</entity>
+
+				<!-- btm left -->
+
+				<entity name="btm_left" id="0">
+					<region><Rectangle x="0" y="17" width="12" height="11" /></region>
+					<scale horizontal="fixed" vertical="move" />
+				</entity>
+
+				<!-- btm center -->
+
+				<entity name="btm_center" id="0">
+					<region><Rectangle x="12"  y="17" width="6" height="11" /></region>
+					<scale horizontal="strech" vertical="move" />
+				</entity>
+
+				<!-- btm right -->
+
+				<entity name="btm_right" id="0">
+					<region><Rectangle x="18" y="17" width="12" height="11" /></region>
+					<scale horizontal="move" vertical="move" />
+				</entity>
+
+			</entities>
+
+		</layout>
+	</layouts>
+</skin>

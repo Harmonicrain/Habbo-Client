@@ -9,6 +9,7 @@
     import com.sulake.core.window.graphics.renderer.BitmapSkinRenderer;
     import com.sulake.core.window.graphics.renderer.BitmapDataRenderer;
     import com.sulake.core.window.graphics.renderer.FillSkinRenderer;
+    import com.sulake.core.window.graphics.renderer.GradientSkinRenderer;
     import com.sulake.core.window.graphics.renderer.TextSkinRenderer;
     import com.sulake.core.window.graphics.renderer.LabelRenderer;
     import com.sulake.core.window.graphics.renderer.ShapeSkinRenderer;
@@ -22,6 +23,7 @@
         private static const SKIN:String = "skin";
         private static const BITMAP:String = "bitmap";
         private static const FILL:String = "fill";
+        private static const GRADIENT:String = "gradient";
         private static const TEXT:String = "text";
         private static const LABEL:String = "label";
         private static const SHAPE:String = "shape";
@@ -63,6 +65,7 @@
             _local_8[SKIN] = BitmapSkinRenderer;
             _local_8[BITMAP] = BitmapDataRenderer;
             _local_8[FILL] = FillSkinRenderer;
+            _local_8[GRADIENT] = GradientSkinRenderer;
             _local_8[TEXT] = TextSkinRenderer;
             _local_8[LABEL] = LabelRenderer;
             _local_8[SHAPE] = ShapeSkinRenderer;

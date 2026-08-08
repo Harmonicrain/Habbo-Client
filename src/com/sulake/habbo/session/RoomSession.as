@@ -72,6 +72,7 @@
         private var _ownUserRoomId:int = -1;
         private var _isRoomOwner:Boolean = false;
         private var _roomControllerLevel:int = 0;
+        private var _playTestMode:Boolean = false;
         private var _tradeMode:int = 0;
         private var _isGuildRoom:Boolean = false;
         private var _isSpectatorMode:Boolean = false;
@@ -572,7 +573,21 @@
 
         public function get roomControllerLevel():int
         {
+            if (this._playTestMode)
+            {
+                return RoomControllerLevel.NONE;
+            }
             return this._roomControllerLevel;
+        }
+
+        public function set playTestMode(value:Boolean):void
+        {
+            this._playTestMode = value;
+        }
+
+        public function get playTestMode():Boolean
+        {
+            return this._playTestMode;
         }
 
         public function get tradeMode():int

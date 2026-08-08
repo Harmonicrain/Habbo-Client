@@ -11,6 +11,8 @@
         public static const FURNITURE_STICKIE:String = "furniture_stickie";
         public static const FURNITURE_PRESENT:String = "furniture_present";
         public static const FURNITURE_TROPHY:String = "furniture_trophy";
+        public static const FURNITURE_FURNI_CHEST:String = "furniture_furnichest";
+        public static const FURNITURE_COINS_CHEST:String = "furniture_coinschest";
         public static const FURNITURE_ECOTRON_BOX:String = "furniture_ecotron_box";
         public static const FURNITURE_DICE:String = "furniture_dice";
         public static const FURNITURE_HOCKEY_SCORE:String = "furniture_hockey_score";
@@ -46,6 +48,7 @@
         public static const FURNITURE_MONSTERPLANT_SEED:String = "furniture_monsterplant_seed";
         public static const FURNITURE_PURCHASABLE_CLOTHING:String = "furniture_purchasable_clothing";
         public static const FURNITURE_BACKGROUND_COLOR:String = "furniture_background_color";
+        public static const FURNITURE_AREA_HIDE:String = "furniture_area_hide";
         public static const FURNITURE_MYSTERYBOX:String = "furniture_mysterybox";
         public static const FURNITURE_EFFECTBOX:String = "furniture_effectbox";
         public static const FURNITURE_MYSTERYTROPHY:String = "furniture_mysterytrophy";
@@ -66,6 +69,7 @@
         public static const FURNITURE_CRAFTING_GIZMO:String = "furniture_crafting_gizmo";
         public static const ROOM:String = "room";
         public static const PUBLIC_ROOM:String = "room_public";
+        public static const PUBLIC_ROOM_PARK:String = "room_public_park";
         public static const USER:String = "user";
         public static const BOT:String = "bot";
         public static const RENTABLE_BOT:String = "rentable_bot";

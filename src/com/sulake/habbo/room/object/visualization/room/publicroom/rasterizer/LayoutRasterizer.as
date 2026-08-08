@@ -17,6 +17,9 @@ package com.sulake.habbo.room.object.visualization.room.publicroom.rasterizer
         private var _anchor:Vector3d;
         private var _currentLayout:String;
         private var _assetCollection:IGraphicAssetCollection;
+        private var _graphicsChanged:Boolean = false;
+        private var _alphaOverrideTags:Array;
+        private var _alphaOverrideValues:Array;
 
         public function LayoutRasterizer()
         {
@@ -24,12 +27,32 @@ package com.sulake.habbo.room.object.visualization.room.publicroom.rasterizer
             this._layouts = new Map();
             this._anchor = new Vector3d(-0.5, 0.5, 0);
             this._currentLayout = "";
+            this._alphaOverrideTags = [];
+            this._alphaOverrideValues = [];
+        }
+
+        public function get graphicsChanged():Boolean
+        {
+            return this._graphicsChanged;
+        }
+
+        public function changeElementAlpha(k:String, _arg_2:Number):void
+        {
+            this._graphicsChanged = true;
+            this._alphaOverrideTags.push(k);
+            this._alphaOverrideValues.push(_arg_2);
         }
 
         public function initialize(k:XML):void
         {
             var _local_2:String = String(k.@name);
             this._layouts.add(_local_2, new LayoutRasterizerData(k));
+        }
+
+        public function get hasAnimations():Boolean
+        {
+            var k:LayoutRasterizerData = (this._layouts.getValue(this._currentLayout) as LayoutRasterizerData);
+            return (((!(k == null)) && (k.hasAnimations)));
         }
 
         public function set layout(k:String):void
@@ -57,7 +80,7 @@ package com.sulake.habbo.room.object.visualization.room.publicroom.rasterizer
             return _local_2.length();
         }
 
-        public function setElementToSprite(k:int, _arg_2:IRoomObjectSprite, _arg_3:IRoomGeometry):void
+        public function setElementToSprite(k:int, _arg_2:IRoomObjectSprite, _arg_3:IRoomGeometry, _arg_4:int=0):void
         {
             if (((this._assetCollection == null) || (_arg_2 == null)) || (_arg_3 == null))
             {
@@ -88,23 +111,25 @@ package com.sulake.habbo.room.object.visualization.room.publicroom.rasterizer
                 return;
             }
             var _local_8:XML = _local_7.visualizationLayer[0];
-            var _local_9:IGraphicAsset = this._assetCollection.getAsset(_local_8.@asset);
-            if (_local_9 == null)
+            var _local_9:String = this.getLayerAssetName(_local_8, _arg_4);
+            var _local_10:IGraphicAsset = this._assetCollection.getAsset(_local_9);
+            if (_local_10 == null)
             {
                 return;
             }
-            var _local_10:Point = _arg_3.getScreenPoint(new Vector3d(0, 0, 0));
-            var _local_11:Point = _arg_3.getScreenPoint(this._anchor);
-            _local_11.x = Math.round((_local_11.x - _local_10.x));
-            _local_11.y = Math.round((_local_11.y - _local_10.y));
-            _arg_2.asset = (_local_9.asset.content as BitmapData);
-            _arg_2.assetName = String(_local_8.@asset);
-            _arg_2.offsetX = ((int(_local_8.@x) + _local_9.offsetX) + _local_11.x);
-            _arg_2.offsetY = ((int(_local_8.@y) + _local_9.offsetY) + _local_11.y);
+            var _local_11:Point = _arg_3.getScreenPoint(new Vector3d(0, 0, 0));
+            var _local_12:Point = _arg_3.getScreenPoint(this._anchor);
+            _local_12.x = Math.round((_local_12.x - _local_11.x));
+            _local_12.y = Math.round((_local_12.y - _local_11.y));
+            _arg_2.asset = (_local_10.asset.content as BitmapData);
+            _arg_2.assetName = _local_9;
+            _arg_2.offsetX = ((int(_local_8.@x) + _local_10.offsetX) + _local_12.x);
+            _arg_2.offsetY = ((int(_local_8.@y) + _local_10.offsetY) + _local_12.y);
             _arg_2.blendMode = this.getBlendMode(String(_local_8.@ink));
             _arg_2.clickHandling = false;
             _arg_2.tag = "";
             _arg_2.alphaTolerance = AlphaTolerance.MATCH_NOTHING;
+            _arg_2.flipH = false;
             if (parseInt(_local_8.@capturesMouse) > 0)
             {
                 _arg_2.clickHandling = true;
@@ -127,6 +152,48 @@ package com.sulake.habbo.room.object.visualization.room.publicroom.rasterizer
             {
                 _arg_2.flipH = ((_local_8.@flipH == "true") || (_local_8.@flipH == "1"));
             }
+            var _local_13:String = String(_local_6.@id);
+            if (((_local_13.length > 0) && this._graphicsChanged))
+            {
+                var _local_14:int = this._alphaOverrideTags.indexOf(_local_13);
+                if (_local_14 >= 0)
+                {
+                    _arg_2.alpha = this._alphaOverrideValues[_local_14];
+                    this._alphaOverrideTags.splice(_local_14, 1);
+                    this._alphaOverrideValues.splice(_local_14, 1);
+                    if (this._alphaOverrideTags.length == 0)
+                    {
+                        this._graphicsChanged = false;
+                    }
+                }
+            }
+        }
+
+        private function getLayerAssetName(k:XML, _arg_2:int):String
+        {
+            var _local_3:String = String(k.@asset);
+            var _local_4:String = String(k.@frames);
+            if (_local_4.length == 0)
+            {
+                return _local_3;
+            }
+            var _local_5:Array = _local_4.split(",");
+            if (_local_5.length == 0)
+            {
+                return _local_3;
+            }
+            var _local_6:Number = parseInt(k.@frameInterval);
+            if (((isNaN(_local_6)) || (_local_6 <= 0)))
+            {
+                _local_6 = 160;
+            }
+            var _local_7:int = (int((_arg_2 / _local_6)) % _local_5.length);
+            var _local_8:String = String(_local_5[_local_7]);
+            if (_local_8.length == 0)
+            {
+                return _local_3;
+            }
+            return _local_8;
         }
 
         private function getBlendMode(k:String):String

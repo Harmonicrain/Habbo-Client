@@ -601,7 +601,12 @@
 
         public function get top():int
         {
-            return (window) ? window.y : 0;
+            // Computed desktop-anchored resting top (same formula as updatePosition's window.position),
+            // NOT the live window.y. The room info box positions itself relative to this on window
+            // resize; its WINDOW_EVENT_PARENT_RESIZED handler can run before this toolbar's own
+            // updatePosition repositions window.y, so returning the stale live y jumped the info box
+            // to the top-left. Deriving it from the current desktop height makes it resize-order safe.
+            return (window) ? ((window.desktop.height - DISTANCE_FROM_BOTTOM) - window.height) : 0;
         }
     }
 }

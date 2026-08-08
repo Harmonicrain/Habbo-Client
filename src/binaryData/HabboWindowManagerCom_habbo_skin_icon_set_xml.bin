@@ -2,85 +2,85 @@
 <skin name="icon_set_skin" version="0.0">
 
 	<!-- shared variables -->
-	
+
 	<variables>
 		<variable key="asset" value="habbo_icons_png" type="String" />
 	</variables>
-	
+
 	<!-- template defines regions in bitmap asset -->
-	
+
 	<templates>
-	
+
 		<!-- Simple arrow down -->
 		<template name="icon_0" asset="$asset">
 			<entities>
 				<entity name="icon" type="bitmap"><region><Rectangle x="0" y="0"  width="9" height="10" /></region></entity>
 			</entities>
 		</template>
-		
+
 		<!-- Simple arrow up -->
 		<template name="icon_1" asset="$asset">
 			<entities>
 				<entity name="icon" type="bitmap"><region><Rectangle x="10" y="0"  width="9" height="10" /></region></entity>
 			</entities>
 		</template>
-		
+
 		<!-- Simple arrow left -->
 		<template name="icon_2" asset="$asset">
 			<entities>
 				<entity name="icon" type="bitmap"><region><Rectangle x="20" y="0"  width="10" height="9" /></region></entity>
 			</entities>
 		</template>
-		
+
 		<!-- Simple arrow right -->
 		<template name="icon_3" asset="$asset">
 			<entities>
 				<entity name="icon" type="bitmap"><region><Rectangle x="31" y="0"  width="10" height="9" /></region></entity>
 			</entities>
 		</template>
-		
+
 		<!-- Triangle arrow left -->
 		<template name="icon_4" asset="$asset">
 			<entities>
 				<entity name="icon" type="bitmap"><region><Rectangle x="42" y="0"  width="5" height="10" /></region></entity>
 			</entities>
 		</template>
-		
+
 		<!-- Triangle arrow right -->
 		<template name="icon_5" asset="$asset">
 			<entities>
 				<entity name="icon" type="bitmap"><region><Rectangle x="48" y="0"  width="5" height="10" /></region></entity>
 			</entities>
 		</template>
-		
+
 		<!-- Triangle arrow up -->
 		<template name="icon_6" asset="$asset">
 			<entities>
 				<entity name="icon" type="bitmap"><region><Rectangle x="54" y="0"  width="10" height="5" /></region></entity>
 			</entities>
 		</template>
-		
+
 		<!-- Triangle arrow down -->
 		<template name="icon_7" asset="$asset">
 			<entities>
 				<entity name="icon" type="bitmap"><region><Rectangle x="54" y="6"  width="10" height="5" /></region></entity>
 			</entities>
 		</template>
-		
+
 		<!-- Symbol Accept -->
 		<template name="icon_8" asset="$asset">
 			<entities>
 				<entity name="icon" type="bitmap"><region><Rectangle x="65" y="0"  width="16" height="13" /></region></entity>
 			</entities>
 		</template>
-		
+
 		<!-- Symbol Decline -->
 		<template name="icon_9" asset="$asset">
 			<entities>
 				<entity name="icon" type="bitmap"><region><Rectangle x="82" y="0"  width="13" height="13" /></region></entity>
 			</entities>
 		</template>
-		
+
 		<!-- Coin -->
 		<template name="icon_10" asset="$asset">
 			<entities>
@@ -330,7 +330,7 @@
             </entities>
         </template>
 
-        <!-- Pumpkin, 49 = small, 50 = large, 51 = combo -->
+        <!-- Plain Pumpkin, 49 = small, 50 = large, 51 = combo -->
         <template name="icon_49" asset="$asset">
             <entities>
                 <entity name="icon" type="bitmap"><region><Rectangle x="358" y="0"  width="13" height="13" /></region></entity>
@@ -363,18 +363,198 @@
                 <entity name="icon" type="bitmap"><region><Rectangle x="371" y="0"  width="14" height="14" /></region></entity>
             </entities>
         </template>
-        
-        <!-- seashells -->        
+
+        <!-- seashells -->
 		 <template name="icon_55" asset="$asset">
             <entities>
                 <entity name="icon" type="bitmap"><region><Rectangle x="433" y="40"  width="20" height="20" /></region></entity>
             </entities>
         </template>
 
+		<!-- silver -->
+		<template name="icon_56" asset="$asset">
+			<entities>
+				<entity name="icon" type="bitmap"><region><Rectangle x="512" y="39"  width="20" height="20" /></region></entity>
+			</entities>
+		</template>
+		<template name="icon_57" asset="$asset">
+			<entities>
+				<entity name="icon" type="bitmap"><region><Rectangle x="385" y="1"  width="11" height="11" /></region></entity>
+			</entities>
+		</template>
+
+		<!-- silver -->
+		<template name="icon_56" asset="$asset">
+			<entities>
+				<entity name="icon" type="bitmap"><region><Rectangle x="512" y="39"  width="20" height="20" /></region></entity>
+			</entities>
+		</template>
+		<template name="icon_57" asset="$asset">
+			<entities>
+				<entity name="icon" type="bitmap"><region><Rectangle x="385" y="1"  width="11" height="11" /></region></entity>
+			</entities>
+		</template>
+
+		<!-- flower -->
+		<template name="icon_58" asset="$asset">
+			<entities>
+				<entity name="icon" type="bitmap"><region><Rectangle x="458" y="41"  width="19" height="19" /></region></entity>
+			</entities>
+		</template>
+		<template name="icon_59" asset="$asset">
+			<entities>
+				<entity name="icon" type="bitmap"><region><Rectangle x="398" y="1"  width="12" height="12" /></region></entity>
+			</entities>
+		</template>
+
+		<!-- candy -->
+		<template name="icon_60" asset="$asset">
+			<entities>
+				<entity name="icon" type="bitmap"><region><Rectangle x="481" y="42"  width="18" height="16" /></region></entity>
+			</entities>
+		</template>
+		<template name="icon_61" asset="$asset">
+			<entities>
+				<entity name="icon" type="bitmap"><region><Rectangle x="412" y="1"  width="12" height="10" /></region></entity>
+			</entities>
+		</template>
+
+		<!-- popsicles -->
+		<template name="icon_62" asset="$asset">
+			<entities>
+				<entity name="icon" type="bitmap"><region><Rectangle x="419" y="41"  width="11" height="19" /></region></entity>
+			</entities>
+		</template>
+		<template name="icon_63" asset="$asset">
+			<entities>
+				<entity name="icon" type="bitmap"><region><Rectangle x="426" y="1"  width="8" height="12" /></region></entity>
+			</entities>
+		</template>
+
+        <!-- Golden fishes -->
+        <template name="icon_64" asset="$asset">
+            <entities>
+                <entity name="icon" type="bitmap"><region><Rectangle x="536" y="42"  width="19" height="15" /></region></entity>
+            </entities>
+        </template>
+        <template name="icon_65" asset="$asset">
+            <entities>
+                <entity name="icon" type="bitmap"><region><Rectangle x="436" y="1"  width="12" height="10" /></region></entity>
+            </entities>
+        </template>
+
+        <!-- Balloons -->
+        <template name="icon_66" asset="$asset">
+            <entities>
+                <entity name="icon" type="bitmap"><region><Rectangle x="559" y="39"  width="13" height="18" /></region></entity>
+            </entities>
+        </template>
+        <template name="icon_67" asset="$asset">
+            <entities>
+                <entity name="icon" type="bitmap"><region><Rectangle x="451" y="1"  width="9" height="12" /></region></entity>
+            </entities>
+        </template>
+
+        <!-- Pumpkins -->
+        <template name="icon_68" asset="$asset">
+            <entities>
+                <entity name="icon" type="bitmap"><region><Rectangle x="574" y="39"  width="18" height="18" /></region></entity>
+            </entities>
+        </template>
+        <template name="icon_69" asset="$asset">
+            <entities>
+                <entity name="icon" type="bitmap"><region><Rectangle x="462" y="0"  width="12" height="12" /></region></entity>
+            </entities>
+        </template>
+
+        <!-- Emerald -->
+        <template name="icon_70" asset="$asset">
+            <entities>
+                <entity name="icon" type="bitmap"><region><Rectangle x="594" y="39"  width="20" height="20" /></region></entity>
+            </entities>
+        </template>
+        <template name="icon_71" asset="$asset">
+            <entities>
+                <entity name="icon" type="bitmap"><region><Rectangle x="476" y="0"  width="12" height="12" /></region></entity>
+            </entities>
+        </template>
+
+        <!-- Easter Eggs -->
+        <template name="icon_72" asset="$asset">
+            <entities>
+                <entity name="icon" type="bitmap"><region><Rectangle x="616" y="39"  width="14" height="17" /></region></entity>
+            </entities>
+        </template>
+        <template name="icon_73" asset="$asset">
+            <entities>
+                <entity name="icon" type="bitmap"><region><Rectangle x="490" y="0"  width="10" height="12" /></region></entity>
+            </entities>
+        </template>
+
+        <!-- Truffles -->
+        <template name="icon_74" asset="$asset">
+            <entities>
+                <entity name="icon" type="bitmap"><region><Rectangle x="553" y="19"  width="16" height="16" /></region></entity>
+            </entities>
+        </template>
+        <template name="icon_75" asset="$asset">
+            <entities>
+                <entity name="icon" type="bitmap"><region><Rectangle x="501" y="0"  width="12" height="12" /></region></entity>
+            </entities>
+        </template>
+
+        <!-- Blue Balloons -->
+        <template name="icon_76" asset="$asset">
+            <entities>
+                <entity name="icon" type="bitmap"><region><Rectangle x="571" y="18"  width="12" height="18" /></region></entity>
+            </entities>
+        </template>
+        <template name="icon_77" asset="$asset">
+            <entities>
+                <entity name="icon" type="bitmap"><region><Rectangle x="514" y="0"  width="9" height="12" /></region></entity>
+            </entities>
+        </template>
+
+        <!-- Mushrooms -->
+        <template name="icon_78" asset="$asset">
+            <entities>
+                <entity name="icon" type="bitmap"><region><Rectangle x="584" y="18"  width="16" height="18" /></region></entity>
+            </entities>
+        </template>
+        <template name="icon_79" asset="$asset">
+            <entities>
+                <entity name="icon" type="bitmap"><region><Rectangle x="524" y="0"  width="12" height="12" /></region></entity>
+            </entities>
+        </template>
+
+        <!-- Acorn -->
+        <template name="icon_80" asset="$asset">
+            <entities>
+                <entity name="icon" type="bitmap"><region><Rectangle x="601" y="18"  width="15" height="18" /></region></entity>
+            </entities>
+        </template>
+        <template name="icon_81" asset="$asset">
+            <entities>
+                <entity name="icon" type="bitmap"><region><Rectangle x="537" y="0"  width="11" height="12" /></region></entity>
+            </entities>
+        </template>
+
+        <!-- Coconuts -->
+        <template name="icon_82" asset="$asset">
+            <entities>
+                <entity name="icon" type="bitmap"><region><Rectangle x="617" y="18"  width="18" height="18" /></region></entity>
+            </entities>
+        </template>
+        <template name="icon_83" asset="$asset">
+            <entities>
+                <entity name="icon" type="bitmap"><region><Rectangle x="549" y="0"  width="12" height="12" /></region></entity>
+            </entities>
+        </template>
+
 	</templates>
-	
+
 	<!-- markup for layout drawer -->
-	
+
 	<layouts>
 		<layout name="icon10" transparent="true">
 			<entities>
@@ -643,7 +823,7 @@
                 </entity>
             </entities>
         </layout>
-        <layout name="iconPumpkinSmall" transparent="true">
+        <layout name="iconPlainPumpkinSmall" transparent="true">
             <entities>
                 <entity name="icon" id="0">
                     <region><Rectangle x="0" y="0" width="13" height="13" /></region>
@@ -651,7 +831,7 @@
                 </entity>
             </entities>
         </layout>
-        <layout name="iconPumpkinBig" transparent="true">
+        <layout name="iconPlainPumpkinBig" transparent="true">
             <entities>
                 <entity name="icon" id="0">
                     <region><Rectangle x="0" y="0" width="22" height="21" /></region>
@@ -659,7 +839,7 @@
                 </entity>
             </entities>
         </layout>
-        <layout name="iconPumpkinAndCreditsBig" transparent="true">
+        <layout name="iconPlainPumpkinAndCreditsBig" transparent="true">
             <entities>
                 <entity name="icon" id="0">
                     <region><Rectangle x="0" y="0" width="54" height="21" /></region>
@@ -667,7 +847,127 @@
                 </entity>
             </entities>
         </layout>
-                <layout name="iconSeashellBig" transparent="true">
+		<layout name="iconSeashellBig" transparent="true">
+			<entities>
+				<entity name="icon" id="0">
+					<region><Rectangle x="0" y="0" width="20" height="20" /></region>
+					<scale horizontal="fixed" vertical="fixed" />
+				</entity>
+			</entities>
+		</layout>
+		<layout name="iconSilverBig" transparent="true">
+			<entities>
+				<entity name="icon" id="0">
+					<region><Rectangle x="0" y="0" width="19" height="20" /></region>
+					<scale horizontal="fixed" vertical="fixed" />
+				</entity>
+			</entities>
+		</layout>
+		<layout name="iconSilverSmall" transparent="true">
+			<entities>
+				<entity name="icon" id="0">
+					<region><Rectangle x="0" y="0" width="11" height="11" /></region>
+					<scale horizontal="fixed" vertical="fixed" />
+				</entity>
+			</entities>
+		</layout>
+		<layout name="iconFlowerBig" transparent="true">
+			<entities>
+				<entity name="icon" id="0">
+					<region><Rectangle x="0" y="0" width="19" height="19" /></region>
+					<scale horizontal="fixed" vertical="fixed" />
+				</entity>
+			</entities>
+		</layout>
+		<layout name="iconFlowerSmall" transparent="true">
+			<entities>
+				<entity name="icon" id="0">
+					<region><Rectangle x="0" y="0" width="12" height="12" /></region>
+					<scale horizontal="fixed" vertical="fixed" />
+				</entity>
+			</entities>
+		</layout>
+		<layout name="iconCandyBig" transparent="true">
+			<entities>
+				<entity name="icon" id="0">
+					<region><Rectangle x="0" y="0" width="18" height="16" /></region>
+					<scale horizontal="fixed" vertical="fixed" />
+				</entity>
+			</entities>
+		</layout>
+		<layout name="iconCandySmall" transparent="true">
+			<entities>
+				<entity name="icon" id="0">
+					<region><Rectangle x="0" y="0" width="12" height="10" /></region>
+					<scale horizontal="fixed" vertical="fixed" />
+				</entity>
+			</entities>
+		</layout>
+		<layout name="iconPopsicleBig" transparent="true">
+			<entities>
+				<entity name="icon" id="0">
+					<region><Rectangle x="0" y="0" width="11" height="19" /></region>
+					<scale horizontal="fixed" vertical="fixed" />
+				</entity>
+			</entities>
+		</layout>
+		<layout name="iconPopsicleSmall" transparent="true">
+			<entities>
+				<entity name="icon" id="0">
+					<region><Rectangle x="0" y="0" width="8" height="12" /></region>
+					<scale horizontal="fixed" vertical="fixed" />
+				</entity>
+			</entities>
+		</layout>
+        <layout name="iconGoldfishBig" transparent="true">
+            <entities>
+                <entity name="icon" id="0">
+                    <region><Rectangle x="0" y="0" width="19" height="15" /></region>
+                    <scale horizontal="fixed" vertical="fixed" />
+                </entity>
+            </entities>
+        </layout>
+        <layout name="iconGoldfishSmall" transparent="true">
+            <entities>
+                <entity name="icon" id="0">
+                    <region><Rectangle x="0" y="0" width="12" height="10" /></region>
+                    <scale horizontal="fixed" vertical="fixed" />
+                </entity>
+            </entities>
+        </layout>
+        <layout name="iconBalloonBig" transparent="true">
+            <entities>
+                <entity name="icon" id="0">
+                    <region><Rectangle x="0" y="0" width="13" height="18" /></region>
+                    <scale horizontal="fixed" vertical="fixed" />
+                </entity>
+            </entities>
+        </layout>
+        <layout name="iconBalloonSmall" transparent="true">
+            <entities>
+                <entity name="icon" id="0">
+                    <region><Rectangle x="0" y="0" width="9" height="12" /></region>
+                    <scale horizontal="fixed" vertical="fixed" />
+                </entity>
+            </entities>
+        </layout>
+        <layout name="iconPumpkinBig" transparent="true">
+            <entities>
+                <entity name="icon" id="0">
+                    <region><Rectangle x="0" y="0" width="18" height="18" /></region>
+                    <scale horizontal="fixed" vertical="fixed" />
+                </entity>
+            </entities>
+        </layout>
+        <layout name="iconPumpkinSmall" transparent="true">
+            <entities>
+                <entity name="icon" id="0">
+                    <region><Rectangle x="0" y="0" width="12" height="12" /></region>
+                    <scale horizontal="fixed" vertical="fixed" />
+                </entity>
+            </entities>
+        </layout>
+        <layout name="iconEmeraldBig" transparent="true">
             <entities>
                 <entity name="icon" id="0">
                     <region><Rectangle x="0" y="0" width="20" height="20" /></region>
@@ -675,5 +975,118 @@
                 </entity>
             </entities>
         </layout>
+        <layout name="iconEmeraldSmall" transparent="true">
+            <entities>
+                <entity name="icon" id="0">
+                    <region><Rectangle x="0" y="0" width="12" height="12" /></region>
+                    <scale horizontal="fixed" vertical="fixed" />
+                </entity>
+            </entities>
+        </layout>
+        <layout name="iconEasterEggsBig" transparent="true">
+            <entities>
+                <entity name="icon" id="0">
+                    <region><Rectangle x="0" y="0" width="14" height="17" /></region>
+                    <scale horizontal="fixed" vertical="fixed" />
+                </entity>
+            </entities>
+        </layout>
+        <layout name="iconEasterEggsSmall" transparent="true">
+            <entities>
+                <entity name="icon" id="0">
+                    <region><Rectangle x="0" y="0" width="9" height="12" /></region>
+                    <scale horizontal="fixed" vertical="fixed" />
+                </entity>
+            </entities>
+        </layout>
+        <layout name="iconEasterEggsBig" transparent="true">
+            <entities>
+                <entity name="icon" id="0">
+                    <region><Rectangle x="0" y="0" width="14" height="17" /></region>
+                    <scale horizontal="fixed" vertical="fixed" />
+                </entity>
+            </entities>
+        </layout>
+        <layout name="iconTrufflesSmall" transparent="true">
+            <entities>
+                <entity name="icon" id="0">
+                    <region><Rectangle x="0" y="0" width="12" height="12" /></region>
+                    <scale horizontal="fixed" vertical="fixed" />
+                </entity>
+            </entities>
+        </layout>
+        <layout name="iconTrufflesBig" transparent="true">
+            <entities>
+                <entity name="icon" id="0">
+                    <region><Rectangle x="0" y="0" width="16" height="16" /></region>
+                    <scale horizontal="fixed" vertical="fixed" />
+                </entity>
+            </entities>
+        </layout>
+        <layout name="iconBlueBalloonsBig" transparent="true">
+            <entities>
+                <entity name="icon" id="0">
+                    <region><Rectangle x="0" y="0" width="12" height="18" /></region>
+                    <scale horizontal="fixed" vertical="fixed" />
+                </entity>
+            </entities>
+        </layout>
+        <layout name="iconBlueBalloonsSmall" transparent="true">
+            <entities>
+                <entity name="icon" id="0">
+                    <region><Rectangle x="0" y="0" width="9" height="12" /></region>
+                    <scale horizontal="fixed" vertical="fixed" />
+                </entity>
+            </entities>
+        </layout>
+        <layout name="iconMushroomsBig" transparent="true">
+            <entities>
+                <entity name="icon" id="0">
+                    <region><Rectangle x="0" y="0" width="16" height="18" /></region>
+                    <scale horizontal="fixed" vertical="fixed" />
+                </entity>
+            </entities>
+        </layout>
+        <layout name="iconMushroomsSmall" transparent="true">
+            <entities>
+                <entity name="icon" id="0">
+                    <region><Rectangle x="0" y="0" width="12" height="12" /></region>
+                    <scale horizontal="fixed" vertical="fixed" />
+                </entity>
+            </entities>
+        </layout>
+        <layout name="iconAcornBig" transparent="true">
+            <entities>
+                <entity name="icon" id="0">
+                    <region><Rectangle x="0" y="0" width="15" height="18" /></region>
+                    <scale horizontal="fixed" vertical="fixed" />
+                </entity>
+            </entities>
+        </layout>
+        <layout name="iconAcornSmall" transparent="true">
+            <entities>
+                <entity name="icon" id="0">
+                    <region><Rectangle x="0" y="0" width="11" height="12" /></region>
+                    <scale horizontal="fixed" vertical="fixed" />
+                </entity>
+            </entities>
+        </layout>
+        <layout name="iconCoconutsBig" transparent="true">
+            <entities>
+                <entity name="icon" id="0">
+                    <region><Rectangle x="0" y="0" width="18" height="18" /></region>
+                    <scale horizontal="fixed" vertical="fixed" />
+                </entity>
+            </entities>
+        </layout>
+        <layout name="iconCoconutsSmall" transparent="true">
+            <entities>
+                <entity name="icon" id="0">
+                    <region><Rectangle x="0" y="0" width="12" height="12" /></region>
+                    <scale horizontal="fixed" vertical="fixed" />
+                </entity>
+            </entities>
+        </layout>
+
     </layouts>
 </skin>

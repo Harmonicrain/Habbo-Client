@@ -14,6 +14,11 @@
 			<var key="friendonline"><value><Map>
                 <var key="internallink" value="friendlist/open"/>
 			</Map></value></var>
+
+            <var key="wired"><value><Map>
+                <var key="customlayout" value="layout_notification_wired_xml"/>
+                <var key="customview" value="wired_view"/>
+            </Map></value></var>
 			
 			<var key="friendoffline"><value><Map>
                 <var key="internallink" value="friendlist/open"/>
@@ -70,5 +75,18 @@
 			<var key="position_vertical_follow_toolbar" value="false" />
 		</Map></value>
 	</var>
+
+    <var key="wired_view">
+        <value><Map>
+            <var key="time_fade_in" value="800" />
+            <var key="time_display" value="10000" />
+            <var key="time_fade_out" value="800" />
+            <var key="position_horizontal" value="right" />
+            <var key="position_horizontal_follow_toolbar" value="false" />
+            <var key="position_vertical" value="top" />
+            <var key="position_vertical_follow_toolbar" value="false" />
+            <var key="height" value="60" />
+        </Map></value>
+    </var>
 	
 </variables>

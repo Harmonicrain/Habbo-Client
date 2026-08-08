@@ -9,7 +9,9 @@
         public static const CATALOGUE:String = "HTIE_ICON_CATALOGUE";
         public static const INVENTORY:String = "HTIE_ICON_INVENTORY";
         public static const QUESTS:String = "HTIE_ICON_QUESTS";
+        public static const PROGRESSION:String = "HTIE_ICON_PROGRESSION";
         public static const ACHIEVEMENTS:String = "HTIE_ICON_ACHIEVEMENTS";
+        public static const WIRED_MENU:String = "HTIE_ICON_WIRED_MENU";
         public static const MEMENU:String = "HTIE_ICON_MEMENU";
         public static const GAMES:String = "HTIE_ICON_GAMES";
         public static const STORIES:String = "HTIE_ICON_STORIES";
@@ -30,7 +32,9 @@
             _TOOLBAR_NAMES[CATALOGUE] = "CATALOGUE";
             _TOOLBAR_NAMES[INVENTORY] = "INVENTORY";
             _TOOLBAR_NAMES[QUESTS] = "QUESTS";
+            _TOOLBAR_NAMES[PROGRESSION] = "PROGRESSION";
             _TOOLBAR_NAMES[ACHIEVEMENTS] = "ACHIEVEMENTS";
+            _TOOLBAR_NAMES[WIRED_MENU] = "WIRED_MENU";
             _TOOLBAR_NAMES[MEMENU] = "MEMENU";
             _TOOLBAR_NAMES[GAMES] = "GAMES";
             _TOOLBAR_NAMES[STORIES] = "STORIES";

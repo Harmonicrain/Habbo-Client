@@ -10,14 +10,20 @@
         private var _iconSrc:String;
         private var _internalLink:String;
         private var _iconAssetUri:String;
+        private var _customLayout:String;
+        private var _customView:String;
+        private var _extraData:Object;
+        private var _styleName:String;
 
-        public function HabboNotificationItemStyle(k:Map, _arg_2:BitmapData, _arg_3:String, _arg_4:Boolean, _arg_5:String)
+        public function HabboNotificationItemStyle(k:Map, _arg_2:BitmapData, _arg_3:String, _arg_4:Boolean, _arg_5:String, _arg_6:Object=null, _arg_7:String=null)
         {
             this._iconAssetUri = _arg_3;
             if (((!(k == null)) && (_arg_3 == null)))
             {
                 this._icon = k["icon"];
                 this._internalLink = k["internallink"];
+                this._customLayout = k["customlayout"];
+                this._customView = k["customview"];
             }
             if (_arg_2 != null)
             {
@@ -29,6 +35,8 @@
                 this._disposeIcon = false;
             }
             this._iconSrc = _arg_5;
+            this._extraData = _arg_6 == null ? {} : _arg_6;
+            this._styleName = _arg_7;
         }
 
         public function dispose():void
@@ -64,5 +72,10 @@
         {
             return this._iconAssetUri;
         }
+
+        public function get customLayout():String { return this._customLayout; }
+        public function get customView():String { return this._customView; }
+        public function get extraData():Object { return this._extraData; }
+        public function get styleName():String { return this._styleName; }
     }
 }

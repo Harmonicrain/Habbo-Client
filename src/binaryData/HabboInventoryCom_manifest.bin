@@ -10,6 +10,7 @@
 		    <asset mimeType="text/xml"  name="inventory_effects_xml" />
 		    <asset mimeType="text/xml"  name="inventory_trading_xml" />
 		    <asset mimeType="text/xml"  name="inventory_trading_minimized_xml" />
+		    <asset mimeType="text/xml"  name="inventory_trading_wired_xml" />
 		    <asset mimeType="text/xml"  name="inventory_thumb_xml" />
 			<asset mimeType="text/xml"  name="inventory_thumb_credits_xml" />
             <asset mimeType="text/xml"  name="buy_marketplace_tokens_xml" />

@@ -1,6 +1,7 @@
 ﻿package com.sulake.habbo.room.object.logic
 {
 	import com.sulake.habbo.room.object.logic.MovingObjectLogic;
+    import com.sulake.habbo.habbicons.assets.HabbiconAssetManager;
     import com.sulake.room.utils.Vector3d;
     import flash.utils.getTimer;
     import com.sulake.room.events.RoomObjectMouseEvent;
@@ -12,7 +13,9 @@
     import com.sulake.habbo.room.messages.RoomObjectAvatarTypingUpdateMessage;
     import com.sulake.habbo.room.messages.RoomObjectAvatarMutedUpdateMessage;
     import com.sulake.habbo.room.messages.RoomObjectAvatarPlayingGameMessage;
+    import com.sulake.habbo.room.messages.RoomObjectMoveUpdateMessage;
     import com.sulake.habbo.room.messages.RoomObjectAvatarUpdateMessage;
+    import com.sulake.habbo.room.messages.RoomObjectAvatarDirectionUpdateMessage;
     import com.sulake.habbo.room.messages.RoomObjectAvatarGestureUpdateMessage;
     import com.sulake.habbo.room.messages.RoomObjectAvatarDanceUpdateMessage;
     import com.sulake.habbo.room.messages.RoomObjectAvatarSleepUpdateMessage;
@@ -25,6 +28,7 @@
     import com.sulake.habbo.room.messages.RoomObjectAvatarFigureUpdateMessage;
     import com.sulake.habbo.room.messages.RoomObjectAvatarSelectedMessage;
     import com.sulake.habbo.room.messages.RoomObjectAvatarGuideStatusUpdateMessage;
+    import com.sulake.habbo.room.messages.RoomObjectAvatarHabbiconUpdateMessage;
     import com.sulake.room.object.IRoomObjectModelController;
     import com.sulake.habbo.room.object.RoomObjectVariableEnum;
     import com.sulake.habbo.room.messages.RoomObjectAvatarExpressionUpdateMessage;
@@ -49,6 +53,11 @@
         private static const CARRY_ITEM_EMPTY_HAND_ANIMATION_LENGTH:int = 999999999;
         private static const _Str_18795:int = 5000;
         private static const _Str_17418:int = 1500;
+        private static const SPINNING_DUCK_HABBICON_NAME:String = "duck_spinning";
+        private static const HABBICON_VISIBLE_DURATION_MS:int = 6000;
+        private static const HABBICON_SPIN_DURATION_MS:int = 3200;
+        private static const HABBICON_SPIN_STEP_MS:int = 100;
+        private static const HABBICON_SPIN_STEP_DEGREES:int = -45;
 
         private var _selected:Boolean = false;
         private var _reportedLoc:Vector3d = null;
@@ -66,6 +75,10 @@
         private var _blinkingEndTimeStamp:int = 0;
         private var _blinkingStartTimeStamp:int = 0;
         private var _numberValueEndTimeStamp:int = 0;
+        private var _habbiconEndTimeStamp:int = 0;
+        private var _habbiconSpinStartTimeStamp:int = 0;
+        private var _habbiconSpinEndTimeStamp:int = 0;
+        private var _habbiconSpinOffset:int = 0;
 
         public function AvatarLogic()
         {
@@ -119,6 +132,8 @@
             var _local_24:String;
             var _local_25:RoomObjectAvatarSelectedMessage;
             var _local_26:RoomObjectAvatarGuideStatusUpdateMessage;
+            var _local_27:RoomObjectAvatarDirectionUpdateMessage;
+            var _local_28:RoomObjectAvatarHabbiconUpdateMessage;
             if (((k == null) || (object == null)))
             {
                 return;
@@ -163,6 +178,16 @@
                 _local_2.setNumber(RoomObjectVariableEnum.HEAD_DIRECTION, _local_8.dirHead);
                 _local_2.setNumber(RoomObjectVariableEnum.FIGURE_CAN_STAND_UP, Number(_local_8.canStandUp));
                 _local_2.setNumber(RoomObjectVariableEnum.FIGURE_VERTICAL_OFFSET, _local_8.baseY);
+                if (!isNaN(_local_8.jumpingPower))
+                {
+                    _local_2.setNumber(RoomObjectVariableEnum.FIGURE_JUMPING_POWER, _local_8.jumpingPower);
+                }
+                return;
+            }
+            if ((k is RoomObjectAvatarDirectionUpdateMessage))
+            {
+                _local_27 = (k as RoomObjectAvatarDirectionUpdateMessage);
+                _local_2.setNumber(RoomObjectVariableEnum.HEAD_DIRECTION, _local_27.dirHead);
                 return;
             }
             if ((k is RoomObjectAvatarGestureUpdateMessage))
@@ -279,6 +304,16 @@
             {
                 _local_26 = (k as RoomObjectAvatarGuideStatusUpdateMessage);
                 _local_2.setNumber(RoomObjectVariableEnum.FIGURE_GUIDE_STATUS, _local_26.guideStatus);
+                return;
+            }
+            if ((k is RoomObjectAvatarHabbiconUpdateMessage))
+            {
+                _local_28 = (k as RoomObjectAvatarHabbiconUpdateMessage);
+                _local_14 = getTimer();
+                _local_2.setNumber(RoomObjectVariableEnum.FIGURE_HABBICON, _local_28.habbiconId);
+                _local_2.setNumber(RoomObjectVariableEnum.FIGURE_HABBICON_TRIGGER_SEQUENCE, _local_14);
+                this._habbiconEndTimeStamp = _local_14 + HABBICON_VISIBLE_DURATION_MS;
+                this.updateHabbiconSpinForHabbicon(_local_28.habbiconId, _local_14, _local_2);
                 return;
             }
             if ((k is RoomObjectAvatarOwnMessage))
@@ -507,6 +542,58 @@
                 _arg_2.setNumber(RoomObjectVariableEnum.FIGURE_NUMBER_VALUE, 0);
                 this._numberValueEndTimeStamp = 0;
             }
+            if (((this._habbiconEndTimeStamp > 0) && (k > this._habbiconEndTimeStamp)))
+            {
+                _arg_2.setNumber(RoomObjectVariableEnum.FIGURE_HABBICON, 0);
+                _arg_2.setNumber(RoomObjectVariableEnum.FIGURE_HABBICON_TRIGGER_SEQUENCE, 0);
+                this.clearHabbiconSpin(_arg_2);
+                this._habbiconEndTimeStamp = 0;
+            }
+            this.updateHabbiconSpin(k, _arg_2);
+        }
+
+        private function updateHabbiconSpinForHabbicon(habbiconId:int, startTime:int, model:IRoomObjectModelController):void
+        {
+            if (HabbiconAssetManager.getHabbiconNameKey(habbiconId) == SPINNING_DUCK_HABBICON_NAME)
+            {
+                this._habbiconSpinStartTimeStamp = startTime;
+                this._habbiconSpinEndTimeStamp = startTime + HABBICON_SPIN_DURATION_MS;
+                this.setHabbiconSpinOffset(0, model);
+                return;
+            }
+            this.clearHabbiconSpin(model);
+        }
+
+        private function updateHabbiconSpin(time:int, model:IRoomObjectModelController):void
+        {
+            var offset:int;
+            if (this._habbiconSpinEndTimeStamp <= 0)
+            {
+                return;
+            }
+            if (time >= this._habbiconSpinEndTimeStamp)
+            {
+                this.clearHabbiconSpin(model);
+                return;
+            }
+            offset = int((time - this._habbiconSpinStartTimeStamp) / HABBICON_SPIN_STEP_MS) * HABBICON_SPIN_STEP_DEGREES % 360;
+            this.setHabbiconSpinOffset(offset, model);
+        }
+
+        private function setHabbiconSpinOffset(offset:int, model:IRoomObjectModelController):void
+        {
+            if (this._habbiconSpinOffset != offset)
+            {
+                this._habbiconSpinOffset = offset;
+                model.setNumber(RoomObjectVariableEnum.FIGURE_HABBICON_SPIN_OFFSET, offset);
+            }
+        }
+
+        private function clearHabbiconSpin(model:IRoomObjectModelController):void
+        {
+            this._habbiconSpinStartTimeStamp = 0;
+            this._habbiconSpinEndTimeStamp = 0;
+            this.setHabbiconSpinOffset(0, model);
         }
 
         private function getTalkingPauseInterval():int
@@ -527,6 +614,24 @@
         private function getBlinkLength():int
         {
             return 50 + (Math.random() * 200);
+        }
+
+        override protected function getCurveStrength(k:RoomObjectMoveUpdateMessage):Number
+        {
+            if (((k == null) || (object == null)))
+            {
+                return super.getCurveStrength(k);
+            }
+            if ((k is RoomObjectAvatarUpdateMessage))
+            {
+                return (k as RoomObjectAvatarUpdateMessage).jumpingPower;
+            }
+            var _local_2:IRoomObjectModelController = object.getModelController();
+            if (_local_2.hasNumber(RoomObjectVariableEnum.FIGURE_JUMPING_POWER))
+            {
+                return _local_2.getNumber(RoomObjectVariableEnum.FIGURE_JUMPING_POWER);
+            }
+            return super.getCurveStrength(k);
         }
 
         private function targetIsWarping(k:IVector3d):Boolean

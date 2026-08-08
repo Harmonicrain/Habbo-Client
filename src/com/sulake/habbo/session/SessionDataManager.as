@@ -35,6 +35,8 @@
     import com.sulake.habbo.communication.messages.incoming.users.UserTagsMessageEvent;
     import com.sulake.habbo.communication.messages.incoming.handshake.NoobnessLevelMessageEvent;
     import com.sulake.habbo.communication.messages.incoming.users.InClientLinkMessageEvent;
+    import com.sulake.habbo.communication.messages.incoming.users.PurchasableChatStyleChangedMessageEvent;
+    import com.sulake.habbo.communication.messages.incoming.users.PurchasableChatStylesMessageEvent;
     import com.sulake.habbo.communication.messages.incoming.preferences.AccountPreferencesEvent;
     import com.sulake.habbo.communication.messages.incoming.users.EmailStatusResultEvent;
     import com.sulake.habbo.communication.messages.incoming.session.FurniDataReloadMessageEvent;
@@ -43,6 +45,8 @@
     import com.sulake.habbo.communication.messages.parser.handshake.UserObjectMessageParser;
     import com.sulake.habbo.utils.HabboWebTools;
     import com.sulake.habbo.communication.messages.parser.users.UserNameChangedMessageParser;
+    import com.sulake.habbo.communication.messages.parser.users.ChatStyleIdsMessageParser;
+    import com.sulake.habbo.communication.messages.parser.users.PurchasableChatStyleChangedMessageParser;
     import com.sulake.habbo.session.events.UserNameUpdateEvent;
     import com.sulake.habbo.communication.messages.parser.avatar.ChangeUserNameResultMessageParser;
     import com.sulake.habbo.communication.messages.parser.mysterybox.MysteryBoxKeysMessageParser;
@@ -50,6 +54,7 @@
     import com.sulake.habbo.session.events.RoomSessionUserTagsEvent;
     import com.sulake.habbo.communication.messages.parser.preferences.AccountPreferencesParser;
     import com.sulake.habbo.session.events.SessionDataPreferencesEvent;
+    import com.sulake.habbo.session.events.SessionDataToWidgetEvent;
     import com.sulake.habbo.communication.messages.parser.users.EmailStatusParser;
     import com.sulake.habbo.communication.messages.parser.session.FurniDataReloadMessageParser;
     import com.sulake.habbo.communication.messages.parser.availability.AvailabilityStatusMessageParser;
@@ -108,6 +113,7 @@
         private var _furnitureParser:FurnitureDataParser;
         private var _Str_7432:_Str_8883;
         private var _badgeImageManager:BadgeImageManager;
+        private var _furniIconImageManager:FurniIconImageManager;
         private var _habboGroupInfoManager:HabboGroupInfoManager;
         private var _ignoredUsersManager:IgnoredUsersManager;
         private var _localizationManager:IHabboLocalizationManager;
@@ -133,6 +139,7 @@
         private var _Str_8546:String = null;
         private var _furniReloadToken:String = null;
         private var _furniReloadInProgress:Boolean = false;
+        private var _purchasableChatStyles:Dictionary;
 
         public function SessionDataManager(k:IContext, _arg_2:uint=0, _arg_3:IAssetLibrary=null)
         {
@@ -168,6 +175,7 @@
             this.initFurnitureData();
             this.initProductData();
             this.initBadgeImageManager();
+            this.initFurniIconImageManager();
         }
 
         override protected function initComponent():void
@@ -192,6 +200,8 @@
                 this._communicationManager.addHabboConnectionMessageEvent(new AccountPreferencesEvent(this.onAccountPreferences));
                 this._communicationManager.addHabboConnectionMessageEvent(new EmailStatusResultEvent(this.onEmailStatus));
                 this._communicationManager.addHabboConnectionMessageEvent(new FurniDataReloadMessageEvent(this.onFurniDataReload));
+                this._communicationManager.addHabboConnectionMessageEvent(new PurchasableChatStylesMessageEvent(this.onPurchasableChatStyles));
+                this._communicationManager.addHabboConnectionMessageEvent(new PurchasableChatStyleChangedMessageEvent(this.onPurchasableChatStyleChanged));
             }
             this._rights = [];
             this._Str_7432 = new _Str_8883(this);
@@ -201,6 +211,7 @@
             this._Str_8233 = [];
             this._Str_6042 = [];
             this._furniReloadListeners = [];
+            this._purchasableChatStyles = new Dictionary();
         }
 
         override public function dispose():void
@@ -242,6 +253,11 @@
                 this._productParser.dispose();
                 this._productParser = null;
             }
+            if (this._furniIconImageManager != null)
+            {
+                this._furniIconImageManager.dispose();
+                this._furniIconImageManager = null;
+            }
             super.dispose();
         }
 
@@ -252,6 +268,14 @@
                 return;
             }
             this._badgeImageManager = new BadgeImageManager(assets, events, this);
+        }
+
+        private function initFurniIconImageManager():void
+        {
+            if (this._furniIconImageManager == null)
+            {
+                this._furniIconImageManager = new FurniIconImageManager(assets, events, this, this);
+            }
         }
 
         private function initFurnitureData():void
@@ -731,6 +755,47 @@
             return this._badgeImageManager.getSmallScaleBadgeAssetName(k, BadgeImageManager.GROUP_BADGE);
         }
 
+        public function getFurniIconImage(wallItem:Boolean, typeId:int, extra:String):BitmapData
+        {
+            return this._furniIconImageManager == null ? null : this._furniIconImageManager.getFurniIconImage(wallItem, typeId, extra);
+        }
+
+        public function getFurniIconImageAssetName(wallItem:Boolean, typeId:int, extra:String):String
+        {
+            return this._furniIconImageManager == null ? "" : this._furniIconImageManager.getFurniIconImageAssetName(wallItem, typeId, extra);
+        }
+
+        public function hasPurchasableChatStyle(k:int):Boolean
+        {
+            return Boolean(this._purchasableChatStyles[k]);
+        }
+
+        private function onPurchasableChatStyles(k:IMessageEvent):void
+        {
+            var _local_3:int;
+            var _local_2:ChatStyleIdsMessageParser = (k as PurchasableChatStylesMessageEvent).getParser();
+            this._purchasableChatStyles = new Dictionary();
+            for each (_local_3 in _local_2.styleIds)
+            {
+                this._purchasableChatStyles[_local_3] = true;
+            }
+            events.dispatchEvent(new SessionDataToWidgetEvent(SessionDataToWidgetEvent.PURCHASABLE_STYLES_UPDATED));
+        }
+
+        private function onPurchasableChatStyleChanged(k:IMessageEvent):void
+        {
+            var _local_2:PurchasableChatStyleChangedMessageParser = (k as PurchasableChatStyleChangedMessageEvent).getParser();
+            if (_local_2.owned)
+            {
+                this._purchasableChatStyles[_local_2.styleId] = true;
+            }
+            else
+            {
+                delete this._purchasableChatStyles[_local_2.styleId];
+            }
+            events.dispatchEvent(new SessionDataToWidgetEvent(SessionDataToWidgetEvent.PURCHASABLE_STYLES_UPDATED));
+        }
+
         public function isAccountSafetyLocked():Boolean
         {
             return this._accountSafetyLocked;
@@ -812,6 +877,11 @@
             return this._floorItems.getValue(k.toString());
         }
 
+        public function getAllFloorItemDatas():Array
+        {
+            return this._floorItems == null ? [] : this._floorItems.getValues();
+        }
+
         public function getFloorItemsDataByCategory(k:int):Array
         {
             var _local_3:IFurnitureData;
@@ -836,6 +906,11 @@
                 return null;
             }
             return this._wallItems.getValue(k.toString());
+        }
+
+        public function getAllWallItemDatas():Array
+        {
+            return this._wallItems == null ? [] : this._wallItems.getValues();
         }
 
         public function getFloorItemDataByName(k:String, _arg_2:int=0):IFurnitureData

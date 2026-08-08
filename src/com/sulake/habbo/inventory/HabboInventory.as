@@ -39,6 +39,8 @@
     import com.sulake.habbo.inventory.furni.FurniModel;
     import com.sulake.habbo.inventory.enum.InventoryCategory;
     import com.sulake.habbo.inventory.trading.TradingModel;
+    import com.sulake.habbo.inventory.trading.ITradingModel;
+    import com.sulake.habbo.inventory.wired_trading.WiredTradingModel;
     import com.sulake.habbo.inventory.enum.InventorySubCategory;
     import com.sulake.habbo.inventory.effects.EffectsModel;
     import com.sulake.habbo.inventory.badges.BadgesModel;
@@ -260,6 +262,12 @@
             return (disposed) ? null : TradingModel(this.getModel(InventorySubCategory.TRADING));
         }
 
+        public function get wiredTradingModel():WiredTradingModel
+        {
+            return (disposed) ? null
+                : WiredTradingModel(this.getModel(InventorySubCategory.WIRED_TRADING));
+        }
+
         public function get _Str_3994():EffectsModel
         {
             return (disposed) ? null : EffectsModel(this.getModel(InventoryCategory.EFFECTS));
@@ -456,6 +464,11 @@
             this._inventories.add(InventoryCategory.EFFECTS, effectsModel);
             var tradingModel:TradingModel = new TradingModel(this, this._windowManager, this._communication, assets, this._roomEngine, this._localization, this._soundManager);
             this._inventories.add(InventorySubCategory.TRADING, tradingModel);
+            var wiredTradingModel:WiredTradingModel = new WiredTradingModel(
+                this, this._windowManager, this._communication, assets,
+                this._roomEngine, this._localization, this._soundManager);
+            this._inventories.add(
+                InventorySubCategory.WIRED_TRADING, wiredTradingModel);
             var recyclerModel:RecyclerModel = new RecyclerModel(this, this._windowManager, this._communication, assets, this._roomEngine, this._localization);
             this._inventories.add(InventorySubCategory.RECYCLER, recyclerModel);
             var petsModel:PetsModel = new PetsModel(this, this._windowManager, this._communication, assets, this._roomEngine, this._catalog);
@@ -601,6 +614,7 @@
             switch (k)
             {
                 case InventorySubCategory.TRADING:
+                case InventorySubCategory.WIRED_TRADING:
                     this._view.toggleCategoryView(InventoryCategory.FURNI, false);
                     return;
             }
@@ -664,7 +678,29 @@
 
         public function get tradingActive():Boolean
         {
-            return (this._Str_3957 == null) ? false : this._Str_3957.running;
+            return this.activeTradingModel != null;
+        }
+
+        public function get activeTradingModel():ITradingModel
+        {
+            if (this._Str_3957 != null && this._Str_3957.running)
+            {
+                return this._Str_3957;
+            }
+            if (this.wiredTradingModel != null
+                && this.wiredTradingModel.running)
+            {
+                return this.wiredTradingModel;
+            }
+            return null;
+        }
+
+        public function onWiredTradeActiveChanged():void
+        {
+            if (this.furniModel != null)
+            {
+                this.furniModel.updateView();
+            }
         }
 
         public function _Str_20251(k:Boolean):void
@@ -694,6 +730,11 @@
 
         public function _Str_16742():Boolean
         {
+            if (this.wiredTradingModel != null
+                && this.wiredTradingModel.running)
+            {
+                return true;
+            }
             var k:TradingModel = this._Str_3957;
             return (k != null) ? k._Str_23201 : false;
         }

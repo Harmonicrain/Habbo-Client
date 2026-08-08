@@ -9,6 +9,7 @@
             <asset mimeType="text/xml" name="room_view_container_xml"/>
 
             <asset mimeType="text/xml" name="spectator_mode_xml"/>
+            <asset mimeType="text/xml" name="habbiconselector_menu_xml"/>
 
             <asset mimeType="image/png" name="spec_top_left_png"/>
             <asset mimeType="image/png" name="spec_top_middle_png"/>
@@ -161,6 +162,7 @@
             <asset mimeType="text/xml" name="badge_details"/>
             <asset mimeType="text/xml" name="furni_view"/>
             <asset mimeType="text/xml" name="furni_view_branding_element"/>
+            <asset mimeType="text/xml" name="furni_view_branding_element_numeric"/>
             <asset mimeType="text/xml" name="user_tag"/>
             <asset mimeType="text/xml" name="user_tag_highlighted"/>
             <asset mimeType="text/xml" name="user_view"/>
@@ -276,6 +278,9 @@
             <asset mimeType="text/xml" name="camera_filterbutton_xml"/>
             <asset mimeType="text/xml" name="camera_typebutton_xml"/>
             <asset mimeType="text/xml" name="background_color_ui_xml"/>
+            <asset mimeType="text/xml" name="area_hide_ui_xml"/>
+            <asset mimeType="text/xml" name="gamehall_board_xml"/>
+            <asset mimeType="text/xml" name="gamehall_leaderboard_xml"/>
             <asset mimeType="text/xml" name="viprequired_xml"/>
             <asset mimeType="text/xml" name="costumehopper_costumerequired_xml"/>
             <asset mimeType="text/xml" name="respect_giving_failed_notification_xml"/>
@@ -283,6 +288,7 @@
 
             <!-- Chat bubble styles -->
             <asset mimeType="text/xml" name="chatinput_chatstyle_template_xml"/>
+            <asset mimeType="text/xml" name="chatinput_chatfontsize_template_xml"/>
             <asset mimeType="text/xml" name="roomchat_styles_chatstyles_xml"/>
             <asset mimeType="text/xml" name="roomchat_styles_normal_style_xml"/>
             <asset mimeType="text/xml" name="roomchat_styles_normal_bubble_speak_xml"/>

@@ -2,6 +2,8 @@ package com.sulake.habbo.window.utils.tableview
 {
     import com.sulake.core.runtime.IDisposable;
     import com.sulake.core.window.IWindow;
+    import com.sulake.core.window.IWindowContainer;
+    import com.sulake.core.window.components.IBorderWindow;
     import com.sulake.core.window.components.IRegionWindow;
     import com.sulake.core.window.components.IStaticBitmapWrapperWindow;
     import com.sulake.core.window.components.ITextFieldWindow;
@@ -9,7 +11,9 @@ package com.sulake.habbo.window.utils.tableview
     import com.sulake.core.window.events.WindowEvent;
     import com.sulake.core.window.events.WindowKeyboardEvent;
     import com.sulake.core.window.events.WindowMouseEvent;
+    import flash.events.TimerEvent;
     import flash.ui.Keyboard;
+    import flash.utils.Timer;
 
     public class TableCellView implements IDisposable
     {
@@ -19,6 +23,8 @@ package com.sulake.habbo.window.utils.tableview
         private var _columnId:String;
         private var _cell:TableCell;
         private var _container:IRegionWindow;
+        private var _transitionTimer:Timer;
+        private var _highlightBorder:IBorderWindow;
 
         public function TableCellView(table:TableView, row:TableRowView, columnId:String, cell:TableCell)
         {
@@ -46,7 +52,19 @@ package com.sulake.habbo.window.utils.tableview
         public function update(cell:TableCell):void
         {
             this._cell = cell;
-            this.initializeView();
+            var input:ITextFieldWindow = this.getInputElement(false);
+            if (input != null && input.visible)
+            {
+                this.updateContents();
+            }
+            else
+            {
+                this.initializeView();
+                if (cell.highlightOnChange)
+                {
+                    this.highlight();
+                }
+            }
             this.updateWidth();
         }
 
@@ -99,6 +117,16 @@ package com.sulake.habbo.window.utils.tableview
             {
                 return;
             }
+            if (this._transitionTimer != null)
+            {
+                this._transitionTimer.stop();
+                this._transitionTimer.removeEventListener(
+                    TimerEvent.TIMER, this.onHighlightTimer);
+                this._transitionTimer.removeEventListener(
+                    TimerEvent.TIMER_COMPLETE, this.onHighlightComplete);
+                this._transitionTimer = null;
+            }
+            this._highlightBorder = null;
             if (this._container != null)
             {
                 this._container.removeEventListener(WindowMouseEvent.DOUBLE_CLICK, this.onDoubleClick);
@@ -351,6 +379,71 @@ package com.sulake.habbo.window.utils.tableview
                 return null;
             }
             return (region.findChildByName("extra_button_bitmap") as IStaticBitmapWrapperWindow);
+        }
+
+        private function getHighlightBorder(create:Boolean):IBorderWindow
+        {
+            var border:IBorderWindow =
+                this._container.findChildByName("highlight_border")
+                as IBorderWindow;
+            if (border == null && create)
+            {
+                border = this.template.createHighlightBorder(
+                    this._container as IWindowContainer);
+            }
+            return border;
+        }
+
+        private function highlight():void
+        {
+            if (this._transitionTimer != null
+                && this._transitionTimer.running)
+            {
+                return;
+            }
+            this._highlightBorder = this.getHighlightBorder(true);
+            if (this._highlightBorder == null)
+            {
+                return;
+            }
+            this._highlightBorder.visible = true;
+            this._highlightBorder.blend = 0;
+            if (this._transitionTimer == null)
+            {
+                this._transitionTimer = new Timer(16, 31);
+                this._transitionTimer.addEventListener(
+                    TimerEvent.TIMER, this.onHighlightTimer);
+                this._transitionTimer.addEventListener(
+                    TimerEvent.TIMER_COMPLETE, this.onHighlightComplete);
+            }
+            else
+            {
+                this._transitionTimer.reset();
+            }
+            this._transitionTimer.start();
+        }
+
+        private function onHighlightTimer(event:TimerEvent):void
+        {
+            if (this._highlightBorder == null
+                || this._transitionTimer == null)
+            {
+                return;
+            }
+            var progress:Number =
+                this._transitionTimer.currentCount
+                / this._transitionTimer.repeatCount;
+            var curve:Number = -(progress * 1.75 - 0.7)
+                * (progress * 1.75 - 0.7) + 1;
+            this._highlightBorder.blend = 0.35 * curve;
+        }
+
+        private function onHighlightComplete(event:TimerEvent):void
+        {
+            if (this._highlightBorder != null)
+            {
+                this._highlightBorder.visible = false;
+            }
         }
 
         private function get template():CellTemplate

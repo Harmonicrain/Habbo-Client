@@ -303,6 +303,10 @@
             k.push(RoomWidgetUserActionMessage.AMBASSADOR_MUTE_USER_60MIN);
             k.push(RoomWidgetUserActionMessage.AMBASSADOR_MUTE_USER_18HOUR);
             k.push(RoomWidgetUserActionMessage.GROUP_WHISPER);
+            k.push(RoomWidgetUserActionMessage.RWUAM_WIRED_INSPECT);
+            k.push(RoomWidgetUserActionMessage.RWUAM_WIRED_INSPECT_BOT);
+            k.push(RoomWidgetUserActionMessage.RWUAM_WIRED_INSPECT_PET);
+            k.push(RoomWidgetFurniActionMessage.RWFAM_WIRED_INSPECT);
             return k;
         }
 
@@ -342,7 +346,7 @@
             if (_local_4 != null)
             {
                 _local_2 = _local_4.userId;
-                if (((((((((((((k.type == RoomWidgetUserActionMessage.RWUAM_REQUEST_PET_UPDATE) || (k.type == RoomWidgetUserActionMessage.RESPECT_PET)) || (k.type == RoomWidgetUserActionMessage.RWUAM_PICKUP_PET)) || (k.type == RoomWidgetUserActionMessage.RWUAM_MOUNT_PET)) || (k.type == RoomWidgetUserActionMessage.RWUAM_TOGGLE_PET_RIDING_PERMISSION)) || (k.type == RoomWidgetUserActionMessage.RWUAM_TOGGLE_PET_BREEDING_PERMISSION)) || (k.type == RoomWidgetUserActionMessage.RWUAM_DISMOUNT_PET)) || (k.type == RoomWidgetUserActionMessage.RWUAM_SADDLE_OFF)) || (k.type == RoomWidgetUserActionMessage.RWUAM_GIVE_CARRY_ITEM_TO_PET)) || (k.type == RoomWidgetUserActionMessage.RWUAM_GIVE_WATER_TO_PET)) || (k.type == RoomWidgetUserActionMessage.RWUAM_GIVE_LIGHT_TO_PET)) || (k.type == RoomWidgetUserActionMessage.RWUAM_TREAT_PET)))
+                if ((((((((((((((k.type == RoomWidgetUserActionMessage.RWUAM_REQUEST_PET_UPDATE) || (k.type == RoomWidgetUserActionMessage.RESPECT_PET)) || (k.type == RoomWidgetUserActionMessage.RWUAM_PICKUP_PET)) || (k.type == RoomWidgetUserActionMessage.RWUAM_MOUNT_PET)) || (k.type == RoomWidgetUserActionMessage.RWUAM_TOGGLE_PET_RIDING_PERMISSION)) || (k.type == RoomWidgetUserActionMessage.RWUAM_TOGGLE_PET_BREEDING_PERMISSION)) || (k.type == RoomWidgetUserActionMessage.RWUAM_DISMOUNT_PET)) || (k.type == RoomWidgetUserActionMessage.RWUAM_SADDLE_OFF)) || (k.type == RoomWidgetUserActionMessage.RWUAM_GIVE_CARRY_ITEM_TO_PET)) || (k.type == RoomWidgetUserActionMessage.RWUAM_GIVE_WATER_TO_PET)) || (k.type == RoomWidgetUserActionMessage.RWUAM_GIVE_LIGHT_TO_PET)) || (k.type == RoomWidgetUserActionMessage.RWUAM_TREAT_PET)) || (k.type == RoomWidgetUserActionMessage.RWUAM_WIRED_INSPECT_PET)))
                 {
                     _local_3 = this._container.roomSession.userDataManager._Str_8631(_local_2);
                 }
@@ -374,6 +378,12 @@
                     break;
                 case RoomWidgetUserActionMessage.RWUAM_RESPECT_USER:
                     this._container.sessionDataManager.giveRespect(_local_2);
+                    break;
+                case RoomWidgetUserActionMessage.RWUAM_WIRED_INSPECT:
+                case RoomWidgetUserActionMessage.RWUAM_WIRED_INSPECT_BOT:
+                case RoomWidgetUserActionMessage.RWUAM_WIRED_INSPECT_PET:
+                    this._container.userDefinedRoomEvents.inspectObject(
+                        1, _local_3.roomObjectId);
                     break;
                 case RoomWidgetUserActionMessage.RESPECT_PET:
                     this._container.sessionDataManager.givePetRespect(_local_2);
@@ -468,6 +478,13 @@
                     break;
                 case RoomWidgetFurniActionMessage.RWFAM_USE:
                     this._container.roomEngine.useRoomObjectInActiveRoom(_local_5, _local_6);
+                    break;
+                case RoomWidgetFurniActionMessage.RWFAM_WIRED_INSPECT:
+                    if (_local_6 == 10 || _local_6 == 20)
+                    {
+                        this._container.userDefinedRoomEvents.inspectObject(
+                            0, _local_6 == 10 ? _local_5 : -_local_5);
+                    }
                     break;
                 case RoomWidgetFurniActionMessage.RWFAM_SAVE_STUFF_DATA:
                     _local_10 = _local_7.objectData;
@@ -737,6 +754,10 @@
                         case RoomObjectTypeEnum.RENTABLE_BOT:
                             this.handleGetRentableBotInfoMessage(_local_2, k.id, k.category, _local_3);
                             break;
+                    }
+                    if (this._container.userDefinedRoomEvents != null)
+                    {
+                        this._container.userDefinedRoomEvents.userSelected(k.id);
                     }
                     break;
             }
@@ -1056,9 +1077,18 @@
                     _local_3.rentOfferId = _local_15.rentOfferId;
                     _local_3.rentCouldBeUsedForBuyout = _local_15.rentCouldBeUsedForBuyout;
                     _local_3.availableForBuildersClub = _local_15.availableForBuildersClub;
-                    if (((!(this._container.userDefinedRoomEvents == null)) && (k.category == RoomObjectCategoryEnum.OBJECT_CATEGORY_FURNITURE)))
+                    if (this._container.userDefinedRoomEvents != null)
                     {
-                        this._container.userDefinedRoomEvents._Str_15677(_local_4.getId(), _local_15.localizedName);
+                        if (k.category == RoomObjectCategoryEnum.OBJECT_CATEGORY_FURNITURE)
+                        {
+                            this._container.userDefinedRoomEvents.furnitureSelected(_local_4.getId());
+                            this._container.userDefinedRoomEvents._Str_15677(_local_4.getId(), _local_15.localizedName);
+                        }
+                        else if (k.category == RoomObjectCategoryEnum.OBJECT_CATEGORY_WALLITEM)
+                        {
+                            // July distinguishes wall items by a negative visible id.
+                            this._container.userDefinedRoomEvents.furnitureSelected(-_local_4.getId());
+                        }
                     }
                 }
             }

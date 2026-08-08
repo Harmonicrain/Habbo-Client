@@ -93,6 +93,11 @@
                 _local_7 = (this._layoutContainer.getChildByName("background_widgets") as IWindowContainer);
                 return _local_7;
             }
+            if (k == RoomWidgetEnum.GAMEHALL_BOARD)
+            {
+                _local_8 = (_arg_2.desktop as IWindowContainer);
+                return _local_8;
+            }
             if (k == RoomWidgetEnum.CHAT_INPUT_WIDGET)
             {
                 _local_8 = (_arg_2.desktop as IWindowContainer);
@@ -131,6 +136,14 @@
             if (k == RoomWidgetEnum.CHAT_INPUT_WIDGET)
             {
                 _local_3.addChild(_arg_2);
+                return true;
+            }
+            if (k == RoomWidgetEnum.GAMEHALL_BOARD)
+            {
+                _arg_2.x = 0;
+                _arg_2.y = 0;
+                _local_3.addChild(_arg_2);
+                _arg_2.activate();
                 return true;
             }
             _arg_2.x = 0;

@@ -47,6 +47,8 @@
         private var _hasTexture:Boolean = true;
         private var _offset:Point = null;
         private var _relativeDepth:Number = 0;
+        private var _extraDepth:Number = 0;
+        private var _isHighlighter:Boolean = false;
         private var _color:uint = 0;
         private var _rasterizer:IPlaneRasterizer = null;
         private var _maskManager:PlaneMaskManager = null;
@@ -184,7 +186,22 @@
 
         public function get relativeDepth():Number
         {
-            return this._relativeDepth;
+            return (this._relativeDepth + this._extraDepth);
+        }
+
+        public function set extraDepth(k:Number):void
+        {
+            this._extraDepth = k;
+        }
+
+        public function get isHighlighter():Boolean
+        {
+            return this._isHighlighter;
+        }
+
+        public function set isHighlighter(k:Boolean):void
+        {
+            this._isHighlighter = k;
         }
 
         public function get color():uint

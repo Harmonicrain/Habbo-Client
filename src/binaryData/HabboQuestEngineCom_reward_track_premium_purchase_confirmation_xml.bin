@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?><layout name="reward_track_premium_purchase_confirmation" width="390" height="352" version="0.1" uid="BF599DC7-BB1E-2185-D016-00A5A68F5A64">
+  <window>
+    <frame x="0" y="0" width="390" height="352" params="32769" style="3" caption="%24%7Breward_track.premium.confirm.title%7D" color="0xff7b3fa1">
+      <filters>
+        <DropShadowFilter distance="4" alpha="0.34901960784313724" blurX="4" blurY="4"/>
+      </filters>
+      <children>
+        <container x="12" y="20" width="366" height="268" params="8388752" style="3" name="content">
+          <children>
+            <container x="0" y="0" width="366" height="208" params="8388624" style="3" name="top_body">
+              <children>
+                <border x="0" y="0" width="132" height="208" params="2064" style="15" name="premium_icon_panel" color="0x0f5def8">
+                  <children>
+                    <border x="13" y="13" width="106" height="92" params="16" style="15" name="premium_icon_frame" color="0x0fff4ff">
+                      <children>
+                        <static_bitmap x="20" y="12" width="67" height="67" params="16" style="3" name="premium_icon">
+                          <variables>
+                            <var key="asset_uri" value="reward_track_premium_track" type="String"/>
+                            <var key="pivot_point" value="center" type="String"/>
+                            <var key="stretched_x" value="false" type="Boolean"/>
+                            <var key="stretched_y" value="false" type="Boolean"/>
+                          </variables>
+                        </static_bitmap>
+                      </children>
+                    </border>
+                    <container x="0" y="115" width="132" height="81" params="2064" style="3">
+                      <children>
+                        <itemlist_vertical x="0" y="23" width="132" height="35" params="3148800" style="3">
+                          <children>
+                            <text x="8" y="0" width="116" height="19" params="16" style="3" caption="%24%7Breward_track.rewards.premium%7D">
+                              <variables>
+                                <var key="auto_size" value="center" type="String"/>
+                                <var key="font_size" value="14" type="uint"/>
+                                <var key="text_color" value="0x5d2c82" type="hex"/>
+                                <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                                <var key="bold" value="true" type="Boolean"/>
+                                <var key="spacing" value="0" type="Number"/>
+                                <var key="leading" value="0" type="Number"/>
+                              </variables>
+                            </text>
+                            <text x="8" y="19" width="116" height="16" params="16" style="3" caption="%24%7Breward_track.rewards.premium.info%7D">
+                              <variables>
+                                <var key="auto_size" value="center" type="String"/>
+                                <var key="font_size" value="11" type="uint"/>
+                                <var key="text_color" value="0x4d3559" type="hex"/>
+                                <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                                <var key="multiline" value="true" type="Boolean"/>
+                                <var key="word_wrap" value="true" type="Boolean"/>
+                                <var key="spacing" value="0" type="Number"/>
+                                <var key="leading" value="0" type="Number"/>
+                              </variables>
+                            </text>
+                          </children>
+                          <variables>
+                            <var key="resize_on_item_update" value="true" type="Boolean"/>
+                          </variables>
+                        </itemlist_vertical>
+                      </children>
+                    </container>
+                  </children>
+                </border>
+                <itemlist_vertical x="146" y="3" width="220" height="205" params="8388752" style="3" name="benefits">
+                  <children>
+                    <container x="0" y="0" width="30" height="10" params="16" style="3" name="spacing"/>
+                    <text x="0" y="15" width="220" height="30" params="16" style="3" name="description_txt" caption="%24%7Breward_track.premium.confirm.desc%7D">
+                      <variables>
+                        <var key="auto_size" value="center" type="String"/>
+                        <var key="text_color" value="0x2d1f35" type="hex"/>
+                        <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                        <var key="multiline" value="true" type="Boolean"/>
+                        <var key="word_wrap" value="true" type="Boolean"/>
+                        <var key="bold" value="true" type="Boolean"/>
+                        <var key="spacing" value="0" type="Number"/>
+                        <var key="leading" value="0" type="Number"/>
+                      </variables>
+                    </text>
+                    <container x="0" y="50" width="30" height="10" params="16" style="3" name="spacing"/>
+                    <border x="0" y="65" width="220" height="24" params="16" style="15" name="benefit_boost_row" color="0x0f3dcf7">
+                      <children>
+                        <static_bitmap x="7" y="5" width="17" height="15" params="16" style="3">
+                          <variables>
+                            <var key="asset_uri" value="reward_track_checkmark" type="String"/>
+                            <var key="stretched_x" value="false" type="Boolean"/>
+                            <var key="stretched_y" value="false" type="Boolean"/>
+                          </variables>
+                        </static_bitmap>
+                        <text x="30" y="4" width="181" height="17" params="16" style="3" name="benefit_boost_txt">
+                          <variables>
+                            <var key="font_size" value="11" type="uint"/>
+                            <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                            <var key="overflow_replace" value="..." type="String"/>
+                            <var key="spacing" value="0" type="Number"/>
+                            <var key="leading" value="0" type="Number"/>
+                          </variables>
+                        </text>
+                      </children>
+                    </border>
+                    <border x="0" y="94" width="220" height="24" params="16" style="15" name="benefit_rewards_row" color="0x0f3dcf7">
+                      <children>
+                        <static_bitmap x="7" y="5" width="17" height="15" params="16" style="3">
+                          <variables>
+                            <var key="asset_uri" value="reward_track_checkmark" type="String"/>
+                            <var key="stretched_x" value="false" type="Boolean"/>
+                            <var key="stretched_y" value="false" type="Boolean"/>
+                          </variables>
+                        </static_bitmap>
+                        <text x="30" y="4" width="181" height="17" params="16" style="3" name="benefit_rewards_txt" caption="%24%7Breward_track.premium.confirm.benefit.rewards%7D">
+                          <variables>
+                            <var key="font_size" value="11" type="uint"/>
+                            <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                            <var key="overflow_replace" value="..." type="String"/>
+                            <var key="spacing" value="0" type="Number"/>
+                            <var key="leading" value="0" type="Number"/>
+                          </variables>
+                        </text>
+                      </children>
+                    </border>
+                    <border x="0" y="123" width="220" height="24" params="16" style="15" name="benefit_instant_points_row" color="0x0f3dcf7">
+                      <children>
+                        <static_bitmap x="7" y="5" width="17" height="15" params="16" style="3">
+                          <variables>
+                            <var key="asset_uri" value="reward_track_checkmark" type="String"/>
+                            <var key="stretched_x" value="false" type="Boolean"/>
+                            <var key="stretched_y" value="false" type="Boolean"/>
+                          </variables>
+                        </static_bitmap>
+                        <text x="30" y="4" width="181" height="17" params="16" style="3" name="benefit_instant_points_txt">
+                          <variables>
+                            <var key="font_size" value="11" type="uint"/>
+                            <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                            <var key="overflow_replace" value="..." type="String"/>
+                            <var key="spacing" value="0" type="Number"/>
+                            <var key="leading" value="0" type="Number"/>
+                          </variables>
+                        </text>
+                      </children>
+                    </border>
+                    <border x="0" y="152" width="220" height="24" params="16" style="15" name="benefit_tasks_row" color="0x0f3dcf7">
+                      <children>
+                        <static_bitmap x="7" y="5" width="17" height="15" params="16" style="3">
+                          <variables>
+                            <var key="asset_uri" value="reward_track_checkmark" type="String"/>
+                            <var key="stretched_x" value="false" type="Boolean"/>
+                            <var key="stretched_y" value="false" type="Boolean"/>
+                          </variables>
+                        </static_bitmap>
+                        <text x="30" y="4" width="181" height="17" params="16" style="3" name="benefit_tasks_txt" caption="%24%7Breward_track.premium.confirm.benefit.tasks%7D">
+                          <variables>
+                            <var key="font_size" value="11" type="uint"/>
+                            <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                            <var key="overflow_replace" value="..." type="String"/>
+                            <var key="spacing" value="0" type="Number"/>
+                            <var key="leading" value="0" type="Number"/>
+                          </variables>
+                        </text>
+                      </children>
+                    </border>
+                    <border x="0" y="181" width="220" height="24" params="16" style="15" name="benefit_levels_row" color="0x0f3dcf7">
+                      <children>
+                        <static_bitmap x="7" y="5" width="17" height="15" params="16" style="3">
+                          <variables>
+                            <var key="asset_uri" value="reward_track_checkmark" type="String"/>
+                            <var key="stretched_x" value="false" type="Boolean"/>
+                            <var key="stretched_y" value="false" type="Boolean"/>
+                          </variables>
+                        </static_bitmap>
+                        <text x="30" y="4" width="181" height="17" params="16" style="3" name="benefit_levels_txt" caption="%24%7Breward_track.premium.confirm.benefit.levels%7D">
+                          <variables>
+                            <var key="font_size" value="11" type="uint"/>
+                            <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                            <var key="overflow_replace" value="..." type="String"/>
+                            <var key="spacing" value="0" type="Number"/>
+                            <var key="leading" value="0" type="Number"/>
+                          </variables>
+                        </text>
+                      </children>
+                    </border>
+                  </children>
+                  <variables>
+                    <var key="spacing" value="5" type="int"/>
+                    <var key="resize_on_item_update" value="true" type="Boolean"/>
+                  </variables>
+                </itemlist_vertical>
+              </children>
+            </container>
+            <border x="0" y="220" width="366" height="38" params="1040" style="15" name="purchase_cost_box" color="0x0f7e7ff">
+              <children>
+                <text x="10" y="10" width="241" height="17" params="16" style="3" caption="%24%7Bcatalog.purchase.confirmation.dialog.cost%7D">
+                  <variables>
+                    <var key="auto_size" value="left" type="String"/>
+                    <var key="text_color" value="0x57356b" type="hex"/>
+                    <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                    <var key="bold" value="true" type="Boolean"/>
+                    <var key="spacing" value="0" type="Number"/>
+                    <var key="leading" value="0" type="Number"/>
+                  </variables>
+                </text>
+                <itemlist_horizontal x="264" y="8" width="87" height="22" params="262224" style="3" name="price">
+                  <children>
+                    <text x="0" y="2" width="10" height="18" params="16" style="3" name="price_credits" caption="0">
+                      <variables>
+                        <var key="auto_size" value="left" type="String"/>
+                        <var key="font_size" value="13" type="uint"/>
+                        <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                        <var key="bold" value="true" type="Boolean"/>
+                        <var key="spacing" value="0" type="Number"/>
+                        <var key="leading" value="0" type="Number"/>
+                      </variables>
+                    </text>
+                    <icon x="13" y="0" width="22" height="22" params="16" style="34" name="credits_icon"/>
+                    <text x="38" y="2" width="11" height="18" params="16" style="3" name="plus_txt" caption="+">
+                      <variables>
+                        <var key="auto_size" value="left" type="String"/>
+                        <var key="font_size" value="13" type="uint"/>
+                        <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                        <var key="bold" value="true" type="Boolean"/>
+                        <var key="spacing" value="0" type="Number"/>
+                        <var key="leading" value="0" type="Number"/>
+                      </variables>
+                    </text>
+                    <text x="52" y="2" width="10" height="18" params="16" style="3" name="price_diamonds" caption="0">
+                      <variables>
+                        <var key="auto_size" value="left" type="String"/>
+                        <var key="font_size" value="13" type="uint"/>
+                        <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                        <var key="bold" value="true" type="Boolean"/>
+                        <var key="spacing" value="0" type="Number"/>
+                        <var key="leading" value="0" type="Number"/>
+                      </variables>
+                    </text>
+                    <icon x="65" y="0" width="22" height="22" params="16" style="41" name="diamonds_icon"/>
+                  </children>
+                  <variables>
+                    <var key="spacing" value="3" type="int"/>
+                    <var key="resize_on_item_update" value="true" type="Boolean"/>
+                  </variables>
+                </itemlist_horizontal>
+              </children>
+            </border>
+          </children>
+        </container>
+        <itemlist_horizontal x="12" y="289" width="366" height="27" params="132240" style="3" name="buttons">
+          <children>
+            <button x="0" y="0" width="110" height="27" params="132113" style="3" name="cancel_button" caption="%24%7Breward_track.premium.confirm.cancel%7D" width_min="110" width_max="110" height_min="27" height_max="27">
+              <variables>
+                <var key="text_style" value="button_shiny_regular" type="String"/>
+              </variables>
+            </button>
+            <button x="256" y="0" width="110" height="27" params="132113" style="5" name="confirm_button" caption="%24%7Breward_track.premium.confirm.buy%7D" color="0x0b265ce" width_min="110" width_max="110" height_min="27" height_max="27">
+              <variables>
+                <var key="text_style" value="button_shiny_bold" type="String"/>
+              </variables>
+            </button>
+          </children>
+          <variables>
+            <var key="spacing" value="146" type="int"/>
+          </variables>
+        </itemlist_horizontal>
+      </children>
+      <variables>
+        <var key="margin_left" value="1" type="int"/>
+        <var key="margin_top" value="25" type="int"/>
+        <var key="margin_right" value="1" type="int"/>
+        <var key="margin_bottom" value="7" type="int"/>
+      </variables>
+    </frame>
+  </window>
+</layout>

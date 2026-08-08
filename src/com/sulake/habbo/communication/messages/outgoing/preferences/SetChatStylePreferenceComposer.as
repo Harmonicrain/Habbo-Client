@@ -7,11 +7,12 @@
     {
         private var _array:Array;
 
-        public function SetChatStylePreferenceComposer(k:int)
+        public function SetChatStylePreferenceComposer(k:int, _arg_2:int=0)
         {
             this._array = new Array();
             super();
             this._array.push(k);
+            this._array.push(_arg_2);
         }
 
         public function getMessageArray():Array

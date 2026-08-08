@@ -714,7 +714,11 @@
         private function _SafeStr_18933(k:Game2WeeklyFriendsLeaderboardEvent):void
         {
             var _local_2:Game2LeaderboardParser = k.getParser();
-            if (this._snowWarEngine.leaderboard)
+            if (_local_2.gameTypeId != HabboGames._SafeStr_7697)
+            {
+                return;
+            }
+            if (this._snowWarEngine.leaderboardReady)
             {
                 this._snowWarEngine.leaderboard._SafeStr_18636(_local_2.leaderboard, _local_2._Str_26158);
             }
@@ -723,7 +727,11 @@
         private function _SafeStr_18941(k:Game2WeeklyLeaderboardEvent):void
         {
             var _local_2:Game2LeaderboardParser = k.getParser();
-            if (this._snowWarEngine.leaderboard)
+            if (_local_2.gameTypeId != HabboGames._SafeStr_7697)
+            {
+                return;
+            }
+            if (this._snowWarEngine.leaderboardReady)
             {
                 this._snowWarEngine.leaderboard._SafeStr_18634(_local_2.leaderboard, _local_2._Str_26158);
             }
@@ -732,7 +740,11 @@
         private function _SafeStr_18918(k:WeeklyCompetitiveLeaderboardEvent):void
         {
             var _local_2:Game2WeeklyLeaderboardParser = k.getParser();
-            if (this._snowWarEngine.leaderboard)
+            if (_local_2.gameTypeId != HabboGames._SafeStr_7697)
+            {
+                return;
+            }
+            if (this._snowWarEngine.leaderboardReady)
             {
                 this._snowWarEngine.leaderboard._SafeStr_18635(_local_2.year, _local_2.week, _local_2.leaderboard, _local_2._Str_26158, _local_2.maxOffset, _local_2.minutesUntilReset);
             }
@@ -741,7 +753,11 @@
         private function _SafeStr_18914(k:WeeklyCompetitiveFriendsLeaderboardEvent):void
         {
             var _local_2:Game2WeeklyLeaderboardParser = k.getParser();
-            if (this._snowWarEngine.leaderboard)
+            if (_local_2.gameTypeId != HabboGames._SafeStr_7697)
+            {
+                return;
+            }
+            if (this._snowWarEngine.leaderboardReady)
             {
                 this._snowWarEngine.leaderboard._SafeStr_18637(_local_2.year, _local_2.week, _local_2.leaderboard, _local_2._Str_26158, _local_2.maxOffset, _local_2.minutesUntilReset);
             }

@@ -46,6 +46,8 @@
     import com.sulake.habbo.room.events.RoomObjectHSLColorEnabledEvent;
     import com.sulake.habbo.room.events.RoomEngineObjectEvent;
     import com.sulake.habbo.room.events.RoomEngineTriggerWidgetEvent;
+    import com.sulake.habbo.room.events.RoomEngineAreaHideStateWidgetEvent;
+    import com.sulake.habbo.room.events.RoomEngineGamehallEvent;
     import com.sulake.habbo.room.events.RoomEngineRoomAdEvent;
     import com.sulake.habbo.room.events.RoomEngineUseProductEvent;
     import com.sulake.habbo.room.events.RoomObjectSoundMachineEvent;
@@ -64,6 +66,7 @@
     import com.sulake.habbo.session.events.RoomSessionFriendRequestEvent;
     import com.sulake.habbo.session.events.RoomSessionUserDataUpdateEvent;
     import com.sulake.habbo.session.events.RoomSessionDanceEvent;
+    import com.sulake.habbo.session.events.SessionDataToWidgetEvent;
     import com.sulake.iid.IIDSessionDataManager;
     import com.sulake.iid.IIDHabboFriendList;
     import com.sulake.iid.IIDAvatarRenderManager;
@@ -294,6 +297,12 @@
                 "type":RoomEngineTriggerWidgetEvent.RETWE_REQUEST_BACKGROUND_COLOR,
                 "callback":this.roomObjectEventHandler
             }, {
+                "type":RoomEngineTriggerWidgetEvent.RETWE_REQUEST_AREA_HIDE,
+                "callback":this.roomObjectEventHandler
+            }, {
+                "type":RoomEngineAreaHideStateWidgetEvent.UPDATE_STATE_AREA_HIDE,
+                "callback":this.roomObjectEventHandler
+            }, {
                 "type":RoomEngineUseProductEvent.ROSM_USE_PRODUCT_FROM_INVENTORY,
                 "callback":this.roomObjectEventHandler
             }, {
@@ -319,6 +328,18 @@
                 "callback":this.roomObjectEventHandler
             }, {
                 "type":RoomEngineTriggerWidgetEvent.RETWE_REQUEST_HIDE_HIGH_SCORE_DISPLAY,
+                "callback":this.roomObjectEventHandler
+            }, {
+                "type":RoomEngineGamehallEvent.OPEN,
+                "callback":this.roomObjectEventHandler
+            }, {
+                "type":RoomEngineGamehallEvent.UPDATE,
+                "callback":this.roomObjectEventHandler
+            }, {
+                "type":RoomEngineGamehallEvent.CLOSE,
+                "callback":this.roomObjectEventHandler
+            }, {
+                "type":RoomEngineGamehallEvent.LEADERBOARD_OPEN,
                 "callback":this.roomObjectEventHandler
             }, {
                 "type":RoomEngineTriggerWidgetEvent.RETWE_REQUEST_INTERNAL_LINK,
@@ -446,7 +467,10 @@
             }]), new ComponentDependency(new IIDSessionDataManager(), function (k:ISessionDataManager):void
             {
                 _sessionDataManager = k;
-            }), new ComponentDependency(new IIDHabboFriendList(), function (k:IHabboFriendsList):void
+            }, true, [{
+                "type":SessionDataToWidgetEvent.PURCHASABLE_STYLES_UPDATED,
+                "callback":this.sessionDataEventHandler
+            }]), new ComponentDependency(new IIDHabboFriendList(), function (k:IHabboFriendsList):void
             {
                 _friendList = k;
             }), new ComponentDependency(new IIDAvatarRenderManager(), function (k:IAvatarRenderManager):void
@@ -706,6 +730,20 @@
             }
         }
 
+        private function sessionDataEventHandler(k:Event):void
+        {
+            var _local_2:RoomDesktop;
+            if (((this._roomEngine == null) || (this._desktops == null)))
+            {
+                return;
+            }
+            _local_2 = this._desktops.getValue(this.getRoomIdentifier(this._roomEngine.activeRoomId)) as RoomDesktop;
+            if (_local_2 != null)
+            {
+                _local_2.processEvent(k);
+            }
+        }
+
         private function roomSessionDialogEventHandler(event:RoomSessionEvent):void
         {
             var errorMessage:String;
@@ -926,6 +964,7 @@
                     if (((!(this._roomEngine == null)) && (!(RoomId.isRoomPreviewerId(k.roomId)))))
                     {
                         this._roomEngine.setActiveRoom(k.roomId);
+                        _local_3.initCameraLocation(this.getActiveCanvasId(k.roomId));
                     }
                     _local_3.disposeWidget(RoomWidgetEnum.ROOM_QUEUE);
                     _local_3.createWidget(RoomWidgetEnum.CHAT_WIDGET);
@@ -973,6 +1012,7 @@
                     }
                     _local_3.createWidget(RoomWidgetEnum.MANNEQUIN);
                     _local_3.createWidget(RoomWidgetEnum.ROOM_BACKGROUND_COLOR);
+                    _local_3.createWidget(RoomWidgetEnum.AREA_HIDE);
                     _local_3.createWidget(RoomWidgetEnum.CUSTOM_USER_NOTIFICATION);
                     _local_3.createWidget(RoomWidgetEnum.FURNI_CHOOSER);
                     _local_3.createWidget(RoomWidgetEnum.USER_CHOOSER);
@@ -988,6 +1028,8 @@
                     _local_3.createWidget(RoomWidgetEnum.FRIEND_FURNI_CONFIRM);
                     _local_3.createWidget(RoomWidgetEnum.FRIEND_FURNI_ENGRAVING);
                     _local_3.createWidget(RoomWidgetEnum.HIGH_SCORE_DISPLAY);
+                    _local_3.createWidget(RoomWidgetEnum.GAMEHALL_BOARD);
+                    _local_3.createWidget(RoomWidgetEnum.GAMEHALL_LEADERBOARD);
                     _local_3.createWidget(RoomWidgetEnum.INTERNAL_LINK);
                     _local_3.createWidget(RoomWidgetEnum.CUSTOM_STACK_HEIGHT);
                     _local_3.createWidget(RoomWidgetEnum.YOUTUBE);

@@ -3,11 +3,11 @@
     import mx.core.SimpleApplication;
     import com.sulake.bootstrap.RoomObjectFactoryBootstrap;
     import com.sulake.iid.IIDRoomObjectFactory;
-    import binaryData.*;
 
     public class HabboRoomObjectLogicLib extends SimpleApplication 
     {
-        public static var manifest:Class = HabboRoomObjectLogicLib_manifest;
+        [Embed(source="binaryData/HabboRoomObjectLogicLib_manifest.bin", mimeType="application/octet-stream")]
+        public static var manifest:Class;
         public static var requiredClasses:Array = new Array(RoomObjectFactoryBootstrap, IIDRoomObjectFactory);
     }
 }

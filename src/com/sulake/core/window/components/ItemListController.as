@@ -63,6 +63,7 @@
             this._container.addEventListener(WindowEvent.WINDOW_EVENT_RESIZED, this.containerEventHandler);
             this._container.addEventListener(WindowEvent.WINDOW_EVENT_CHILD_REMOVED, this.containerEventHandler);
             this._container.addEventListener(WindowEvent.WINDOW_EVENT_CHILD_RESIZED, this.containerEventHandler);
+            this._container.addEventListener(WindowEvent.WINDOW_EVENT_CHILD_VISIBILITY, this.containerEventHandler);
             this._container.addEventListener(WindowEvent.WINDOW_EVENT_CHILD_RELOCATED, this.containerEventHandler);
             this._container.clipping = clipping;
             this.resizeOnItemUpdate = this._resizeOnItemUpdate;
@@ -313,6 +314,7 @@
                 this._container.removeEventListener(WindowEvent.WINDOW_EVENT_RESIZED, this.containerEventHandler);
                 this._container.removeEventListener(WindowEvent.WINDOW_EVENT_CHILD_REMOVED, this.containerEventHandler);
                 this._container.removeEventListener(WindowEvent.WINDOW_EVENT_CHILD_RESIZED, this.containerEventHandler);
+                this._container.removeEventListener(WindowEvent.WINDOW_EVENT_CHILD_VISIBILITY, this.containerEventHandler);
                 this._container.removeEventListener(WindowEvent.WINDOW_EVENT_CHILD_RELOCATED, this.containerEventHandler);
                 super.dispose();
             }
@@ -632,6 +634,9 @@
                     {
                         this.updateScrollAreaRegion();
                     }
+                    return;
+                case WindowEvent.WINDOW_EVENT_CHILD_VISIBILITY:
+                    this.updateScrollAreaRegion();
                     return;
                 case WindowEvent.WINDOW_EVENT_CHILD_RELOCATED:
                     this.updateScrollAreaRegion();

@@ -10,6 +10,7 @@
 		    <asset mimeType="text/xml" name="motd_notification_item_xml" />
 		    <asset mimeType="text/xml" name="habbo_notifications_config_xml" />
 		    <asset mimeType="text/xml" name="layout_notification_xml" />
+            <asset mimeType="text/xml" name="layout_notification_wired_xml" />
             <asset mimeType="text/xml" name="layout_notifications_browser_xml" />
             <asset mimeType="text/xml" name="club_gift_notification_xml" />
             <asset mimeType="text/xml" name="club_ending_notification_xml" />
@@ -29,6 +30,15 @@
             <asset mimeType="image/png" name="if_icon_duckets_png" />
             <asset mimeType="image/png" name="if_icon_loyalty_png" />
             <asset mimeType="image/png" name="if_icon_diamond_png" />
+            <asset mimeType="image/png" name="chests_icon_chest_capacity_exceeds" />
+            <asset mimeType="image/png" name="chests_icon_chest_donation" />
+            <asset mimeType="image/png" name="chests_icon_chest_empty" />
+            <asset mimeType="image/png" name="chests_icon_chest_full" />
+            <asset mimeType="image/png" name="chests_icon_chest_wired_transaction" />
+            <asset mimeType="image/png" name="chests_icon_chest_withdraw" />
+            <asset mimeType="image/png" name="chests_icon_rejected" />
+            <asset mimeType="image/png" name="chests_icon_successful" />
+            <asset mimeType="image/png" name="chests_icon_trading_error" />
 		</assets>
 	
 	</component>

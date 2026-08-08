@@ -1,6 +1,8 @@
 ﻿package com.sulake.core.communication.wireformat
 {
     import flash.utils.ByteArray;
+    import com.sulake.core.communication.util.Byte;
+    import com.sulake.core.communication.util.Long;
     import com.sulake.core.communication.util.Short;
     import com.sulake.core.communication.encryption.IEncryption;
     import com.sulake.core.communication.connection.IConnection;
@@ -38,9 +40,18 @@
                         }
                         else
                         {
-                            if ((value is Short))
+                            if ((value is Byte))
+                            {
+                                buffer.writeByte((value as Byte).value);
+                            }
+                            else if ((value is Short))
                             {
                                 buffer.writeShort((value as Short).value);
+                            }
+                            else if ((value is Long))
+                            {
+                                buffer.writeInt((value as Long).high);
+                                buffer.writeUnsignedInt((value as Long).low);
                             }
                             else
                             {

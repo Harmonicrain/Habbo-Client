@@ -43,6 +43,9 @@
         function getGroupBadgeSmallImage(_arg_1:String):BitmapData;
         function getGroupBadgeAssetName(_arg_1:String):String;
         function getGroupBadgeSmallAssetName(_arg_1:String):String;
+        function getFurniIconImage(_arg_1:Boolean, _arg_2:int, _arg_3:String):BitmapData;
+        function getFurniIconImageAssetName(_arg_1:Boolean, _arg_2:int, _arg_3:String):String;
+        function hasPurchasableChatStyle(_arg_1:int):Boolean;
         function isAccountSafetyLocked():Boolean;
         function isIgnored(_arg_1:String):Boolean;
         function whiperGroup(_arg_1:String):void;
@@ -55,8 +58,10 @@
         function givePetRespect(_arg_1:int):void;
         function getProductData(_arg_1:String):IProductData;
         function getFloorItemData(_arg_1:int):IFurnitureData;
+        function getAllFloorItemDatas():Array;
         function getFloorItemsDataByCategory(_arg_1:int):Array;
         function getWallItemData(_arg_1:int):IFurnitureData;
+        function getAllWallItemDatas():Array;
         function getFloorItemDataByName(_arg_1:String, _arg_2:int=0):IFurnitureData;
         function getWallItemDataByName(_arg_1:String, _arg_2:int=0):IFurnitureData;
         function openHabboHomePage(_arg_1:int, _arg_2:String):void;

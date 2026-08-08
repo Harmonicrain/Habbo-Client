@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?><layout name="bitmap_wrapper_view" width="212" height="105" version="0.1" uid="AB09B0D5-64B4-93BC-9034-F869D4CA3AC6">
+  <window>
+    <bitmap x="0" y="0" width="212" height="105" params="17" style="3" name="bitmap_view">
+      <variables>
+        <var key="pivot_point" value="center" type="String"/>
+        <var key="stretched_x" value="false" type="Boolean"/>
+        <var key="stretched_y" value="false" type="Boolean"/>
+        <var key="fit_size_to_contents" value="true" type="Boolean"/>
+      </variables>
+    </bitmap>
+  </window>
+</layout>

@@ -25,6 +25,8 @@
             <asset mimeType="text/xml" name="NextQuestTimer"/>
             <asset mimeType="text/xml" name="SeasonalCalendar"/>
             <asset mimeType="text/xml" name="RoomCompetition"/>
+            <asset mimeType="text/xml" name="reward_track_main_xml"/>
+            <asset mimeType="text/xml" name="reward_track_premium_purchase_confirmation_xml"/>
             <asset mimeType="image/png" name="calendar_quest_complete"/>
             <asset mimeType="image/png" name="arrow_back_active"/>
             <asset mimeType="image/png" name="arrow_back_inactive"/>

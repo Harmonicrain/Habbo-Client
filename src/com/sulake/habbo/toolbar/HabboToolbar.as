@@ -4,6 +4,7 @@
     import com.sulake.habbo.window.IHabboWindowManager;
     import com.sulake.habbo.communication.IHabboCommunicationManager;
     import com.sulake.habbo.toolbar.extensions.PurseAreaExtension;
+    import com.sulake.habbo.toolbar.extensions.GamehallLeaderboardPromptExtension;
     import com.sulake.habbo.toolbar.extensions.SettingsExtension;
     import com.sulake.core.communication.connection.IConnection;
     import com.sulake.habbo.catalog.IHabboCatalog;
@@ -55,6 +56,7 @@
     import com.sulake.iid.IIDAvatarRenderManager;
     import com.sulake.iid.IIDHabboQuestEngine;
     import com.sulake.habbo.quest.events.UnseenAchievementsCountUpdateEvent;
+    import com.sulake.habbo.quest.events.UnseenRewardTrackRewardsCountUpdateEvent;
     import com.sulake.iid.IIDHabboMessenger;
     import com.sulake.habbo.messenger.events.MiniMailMessageEvent;
     import com.sulake.iid.IIDHabboGroupForumController;
@@ -104,6 +106,7 @@
         private var _localization:ICoreLocalizationManager;
         private var _inventory:IHabboInventory;
         private var _extensionView:ExtensionView;
+        private var _gamehallLeaderboardPromptExtension:GamehallLeaderboardPromptExtension;
         private var _soundManager:IHabboSoundManager;
         private var _sessionDataManager:ISessionDataManager;
         private var _habboHelp:IHabboHelp;
@@ -189,6 +192,9 @@
             }, false, [{
                 "type":UnseenAchievementsCountUpdateEvent.QE_UACUE,
                 "callback":this._Str_22354
+            }, {
+                "type":UnseenRewardTrackRewardsCountUpdateEvent.UNSEEN_REWARD_TRACK_REWARDS_COUNT_UPDATE,
+                "callback":this.onUnseenRewardTrackRewardsCount
             }]), new ComponentDependency(new IIDHabboMessenger(), function (k:IHabboMessenger):void
             {
                 _messenger = k;
@@ -222,6 +228,11 @@
             this._Str_21196();
             if (this._extensionView)
             {
+                if (this._gamehallLeaderboardPromptExtension)
+                {
+                    this._gamehallLeaderboardPromptExtension.dispose();
+                    this._gamehallLeaderboardPromptExtension = null;
+                }
                 this._extensionView.dispose();
                 this._extensionView = null;
             }
@@ -292,6 +303,7 @@
             this._view.window.visible = false;
             this.initRoomEnterEffect();
             this._extensionView = new ExtensionView(this._windowManager, assets, this);
+            this._gamehallLeaderboardPromptExtension = new GamehallLeaderboardPromptExtension(this);
             if (this._view == null)
             {
                 Logger.log("Error, toolbar view was not available");
@@ -779,6 +791,14 @@
                 this._view._Str_17961 = k.count;
                 this._view.memenu._Str_23581 = k.count;
                 this._Str_4168(HabboToolbarIconEnum.MEMENU, this._view._Str_16152);
+            }
+        }
+
+        private function onUnseenRewardTrackRewardsCount(k:UnseenRewardTrackRewardsCountUpdateEvent):void
+        {
+            if (this._view != null)
+            {
+                this._Str_4168(HabboToolbarIconEnum.PROGRESSION, k.count);
             }
         }
 

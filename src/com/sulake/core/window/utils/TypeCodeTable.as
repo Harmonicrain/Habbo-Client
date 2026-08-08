@@ -9,6 +9,7 @@
         {
             dict["background"] = WINDOW_TYPE_BACKGROUND;
             dict["bitmap"] = WINDOW_TYPE_BITMAP_WRAPPER;
+            dict["shape"] = WINDOW_TYPE_SHAPE_WRAPPER;
             dict["border"] = WINDOW_TYPE_BORDER;
             dict["boxsizer"] = WINDOW_TYPE_BOXSIZER;
             dict["border_notify"] = WINDOW_TYPE_BORDER_NOTIFY;
@@ -35,6 +36,7 @@
             dict["formatted_text"] = WINDOW_TYPE_FORMATTED_TEXT;
             dict["frame"] = WINDOW_TYPE_FRAME;
             dict["frame_notify"] = WINDOW_TYPE_FRAME_NOTIFY;
+            dict["gradient"] = WINDOW_TYPE_GRADIENT;
             dict["header"] = WINDOW_TYPE_HEADER;
             dict["html"] = WINDOW_TYPE_HTML;
             dict["icon"] = WINDOW_TYPE_ICON;

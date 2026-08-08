@@ -7,4 +7,12 @@
 .idea
 
 node_modules/
+.DS_Store
+http/
 tools/dist/
+
+# Dated SWF build outputs. bin/Habbo.swf stays tracked.
+bin/PRODUCTION-*.swf
+
+# Codex session attachments
+.codex-remote-attachments/

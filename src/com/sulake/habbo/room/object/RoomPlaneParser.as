@@ -31,7 +31,10 @@
         private var _fixedWallHeight:int = -1;
         private var _floorHeight:Number = 0;
         private var _floorHoles:Map = null;
+        private var _invertedFloorHoles:Map = null;
         private var _floorHoleMatrix:Array;
+        private var _expandedFloorTiles:Vector.<Vector.<int>>;
+        private var _temporaryHighlightPlanes:Array = [];
 
         public function RoomPlaneParser()
         {
@@ -44,6 +47,7 @@
             this._wallThicknessMultiplier = 1;
             this._floorThicknessMultiplier = 1;
             this._floorHoles = new Map();
+            this._invertedFloorHoles = new Map();
         }
 
         private static function getFloorHeight(k:Array):Number
@@ -394,11 +398,18 @@
                 this._floorHoles.dispose();
                 this._floorHoles = null;
             }
+            if (this._invertedFloorHoles != null)
+            {
+                this._invertedFloorHoles.dispose();
+                this._invertedFloorHoles = null;
+            }
         }
 
         public function reset():void
         {
             this._planes = [];
+            this._temporaryHighlightPlanes.length = 0;
+            this._expandedFloorTiles = null;
             this._tileMatrix = [];
             this._tileMatrixOriginal = [];
             this._tileMatrix = [];
@@ -635,6 +646,7 @@
             addTileTypes(_local_3);
             unpadHeightMap(_local_3);
             _local_5 = expandFloorTiles(_local_3);
+            this._expandedFloorTiles = _local_5;
             this.extractPlanes(_local_5);
             if (k != null)
             {
@@ -1191,12 +1203,12 @@
             }
         }
 
-        private function addFloor(k:IVector3d, _arg_2:IVector3d, _arg_3:IVector3d, _arg_4:Boolean, _arg_5:Boolean, _arg_6:Boolean, _arg_7:Boolean):void
+        private function addFloor(k:IVector3d, _arg_2:IVector3d, _arg_3:IVector3d, _arg_4:Boolean, _arg_5:Boolean, _arg_6:Boolean, _arg_7:Boolean, _arg_8:Boolean=false):void
         {
             var _local_9:Number;
             var _local_10:Vector3d;
             var _local_11:Vector3d;
-            var _local_8:RoomPlaneData = this._Str_3453(RoomPlaneData.PLANE_FLOOR, k, _arg_2, _arg_3);
+            var _local_8:RoomPlaneData = this._Str_3453(RoomPlaneData.PLANE_FLOOR, k, _arg_2, _arg_3, null, _arg_8);
             if (_local_8 != null)
             {
                 _local_9 = (FLOOR_THICKNESS * this._floorThicknessMultiplier);
@@ -1273,7 +1285,7 @@
                     _local_16 = _local_14[_local_15];
                     if (XMLValidator.checkRequiredAttributes(_local_16, ["id", "x", "y", "width", "height"]))
                     {
-                        this.addFloorHole(_local_16.@id, _local_16.@x, _local_16.@y, _local_16.@width, _local_16.@height);
+                        this.addFloorHole(_local_16.@id, _local_16.@x, _local_16.@y, _local_16.@width, _local_16.@height, (_local_16.hasOwnProperty("@invert") && String(_local_16.@invert) == "true"));
                     }
                     _local_15++;
                 }
@@ -1284,7 +1296,7 @@
             return true;
         }
 
-        private function _Str_3453(k:int, _arg_2:IVector3d, _arg_3:IVector3d, _arg_4:IVector3d, _arg_5:Array=null):RoomPlaneData
+        private function _Str_3453(k:int, _arg_2:IVector3d, _arg_3:IVector3d, _arg_4:IVector3d, _arg_5:Array=null, _arg_6:Boolean=false):RoomPlaneData
         {
             if (((_arg_3.length == 0) || (_arg_4.length == 0)))
             {
@@ -1292,7 +1304,43 @@
             }
             var _local_6:RoomPlaneData = new RoomPlaneData(k, _arg_2, _arg_3, _arg_4, _arg_5);
             this._planes.push(_local_6);
+            if (_arg_6)
+            {
+                this._temporaryHighlightPlanes.push(_local_6);
+            }
             return _local_6;
+        }
+
+        public function initializeHighlightArea(k:int, _arg_2:int, _arg_3:int, _arg_4:int):void
+        {
+            this.clearHighlightArea();
+            if (this._expandedFloorTiles == null)
+            {
+                return;
+            }
+            this.extractPlanes(this._expandedFloorTiles, (k * 4), (_arg_2 * 4), (_arg_3 * 4), (_arg_4 * 4), true);
+        }
+
+        public function clearHighlightArea():int
+        {
+            var _local_1:int = this._temporaryHighlightPlanes.length;
+            this._planes = this._planes.slice(0, (this._planes.length - this._temporaryHighlightPlanes.length));
+            this._temporaryHighlightPlanes.length = 0;
+            return _local_1;
+        }
+
+        public function isPlaneTemporaryHighlighter(k:int):Boolean
+        {
+            if ((k < 0) || (k >= this._Str_3828))
+            {
+                return false;
+            }
+            var _local_2:RoomPlaneData = (this._planes[k] as RoomPlaneData);
+            if (_local_2 == null)
+            {
+                return false;
+            }
+            return this._temporaryHighlightPlanes.indexOf(_local_2) != -1;
         }
 
         public function getXML():XML
@@ -1332,7 +1380,19 @@
                 if (_local_12 != null)
                 {
                     _local_13 = this._floorHoles.getKey(_local_4);
-                    _local_14 = new (XML)((((((((((('<hole id="' + _local_13) + '" x="') + _local_12.x) + '" y="') + _local_12.y) + '" width="') + _local_12.width) + '" height="') + _local_12.height) + '"/>'));
+                    _local_14 = <hole id={_local_13} x={_local_12.x} y={_local_12.y} width={_local_12.width} height={_local_12.height} invert="false"/>;
+                    _local_3.appendChild(_local_14);
+                }
+                _local_4++;
+            }
+            _local_4 = 0;
+            while (_local_4 < this._invertedFloorHoles.length)
+            {
+                _local_12 = this._invertedFloorHoles.getWithIndex(_local_4);
+                if (_local_12 != null)
+                {
+                    _local_13 = this._invertedFloorHoles.getKey(_local_4);
+                    _local_14 = <hole id={_local_13} x={_local_12.x} y={_local_12.y} width={_local_12.width} height={_local_12.height} invert="true"/>;
                     _local_3.appendChild(_local_14);
                 }
                 _local_4++;
@@ -1523,21 +1583,30 @@
             return -1;
         }
 
-        public function addFloorHole(k:int, _arg_2:int, _arg_3:int, _arg_4:int, _arg_5:int):void
+        public function addFloorHole(k:int, _arg_2:int, _arg_3:int, _arg_4:int, _arg_5:int, _arg_6:Boolean=false):void
         {
             this.removeFloorHole(k);
             var _local_6:RoomFloorHole = new RoomFloorHole(_arg_2, _arg_3, _arg_4, _arg_5);
-            this._floorHoles.add(k, _local_6);
+            if (_arg_6)
+            {
+                this._invertedFloorHoles.add(k, _local_6);
+            }
+            else
+            {
+                this._floorHoles.add(k, _local_6);
+            }
         }
 
         public function removeFloorHole(k:int):void
         {
             this._floorHoles.remove(k);
+            this._invertedFloorHoles.remove(k);
         }
 
         public function resetFloorHoles():void
         {
             this._floorHoles.reset();
+            this._invertedFloorHoles.reset();
         }
 
         private function initializeHoleMap():void
@@ -1550,6 +1619,7 @@
             var _local_7:int;
             var _local_8:int;
             var _local_9:int;
+            var _local_10:Boolean = this._invertedFloorHoles.length > 0;
             _local_2 = 0;
             while (_local_2 < this._height)
             {
@@ -1557,43 +1627,56 @@
                 k = 0;
                 while (k < this._width)
                 {
-                    _local_3[k] = false;
+                    _local_3[k] = _local_10;
                     k++;
                 }
                 _local_2++;
             }
             var _local_4:int;
+            while (_local_4 < this._invertedFloorHoles.length)
+            {
+                _local_5 = this._invertedFloorHoles.getWithIndex(_local_4);
+                if (_local_5 != null)
+                {
+                    this.initializeHole(_local_5, true);
+                }
+                _local_4++;
+            }
+            _local_4 = 0;
             while (_local_4 < this._floorHoles.length)
             {
                 _local_5 = this._floorHoles.getWithIndex(_local_4);
                 if (_local_5 != null)
                 {
-                    _local_6 = _local_5.x;
-                    _local_7 = ((_local_5.x + _local_5.width) - 1);
-                    _local_8 = _local_5.y;
-                    _local_9 = ((_local_5.y + _local_5.height) - 1);
-                    _local_6 = ((_local_6 < 0) ? 0 : _local_6);
-                    _local_7 = ((_local_7 >= this._width) ? (this._width - 1) : _local_7);
-                    _local_8 = ((_local_8 < 0) ? 0 : _local_8);
-                    _local_9 = ((_local_9 >= this._height) ? (this._height - 1) : _local_9);
-                    _local_2 = _local_8;
-                    while (_local_2 <= _local_9)
-                    {
-                        _local_3 = this._floorHoleMatrix[_local_2];
-                        k = _local_6;
-                        while (k <= _local_7)
-                        {
-                            _local_3[k] = true;
-                            k++;
-                        }
-                        _local_2++;
-                    }
+                    this.initializeHole(_local_5);
                 }
                 _local_4++;
             }
         }
 
-        private function extractPlanes(k:Vector.<Vector.<int>>):void
+        private function initializeHole(k:RoomFloorHole, _arg_2:Boolean=false):void
+        {
+            var _local_3:int = Math.max(0, k.x);
+            var _local_4:int = Math.min((this._width - 1), ((k.x + k.width) - 1));
+            var _local_5:int = Math.max(0, k.y);
+            var _local_6:int = Math.min((this._height - 1), ((k.y + k.height) - 1));
+            var _local_7:int = _local_5;
+            var _local_8:int;
+            var _local_9:Array;
+            while (_local_7 <= _local_6)
+            {
+                _local_9 = this._floorHoleMatrix[_local_7];
+                _local_8 = _local_3;
+                while (_local_8 <= _local_4)
+                {
+                    _local_9[_local_8] = !_arg_2;
+                    _local_8++;
+                }
+                _local_7++;
+            }
+        }
+
+        private function extractPlanes(k:Vector.<Vector.<int>>, _arg_2:int=0, _arg_3:int=0, _arg_4:int=-1, _arg_5:int=-1, _arg_6:Boolean=false):void
         {
             var _local_2:uint;
             var _local_7:int;
@@ -1613,18 +1696,20 @@
             var _local_21:Number;
             _local_2 = k.length;
             var _local_3:uint = k[0].length;
-            var _local_4:Vector.<Vector.<Boolean>> = new Vector.<Vector.<Boolean>>(_local_2);
+            var _local_22:uint = uint((_arg_5 == -1) ? _local_2 : Math.min(_local_2, (_arg_3 + _arg_5)));
+            var _local_23:uint = uint((_arg_4 == -1) ? _local_3 : Math.min(_local_3, (_arg_2 + _arg_4)));
+            var _local_4:Vector.<Vector.<Boolean>> = new Vector.<Vector.<Boolean>>(_local_22);
             var _local_5:int;
-            while (_local_5 < _local_2)
+            while (_local_5 < _local_22)
             {
-                _local_4[_local_5] = new Vector.<Boolean>(_local_3);
+                _local_4[_local_5] = new Vector.<Boolean>(_local_23);
                 _local_5++;
             }
-            var _local_6:int;
-            while (_local_6 < _local_2)
+            var _local_6:int = _arg_3;
+            while (_local_6 < _local_22)
             {
-                _local_7 = 0;
-                while (_local_7 < _local_3)
+                _local_7 = _arg_2;
+                while (_local_7 < _local_23)
                 {
                     _local_8 = k[_local_6][_local_7];
                     if (((_local_8 < 0) || (_local_4[_local_6][_local_7])))
@@ -1635,7 +1720,7 @@
                         _local_11 = ((_local_7 == 0) || (!(k[_local_6][(_local_7 - 1)] == _local_8)));
                         _local_12 = ((_local_6 == 0) || (!(k[(_local_6 - 1)][_local_7] == _local_8)));
                         _local_9 = (_local_7 + 1);
-                        while (_local_9 < _local_3)
+                        while (_local_9 < _local_23)
                         {
                             if ((((!(k[_local_6][_local_9] == _local_8)) || (_local_4[_local_6][_local_9])) || ((_local_6 > 0) && ((k[(_local_6 - 1)][_local_9] == _local_8) == _local_12))))
                             {
@@ -1646,10 +1731,14 @@
                         _local_13 = ((_local_9 == _local_3) || (!(k[_local_6][_local_9] == _local_8)));
                         _local_17 = false;
                         _local_10 = (_local_6 + 1);
-                        while (((_local_10 < _local_2) && (!(_local_17))))
+                        while (((_local_10 <= _local_22) && (!(_local_17))))
                         {
-                            _local_14 = (!(k[_local_10][_local_7] == _local_8));
-                            _local_17 = (((_local_14) || ((_local_7 > 0) && ((k[_local_10][(_local_7 - 1)] == _local_8) == _local_11))) || ((_local_9 < _local_3) && ((k[_local_10][_local_9] == _local_8) == _local_13)));
+                            _local_14 = ((_local_10 == _local_2) || (!(k[_local_10][_local_7] == _local_8)));
+                            _local_17 = ((((_local_10 == _local_22) || (_local_14)) || ((_local_7 > 0) && ((k[_local_10][(_local_7 - 1)] == _local_8) == _local_11))) || ((_local_9 < _local_3) && ((k[_local_10][_local_9] == _local_8) == _local_13)));
+                            if (_local_10 == _local_2)
+                            {
+                                break;
+                            }
                             _local_15 = _local_7;
                             while (_local_15 < _local_9)
                             {
@@ -1667,7 +1756,10 @@
                             }
                             _local_10++;
                         }
-                        _local_14 = ((_local_14) || (_local_10 == _local_2));
+                        if (!_local_14)
+                        {
+                            _local_14 = (_local_10 == _local_2);
+                        }
                         _local_13 = ((_local_9 == _local_3) || (!(k[_local_6][_local_9] == _local_8)));
                         _local_16 = _local_6;
                         while (_local_16 < _local_10)
@@ -1684,7 +1776,7 @@
                         _local_19 = ((_local_6 / 4) - 0.5);
                         _local_20 = ((_local_9 - _local_7) / 4);
                         _local_21 = ((_local_10 - _local_6) / 4);
-                        this.addFloor(new Vector3d((_local_18 + _local_20), (_local_19 + _local_21), (_local_8 / 4)), new Vector3d(-(_local_20), 0, 0), new Vector3d(0, -(_local_21), 0), _local_13, _local_11, _local_14, _local_12);
+                        this.addFloor(new Vector3d((_local_18 + _local_20), (_local_19 + _local_21), (_local_8 / 4)), new Vector3d(-(_local_20), 0, 0), new Vector3d(0, -(_local_21), 0), _local_13, _local_11, _local_14, _local_12, _arg_6);
                     }
                     _local_7++;
                 }

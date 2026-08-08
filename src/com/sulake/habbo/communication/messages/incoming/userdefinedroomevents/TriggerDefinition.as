@@ -1,39 +1,24 @@
-﻿package com.sulake.habbo.communication.messages.incoming.userdefinedroomevents
+package com.sulake.habbo.communication.messages.incoming.userdefinedroomevents
 {
     import com.sulake.core.communication.messages.IMessageDataWrapper;
 
-    public class TriggerDefinition extends Triggerable 
+    public class TriggerDefinition extends Triggerable
     {
-        private var _triggerConf:int;
-        private var _conflictingActions:Array;
-
         public function TriggerDefinition(k:IMessageDataWrapper)
         {
-            this._conflictingActions = new Array();
             super(k);
-            this._triggerConf = k.readInteger();
-            var count:int = k.readInteger();
-            var index:int;
-            while (index < count)
-            {
-                this._conflictingActions.push(k.readInteger());
-                index++;
-            }
         }
 
         public function get type():int
         {
-            return this._triggerConf;
+            return this.code;
         }
 
-        override public function get code():int
-        {
-            return this._triggerConf;
-        }
-
+        // Wired 2.0 dropped conflicting-trigger/action warnings; kept empty for the
+        // controller's length checks.
         public function get conflictingActions():Array
         {
-            return this._conflictingActions;
+            return [];
         }
     }
 }

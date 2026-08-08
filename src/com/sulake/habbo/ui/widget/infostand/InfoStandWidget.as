@@ -562,6 +562,10 @@
 
         public function close():void
         {
+            if (this._userView)
+            {
+                this._userView.hidePreview();
+            }
             this.stopPlaceMore();
             this.hideChildren();
             if (this._updateTimer)
@@ -683,6 +687,12 @@
 
         private function _Str_3734(view:String):void
         {
+            // Tear down the live avatar previewer whenever we switch away from the user view, so it
+            // never stays listening to the room engine while another view (or no infostand) is shown.
+            if (((!(view == USER_VIEW)) && (!(this._userView == null))))
+            {
+                this._userView.hidePreview();
+            }
             this.hideChildren();
             var _local_2:IWindow = (this.mainContainer.getChildByName(view) as IWindow);
             if (_local_2 == null)

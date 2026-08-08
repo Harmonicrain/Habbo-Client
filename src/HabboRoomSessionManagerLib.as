@@ -3,11 +3,11 @@
     import mx.core.SimpleApplication;
     import com.sulake.bootstrap.RoomSessionManagerBootstrap;
     import com.sulake.iid.IIDHabboRoomSessionManager;
-    import binaryData.*;
 
     public class HabboRoomSessionManagerLib extends SimpleApplication 
     {
-        public static var manifest:Class = HabboRoomSessionManagerLib_manifest;
+        [Embed(source="binaryData/HabboRoomSessionManagerLib_manifest.bin", mimeType="application/octet-stream")]
+        public static var manifest:Class;
         public static var requiredClasses:Array = new Array(RoomSessionManagerBootstrap, IIDHabboRoomSessionManager);
     }
 }

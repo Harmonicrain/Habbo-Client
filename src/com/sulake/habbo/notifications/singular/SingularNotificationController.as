@@ -71,7 +71,7 @@
                     _local_5++;
                 }
             }
-            this._notificationViewManager = new HabboNotificationViewManager(this._notifications, this._notifications.assetLibrary, this._notifications.windowManager, this._notifications.toolBar, this._styleConfiguration["styles"], this._styleConfiguration["view"]);
+            this._notificationViewManager = new HabboNotificationViewManager(this._notifications, this._notifications.assetLibrary, this._notifications.windowManager, this._notifications.toolBar, this._styleConfiguration["styles"], this._styleConfiguration);
             this._notifications.sessionDataManager.events.addEventListener(BadgeImageReadyEvent.BIRE_BADGE_IMAGE_READY, this.onBadgeImage);
             this._notifications.registerUpdateReceiver(this, 2);
         }
@@ -134,7 +134,7 @@
             }
         }
 
-        public function addItem(k:String, _arg_2:String, _arg_3:BitmapData, _arg_4:String=null, _arg_5:String=null, _arg_6:String=null):int
+        public function addItem(k:String, _arg_2:String, _arg_3:BitmapData, _arg_4:String=null, _arg_5:String=null, _arg_6:String=null, _arg_7:Object=null):int
         {
             if (this._notifications.disabled)
             {
@@ -150,7 +150,12 @@
             {
                 return 0;
             }
-            var _local_9:HabboNotificationItemStyle = new HabboNotificationItemStyle(_local_8, _arg_3, _arg_4, true, _arg_5);
+            var notificationId:String = _arg_7 != null ? _arg_7["id"] : null;
+            if (notificationId != null && this.hasNotificationById(notificationId))
+            {
+                return this._notificationQueue.length;
+            }
+            var _local_9:HabboNotificationItemStyle = new HabboNotificationItemStyle(_local_8, _arg_3, _arg_4, true, _arg_5, _arg_7, _arg_2);
             if (_arg_6)
             {
                 _local_9.internalLink = _arg_6;
@@ -158,6 +163,48 @@
             var _local_10:HabboNotificationItem = new HabboNotificationItem(k, _local_9, this);
             this._notificationQueue.push(_local_10);
             return this._notificationQueue.length;
+        }
+
+        public function removeNotificationById(id:String):void
+        {
+            if (id == null)
+            {
+                return;
+            }
+            var i:int = 0;
+            while (i < this._notificationQueue.length)
+            {
+                var item:HabboNotificationItem =
+                    this._notificationQueue[i] as HabboNotificationItem;
+                if (item != null && item.notificationId == id)
+                {
+                    item.dispose();
+                    this._notificationQueue.splice(i, 1);
+                    continue;
+                }
+                i++;
+            }
+            if (this._notificationViewManager != null)
+            {
+                this._notificationViewManager.removeNotificationById(id);
+            }
+        }
+
+        private function hasNotificationById(id:String):Boolean
+        {
+            if (id == null)
+            {
+                return false;
+            }
+            for each (var item:HabboNotificationItem in this._notificationQueue)
+            {
+                if (item != null && item.notificationId == id)
+                {
+                    return true;
+                }
+            }
+            return this._notificationViewManager != null
+                && this._notificationViewManager.hasNotificationById(id);
         }
 
         private function getNextItemFromQueue():HabboNotificationItem

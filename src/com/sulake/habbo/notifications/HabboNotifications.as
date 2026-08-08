@@ -37,6 +37,8 @@
     import com.sulake.habbo.communication.messages.outgoing.users.GetMOTDMessageComposer;
     import com.sulake.core.utils.Map;
     import adobe.serialization.json.JSONDecoder;
+    import com.sulake.core.assets.BitmapDataAsset;
+    import flash.display.BitmapData;
 
     public class HabboNotifications extends Component implements IHabboNotifications 
     {
@@ -242,6 +244,28 @@
         public function addSongPlayingNotification(k:String, _arg_2:String):void
         {
             this._singularController.addSongPlayingNotification(k, _arg_2);
+        }
+
+        public function addItem(message:String, style:String, iconAssetName:String=null, internalLink:String=null, extraData:Object=null):void
+        {
+            var icon:BitmapData = null;
+            if (iconAssetName != null)
+            {
+                var asset:BitmapDataAsset = this.assetLibrary.getAssetByName(iconAssetName) as BitmapDataAsset;
+                if (asset != null && asset.content is BitmapData)
+                {
+                    icon = (asset.content as BitmapData).clone();
+                }
+            }
+            this._singularController.addItem(message, style, icon, null, null, internalLink, extraData);
+        }
+
+        public function removeNotificationById(id:String):void
+        {
+            if (this._singularController != null)
+            {
+                this._singularController.removeNotificationById(id);
+            }
         }
 
         public function showNotification(k:String, _arg_2:Map=null):void

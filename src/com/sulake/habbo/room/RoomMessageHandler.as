@@ -7,6 +7,8 @@ package com.sulake.habbo.room
     import com.sulake.habbo.communication.messages.incoming.room.session.RoomReadyMessageEvent;
     import com.sulake.habbo.communication.messages.incoming.room.engine.RoomPropertyMessageEvent;
     import com.sulake.habbo.communication.messages.incoming.room.engine.FloorHeightMapEvent;
+    import com.sulake.habbo.communication.messages.incoming.room.engine.AreaHideMessageEvent;
+    import com.sulake.habbo.communication.messages.incoming.room.engine.AreaHideMessageData;
     import com.sulake.habbo.communication.messages.incoming.room.engine.HeightMapEvent;
     import com.sulake.habbo.communication.messages.incoming.room.engine.HeightMapUpdateMessageEvent;
     import com.sulake.habbo.communication.messages.incoming.room.engine.RoomVisualizationSettingsEvent;
@@ -19,6 +21,11 @@ package com.sulake.habbo.room
     import com.sulake.habbo.communication.messages.incoming.room.engine.ObjectRemoveMessageEvent;
     import com.sulake.habbo.communication.messages.incoming.room.engine.PublicRoomObjectMessageData;
     import com.sulake.habbo.communication.messages.incoming.room.engine.PublicRoomObjectsMessageEvent;
+    import com.sulake.habbo.communication.messages.incoming.room.publicroom.BusDoorMessageEvent;
+    import com.sulake.habbo.communication.messages.incoming.games.OpenGameBoardMessageEvent;
+    import com.sulake.habbo.communication.messages.incoming.games.OpenGamehallLeaderboardMessageEvent;
+    import com.sulake.habbo.communication.messages.incoming.games.GameBoardUpdateMessageEvent;
+    import com.sulake.habbo.communication.messages.incoming.games.CloseGameBoardMessageEvent;
     import com.sulake.habbo.communication.messages.incoming.room.engine.ItemsEvent;
     import com.sulake.habbo.communication.messages.incoming.room.engine.ItemAddMessageEvent;
     import com.sulake.habbo.communication.messages.incoming.room.engine.ItemRemoveMessageEvent;
@@ -35,6 +42,15 @@ package com.sulake.habbo.room
     import com.sulake.habbo.communication.messages.incoming.room.action.CarryObjectMessageEvent;
     import com.sulake.habbo.communication.messages.incoming.room.action.UseObjectMessageEvent;
     import com.sulake.habbo.communication.messages.incoming.room.engine.SlideObjectBundleMessageEvent;
+    import com.sulake.habbo.communication.messages.incoming.room.engine.WiredMovementsMessageEvent;
+    import com.sulake.habbo.communication.messages.incoming.room.engine.ConfigurationItemStatesMessageEvent;
+    import com.sulake.habbo.communication.messages.parser.room.engine.ConfigurationItemStatesMessageParser;
+    import com.sulake.habbo.communication.messages.incoming.room.engine.WiredFurniMovementData;
+    import com.sulake.habbo.communication.messages.incoming.room.engine.WiredUserMovementData;
+    import com.sulake.habbo.communication.messages.incoming.room.engine.WiredWallItemMovementData;
+    import com.sulake.habbo.communication.messages.incoming.room.engine.WiredUserDirectionData;
+    import com.sulake.room.object.IRoomObjectModel;
+    import com.sulake.habbo.communication.messages.parser.room.engine.WiredMovementsMessageParser;
     import com.sulake.habbo.communication.messages.incoming.room.chat.ChatMessageEvent;
     import com.sulake.habbo.communication.messages.incoming.room.chat.WhisperMessageEvent;
     import com.sulake.habbo.communication.messages.incoming.room.chat.ShoutMessageEvent;
@@ -67,13 +83,20 @@ package com.sulake.habbo.room
     import com.sulake.habbo.communication.messages.parser.room.engine.ObjectsMessageParser;
     import com.sulake.habbo.communication.messages.parser.room.engine.ObjectAddMessageParser;
     import com.sulake.room.utils.IVector3d;
+    import com.sulake.room.utils.IRoomGeometry;
     import com.sulake.habbo.communication.messages.parser.room.engine.ObjectUpdateMessageParser;
     import com.sulake.room.utils.Vector3d;
+    import com.sulake.habbo.room.IAreaHideInfo;
     import com.sulake.habbo.communication.messages.parser.room.engine.ObjectDataUpdateMessageParser;
     import com.sulake.habbo.communication.messages.incoming.room.engine.ObjectData;
     import com.sulake.habbo.communication.messages.parser.room.engine.ObjectsDataUpdateMessageParser;
     import com.sulake.habbo.communication.messages.parser.room.engine.ObjectRemoveMessageParser;
     import com.sulake.habbo.communication.messages.parser.room.engine.PublicRoomObjectsMessageParser;
+    import com.sulake.habbo.communication.messages.parser.room.publicroom.BusDoorMessageParser;
+    import com.sulake.habbo.communication.messages.parser.games.OpenGameBoardMessageParser;
+    import com.sulake.habbo.communication.messages.parser.games.GameBoardUpdateMessageParser;
+    import com.sulake.habbo.communication.messages.parser.games.CloseGameBoardMessageParser;
+    import com.sulake.habbo.room.events.RoomEngineGamehallEvent;
     import flash.utils.setTimeout;
     import com.sulake.habbo.communication.messages.incoming.room.engine.ItemMessageData;
     import com.sulake.habbo.communication.messages.parser.room.engine.ItemsMessageParser;
@@ -209,6 +232,7 @@ package com.sulake.habbo.room
                 k.addMessageEvent(new RoomPropertyMessageEvent(this.onRoomProperty));
                 k.addMessageEvent(new RoomEntryTileMessageEvent(this.onEntryTileData));
                 k.addMessageEvent(new FloorHeightMapEvent(this.onFloorHeightMap));
+                k.addMessageEvent(new AreaHideMessageEvent(this.onAreaHide));
                 k.addMessageEvent(new HeightMapEvent(this.onHeightMap));
                 k.addMessageEvent(new HeightMapUpdateMessageEvent(this.onHeightMapUpdate));
                 k.addMessageEvent(new RoomVisualizationSettingsEvent(this.onRoomVisualizationSettings));
@@ -220,6 +244,11 @@ package com.sulake.habbo.room
                 k.addMessageEvent(new ObjectsDataUpdateMessageEvent(this.onObjectsDataUpdate));
                 k.addMessageEvent(new ObjectRemoveMessageEvent(this.onObjectRemove));
                 k.addMessageEvent(new PublicRoomObjectsMessageEvent(this.onPublicRoomObjects));
+                k.addMessageEvent(new BusDoorMessageEvent(this.onBusDoor));
+                k.addMessageEvent(new OpenGameBoardMessageEvent(this.onOpenGameBoard));
+                k.addMessageEvent(new OpenGamehallLeaderboardMessageEvent(this.onOpenGamehallLeaderboard));
+                k.addMessageEvent(new GameBoardUpdateMessageEvent(this.onGameBoardUpdate));
+                k.addMessageEvent(new CloseGameBoardMessageEvent(this.onCloseGameBoard));
                 k.addMessageEvent(new ItemsEvent(this.onItems));
                 k.addMessageEvent(new ItemAddMessageEvent(this.onItemAdd));
                 k.addMessageEvent(new ItemRemoveMessageEvent(this.onItemRemove));
@@ -236,6 +265,8 @@ package com.sulake.habbo.room
                 k.addMessageEvent(new CarryObjectMessageEvent(this.onCarryObject));
                 k.addMessageEvent(new UseObjectMessageEvent(this.onUseObject));
                 k.addMessageEvent(new SlideObjectBundleMessageEvent(this.onSlideUpdate));
+                k.addMessageEvent(new WiredMovementsMessageEvent(this.onWiredMovements));
+                k.addMessageEvent(new ConfigurationItemStatesMessageEvent(this.onConfigurationItemStates));
                 k.addMessageEvent(new ChatMessageEvent(this.onChat));
                 k.addMessageEvent(new WhisperMessageEvent(this.onChat));
                 k.addMessageEvent(new ShoutMessageEvent(this.onChat));
@@ -368,6 +399,95 @@ package com.sulake.habbo.room
                 }
             }
             k.connection.send(new GetRoomEntryDataMessageComposer());
+        }
+
+        private function onBusDoor(k:IMessageEvent):void
+        {
+            var _local_2:BusDoorMessageEvent = (k as BusDoorMessageEvent);
+            if ((((_local_2 == null) || (_local_2.getParser() == null)) || (this._roomCreator == null)))
+            {
+                return;
+            }
+            var _local_3:BusDoorMessageParser = _local_2.getParser();
+            this._roomCreator.updatePublicRoomParkBusDoor(this._currentRoomId, _local_3.open);
+        }
+
+        private function onOpenGameBoard(k:IMessageEvent):void
+        {
+            var event:OpenGameBoardMessageEvent = k as OpenGameBoardMessageEvent;
+            var engine:IRoomEngineServices = this._roomCreator as IRoomEngineServices;
+            if (event == null || event.getParser() == null || engine == null || engine.events == null)
+            {
+                return;
+            }
+            var parser:OpenGameBoardMessageParser = event.getParser();
+            engine.events.dispatchEvent(new RoomEngineGamehallEvent(
+                RoomEngineGamehallEvent.OPEN,
+                this._currentRoomId,
+                parser.stationId,
+                parser.gameType,
+                parser.localSeat,
+                parser.seatCount));
+        }
+
+        private function onOpenGamehallLeaderboard(k:IMessageEvent):void
+        {
+            var event:OpenGamehallLeaderboardMessageEvent = k as OpenGamehallLeaderboardMessageEvent;
+            var engine:IRoomEngineServices = this._roomCreator as IRoomEngineServices;
+            if (event == null || event.getParser() == null || engine == null || engine.events == null)
+            {
+                return;
+            }
+            engine.events.dispatchEvent(new RoomEngineGamehallEvent(
+                RoomEngineGamehallEvent.LEADERBOARD_OPEN,
+                this._currentRoomId,
+                0,
+                "",
+                0,
+                0,
+                "",
+                [event.getParser()]));
+        }
+
+        private function onGameBoardUpdate(k:IMessageEvent):void
+        {
+            var event:GameBoardUpdateMessageEvent = k as GameBoardUpdateMessageEvent;
+            var engine:IRoomEngineServices = this._roomCreator as IRoomEngineServices;
+            if (event == null || event.getParser() == null || engine == null || engine.events == null)
+            {
+                return;
+            }
+            var parser:GameBoardUpdateMessageParser = event.getParser();
+            engine.events.dispatchEvent(new RoomEngineGamehallEvent(
+                RoomEngineGamehallEvent.UPDATE,
+                this._currentRoomId,
+                parser.stationId,
+                "",
+                0,
+                0,
+                parser.verb,
+                parser.args));
+        }
+
+        private function onCloseGameBoard(k:IMessageEvent):void
+        {
+            var event:CloseGameBoardMessageEvent = k as CloseGameBoardMessageEvent;
+            var engine:IRoomEngineServices = this._roomCreator as IRoomEngineServices;
+            if (event == null || event.getParser() == null || engine == null || engine.events == null)
+            {
+                return;
+            }
+            var parser:CloseGameBoardMessageParser = event.getParser();
+            engine.events.dispatchEvent(new RoomEngineGamehallEvent(
+                RoomEngineGamehallEvent.CLOSE,
+                this._currentRoomId,
+                parser.stationId,
+                "",
+                0,
+                0,
+                "",
+                null,
+                parser.reason));
         }
 
         private function onPublicRoomObjects(k:IMessageEvent):void
@@ -606,6 +726,20 @@ package com.sulake.habbo.room
             }
         }
 
+        private function onAreaHide(k:IMessageEvent):void
+        {
+            var _local_2:AreaHideMessageEvent = k as AreaHideMessageEvent;
+            if (((_local_2 == null) || (_local_2.getParser() == null) || (this._roomCreator == null)))
+            {
+                return;
+            }
+            var _local_3:AreaHideMessageData = _local_2.getParser().areaHideMessageData;
+            if (_local_3 != null)
+            {
+                this._roomCreator.updateAreaHide(this._currentRoomId, _local_3.furniId, _local_3.on, _local_3.rootX, _local_3.rootY, _local_3.width, _local_3.length, _local_3.invert);
+            }
+        }
+
         private function onEntryTileData(k:RoomEntryTileMessageEvent):void
         {
             this._latestEntryTileEvent = k;
@@ -697,7 +831,14 @@ package com.sulake.habbo.room
             var _local_15:XML = this._planeParser.getXML();
             var _local_16:XML = new (XML)((("<doors>" + (((((((('<door x="' + _local_7) + '" y="') + _local_8) + '" z="') + _local_9) + '" dir="') + _local_10) + '"/>')) + "</doors>"));
             _local_15.appendChild(_local_16);
-            this._roomCreator.initializeRoom(this._currentRoomId, _local_15);
+            if (_local_3.hasExtendedData)
+            {
+                this._roomCreator.initializeRoom(this._currentRoomId, _local_15, new Vector3d(_local_3.cameraInitX, _local_3.cameraInitY, _local_3.cameraInitZ), Vector.<IAreaHideInfo>(_local_3.areaHideData));
+            }
+            else
+            {
+                this._roomCreator.initializeRoom(this._currentRoomId, _local_15);
+            }
             if (this._tempViralHolder.objectData)
             {
                 this.addActiveObject(this._currentRoomId, this._tempViralHolder.objectData);
@@ -1275,6 +1416,176 @@ package com.sulake.habbo.room
             }
         }
 
+        private function onConfigurationItemStates(k:IMessageEvent):void
+        {
+            var _local_2:ConfigurationItemStatesMessageParser;
+            if (this._roomCreator == null)
+            {
+                return;
+            }
+            _local_2 = (k as ConfigurationItemStatesMessageEvent).getParser();
+            if (_local_2 != null)
+            {
+                this._roomCreator.setHanditemControlBlocked(
+                    this._currentRoomId, _local_2.isHanditemControlBlocked);
+                this._roomCreator.setChooserDisabled(
+                    this._currentRoomId, _local_2.chooserDisabled);
+                this._roomCreator.setFreeFurniMovementsMode(
+                    this._currentRoomId, _local_2.freeFurniMovementsEnabled);
+                this._roomCreator.setInvisibleFurni(this._currentRoomId, _local_2.invisibleFurni);
+            }
+        }
+
+        private function onWiredMovements(k:IMessageEvent):void
+        {
+            var _local_3:WiredUserMovementData;
+            var _local_4:WiredFurniMovementData;
+            var _local_5:WiredWallItemMovementData;
+            var _local_6:WiredUserDirectionData;
+            if (this._roomCreator == null)
+            {
+                return;
+            }
+            var _local_2:WiredMovementsMessageParser = (k as WiredMovementsMessageEvent).getParser();
+            if (_local_2 == null)
+            {
+                return;
+            }
+            for each (_local_3 in _local_2.userMoves)
+            {
+                this.onWiredUserMove(_local_3);
+            }
+            for each (_local_4 in _local_2.furniMoves)
+            {
+                this.onWiredFurniMove(_local_4);
+            }
+            for each (_local_5 in _local_2.wallItemMoves)
+            {
+                this.onWiredWallItemMove(_local_5);
+            }
+            for each (_local_6 in _local_2.userDirectionUpdates)
+            {
+                this.onUserDirectionUpdate(_local_6);
+            }
+        }
+
+        private function onWiredFurniMove(k:WiredFurniMovementData):void
+        {
+            var _local_2:IVector3d = new Vector3d((((k.rotation % 8)) * 45));
+            this._roomCreator.updateObjectFurnitureLocation(this._currentRoomId, k.furniId,
+                this.roundWiredLocation(k.source), _local_2, this.roundWiredLocation(k.target),
+                k.animationTime, k.overshootingDistance, k.curveStrength);
+        }
+
+        /**
+         * July aligns movement endpoints to whole screen pixels by applying a
+         * tiny Z correction through the active room geometry. Without this,
+         * repeated Wired movements can visibly shimmer between adjacent pixels.
+         */
+        private function roundWiredLocation(k:IVector3d):IVector3d
+        {
+            var engine:IRoomEngine = this._roomCreator as IRoomEngine;
+            if (engine == null)
+            {
+                return k;
+            }
+            var geometry:IRoomGeometry = engine.getRoomCanvasGeometry(this._currentRoomId);
+            if (geometry == null)
+            {
+                return k;
+            }
+            var screen:IVector3d = geometry.getScreenPosition(k);
+            if (screen == null)
+            {
+                return k;
+            }
+            var raised:IVector3d = geometry.getScreenPosition(new Vector3d(k.x, k.y, k.z + 0.01));
+            if (raised == null)
+            {
+                return k;
+            }
+            var zPixelsPerUnit:Number = (screen.y - raised.y) * 100;
+            if (zPixelsPerUnit == 0)
+            {
+                return k;
+            }
+            var pixelFraction:Number = screen.y - Math.round(screen.y);
+            return new Vector3d(k.x, k.y, k.z + pixelFraction / zPixelsPerUnit);
+        }
+
+        private function onWiredUserMove(k:WiredUserMovementData):void
+        {
+            var _local_2:Boolean;
+            var _local_3:IRoomInstance;
+            var _local_4:IRoomObject;
+            if (k.moveType == "sld")
+            {
+                _local_3 = this._roomCreator.getRoom(this._currentRoomId);
+                if (_local_3 != null)
+                {
+                    _local_4 = _local_3.getObject(k.userIndex, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER);
+                    if (_local_4 != null)
+                    {
+                        _local_2 = (_local_4.getModel().getNumber(RoomObjectVariableEnum.FIGURE_CAN_STAND_UP) > 0);
+                    }
+                }
+            }
+            var _local_5:IVector3d = new Vector3d((((k.bodyDirection % 8)) * 45));
+            var _local_6:Number = (((k.headDirection % 8)) * 45);
+            this._roomCreator.updateObjectUser(this._currentRoomId, k.userIndex,
+                this.roundWiredLocation(k.source), this.roundWiredLocation(k.target),
+                _local_2, 0, _local_5, _local_6, k.animationTime, false, k.jumpPower);
+            this.setUserMovePosture(k.userIndex, k.moveType);
+        }
+
+        private function onWiredWallItemMove(k:WiredWallItemMovementData):void
+        {
+            var _local_2:LegacyWallGeometry = this._roomCreator.getLegacyGeometry(this._currentRoomId);
+            if (_local_2 == null)
+            {
+                return;
+            }
+            var _local_3:String = (k.isDirectionRight ? "r" : "l");
+            var _local_4:IVector3d = _local_2.getLocation(k.oldWallX, k.oldWallY, k.oldOffsetX, k.oldOffsetY, _local_3);
+            var _local_5:IVector3d = _local_2.getLocation(k.newWallX, k.newWallY, k.newOffsetX, k.newOffsetY, _local_3);
+            this._roomCreator.updateObjectWallItemLocation(this._currentRoomId, k.itemId,
+                this.roundWiredLocation(_local_4), this.roundWiredLocation(_local_5), k.animationTime);
+        }
+
+        private function onUserDirectionUpdate(k:WiredUserDirectionData):void
+        {
+            var _local_2:IVector3d = new Vector3d((((k.bodyDirection % 8)) * 45));
+            var _local_3:Number = (((k.bodyDirection % 8)) * 45);
+            this._roomCreator.updateObjectUserDir(this._currentRoomId, k.userIndex, _local_2, _local_3);
+        }
+
+        private function setUserMovePosture(k:int, _arg_2:String):void
+        {
+            var _local_4:IRoomObject;
+            var _local_5:String;
+            var _local_6:IRoomObjectModel;
+            var _local_7:String;
+            var _local_3:IRoomInstance = this._roomCreator.getRoom(this._currentRoomId);
+            if (_local_3)
+            {
+                _local_4 = _local_3.getObject(k, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER);
+            }
+            if (((!(_local_4 == null)) && (!(_local_4.getType() == RoomObjectUserTypes.MONSTERPLANT))))
+            {
+                _local_6 = _local_4.getModel();
+                switch (_arg_2)
+                {
+                    case "mv":
+                        _local_5 = "mv";
+                        break;
+                    case "sld":
+                        _local_7 = _local_6.getString(RoomObjectVariableEnum.FIGURE_POSTURE);
+                        _local_5 = ((_local_7 == "mv") ? "std" : _local_7);
+                }
+                this._roomCreator.updateObjectUserPosture(this._currentRoomId, k, _local_5);
+            }
+        }
+
         private function onSlideUpdate(k:IMessageEvent):void
         {
             var _local_2:SlideObjectBundleMessageParser;
@@ -1301,7 +1612,7 @@ package com.sulake.habbo.room
                     _local_5 = _local_3[_local_4];
                     if (_local_5 != null)
                     {
-                        this._roomCreator.updateObjectFurnitureLocation(this._currentRoomId, _local_5.id, _local_5.loc, _local_5.target);
+                        this._roomCreator.updateObjectFurnitureLocation(this._currentRoomId, _local_5.id, _local_5.loc, null, _local_5.target);
                     }
                     _local_4++;
                 }

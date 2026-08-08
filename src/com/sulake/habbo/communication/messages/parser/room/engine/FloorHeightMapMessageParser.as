@@ -3,6 +3,7 @@
     import com.sulake.core.communication.messages.IMessageParser;
     import com.sulake.habbo.room.object.RoomPlaneParser;
     import com.sulake.core.communication.messages.IMessageDataWrapper;
+    import com.sulake.habbo.communication.messages.incoming.room.engine.AreaHideMessageData;
 
     public class FloorHeightMapMessageParser implements IMessageParser 
     {
@@ -12,6 +13,11 @@
         private var _height:int = 0;
         private var _scale:Number = 0;
         private var _fixedWallsHeight:int = -1;
+        private var _areaHideData:Vector.<AreaHideMessageData>;
+        private var _cameraInitX:int;
+        private var _cameraInitY:int;
+        private var _cameraInitZ:Number;
+        private var _hasExtendedData:Boolean;
 
         public function FloorHeightMapMessageParser()
         {
@@ -56,6 +62,11 @@
             this._height = 0;
             this._text = "";
             this._fixedWallsHeight = -1;
+            this._areaHideData = null;
+            this._cameraInitX = 0;
+            this._cameraInitY = 0;
+            this._cameraInitZ = 0;
+            this._hasExtendedData = false;
             return true;
         }
 
@@ -75,6 +86,10 @@
             var _local_6:int;
             var _local_7:Array;
             var _local_8:int = _local_3.length;
+            if (((_local_8 > 0) && (_local_3[(_local_8 - 1)] == "")))
+            {
+                _local_8--;
+            }
             var _local_9:int;
             var _local_10:String;
             _local_5 = 0;
@@ -104,7 +119,7 @@
             this._width = _local_9;
             this._height = _local_8;
             _local_5 = 0;
-            while (_local_5 < _local_3.length)
+            while (_local_5 < _local_8)
             {
                 _local_7 = (this._heightMap[_local_5] as Array);
                 _local_10 = (_local_3[_local_5] as String);
@@ -129,7 +144,47 @@
                 _local_5++;
             }
             this._scale = ((_local_2) ? 32 : 64);
+            if (k.bytesAvailable > 0)
+            {
+                this._hasExtendedData = true;
+                this._areaHideData = new Vector.<AreaHideMessageData>();
+                var _local_12:int = k.readInteger();
+                _local_5 = 0;
+                while (_local_5 < _local_12)
+                {
+                    this._areaHideData.push(new AreaHideMessageData(k));
+                    _local_5++;
+                }
+                this._cameraInitX = k.readInteger();
+                this._cameraInitY = k.readInteger();
+                this._cameraInitZ = k.readFloat();
+            }
             return true;
+        }
+
+        public function get areaHideData():Vector.<AreaHideMessageData>
+        {
+            return this._areaHideData;
+        }
+
+        public function get cameraInitX():int
+        {
+            return this._cameraInitX;
+        }
+
+        public function get cameraInitY():int
+        {
+            return this._cameraInitY;
+        }
+
+        public function get cameraInitZ():Number
+        {
+            return this._cameraInitZ;
+        }
+
+        public function get hasExtendedData():Boolean
+        {
+            return this._hasExtendedData;
         }
 
         public function get text():String

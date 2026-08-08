@@ -1,7 +1,9 @@
-﻿package com.sulake.core.window.components
+package com.sulake.core.window.components
 {
     import com.sulake.core.window.IWindow;
 
-    public interface IIconWindow extends IWindow 
-    {    }
+    public interface IIconWindow extends IWindow
+    {
+        function fitToSize():void;
+    }
 }

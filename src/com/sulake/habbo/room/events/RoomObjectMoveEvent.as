@@ -5,6 +5,7 @@
 
     public class RoomObjectMoveEvent extends RoomObjectEvent 
     {
+        public static const ROME_SLIDE_ANIMATION:String = "ROME_SLIDE_ANIMATION";
         public static const ROME_POSITION_CHANGED:String = "ROME_POSITION_CHANGED";
         public static const ROME_OBJECT_REMOVED:String = "ROME_OBJECT_REMOVED";
 

@@ -22,6 +22,7 @@
         public static const WINDOW_TYPE_BITMAP_WRAPPER:uint = 21;
         public static const WINDOW_TYPE_SHAPE_WRAPPER:uint = 22;
         public static const WINDOW_TYPE_STATIC_BITMAP_WRAPPER:uint = 23;
+        public static const WINDOW_TYPE_GRADIENT:uint = 24;
         public static const WINDOW_TYPE_BORDER:uint = 30;
         public static const WINDOW_TYPE_BORDER_THIN:uint = 31;
         public static const WINDOW_TYPE_BORDER_THICK:uint = 32;

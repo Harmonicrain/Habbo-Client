@@ -12,12 +12,30 @@
 	import com.sulake.habbo.communication.messages.incoming.quest.SeasonalQuestsMessageEvent;
 	import com.sulake.habbo.communication.messages.incoming.quest.QuestsMessageEvent;
 	import com.sulake.habbo.communication.messages.incoming.quest.QuestMessageEvent;
+	import com.sulake.habbo.communication.messages.incoming.rewardtrack.RewardTrackClaimResultMessageEvent;
+	import com.sulake.habbo.communication.messages.incoming.rewardtrack.RewardTrackPremiumResultMessageEvent;
+	import com.sulake.habbo.communication.messages.incoming.rewardtrack.RewardTrackProgressMessageEvent;
+	import com.sulake.habbo.communication.messages.incoming.rewardtrack.RewardTracksMessageEvent;
 	import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.WiredConditionDataEvent;
 	import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.WiredEffectDataEvent;
+	import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.WiredSelectorDataEvent;
 	import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.WiredSavedEvent;
 	import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.WiredTriggerDataEvent;
 	import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.WiredRewardResultMessageEvent;
 	import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.WiredValidationErrorEvent;
+	import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.WiredEnvironmentEvent;
+	import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.WiredClickUserResponseEvent;
+	import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.WiredClickSettingsEvent;
+	import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.WiredCapabilitiesMessageEvent;
+	import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.WiredAddonDataEvent;
+	import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.wiredmenu.*;
+	import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.wiredtrading.chests.*;
+	import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.wiredtrading.contracts.*;
+	import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.wiredtrading.trade.*;
+	import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.wiredtrading.transactions.*;
+	import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.WiredVariableDataEvent;
+	import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.AllVariablesHashMessageEvent;
+	import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.AllVariablesDiffMessageEvent;
 	import com.sulake.habbo.communication.messages.incoming.userdefinedroomevents.OpenEvent;
 	import com.sulake.habbo.communication.messages.incoming.newnavigator.NavigatorSavedSearchesEvent;
 	import com.sulake.habbo.communication.messages.incoming.newnavigator.NavigatorMetaDataEvent;
@@ -41,6 +59,8 @@
 	import com.sulake.habbo.communication.messages.outgoing.quest.OpenQuestTrackerMessageComposer;
 	import com.sulake.habbo.communication.messages.outgoing.quest.StartCampaignMessageComposer;
 	import com.sulake.habbo.communication.messages.outgoing.quest.GetConcurrentUsersGoalProgressMessageComposer;
+	import com.sulake.habbo.communication.messages.outgoing.rewardtrack.ClaimRewardTrackRewardMessageComposer;
+	import com.sulake.habbo.communication.messages.outgoing.rewardtrack.PurchaseRewardTrackPremiumMessageComposer;
 	import com.sulake.habbo.communication.messages.incoming.room.pets.PetRespectFailedEvent;
 	import com.sulake.habbo.communication.messages.incoming.room.pets.PetTrainingPanelEvent;
 	import com.sulake.habbo.communication.messages.incoming.room.pets.PetFigureUpdateEvent;
@@ -50,6 +70,27 @@
 	import com.sulake.habbo.communication.messages.incoming.room.pets.PetInfoMessageEvent;
 	import com.sulake.habbo.communication.messages.incoming.room.pets.PetExperienceEvent;
 	import com.sulake.habbo.communication.messages.incoming.room.pets.PetPlacingErrorEvent;
+	import com.sulake.habbo.communication.messages.incoming.room.publicroom.BusDoorMessageEvent;
+	import com.sulake.habbo.communication.messages.incoming.games.OpenGameBoardMessageEvent;
+	import com.sulake.habbo.communication.messages.incoming.games.OpenGamehallLeaderboardMessageEvent;
+	import com.sulake.habbo.communication.messages.incoming.games.GameBoardUpdateMessageEvent;
+	import com.sulake.habbo.communication.messages.incoming.games.CloseGameBoardMessageEvent;
+	import com.sulake.habbo.communication.messages.incoming.habbicons.HabbiconInfoMessageEvent;
+	import com.sulake.habbo.communication.messages.incoming.habbicons.HabbiconInstantMessageEvent;
+	import com.sulake.habbo.communication.messages.incoming.habbicons.HabbiconMessengerHistoryMessageEvent;
+	import com.sulake.habbo.communication.messages.incoming.habbicons.HabbiconShopDataMessageEvent;
+	import com.sulake.habbo.communication.messages.incoming.habbicons.HabbiconStatusChangedMessageEvent;
+	import com.sulake.habbo.communication.messages.incoming.habbicons.OwnedHabbiconsMessageEvent;
+	import com.sulake.habbo.communication.messages.incoming.habbicons.RoomUserHabbiconMessageEvent;
+	import com.sulake.habbo.communication.messages.outgoing.habbicons.BuyHabbiconCollectionMessageComposer;
+	import com.sulake.habbo.communication.messages.outgoing.habbicons.BuyHabbiconMessageComposer;
+	import com.sulake.habbo.communication.messages.outgoing.habbicons.ClaimHabbiconRewardMessageComposer;
+	import com.sulake.habbo.communication.messages.outgoing.habbicons.FavouriteHabbiconMessageComposer;
+	import com.sulake.habbo.communication.messages.outgoing.habbicons.RequestHabbiconInfoMessageComposer;
+	import com.sulake.habbo.communication.messages.outgoing.habbicons.RequestHabbiconShopDataMessageComposer;
+	import com.sulake.habbo.communication.messages.outgoing.habbicons.SendHabbiconInstantMessageComposer;
+	import com.sulake.habbo.communication.messages.outgoing.habbicons.UnfavouriteHabbiconMessageComposer;
+	import com.sulake.habbo.communication.messages.outgoing.habbicons.UseHabbiconInRoomMessageComposer;
 	import com.sulake.habbo.communication.messages.outgoing.tracking.EventLogMessageComposer;
 	import com.sulake.habbo.communication.messages.outgoing.tracking.LatencyPingReportMessageComposer;
 	import com.sulake.habbo.communication.messages.outgoing.tracking.LagWarningReportMessageComposer;
@@ -277,7 +318,19 @@
 	import com.sulake.habbo.communication.messages.outgoing.userdefinedroomevents.ApplySnapshotMessageComposer;
 	import com.sulake.habbo.communication.messages.outgoing.userdefinedroomevents.UpdateConditionMessageComposer;
 	import com.sulake.habbo.communication.messages.outgoing.userdefinedroomevents.UpdateActionMessageComposer;
+	import com.sulake.habbo.communication.messages.outgoing.userdefinedroomevents.UpdateSelectorMessageComposer;
 	import com.sulake.habbo.communication.messages.outgoing.userdefinedroomevents.UpdateTriggerMessageComposer;
+	import com.sulake.habbo.communication.messages.outgoing.userdefinedroomevents.WiredClickUserMessageComposer;
+	import com.sulake.habbo.communication.messages.outgoing.userdefinedroomevents.RequestWiredCapabilitiesMessageComposer;
+	import com.sulake.habbo.communication.messages.outgoing.userdefinedroomevents.UpdateAddonMessageComposer;
+	import com.sulake.habbo.communication.messages.outgoing.userdefinedroomevents.UpdateVariableMessageComposer;
+	import com.sulake.habbo.communication.messages.outgoing.userdefinedroomevents.RequestAllVariablesHashMessageComposer;
+	import com.sulake.habbo.communication.messages.outgoing.userdefinedroomevents.RequestVariablesDiffMessageComposer;
+	import com.sulake.habbo.communication.messages.outgoing.userdefinedroomevents.wiredmenu.*;
+	import com.sulake.habbo.communication.messages.outgoing.userdefinedroomevents.wiredtrading.chests.*;
+	import com.sulake.habbo.communication.messages.outgoing.userdefinedroomevents.wiredtrading.contracts.*;
+	import com.sulake.habbo.communication.messages.outgoing.userdefinedroomevents.wiredtrading.trade.*;
+	import com.sulake.habbo.communication.messages.outgoing.userdefinedroomevents.wiredtrading.transactions.*;
 	import com.sulake.habbo.communication.messages.incoming.room.bots.BotSkillListUpdateEvent;
 	import com.sulake.habbo.communication.messages.incoming.room.bots.BotForceOpenContextMenuEvent;
 	import com.sulake.habbo.communication.messages.incoming.room.bots.BotCommandConfigurationEvent;
@@ -442,6 +495,8 @@
 	import com.sulake.habbo.communication.messages.incoming.room.engine.HeightMapEvent;
 	import com.sulake.habbo.communication.messages.incoming.room.engine.ItemDataUpdateMessageEvent;
 	import com.sulake.habbo.communication.messages.incoming.room.engine.SlideObjectBundleMessageEvent;
+	import com.sulake.habbo.communication.messages.incoming.room.engine.WiredMovementsMessageEvent;
+	import com.sulake.habbo.communication.messages.incoming.room.engine.ConfigurationItemStatesMessageEvent;
 	import com.sulake.habbo.communication.messages.incoming.room.engine.ItemUpdateMessageEvent;
 	import com.sulake.habbo.communication.messages.incoming.room.engine.ObjectUpdateMessageEvent;
 	import com.sulake.habbo.communication.messages.incoming.room.engine.ItemAddMessageEvent;
@@ -623,6 +678,7 @@
 	import com.sulake.habbo.communication.messages.outgoing.room.engine.TogglePetBreedingPermissionMessageComposer;
 	import com.sulake.habbo.communication.messages.outgoing.room.engine.UseWallItemMessageComposer;
 	import com.sulake.habbo.communication.messages.outgoing.room.engine.UseFurnitureMessageComposer;
+	import com.sulake.habbo.communication.messages.outgoing.room.engine.ClickFurniMessageComposer;
 	import com.sulake.habbo.communication.messages.outgoing.room.engine.SetObjectDataMessageComposer;
 	import com.sulake.habbo.communication.messages.outgoing.room.engine.RemoveBotFromFlatMessageComposer;
 	import com.sulake.habbo.communication.messages.outgoing.room.engine.PlaceObjectMessageComposer;
@@ -868,6 +924,10 @@
 	import com.sulake.habbo.communication.messages.outgoing.room.action.UnbanUserFromRoomMessageComposer;
 	import com.sulake.habbo.communication.messages.outgoing.room.action.BanUserWithDurationMessageComposer;
 	import com.sulake.habbo.communication.messages.outgoing.room.action.MuteAllInRoomComposer;
+	import com.sulake.habbo.communication.messages.outgoing.room.publicroom.TryBusMessageComposer;
+	import com.sulake.habbo.communication.messages.outgoing.games.GameBoardMoveMessageComposer;
+	import com.sulake.habbo.communication.messages.outgoing.games.RequestGamehallLeaderboardMessageComposer;
+	import com.sulake.habbo.communication.messages.outgoing.room.publicroom.ChangeRoomMessageComposer;
 	import com.sulake.habbo.communication.messages.outgoing.room.action.RemoveAllRightsMessageComposer;
 	import com.sulake.habbo.communication.messages.outgoing.room.action.AssignRightsMessageComposer;
 	import com.sulake.habbo.communication.messages.outgoing.room.action.RoomUserKickMessageComposer;
@@ -1010,11 +1070,52 @@
             INCOMING_PACKETS[1073] = GuildForumThreadsEvent;
             INCOMING_PACKETS[1087] = UserBadgesEvent;
             INCOMING_PACKETS[1108] = WiredConditionDataEvent;
+            INCOMING_PACKETS[7100] = WiredSelectorDataEvent;
+            INCOMING_PACKETS[7101] = WiredAddonDataEvent;
+            INCOMING_PACKETS[7102] = WiredVariableDataEvent;
+            INCOMING_PACKETS[7103] = WiredEnvironmentEvent;
+            INCOMING_PACKETS[7104] = WiredClickUserResponseEvent;
+			INCOMING_PACKETS[7105] = WiredClickSettingsEvent;
+			INCOMING_PACKETS[7106] = AllVariablesHashMessageEvent;
+			INCOMING_PACKETS[7107] = AllVariablesDiffMessageEvent;
+            INCOMING_PACKETS[7115] = WiredMovementsMessageEvent;
+            INCOMING_PACKETS[7108] = WiredMenuPermissionsEvent;
+            INCOMING_PACKETS[7109] = WiredMenuRoomSettingsEvent;
+            INCOMING_PACKETS[7110] = WiredMenuVariableHoldersEvent;
+            INCOMING_PACKETS[7111] = WiredMenuInspectionEvent;
+            INCOMING_PACKETS[7112] = WiredMenuErrorEvent;
+            INCOMING_PACKETS[7113] = WiredMenuErrorsEvent;
+            INCOMING_PACKETS[7114] = WiredMenuRoomStatsEvent;
+            INCOMING_PACKETS[7118] = WiredMenuMutationResultEvent;
+            INCOMING_PACKETS[7116] = WiredMenuUserVariablesPageEvent;
+            INCOMING_PACKETS[7117] = WiredMenuPermanentVariablesEvent;
+            INCOMING_PACKETS[7119] = WiredMenuLogsPageEvent;
+            INCOMING_PACKETS[2942] = ConfigurationItemStatesMessageEvent;
+            INCOMING_PACKETS[7199] = WiredCapabilitiesMessageEvent;
+            INCOMING_PACKETS[7120] = ChestOpenInstructionMessageEvent;
+            INCOMING_PACKETS[7121] = ChestFurniContentsMessageEvent;
+            INCOMING_PACKETS[7122] = ChestFurniContentsUpdateMessageEvent;
+            INCOMING_PACKETS[7123] = ChestCoinBalanceMessageEvent;
+            INCOMING_PACKETS[7124] = ChestSettingsResultMessageEvent;
+            INCOMING_PACKETS[7125] = ChestUpgradeResultMessageEvent;
+            INCOMING_PACKETS[7126] = WiredTradeCancelledMessageEvent; // July 1481
+            INCOMING_PACKETS[7127] = WiredTradeCompletedMessageEvent; // July 2137
+            INCOMING_PACKETS[7128] = WiredTradeItemUpdateMessageEvent; // July 2488
+            INCOMING_PACKETS[7129] = WiredTradeInitiateMessageEvent; // July 3650
+            INCOMING_PACKETS[7130] = ChestContractOpenMessageEvent;
+            INCOMING_PACKETS[7131] = ChestContractContentsMessageEvent;
+            INCOMING_PACKETS[7132] = ChestContractUpdateResultMessageEvent;
+            INCOMING_PACKETS[7133] = WiredTransactionSuccessMessageEvent; // July 2677
+            INCOMING_PACKETS[7134] = WiredTransactionLogsMessageEvent; // July 2910
+            INCOMING_PACKETS[7135] = WiredTransactionDetailsMessageEvent; // July 1306
+            INCOMING_PACKETS[7200] = PurchasableChatStylesMessageEvent;
+            INCOMING_PACKETS[7202] = PurchasableChatStyleChangedMessageEvent;
             INCOMING_PACKETS[1111] = PetReceivedMessageEvent;
             INCOMING_PACKETS[1112] = YoutubeDisplayPlaylistsEvent;
             INCOMING_PACKETS[1121] = CallForHelpPendingCallsMessageEvent;
             INCOMING_PACKETS[1122] = SeasonalQuestsMessageEvent;
             INCOMING_PACKETS[1130] = PetRespectFailedEvent;
+            INCOMING_PACKETS[1131] = AreaHideMessageEvent;
             INCOMING_PACKETS[1140] = PlayListSongAddedMessageEvent;
             INCOMING_PACKETS[1155] = WiredSavedEvent;
             INCOMING_PACKETS[1164] = PetTrainingPanelEvent;
@@ -1140,12 +1241,28 @@
             INCOMING_PACKETS[2009] = ItemUpdateMessageEvent;
             INCOMING_PACKETS[2012] = PopularRoomTagsResultEvent;
             INCOMING_PACKETS[2016] = RelationshipStatusInfoEvent;
+            INCOMING_PACKETS[2017] = RewardTrackProgressMessageEvent;
             INCOMING_PACKETS[2018] = ActivityPointsMessageEvent;
             INCOMING_PACKETS[2023] = InClientLinkMessageEvent;
             INCOMING_PACKETS[2024] = TradingItemListEvent;
             INCOMING_PACKETS[2030] = ModeratorMessageEvent;
             INCOMING_PACKETS[2031] = RoomReadyMessageEvent;
             INCOMING_PACKETS[5202] = PublicRoomObjectsMessageEvent;
+            INCOMING_PACKETS[5203] = BusDoorMessageEvent;
+            INCOMING_PACKETS[5220] = OpenGameBoardMessageEvent;
+            INCOMING_PACKETS[5221] = GameBoardUpdateMessageEvent;
+            INCOMING_PACKETS[5222] = CloseGameBoardMessageEvent;
+            INCOMING_PACKETS[5224] = OpenGamehallLeaderboardMessageEvent;
+            INCOMING_PACKETS[7400] = OwnedHabbiconsMessageEvent;
+            INCOMING_PACKETS[7401] = HabbiconStatusChangedMessageEvent;
+            INCOMING_PACKETS[7402] = HabbiconShopDataMessageEvent;
+            INCOMING_PACKETS[7403] = HabbiconInfoMessageEvent;
+            INCOMING_PACKETS[7404] = RoomUserHabbiconMessageEvent;
+            INCOMING_PACKETS[7405] = HabbiconInstantMessageEvent;
+            INCOMING_PACKETS[7406] = HabbiconMessengerHistoryMessageEvent;
+            INCOMING_PACKETS[522] = RewardTrackClaimResultMessageEvent;
+            INCOMING_PACKETS[58] = RewardTrackPremiumResultMessageEvent;
+            INCOMING_PACKETS[3794] = RewardTracksMessageEvent;
             INCOMING_PACKETS[2032] = MarketplaceBuyOfferResultEvent;
             INCOMING_PACKETS[2033] = AvailabilityStatusMessageEvent;
             INCOMING_PACKETS[2035] = MOTDNotificationEvent;
@@ -1525,6 +1642,19 @@
             OUTGOING_PACKETS[1030] = SetChatStylePreferenceComposer;
             OUTGOING_PACKETS[1036] = MountPetMessageComposer;
             OUTGOING_PACKETS[105] = QuitMessageComposer;
+            OUTGOING_PACKETS[5205] = TryBusMessageComposer;
+            OUTGOING_PACKETS[5206] = ChangeRoomMessageComposer;
+            OUTGOING_PACKETS[5223] = GameBoardMoveMessageComposer;
+            OUTGOING_PACKETS[5225] = RequestGamehallLeaderboardMessageComposer;
+            OUTGOING_PACKETS[7300] = RequestHabbiconShopDataMessageComposer;
+            OUTGOING_PACKETS[7301] = RequestHabbiconInfoMessageComposer;
+            OUTGOING_PACKETS[7302] = BuyHabbiconCollectionMessageComposer;
+            OUTGOING_PACKETS[7303] = BuyHabbiconMessageComposer;
+            OUTGOING_PACKETS[7304] = ClaimHabbiconRewardMessageComposer;
+            OUTGOING_PACKETS[7305] = FavouriteHabbiconMessageComposer;
+            OUTGOING_PACKETS[7306] = UnfavouriteHabbiconMessageComposer;
+            OUTGOING_PACKETS[7307] = UseHabbiconInRoomMessageComposer;
+            OUTGOING_PACKETS[7308] = SendHabbiconInstantMessageComposer;
             OUTGOING_PACKETS[1051] = BuildersClubPlaceRoomItemMessageComposer;
             OUTGOING_PACKETS[1052] = GuideSessionGetRequesterRoomMessageComposer;
             OUTGOING_PACKETS[1053] = VersionCheckMessageComposer;
@@ -1541,6 +1671,8 @@
             OUTGOING_PACKETS[1134] = DeactivateGuildMessageComposer;
             OUTGOING_PACKETS[1145] = GetCommunityGoalProgressMessageComposer;
             OUTGOING_PACKETS[1148] = FriendRequestQuestCompleteMessageComposer;
+            OUTGOING_PACKETS[1376] = ClaimRewardTrackRewardMessageComposer;
+            OUTGOING_PACKETS[1789] = PurchaseRewardTrackPremiumMessageComposer;
             OUTGOING_PACKETS[1160] = PeerUsersClassificationMessageComposer;
             OUTGOING_PACKETS[1173] = GetCraftingRecipeComposer;
             OUTGOING_PACKETS[1190] = GetSeasonalQuestsOnlyMessageComposer;
@@ -1832,6 +1964,46 @@
             OUTGOING_PACKETS[3196] = Game2PlayAgainMessageComposer;
             OUTGOING_PACKETS[3202] = RespectPetMessageComposer;
             OUTGOING_PACKETS[3203] = UpdateConditionMessageComposer;
+            OUTGOING_PACKETS[7000] = UpdateSelectorMessageComposer;
+            OUTGOING_PACKETS[7001] = UpdateAddonMessageComposer;
+            OUTGOING_PACKETS[7002] = UpdateVariableMessageComposer;
+            OUTGOING_PACKETS[7004] = WiredClickUserMessageComposer;
+			OUTGOING_PACKETS[7005] = RequestAllVariablesHashMessageComposer;
+			OUTGOING_PACKETS[7006] = RequestVariablesDiffMessageComposer;
+            OUTGOING_PACKETS[7007] = RequestVariableHoldersComposer;
+            OUTGOING_PACKETS[7008] = ClearWiredErrorsComposer;
+            OUTGOING_PACKETS[7009] = UpdateWiredPreferencesComposer;
+            OUTGOING_PACKETS[7010] = RequestWiredRoomStatsComposer;
+            OUTGOING_PACKETS[7011] = UpdateWiredRoomSettingsComposer;
+            OUTGOING_PACKETS[7012] = InspectWiredObjectComposer;
+            OUTGOING_PACKETS[7013] = RequestWiredErrorsComposer;
+            OUTGOING_PACKETS[7014] = ReloadOrRollbackWiredRoomComposer;
+            OUTGOING_PACKETS[7015] = RequestWiredRoomSettingsComposer;
+            OUTGOING_PACKETS[7016] = ModifyInspectedVariableComposer;
+            OUTGOING_PACKETS[7017] = RequestWiredLogsComposer;
+            OUTGOING_PACKETS[7018] = RequestWiredUserVariablesComposer;
+            OUTGOING_PACKETS[7019] = MutatePermanentVariableComposer;
+            OUTGOING_PACKETS[7020] = RequestPermanentVariablesComposer;
+            OUTGOING_PACKETS[7021] = OpenChestMessageComposer;
+            OUTGOING_PACKETS[7022] = SetChestRoomLocksMessageComposer;
+            OUTGOING_PACKETS[7023] = SaveChestSettingsMessageComposer;
+            OUTGOING_PACKETS[7024] = UpgradeChestMessageComposer;
+            OUTGOING_PACKETS[7025] = SaveChestNotificationsMessageComposer;
+            OUTGOING_PACKETS[7026] = SaveChestSafetyMessageComposer;
+            OUTGOING_PACKETS[7027] = WithdrawChestFurniMessageComposer;
+            OUTGOING_PACKETS[7028] = WithdrawAllChestFurniMessageComposer;
+            OUTGOING_PACKETS[7029] = WithdrawChestCoinsMessageComposer;
+            OUTGOING_PACKETS[7030] = CloseChestMessageComposer;
+            OUTGOING_PACKETS[7031] = StartChestDepositMessageComposer;
+            OUTGOING_PACKETS[7032] = WiredTradeCancelMessageComposer; // July 2646
+            OUTGOING_PACKETS[7033] = WiredTradeAcceptMessageComposer; // July 2818
+            OUTGOING_PACKETS[7034] = WiredTradeItemsMessageComposer; // July 3111
+            OUTGOING_PACKETS[7035] = RequestChestContractContentsMessageComposer;
+            OUTGOING_PACKETS[7036] = SaveChestContractMessageComposer;
+            OUTGOING_PACKETS[7037] = RequestChestTransactionLogsMessageComposer; // July 1999
+            OUTGOING_PACKETS[7038] = RequestRoomTransactionLogsMessageComposer; // July 2016
+            OUTGOING_PACKETS[7039] = RequestTransactionDetailsMessageComposer; // July 475
+            OUTGOING_PACKETS[7099] = RequestWiredCapabilitiesMessageComposer;
             OUTGOING_PACKETS[3207] = GameUnloadedMessageComposer;
             OUTGOING_PACKETS[3226] = RenderRoomMessageComposer;
             OUTGOING_PACKETS[3230] = PerformanceLogMessageComposer;
@@ -1852,6 +2024,7 @@
             OUTGOING_PACKETS[3333] = GetQuestsMessageComposer;
             OUTGOING_PACKETS[3336] = RemoveItemMessageComposer;
             OUTGOING_PACKETS[3338] = GuideSessionCreateMessageComposer;
+            OUTGOING_PACKETS[3353] = ToggleAreaHideMessageComposer;
             OUTGOING_PACKETS[336] = GetYoutubeDisplayStatusMessageComposer;
             OUTGOING_PACKETS[3362] = _Str_18174;
             OUTGOING_PACKETS[3365] = ChatReviewGuideDecidesOnOfferMessageComposer;
@@ -1987,6 +2160,9 @@
             OUTGOING_PACKETS[957] = GetBonusRareInfoMessageComposer;
             OUTGOING_PACKETS[96] = LatencyPingReportMessageComposer;
             OUTGOING_PACKETS[99] = UseFurnitureMessageComposer;
+            OUTGOING_PACKETS[443] = ClickFurniMessageComposer;
+            // July uses 1954, which is already NavigatorDeleteSavedSearchComposer in this protocol.
+            OUTGOING_PACKETS[7309] = SaveAreaHideMessageComposer;
             OUTGOING_PACKETS[992] = UnbanUserFromRoomMessageComposer;
             OUTGOING_PACKETS[998] = JoinHabboGroupMessageComposer;
 			

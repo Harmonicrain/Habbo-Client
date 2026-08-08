@@ -322,7 +322,7 @@
             <button x="0" y="0" width="132" height="25" params="131089" style="1" name="move" caption="%24%7Binfostand.button.move%7D"/>
             <button x="142" y="0" width="139" height="25" params="131089" style="1" name="rotate" caption="%24%7Binfostand.button.rotate%7D"/>
             <button x="291" y="0" width="137" height="25" params="131089" style="1" name="pickup" caption="%24%7Binfostand.button.pickup%7D"/>
-            <button x="438" y="0" width="173" height="25" params="131089" style="1" name="save_branding_configuration" caption="%24%7Binfostand.button.savebranding%7D"/>
+            <button x="438" y="0" width="70" height="25" params="131089" style="1" name="save_branding_configuration" caption="Save"/>
             <button x="621" y="0" width="125" height="25" params="131089" style="1" name="use" caption="%24%7Binfostand.button.use%7D"/>
           </children>
           <variables>

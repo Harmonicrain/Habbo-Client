@@ -10,16 +10,53 @@
     import com.sulake.core.window.events.WindowTouchEvent;
     import com.sulake.core.window.events.WindowMouseEvent;
     import com.sulake.core.window.WindowController;
+    import com.sulake.core.window.theme.PropertyKeys;
+    import com.sulake.core.window.utils.PropertyStruct;
+    import com.sulake.core.window.utils.TextStyleManager;
 
     public class ButtonController extends InteractiveController implements IButtonWindow, ITouchAwareWindow 
     {
         protected static const _BTN_TEXT:String = "_BTN_TEXT";
         protected static const _Str_5734:Number = 0.5;
+        private var _buttonTextStyleName:String;
+        private var _buttonTextColor:Object = null;
 
         public function ButtonController(k:String, _arg_2:uint, _arg_3:uint, _arg_4:uint, _arg_5:WindowContext, _arg_6:Rectangle, _arg_7:IWindow, _arg_8:Function, _arg_9:Array=null, _arg_10:Array=null, _arg_11:uint=0)
         {
             _arg_4 = (_arg_4 | WindowParam.WINDOW_PARAM_EXPAND_TO_ACCOMMODATE_CHILDREN);
             super(k, _arg_2, _arg_3, _arg_4, _arg_5, _arg_6, _arg_7, _arg_8, _arg_9, _arg_10, _arg_11);
+        }
+
+        override public function addChild(k:IWindow):IWindow
+        {
+            var child:IWindow = super.addChild(k);
+            if (child != null && child.name == _BTN_TEXT)
+            {
+                this.applyButtonTextProperties();
+            }
+            return child;
+        }
+
+        override public function set properties(k:Array):void
+        {
+            var property:PropertyStruct;
+            if (k != null)
+            {
+                for each (property in k)
+                {
+                    switch (property.key)
+                    {
+                        case PropertyKeys.TEXT_STYLE:
+                            this._buttonTextStyleName = property.value as String;
+                            break;
+                        case PropertyKeys.TEXT_COLOR:
+                            this._buttonTextColor = property.value;
+                            break;
+                    }
+                }
+            }
+            super.properties = k;
+            this.applyButtonTextProperties();
         }
 
         override public function set caption(k:String):void
@@ -99,6 +136,23 @@
                 }
             }
             return super.update(k, _arg_2);
+        }
+
+        private function applyButtonTextProperties():void
+        {
+            var label:ILabelWindow = getChildByName(_BTN_TEXT) as ILabelWindow;
+            if (label == null)
+            {
+                return;
+            }
+            if (this._buttonTextStyleName != null && this._buttonTextStyleName != "")
+            {
+                label.textStyle = TextStyleManager.getStyle(this._buttonTextStyleName);
+            }
+            if (this._buttonTextColor != null)
+            {
+                label.textColor = uint(this._buttonTextColor);
+            }
         }
     }
 }

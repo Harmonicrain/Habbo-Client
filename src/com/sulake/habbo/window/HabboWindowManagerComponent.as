@@ -12,6 +12,7 @@
     import com.sulake.core.window.IWindowContext;
     import com.sulake.core.window.graphics.IWindowRenderer;
     import com.sulake.core.window.graphics.SkinContainer;
+    import com.sulake.core.window.graphics.renderer.ISkinRenderer;
     import com.sulake.core.window.tools.ProfilerOutput;
     import com.sulake.core.utils.profiler.ProfilerAgentTask;
     import com.sulake.habbo.window.theme.ThemeManager;
@@ -332,6 +333,11 @@
         public function _Str_20294(k:uint, _arg_2:uint):DefaultAttStruct
         {
             return this._skinContainer._Str_21732(k, _arg_2);
+        }
+
+        public function getRendererByTypeAndStyle(k:uint, _arg_2:uint):ISkinRenderer
+        {
+            return (this._skinContainer != null) ? this._skinContainer._Str_18054(k, _arg_2) : null;
         }
 
         public function createWindow(k:String, _arg_2:String="", _arg_3:uint=0, _arg_4:uint=0, _arg_5:uint=0, _arg_6:Rectangle=null, _arg_7:Function=null, _arg_8:uint=0, _arg_9:uint=1, _arg_10:String=""):IWindow

@@ -557,6 +557,14 @@
             else
             {
                 _local_5 = GameConfigurations.getId(this.defaultGameName);
+                if (_local_5 == -1)
+                {
+                    var _local_6:Array = GameConfigurations.gameIds();
+                    if (((_local_6) && (_local_6.length > 0)))
+                    {
+                        _local_5 = _local_6[0];
+                    }
+                }
                 this.showGameCenter(k, _local_5);
             }
         }
@@ -641,7 +649,7 @@
             this._Str_21150 = _arg_4;
             this._Str_20873 = _arg_5;
             this._Str_19202 = _arg_6;
-            if (Capabilities.playerType == "StandAlone")
+            if (((Capabilities.playerType == "StandAlone") || (HabboWebTools.isAirDesktop)))
             {
                 _local_12 = new LoaderContext(false, new ApplicationDomain());
             }

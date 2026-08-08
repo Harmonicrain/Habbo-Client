@@ -8,7 +8,10 @@
     public class DynamicStyle 
     {
         public static const STYLE_LIFTED_HOVER:String = "lifted_hover";
+        public static const BUTTON:String = "button";
         public static const BRIGHTNESS_AND_SHADOW_UNDER:String = "brightness_and_shadow_under";
+        public static const BRIGHTNESS_AND_SHADOW_UNDER_GENTLE:String = "brightness_and_shadow_under_gentle";
+        public static const REWARD_TRACK_ITEM:String = "reward_track_item";
 
         public var name:String;
         public var hoverStyles:Object;

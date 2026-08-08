@@ -1,0 +1,446 @@
+<?xml version="1.0" encoding="UTF-8"?><layout name="inventory_trading_wired" width="478" height="274" version="0.1" uid="E8D9F565-8A48-3A05-AF97-6955B270BD1C">
+  <window>
+    <container x="0" y="0" width="478" height="274" params="16" style="0">
+      <children>
+        <border x="0" y="0" width="478" height="233" params="17" style="102" name="trade_container" color="0x027556a">
+          <children>
+            <text x="38" y="7" width="401" height="17" params="16400" style="3" name="info_text" caption="Some%20info%20here" blend="0.6" tags="HELP_TEXT" width_max="461">
+              <variables>
+                <var key="auto_size" value="center" type="String"/>
+                <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                <var key="spacing" value="0" type="Number"/>
+                <var key="leading" value="0" type="Number"/>
+              </variables>
+            </text>
+            <container x="17" y="29" width="200" height="200" params="16" style="3" name="offers_0">
+              <children>
+                <itemlist_horizontal x="52" y="2" width="95" height="16" params="934033" style="0" name="text_list_0" width_min="10" width_max="200">
+                  <children>
+                    <text x="0" y="0" width="95" height="17" params="16" style="3" name="plain_text" caption="%24%7Binventory.wired_trading.offering%7D">
+                      <variables>
+                        <var key="auto_size" value="left" type="String"/>
+                        <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                        <var key="spacing" value="0" type="Number"/>
+                        <var key="leading" value="0" type="Number"/>
+                      </variables>
+                    </text>
+                  </children>
+                  <variables>
+                  </variables>
+                </itemlist_horizontal>
+                <container x="32" y="22" width="136" height="136" params="16" style="102" name="item_grid_border_0" color="0x027556a" tags="OWN_USER_BORDER">
+                  <children>
+                    <itemgrid_vertical x="4" y="4" width="132" height="132" params="17" style="0" name="item_grid_0" tags="OWN_USER_GRID">
+                      <children>
+                        <border x="0" y="0" width="40" height="40" params="16" style="102" color="0x0cccccc" tags="OWN_USER_ITEM" width_min="40" width_max="40" height_min="40" height_max="40"/>
+                        <border x="0" y="0" width="40" height="40" params="16" style="102" id="1" color="0x0cccccc" tags="OWN_USER_ITEM" width_min="40" width_max="40" height_min="40" height_max="40"/>
+                        <border x="0" y="0" width="40" height="40" params="16" style="102" id="2" color="0x0cccccc" tags="OWN_USER_ITEM" width_min="40" width_max="40" height_min="40" height_max="40"/>
+                        <border x="0" y="44" width="40" height="40" params="16" style="102" id="3" color="0x0cccccc" tags="OWN_USER_ITEM" width_min="40" width_max="40" height_min="40" height_max="40"/>
+                        <border x="0" y="44" width="40" height="40" params="16" style="102" id="4" color="0x0cccccc" tags="OWN_USER_ITEM" width_min="40" width_max="40" height_min="40" height_max="40"/>
+                        <border x="0" y="44" width="40" height="40" params="16" style="102" id="5" color="0x0cccccc" tags="OWN_USER_ITEM" width_min="40" width_max="40" height_min="40" height_max="40"/>
+                        <border x="0" y="88" width="40" height="40" params="16" style="102" id="6" color="0x0cccccc" tags="OWN_USER_ITEM" width_min="40" width_max="40" height_min="40" height_max="40"/>
+                        <border x="0" y="88" width="40" height="40" params="16" style="102" id="7" color="0x0cccccc" tags="OWN_USER_ITEM" width_min="40" width_max="40" height_min="40" height_max="40"/>
+                        <border x="0" y="88" width="40" height="40" params="16" style="102" id="8" color="0x0cccccc" tags="OWN_USER_ITEM" width_min="40" width_max="40" height_min="40" height_max="40"/>
+                      </children>
+                      <variables>
+                        <var key="spacing" value="4" type="int"/>
+                        <var key="scale_to_fit_items" value="true" type="Boolean"/>
+                      </variables>
+                    </itemgrid_vertical>
+                  </children>
+                </container>
+                <text x="34" y="23" width="132" height="132" params="16" style="100" name="info_text_0" caption="%24%7Binventory.trading.warning.own_account_disabled%7D" visible="false" tags="OTHER_USER_MESSAGE">
+                  <variables>
+                    <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                    <var key="multiline" value="true" type="Boolean"/>
+                    <var key="word_wrap" value="true" type="Boolean"/>
+                    <var key="spacing" value="0" type="Number"/>
+                    <var key="leading" value="0" type="Number"/>
+                  </variables>
+                </text>
+                <text x="0" y="162" width="200" height="4" params="16" style="3" name="content_text_1_a" blend="0.6">
+                  <variables>
+                    <var key="auto_size" value="center" type="String"/>
+                    <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                    <var key="spacing" value="0" type="Number"/>
+                    <var key="leading" value="0" type="Number"/>
+                  </variables>
+                </text>
+                <text x="0" y="180" width="200" height="4" params="16" style="3" name="content_text_1_b" blend="0.6">
+                  <variables>
+                    <var key="auto_size" value="center" type="String"/>
+                    <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                    <var key="spacing" value="0" type="Number"/>
+                    <var key="leading" value="0" type="Number"/>
+                  </variables>
+                </text>
+              </children>
+            </container>
+            <static_bitmap x="223" y="192" width="32" height="34" params="16" style="0" name="lock_0" tags="OWN_USER_LOCK">
+              <variables>
+                <var key="asset_uri" value="inventory_trading_trading_unlocked_icon" type="String"/>
+                <var key="pivot_point" value="center" type="String"/>
+                <var key="stretched_x" value="false" type="Boolean"/>
+                <var key="stretched_y" value="false" type="Boolean"/>
+              </variables>
+            </static_bitmap>
+            <container x="263" y="29" width="200" height="200" params="16" style="3" name="offers_1">
+              <children>
+                <itemlist_horizontal x="54" y="2" width="90" height="16" params="934033" style="0" name="text_list_1" width_min="10" width_max="200">
+                  <children>
+                    <text x="0" y="0" width="90" height="17" params="16" style="3" name="plain_text" caption="%24%7Binventory.wired_trading.receiving%7D">
+                      <variables>
+                        <var key="auto_size" value="left" type="String"/>
+                        <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                        <var key="spacing" value="0" type="Number"/>
+                        <var key="leading" value="0" type="Number"/>
+                      </variables>
+                    </text>
+                  </children>
+                  <variables>
+                  </variables>
+                </itemlist_horizontal>
+                <container x="32" y="22" width="180" height="136" params="16" style="100" name="item_grid_border_1" color="0x027556a" tags="OTHER_USER_BORDER">
+                  <children>
+                    <itemgrid_vertical x="4" y="4" width="132" height="132" params="17" style="0" name="item_grid_1" tags="OTHER_USER_GRID">
+                      <children>
+                        <border x="0" y="0" width="40" height="40" params="16" style="102" color="0x0cccccc" tags="OTHER_USER_ITEM" width_min="40" width_max="40" height_min="40" height_max="40"/>
+                        <border x="0" y="0" width="40" height="40" params="16" style="102" id="1" color="0x0cccccc" tags="OTHER_USER_ITEM" width_min="40" width_max="40" height_min="40" height_max="40"/>
+                        <border x="0" y="0" width="40" height="40" params="16" style="102" id="2" color="0x0cccccc" tags="OTHER_USER_ITEM" width_min="40" width_max="40" height_min="40" height_max="40"/>
+                        <border x="0" y="44" width="40" height="40" params="16" style="102" id="3" color="0x0cccccc" tags="OTHER_USER_ITEM" width_min="40" width_max="40" height_min="40" height_max="40"/>
+                        <border x="0" y="44" width="40" height="40" params="16" style="102" id="4" color="0x0cccccc" tags="OTHER_USER_ITEM" width_min="40" width_max="40" height_min="40" height_max="40"/>
+                        <border x="0" y="44" width="40" height="40" params="16" style="102" id="5" color="0x0cccccc" tags="OTHER_USER_ITEM" width_min="40" width_max="40" height_min="40" height_max="40"/>
+                        <border x="0" y="88" width="40" height="40" params="16" style="102" id="6" color="0x0cccccc" tags="OTHER_USER_ITEM" width_min="40" width_max="40" height_min="40" height_max="40"/>
+                        <border x="0" y="88" width="40" height="40" params="16" style="102" id="7" color="0x0cccccc" tags="OTHER_USER_ITEM" width_min="40" width_max="40" height_min="40" height_max="40"/>
+                        <border x="0" y="88" width="40" height="40" params="16" style="102" id="8" color="0x0cccccc" tags="OTHER_USER_ITEM" width_min="40" width_max="40" height_min="40" height_max="40"/>
+                      </children>
+                      <variables>
+                        <var key="spacing" value="4" type="int"/>
+                        <var key="scale_to_fit_items" value="true" type="Boolean"/>
+                      </variables>
+                    </itemgrid_vertical>
+                  </children>
+                </container>
+                <text x="34" y="23" width="132" height="132" params="16" style="3" name="info_text_1" caption="%24%7Binventory.trading.warning.others_account_disabled%7D" visible="false" tags="OTHER_USER_MESSAGE">
+                  <variables>
+                    <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                    <var key="multiline" value="true" type="Boolean"/>
+                    <var key="word_wrap" value="true" type="Boolean"/>
+                    <var key="spacing" value="0" type="Number"/>
+                    <var key="leading" value="0" type="Number"/>
+                  </variables>
+                </text>
+                <text x="0" y="162" width="200" height="4" params="16" style="3" name="content_text_2_a" blend="0.6">
+                  <variables>
+                    <var key="auto_size" value="center" type="String"/>
+                    <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                    <var key="spacing" value="0" type="Number"/>
+                    <var key="leading" value="0" type="Number"/>
+                  </variables>
+                </text>
+                <text x="0" y="180" width="200" height="4" params="16400" style="3" name="content_text_2_b" blend="0.6">
+                  <variables>
+                    <var key="auto_size" value="center" type="String"/>
+                    <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                    <var key="spacing" value="0" type="Number"/>
+                    <var key="leading" value="0" type="Number"/>
+                  </variables>
+                </text>
+              </children>
+            </container>
+            <container x="263" y="29" width="200" height="200" params="16" style="3" name="offers_1_payment_placeholder" visible="false">
+              <children>
+                <static_bitmap x="20" y="9" width="170" height="173" params="3932176" style="3" name="payment_layout_image">
+                  <variables>
+                    <var key="asset_uri" value="wired_chests_images_generic_payments" type="String"/>
+                    <var key="pivot_point" value="center" type="String"/>
+                    <var key="stretched_x" value="false" type="Boolean"/>
+                    <var key="stretched_y" value="false" type="Boolean"/>
+                    <var key="fit_size_to_contents" value="true" type="Boolean"/>
+                  </variables>
+                </static_bitmap>
+              </children>
+            </container>
+            <static_bitmap x="212" y="95" width="53" height="42" params="16" style="3" name="trade_type_splitter">
+              <variables>
+                <var key="asset_uri" value="inventory_trading_trading_split_icon" type="String"/>
+                <var key="pivot_point" value="center" type="String"/>
+                <var key="stretched_x" value="false" type="Boolean"/>
+                <var key="stretched_y" value="false" type="Boolean"/>
+              </variables>
+            </static_bitmap>
+            <widget x="224" y="40" width="30" height="160" params="16" style="100" visible="false">
+              <variables>
+                <var key="widget_type" value="separator" type="String"/>
+                <var key="separator:vertical" value="true" type="Boolean"/>
+              </variables>
+            </widget>
+            <region x="453" y="6" width="18" height="18" params="17" style="3" name="requirements_button" treshold="0">
+              <children>
+                <static_bitmap x="0" y="0" width="18" height="18" params="16" style="3">
+                  <variables>
+                    <var key="asset_uri" value="icons_info_grey" type="String"/>
+                    <var key="stretched_x" value="false" type="Boolean"/>
+                    <var key="stretched_y" value="false" type="Boolean"/>
+                    <var key="fit_size_to_contents" value="true" type="Boolean"/>
+                  </variables>
+                </static_bitmap>
+              </children>
+            </region>
+            <bubble x="475" y="9" width="430" height="281" params="1" style="7" name="trade_requirements_bubble" background="true">
+              <children>
+                <border x="0" y="0" width="415" height="266" params="2192" style="2" name="highlight_border" color="0x04fbce3" blend="0"/>
+                <itemlist_vertical x="13" y="7" width="390" height="246" params="12582928" style="3" name="bubble_contents" width_min="390" width_max="390">
+                  <children>
+                    <text x="0" y="0" width="390" height="17" params="144" style="3" name="bubble_title" caption="%24%7Binventory.wired_trading.requirements.trade%7D" blend="0.5" width_min="220">
+                      <variables>
+                        <var key="auto_size" value="center" type="String"/>
+                        <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                        <var key="spacing" value="0" type="Number"/>
+                        <var key="leading" value="0" type="Number"/>
+                      </variables>
+                    </text>
+                    <container x="0" y="23" width="0" height="1" params="16" style="3" name="bubble_title_spacing"/>
+                    <itemlist_horizontal x="0" y="30" width="390" height="180" params="786640" style="3" name="offerings" height_min="180" height_max="180">
+                      <children>
+                        <container x="0" y="0" width="180" height="179" params="16" style="3" name="you_give_container">
+                          <children>
+                            <container x="0" y="0" width="180" height="179" params="2192" style="3" name="offering_requirements_template">
+                              <children>
+                                <text x="0" y="0" width="180" height="17" params="144" style="3" name="offerings_title" caption="%24%7Binventory.wired_trading.requirements.offering%7D">
+                                  <variables>
+                                    <var key="auto_size" value="center" type="String"/>
+                                    <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                                    <var key="bold" value="true" type="Boolean"/>
+                                    <var key="spacing" value="0" type="Number"/>
+                                    <var key="leading" value="0" type="Number"/>
+                                  </variables>
+                                </text>
+                                <border x="0" y="24" width="180" height="153" params="2192" style="0" name="requirements_definition" color="0x0f7f7f7">
+                                  <children>
+                                    <text x="10" y="61" width="160" height="30" params="3145872" style="3" name="custom_text" caption="Entrance%20to%20the%20game%20and%20free%20candies" blend="0.6" visible="false">
+                                      <variables>
+                                        <var key="auto_size" value="center" type="String"/>
+                                        <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                                        <var key="word_wrap" value="true" type="Boolean"/>
+                                        <var key="bold" value="true" type="Boolean"/>
+                                        <var key="spacing" value="0" type="Number"/>
+                                        <var key="leading" value="0" type="Number"/>
+                                      </variables>
+                                    </text>
+                                    <text x="10" y="56" width="160" height="17" params="3145872" style="3" name="any_furni_text" caption="%24%7Binventory.wired_trading.requirements.donation.furni%7D" blend="0.6" visible="false">
+                                      <variables>
+                                        <var key="auto_size" value="left" type="String"/>
+                                        <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                                        <var key="word_wrap" value="true" type="Boolean"/>
+                                        <var key="spacing" value="0" type="Number"/>
+                                        <var key="leading" value="0" type="Number"/>
+                                      </variables>
+                                    </text>
+                                    <text x="10" y="56" width="160" height="17" params="3145872" style="3" name="any_coins_text" caption="%24%7Binventory.wired_trading.requirements.donation.coins%7D" blend="0.6" visible="false">
+                                      <variables>
+                                        <var key="auto_size" value="left" type="String"/>
+                                        <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                                        <var key="word_wrap" value="true" type="Boolean"/>
+                                        <var key="spacing" value="0" type="Number"/>
+                                        <var key="leading" value="0" type="Number"/>
+                                      </variables>
+                                    </text>
+                                    <text x="10" y="56" width="160" height="17" params="3145872" style="3" name="any_all_text" caption="%24%7Binventory.wired_trading.requirements.donation.all%7D" blend="0.6" visible="false">
+                                      <variables>
+                                        <var key="auto_size" value="left" type="String"/>
+                                        <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                                        <var key="word_wrap" value="true" type="Boolean"/>
+                                        <var key="spacing" value="0" type="Number"/>
+                                        <var key="leading" value="0" type="Number"/>
+                                      </variables>
+                                    </text>
+                                    <itemlist_vertical x="1" y="56" width="178" height="40" params="3145872" style="3" name="rules_list">
+                                      <children>
+                                        <container x="0" y="0" width="178" height="40" params="144" style="3" name="rule_template">
+                                          <children>
+                                            <text x="0" y="11" width="32" height="17" params="16" style="3" name="or_text" caption="%24%7Binventory.wired_trading.requirements.or%7D" blend="0.5">
+                                              <variables>
+                                                <var key="auto_size" value="center" type="String"/>
+                                                <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                                                <var key="spacing" value="0" type="Number"/>
+                                                <var key="leading" value="0" type="Number"/>
+                                              </variables>
+                                            </text>
+                                            <itemlist_vertical x="32" y="0" width="146" height="40" params="144" style="3" name="rule_nodes_rows">
+                                              <children>
+                                                <itemlist_horizontal x="0" y="0" width="67" height="40" params="16" style="3" name="rule_node_columns_template">
+                                                  <children>
+                                                    <itemlist_horizontal x="0" y="0" width="67" height="40" params="16" style="3" name="rule_node_template">
+                                                      <children>
+                                                        <text x="0" y="11" width="12" height="17" params="16" style="3" name="and_text" caption="%26">
+                                                          <variables>
+                                                            <var key="auto_size" value="left" type="String"/>
+                                                            <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                                                            <var key="spacing" value="0" type="Number"/>
+                                                            <var key="leading" value="0" type="Number"/>
+                                                          </variables>
+                                                        </text>
+                                                        <text x="13" y="11" width="17" height="17" params="16" style="3" name="amount_text" caption="2x">
+                                                          <variables>
+                                                            <var key="auto_size" value="left" type="String"/>
+                                                            <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                                                            <var key="spacing" value="0" type="Number"/>
+                                                            <var key="leading" value="0" type="Number"/>
+                                                          </variables>
+                                                        </text>
+                                                        <container x="31" y="0" width="36" height="36" params="16" style="3" name="rule_icon" width_min="32" width_max="36">
+                                                          <children>
+                                                            <widget x="0" y="0" width="40" height="40" params="16" style="3" name="furni_icon">
+                                                              <variables>
+                                                                <var key="widget_type" value="product_icon" type="String"/>
+                                                              </variables>
+                                                            </widget>
+                                                            <static_bitmap x="0" y="2" width="32" height="36" params="16" style="3" name="coin_icon">
+                                                              <variables>
+                                                                <var key="asset_uri" value="pursearea_credits_icon2" type="String"/>
+                                                                <var key="pivot_point" value="center" type="String"/>
+                                                                <var key="stretched_x" value="false" type="Boolean"/>
+                                                                <var key="stretched_y" value="false" type="Boolean"/>
+                                                              </variables>
+                                                            </static_bitmap>
+                                                          </children>
+                                                        </container>
+                                                      </children>
+                                                      <variables>
+                                                        <var key="spacing" value="1" type="int"/>
+                                                        <var key="resize_on_item_update" value="true" type="Boolean"/>
+                                                      </variables>
+                                                    </itemlist_horizontal>
+                                                  </children>
+                                                  <variables>
+                                                    <var key="spacing" value="1" type="int"/>
+                                                    <var key="resize_on_item_update" value="true" type="Boolean"/>
+                                                  </variables>
+                                                </itemlist_horizontal>
+                                              </children>
+                                              <variables>
+                                                <var key="spacing" value="3" type="int"/>
+                                                <var key="resize_on_item_update" value="true" type="Boolean"/>
+                                              </variables>
+                                            </itemlist_vertical>
+                                          </children>
+                                        </container>
+                                      </children>
+                                      <variables>
+                                        <var key="resize_on_item_update" value="true" type="Boolean"/>
+                                      </variables>
+                                    </itemlist_vertical>
+                                  </children>
+                                </border>
+                              </children>
+                            </container>
+                          </children>
+                        </container>
+                        <widget x="180" y="24" width="30" height="153" params="16" style="3" name="offering_containers_separator" height_min="80">
+                          <variables>
+                            <var key="widget_type" value="separator" type="String"/>
+                            <var key="separator:vertical" value="true" type="Boolean"/>
+                          </variables>
+                        </widget>
+                        <container x="210" y="0" width="180" height="180" params="16" style="3" name="you_get_container"/>
+                      </children>
+                      <variables>
+                        <var key="resize_on_item_update" value="true" type="Boolean"/>
+                        <var key="inverse_resize_on_item_update" value="true" type="Boolean"/>
+                      </variables>
+                    </itemlist_horizontal>
+                    <container x="0" y="216" width="390" height="30" params="144" style="3" name="requirements_met_container" color="0xffffd9d9d9" background="true" width_min="220">
+                      <children>
+                        <html x="5" y="7" width="342" height="16" params="8388737" style="3" name="req_met_text" caption="%24%7Binventory.wired_trading.requirements.indicator.met%7D">
+                          <variables>
+                            <var key="multiline" value="true" type="Boolean"/>
+                            <var key="word_wrap" value="true" type="Boolean"/>
+                            <var key="spacing" value="0" type="Number"/>
+                            <var key="leading" value="0" type="Number"/>
+                            <var key="editable" value="false" type="Boolean"/>
+                            <var key="selectable" value="false" type="Boolean"/>
+                            <var key="editable" value="false" type="Boolean"/>
+                            <var key="selectable" value="false" type="Boolean"/>
+                          </variables>
+                        </html>
+                        <static_bitmap x="359" y="0" width="30" height="30" params="80" style="3" name="req_met_icon">
+                          <variables>
+                            <var key="asset_uri" value="common_cross_mark" type="String"/>
+                            <var key="pivot_point" value="center" type="String"/>
+                            <var key="stretched_x" value="false" type="Boolean"/>
+                            <var key="stretched_y" value="false" type="Boolean"/>
+                          </variables>
+                        </static_bitmap>
+                      </children>
+                    </container>
+                    <html x="0" y="252" width="390" height="32" params="129" style="3" name="additional_text" caption="%24%7Binventory.wired_trading.requirements.auto_mode_hint_trade%7D" visible="false" width_min="220">
+                      <variables>
+                        <var key="multiline" value="true" type="Boolean"/>
+                        <var key="word_wrap" value="true" type="Boolean"/>
+                        <var key="spacing" value="0" type="Number"/>
+                        <var key="leading" value="0" type="Number"/>
+                        <var key="editable" value="false" type="Boolean"/>
+                        <var key="selectable" value="false" type="Boolean"/>
+                        <var key="editable" value="false" type="Boolean"/>
+                        <var key="selectable" value="false" type="Boolean"/>
+                      </variables>
+                    </html>
+                    <html x="0" y="290" width="390" height="32" params="129" style="3" name="disclaimer_text" caption="%24%7Binventory.wired_trading.requirements.receive_text_disclaimer%7D" visible="false" width_min="220">
+                      <variables>
+                        <var key="text_color" value="0xbf272a" type="hex"/>
+                        <var key="multiline" value="true" type="Boolean"/>
+                        <var key="word_wrap" value="true" type="Boolean"/>
+                        <var key="spacing" value="0" type="Number"/>
+                        <var key="leading" value="0" type="Number"/>
+                        <var key="editable" value="false" type="Boolean"/>
+                        <var key="selectable" value="false" type="Boolean"/>
+                        <var key="editable" value="false" type="Boolean"/>
+                        <var key="selectable" value="false" type="Boolean"/>
+                      </variables>
+                    </html>
+                  </children>
+                  <variables>
+                    <var key="spacing" value="6" type="int"/>
+                    <var key="resize_on_item_update" value="true" type="Boolean"/>
+                    <var key="inverse_resize_on_item_update" value="true" type="Boolean"/>
+                  </variables>
+                </itemlist_vertical>
+              </children>
+              <variables>
+                <var key="margin_left" value="8" type="int"/>
+                <var key="margin_top" value="8" type="int"/>
+                <var key="margin_right" value="8" type="int"/>
+                <var key="margin_bottom" value="8" type="int"/>
+                <var key="direction" value="left" type="String"/>
+              </variables>
+            </bubble>
+          </children>
+        </border>
+        <container x="0" y="240" width="478" height="32" params="16" style="3" name="button_container">
+          <children>
+            <itemlist_horizontal x="5" y="0" width="299" height="28" params="16" style="3">
+              <children>
+                <button x="0" y="0" width="157" height="28" params="131089" style="3" name="button_accept" caption="%24%7Binventory.trading.accept%7D"/>
+                <text x="163" y="5" width="136" height="17" params="16" style="3" name="seconds_left_text" caption="%24%7Binventory.wired_trading.seconds_left%7D">
+                  <variables>
+                    <var key="auto_size" value="left" type="String"/>
+                    <var key="text_color" value="0xbf272a" type="hex"/>
+                    <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                    <var key="spacing" value="0" type="Number"/>
+                    <var key="leading" value="0" type="Number"/>
+                  </variables>
+                </text>
+              </children>
+              <variables>
+                <var key="spacing" value="6" type="int"/>
+                <var key="resize_on_item_update" value="true" type="Boolean"/>
+              </variables>
+            </itemlist_horizontal>
+            <button x="415" y="0" width="56" height="28" params="393233" style="3" name="button_cancel" caption="%24%7Bgeneric.cancel%7D"/>
+          </children>
+        </container>
+      </children>
+    </container>
+  </window>
+</layout>

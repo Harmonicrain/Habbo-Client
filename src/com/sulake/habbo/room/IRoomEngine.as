@@ -18,6 +18,11 @@
         function get events():IEventDispatcher;
         function get isInitialized():Boolean;
         function get activeRoomId():int;
+        function get areaSelectionManager():IRoomAreaSelectionManager;
+        function isAreaSelectionMode():Boolean;
+        function setMoveBlocked(_arg_1:Boolean):void;
+        function isMoveBlocked():Boolean;
+        function isWhereYouClickWhereYouGo():Boolean;
         function createRoomCanvas(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:int, _arg_5:int):DisplayObject;
         function loadRoomResources(_arg_1:String):Array;
         function setRoomCanvasScale(_arg_1:int, _arg_2:int, _arg_3:Number, _arg_4:Point=null, _arg_5:Point=null, _arg_6:Boolean=false, _arg_7:Boolean=false, _arg_8:Boolean=false):void;
@@ -70,10 +75,11 @@
         function changeObjectModelData(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:String, _arg_5:int):Boolean;
         function disposeObjectFurniture(_arg_1:int, _arg_2:int, _arg_3:int=-1, _arg_4:Boolean=false):void;
         function addObjectWallItem(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:IVector3d, _arg_5:IVector3d, _arg_6:int, _arg_7:String, _arg_8:int=0, _arg_9:int=0, _arg_10:String="", _arg_11:int=-1, _arg_12:Boolean=true):Boolean;
-        function updateObjectWallItemLocation(_arg_1:int, _arg_2:int, _arg_3:IVector3d):Boolean;
+        function updateObjectWallItemLocation(_arg_1:int, _arg_2:int, _arg_3:IVector3d, _arg_4:IVector3d=null, _arg_5:Number=NaN):Boolean;
         function disposeObjectWallItem(_arg_1:int, _arg_2:int, _arg_3:int=-1):void;
         function addObjectUser(_arg_1:int, _arg_2:int, _arg_3:IVector3d, _arg_4:IVector3d, _arg_5:Number, _arg_6:int, _arg_7:String=null):Boolean;
-        function updateObjectUser(_arg_1:int, _arg_2:int, _arg_3:IVector3d, _arg_4:IVector3d, _arg_5:Boolean=false, _arg_6:Number=0, _arg_7:IVector3d=null, _arg_8:Number=NaN):Boolean;
+        function updateObjectUser(_arg_1:int, _arg_2:int, _arg_3:IVector3d, _arg_4:IVector3d, _arg_5:Boolean=false, _arg_6:Number=0, _arg_7:IVector3d=null, _arg_8:Number=NaN, _arg_9:Number=NaN, _arg_10:Boolean=false, _arg_11:Number=NaN):Boolean;
+        function updateObjectUserDir(_arg_1:int, _arg_2:int, _arg_3:IVector3d, _arg_4:Number):Boolean;
         function updateObjectUserFigure(_arg_1:int, _arg_2:int, _arg_3:String, _arg_4:String=null, _arg_5:String=null, _arg_6:Boolean=false):Boolean;
         function updateObjectUserPosture(_arg_1:int, _arg_2:int, _arg_3:String, _arg_4:String=""):Boolean;
         function updateObjectUserGesture(_arg_1:int, _arg_2:int, _arg_3:int):Boolean;
@@ -85,7 +91,8 @@
         function getFurnitureTypeId(_arg_1:String):int;
         function getWallItemType(_arg_1:int, _arg_2:String=null):String;
         function useRoomObjectInActiveRoom(_arg_1:int, _arg_2:int):Boolean;
-        function initializeRoom(_arg_1:int, _arg_2:XML):void;
+        function initializeRoom(_arg_1:int, _arg_2:XML, _arg_3:IVector3d=null, _arg_4:Vector.<IAreaHideInfo>=null):void;
+        function updateAreaHide(_arg_1:int, _arg_2:int, _arg_3:Boolean, _arg_4:int, _arg_5:int, _arg_6:int, _arg_7:int, _arg_8:Boolean):void;
         function disposeRoom(_arg_1:int):void;
         function get getIsSelectedObjectInValidPosition():Boolean;
         function set setIsSelectedObjectInValidPosition(_arg_1:Boolean):void;
@@ -99,6 +106,7 @@
         function snapshotRoomCanvasToBitmap(_arg_1:int, _arg_2:int, _arg_3:BitmapData, _arg_4:Matrix, _arg_5:Boolean):Boolean;
         function set disableUpdate(_arg_1:Boolean):void;
         function runUpdate():void;
+        function updateRoomCamera(_arg_1:int, _arg_2:int, _arg_3:IVector3d, _arg_4:uint):void;
         function updateObjectRoomVisibilities(_arg_1:int, _arg_2:Boolean, _arg_3:Boolean=true):Boolean;
         function get mouseEventsDisabledAboveY():int;
         function set mouseEventsDisabledAboveY(_arg_1:int):void;
@@ -106,6 +114,9 @@
         function set mouseEventsDisabledLeftToX(_arg_1:int):void;
         function getRenderRoomMessage(_arg_1:Rectangle, _arg_2:uint, _arg_3:Boolean=false, _arg_4:Boolean=true, _arg_5:Boolean=false, _arg_6:int=-1):IMessageComposer;
         function createScreenShot(_arg_1:int, _arg_2:int, _arg_3:String):void;
+        function get activeRoomHasHanditemControlBlocked():Boolean;
+        function get activeRoomHasChooserDisabled():Boolean;
+        function get activeRoomHasFreeFurniMovementsMode():Boolean;
 		
 		function _SafeStr_7811(k:int, _arg_2:int, _arg_3:IVector3d, _arg_4:int):Boolean;
 		function _SafeStr_7817(k:int, _arg_2:int, _arg_3:IVector3d, _arg_4:int):Boolean;

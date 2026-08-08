@@ -17,6 +17,8 @@
     import com.sulake.core.window.components.IBitmapWrapperWindow;
     import com.sulake.core.window.components.IWidgetWindow;
     import com.sulake.habbo.window.widgets.ILimitedItemGridOverlayWidget;
+    import com.sulake.habbo.window.widgets.IChestItemGridOverlayWidget;
+    import com.sulake.habbo.window.widgets.ChestItemGridOverlayWidget;
     import com.sulake.habbo.window.widgets._Str_3083;
     import com.sulake.core.window.events.WindowMouseEvent;
     import com.sulake.core.window.events.WindowEvent;
@@ -827,6 +829,10 @@
             var _local_2:ILimitedItemGridOverlayWidget;
             var _local_4:IWidgetWindow;
             var _local_5:_Str_3083;
+            var chestContainer:IWidgetWindow;
+            var chestOverlay:IChestItemGridOverlayWidget;
+            var chestBackground:IStaticBitmapWrapperWindow;
+            var chestColor:String;
             if (!this._window)
             {
                 return;
@@ -848,6 +854,29 @@
                     _local_5 = _Str_3083(_local_4.widget);
                     _local_5.rarityLevel = this.stuffData.rarityLevel;
                     _local_4.visible = true;
+                }
+                else
+                {
+                    if (((this._category == FurniCategory.FURNI_CHEST) ||
+                         (this._category == FurniCategory.COINS_CHEST)))
+                    {
+                        chestContainer = IWidgetWindow(
+                            this._window.findChildByName("chest_overlay_container"));
+                        chestOverlay =
+                            IChestItemGridOverlayWidget(chestContainer.widget);
+                        chestOverlay.contentsCount = this.stuffData.contentsCount;
+                        chestContainer.visible = true;
+                        chestColor =
+                            this._category == FurniCategory.COINS_CHEST ?
+                            ChestItemGridOverlayWidget.COLOR_GOLD :
+                            ChestItemGridOverlayWidget.COLOR_BROWN;
+                        chestOverlay.color = chestColor;
+                        chestBackground = IStaticBitmapWrapperWindow(
+                            this._window.findChildByName("chest_background_bitmap"));
+                        chestBackground.assetUri =
+                            "chest_overlay_" + chestColor + "_background";
+                        chestBackground.visible = true;
+                    }
                 }
             }
             var _local_3:IBitmapWrapperWindow = (this._window.findChildByName("bitmap") as IBitmapWrapperWindow);

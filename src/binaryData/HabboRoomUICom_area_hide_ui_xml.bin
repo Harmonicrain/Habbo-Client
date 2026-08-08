@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout name="area_hide_ui" width="292" height="334" version="0.1" uid="3A5EAC27-CFA3-5D4D-8664-07C844985229">
+  <window>
+    <frame x="0" y="0" width="292" height="334" params="163841" style="3" name="areahide_ui" caption="%24%7Bwidget.areahide.title%7D" color="0xff67a3bf" height_min="0">
+      <filters>
+        <DropShadowFilter distance="4" alpha="0.34901960784313724" blurX="4" blurY="4"/>
+      </filters>
+      <children>
+        <border x="3" y="16" width="275" height="250" params="16" style="100" color="0xffffffffff" background="true">
+          <children>
+            <itemlist_vertical x="2" y="2" width="270" height="250" params="16" style="0" name="tab_content">
+              <children>
+                <container x="0" y="0" width="270" height="0" params="16" style="100" name="header_container" visible="false">
+                  <children>
+                    <text x="4" y="4" width="262" height="31" params="16" style="0" name="hidearea_info" caption="%24%7Bwidget.areahide.info%7D" visible="false">
+                      <variables>
+                        <var key="text_style" value="u_small" type="String"/>
+                        <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                        <var key="multiline" value="true" type="Boolean"/>
+                        <var key="word_wrap" value="true" type="Boolean"/>
+                        <var key="spacing" value="0" type="Number"/>
+                        <var key="leading" value="0" type="Number"/>
+                      </variables>
+                    </text>
+                  </children>
+                </container>
+                <container x="0" y="0" width="30" height="5" params="16" style="100" name="spacer"/>
+                <container x="4" y="5" width="260" height="98" params="16" style="0" name="area_container">
+                  <children>
+                    <text x="0" y="0" width="158" height="15" params="16" style="100" name="areaselection_title" caption="%24%7Bwidget.areahide.area_selection%7D">
+                      <variables>
+                        <var key="auto_size" value="left" type="String"/>
+                        <var key="text_style" value="u_small" type="String"/>
+                        <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                        <var key="bold" value="true" type="Boolean"/>
+                        <var key="spacing" value="0" type="Number"/>
+                        <var key="leading" value="0" type="Number"/>
+                      </variables>
+                    </text>
+                    <text x="0" y="20" width="262" height="40" params="16" style="0" name="areaselection_info" caption="%24%7Bwidget.areahide.area_selection.info%7D">
+                      <variables>
+                        <var key="text_style" value="u_small" type="String"/>
+                        <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                        <var key="multiline" value="true" type="Boolean"/>
+                        <var key="word_wrap" value="true" type="Boolean"/>
+                        <var key="spacing" value="0" type="Number"/>
+                        <var key="leading" value="0" type="Number"/>
+                      </variables>
+                    </text>
+                    <itemlist_horizontal x="0" y="66" width="260" height="25" params="16" style="3" name="button_container">
+                      <children>
+                        <button x="0" y="0" width="211" height="24" params="131089" style="0" name="select_button" caption="%24%7Bwidget.areahide.area_selection.select%7D"/>
+                        <button x="223" y="0" width="205" height="24" params="131089" style="0" name="clear_button" caption="%24%7Bwidget.areahide.area_selection.clear%7D"/>
+                      </children>
+                      <variables>
+                        <var key="spacing" value="12" type="int"/>
+                      </variables>
+                    </itemlist_horizontal>
+                  </children>
+                </container>
+                <container x="4" y="103" width="262" height="143" params="16" style="0" name="saturation_container">
+                  <children>
+                    <text x="0" y="0" width="123" height="15" params="16" style="100" name="options_title" caption="%24%7Bwidget.areahide.options%7D">
+                      <variables>
+                        <var key="auto_size" value="left" type="String"/>
+                        <var key="text_style" value="u_small" type="String"/>
+                        <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                        <var key="bold" value="true" type="Boolean"/>
+                        <var key="spacing" value="0" type="Number"/>
+                        <var key="leading" value="0" type="Number"/>
+                      </variables>
+                    </text>
+                    <container x="0" y="20" width="262" height="123" params="16" style="3" name="options_container">
+                      <children>
+                        <container x="0" y="0" width="262" height="55" params="16" style="3" name="wallitem_option">
+                          <children>
+                            <checkbox x="1" y="0" width="18" height="18" params="17" style="0" name="wallitems_checkbox"/>
+                            <text x="20" y="0" width="240" height="15" params="16" style="0" name="wallitems_txt" caption="%24%7Bwidget.areahide.options.wallitems%7D">
+                              <variables>
+                                <var key="text_style" value="u_small" type="String"/>
+                                <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                                <var key="multiline" value="true" type="Boolean"/>
+                                <var key="word_wrap" value="true" type="Boolean"/>
+                                <var key="spacing" value="0" type="Number"/>
+                                <var key="leading" value="0" type="Number"/>
+                              </variables>
+                            </text>
+                          </children>
+                        </container>
+                        <container x="0" y="20" width="262" height="43" params="16" style="3" name="invert_option">
+                          <children>
+                            <checkbox x="1" y="0" width="18" height="18" params="17" style="0" name="invert_checkbox"/>
+                            <text x="20" y="0" width="240" height="15" params="16" style="0" name="invert_txt" caption="%24%7Bwidget.areahide.options.invert%7D">
+                              <variables>
+                                <var key="text_style" value="u_small" type="String"/>
+                                <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                                <var key="multiline" value="true" type="Boolean"/>
+                                <var key="word_wrap" value="true" type="Boolean"/>
+                                <var key="spacing" value="0" type="Number"/>
+                                <var key="leading" value="0" type="Number"/>
+                              </variables>
+                            </text>
+                            <text x="20" y="16" width="242" height="30" params="16" style="0" name="invert_info" caption="%24%7Bwidget.areahide.options.invert.info%7D">
+                              <variables>
+                                <var key="text_color" value="0x999999" type="hex"/>
+                                <var key="text_style" value="u_small" type="String"/>
+                                <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                                <var key="multiline" value="true" type="Boolean"/>
+                                <var key="word_wrap" value="true" type="Boolean"/>
+                                <var key="spacing" value="0" type="Number"/>
+                                <var key="leading" value="0" type="Number"/>
+                              </variables>
+                            </text>
+                          </children>
+                        </container>
+                        <container x="0" y="68" width="262" height="55" params="16" style="3" name="invisibility_option">
+                          <children>
+                            <checkbox x="1" y="0" width="18" height="18" params="17" style="0" name="invisiblity_checkbox"/>
+                            <text x="20" y="0" width="240" height="15" params="16" style="0" name="invisibility_txt" caption="%24%7Bwidget.areahide.options.invisibility%7D">
+                              <variables>
+                                <var key="text_style" value="u_small" type="String"/>
+                                <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                                <var key="multiline" value="true" type="Boolean"/>
+                                <var key="word_wrap" value="true" type="Boolean"/>
+                                <var key="spacing" value="0" type="Number"/>
+                                <var key="leading" value="0" type="Number"/>
+                              </variables>
+                            </text>
+                            <text x="20" y="16" width="242" height="40" params="16" style="0" name="invisibility_info" caption="%24%7Bwidget.areahide.options.invisibility.info%7D">
+                              <variables>
+                                <var key="text_color" value="0x999999" type="hex"/>
+                                <var key="text_style" value="u_small" type="String"/>
+                                <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+                                <var key="multiline" value="true" type="Boolean"/>
+                                <var key="word_wrap" value="true" type="Boolean"/>
+                                <var key="spacing" value="0" type="Number"/>
+                                <var key="leading" value="0" type="Number"/>
+                              </variables>
+                            </text>
+                          </children>
+                        </container>
+                      </children>
+                    </container>
+                  </children>
+                </container>
+              </children>
+            </itemlist_vertical>
+          </children>
+        </border>
+        <button x="4" y="272" width="165" height="24" params="131089" style="0" name="apply_button" caption="%24%7Bwidget.areahide.button.apply%7D"/>
+        <button x="126" y="272" width="151" height="24" params="393233" style="0" name="on_off_button" caption="%24%7Bwidget.areahide.button.on%7D"/>
+      </children>
+      <variables>
+        <var key="margin_left" value="6" type="int"/>
+        <var key="margin_top" value="25" type="int"/>
+        <var key="margin_right" value="6" type="int"/>
+        <var key="margin_bottom" value="7" type="int"/>
+      </variables>
+    </frame>
+  </window>
+</layout>

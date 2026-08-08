@@ -169,6 +169,14 @@
             this._visualization.updatePosition(null);
         }
 
+        public function refreshChatStyles():void
+        {
+            if (this._visualization != null)
+            {
+                this._visualization.refreshChatStyles();
+            }
+        }
+
         public function _Str_24691():int
         {
             if (!this._roomUi.friendBarView)

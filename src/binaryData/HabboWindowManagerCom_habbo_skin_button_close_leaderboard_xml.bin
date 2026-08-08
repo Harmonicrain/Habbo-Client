@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<skin name="close_button_skin_leaderboard" version="0.0">
+
+	<variables>
+		<variable key="asset" value="leaderboard_button_close_png" type="String" />
+	</variables>
+
+	<states>
+		<state name="default" layout="button_close_leaderboard" template="default_button_mode_leaderboard" />
+		<state name="hovering" layout="button_close_leaderboard" template="hovering_button_mode_leaderboard" />
+		<state name="pressed" layout="button_close_leaderboard" template="pressed_button_mode_leaderboard" />
+	</states>
+
+	<templates>
+		<template name="default_button_mode_leaderboard" asset="$asset">
+			<entities>
+				<entity name="button_close" type="bitmap"><region><Rectangle x="0" y="0" width="15" height="16" /></region></entity>
+			</entities>
+		</template>
+
+		<template name="hovering_button_mode_leaderboard" asset="$asset">
+			<entities>
+				<entity name="button_close" type="bitmap"><region><Rectangle x="18" y="0" width="15" height="16" /></region></entity>
+			</entities>
+		</template>
+
+		<template name="pressed_button_mode_leaderboard" asset="$asset">
+			<entities>
+				<entity name="button_close" type="bitmap"><region><Rectangle x="37" y="0" width="15" height="16" /></region></entity>
+			</entities>
+		</template>
+	</templates>
+
+	<layouts>
+		<layout name="button_close_leaderboard" transparent="true">
+			<entities>
+				<entity name="button_close" id="0">
+					<region><Rectangle x="0" y="0" width="15" height="16" /></region>
+					<scale horizontal="fixed" vertical="fixed" />
+				</entity>
+			</entities>
+		</layout>
+	</layouts>
+</skin>

@@ -18,6 +18,7 @@
     import com.sulake.room.utils.NumberBank;
     import com.sulake.core.utils.Map;
     import com.sulake.habbo.game.IHabboGameManager;
+    import com.sulake.habbo.roomevents.IHabboUserDefinedRoomEvents;
     import com.sulake.core.runtime.IContext;
     import com.sulake.core.communication.connection.IConnection;
     import com.sulake.core.runtime.IHabboConfigurationManager;
@@ -37,6 +38,7 @@
     import com.sulake.habbo.toolbar.events.HabboToolbarEvent;
     import com.sulake.iid.IIDHabboCatalog;
     import com.sulake.iid.IIDHabboGameManager;
+    import com.sulake.iid.IIDHabboUserDefinedRoomEvents;
     import com.sulake.iid.IIDHabboWindowManager;
     import __AS3__.vec.Vector;
     import flash.display.DisplayObjectContainer;
@@ -57,6 +59,7 @@
     import com.sulake.habbo.session.enum.RoomControllerLevel;
     import com.sulake.room.object.IRoomObjectController;
     import com.sulake.habbo.room.messages.RoomObjectRoomFloorHoleUpdateMessage;
+    import com.sulake.habbo.room.events.RoomEngineAreaHideStateWidgetEvent;
     import com.sulake.habbo.room.object.RoomObjectVariableEnum;
     import com.sulake.habbo.room.utils.FurnitureData;
     import com.sulake.room.RoomInstance;
@@ -109,6 +112,7 @@
     import com.sulake.habbo.room.messages.RoomObjectItemDataUpdateMessage;
     import com.sulake.habbo.room.messages.RoomObjectAvatarFigureUpdateMessage;
     import com.sulake.habbo.room.messages.RoomObjectAvatarUpdateMessage;
+    import com.sulake.habbo.room.messages.RoomObjectAvatarDirectionUpdateMessage;
     import com.sulake.habbo.room.events.RoomToObjectOwnAvatarMoveEvent;
     import com.sulake.habbo.room.messages.RoomObjectAvatarFlatControlUpdateMessage;
     import com.sulake.habbo.room.messages.RoomObjectUpdateStateMessage;
@@ -126,6 +130,7 @@
     import com.sulake.habbo.room.messages.RoomObjectAvatarExpressionUpdateMessage;
     import com.sulake.habbo.room.messages.RoomObjectAvatarPlayingGameMessage;
     import com.sulake.habbo.room.messages.RoomObjectAvatarGuideStatusUpdateMessage;
+    import com.sulake.habbo.room.messages.RoomObjectAvatarHabbiconUpdateMessage;
     import com.sulake.habbo.room.messages.RoomObjectAvatarPostureUpdateMessage;
     import com.sulake.habbo.room.messages.RoomObjectAvatarGestureUpdateMessage;
     import com.sulake.habbo.room.messages.RoomObjectAvatarPetGestureUpdateMessage;
@@ -143,8 +148,12 @@
     import com.sulake.habbo.room.messages.RoomObjectRoomAdUpdateMessage;
     import com.sulake.core.assets.IAssetLibrary;
     import com.sulake.habbo.session.events.BadgeImageReadyEvent;
+    import com.sulake.habbo.session.events.FurniIconImageReadyEvent;
     import com.sulake.habbo.room.utils.RoomObjectBadgeImageAssetListener;
+    import com.sulake.habbo.room.utils.RoomObjectFurniIconAssetListener;
+    import com.sulake.habbo.room.utils.RoomAreaSelectionManager;
     import com.sulake.habbo.room.messages.RoomObjectGroupBadgeUpdateMessage;
+    import com.sulake.habbo.room.messages.RoomObjectFurniIconUpdateMessage;
     import com.sulake.habbo.room.events.RoomEngineUseProductEvent;
     import com.sulake.habbo.room.utils.SpriteDataCollector;
     import com.sulake.habbo.communication.messages.outgoing.camera.RenderRoomThumbnailMessageComposer;
@@ -170,6 +179,7 @@
         private static const SELECTION_ARROW:String = "selection_arrow";
         private static const OVERLAY:String = "overlay";
         private static const OBJECT_ICON_SPRITE:String = "object_icon_sprite";
+        private static const FURNI_ICON_PLACEHOLDER:String = "loading_icon";
         private static const ROOM_DRAG_THRESHOLD:int = 15;
         private static const FURNITURE_CREATION_TIME_LIMIT_MILLISECONDS:int = 40;
 
@@ -210,17 +220,29 @@
         private var _skipFurnitureCreationForNextFrame:Boolean = false;
         private var _mouseCursorUpdate:Boolean;
         private var _badgeListenerObjects:Map = null;
+        private var _furniIconListenerObjects:Map = null;
+        private var _furniIconListenerAttached:Boolean = false;
         private var _gameManager:IHabboGameManager;
+        private var _roomEvents:IHabboUserDefinedRoomEvents;
         private var _isSelectedObjectInValidPosition:Boolean;
         private var _playerUnderCursor:int = -1;
         private var _mouseEventsDisabledAboveY:int = 0;
         private var _mouseEventsDisabledLeftToX:int = 0;
         private var _mouseEventsDisabledAboveYWas:int = 0;
         private var _mouseEventsDisabledLeftToXWas:int = 0;
+        private var _areaSelectionManager:RoomAreaSelectionManager;
+        private var _moveBlocked:Boolean = false;
+        private var _clickThroughUserOwners:Array = [];
+        private var _clickThroughFurniOwners:Array = [];
 
         public function RoomEngine(k:IContext, _arg_2:uint=0)
         {
             super(k, _arg_2);
+        }
+
+        private static function furniIconListenerKey(wallItem:Boolean, typeId:int, extra:String):String
+        {
+            return (wallItem ? "1" : "0") + "-" + typeId + "-" + (extra == null ? "" : extra);
         }
 
         public function get mouseEventsDisabledAboveY():int
@@ -241,6 +263,31 @@
         public function set mouseEventsDisabledLeftToX(k:int):void
         {
             this._mouseEventsDisabledLeftToX = k;
+        }
+
+        public function get areaSelectionManager():IRoomAreaSelectionManager
+        {
+            return this._areaSelectionManager;
+        }
+
+        public function isAreaSelectionMode():Boolean
+        {
+            return (this._areaSelectionManager != null) && (this._areaSelectionManager.areaSelectionState != RoomAreaSelectionManager.NOT_ACTIVE);
+        }
+
+        public function setMoveBlocked(k:Boolean):void
+        {
+            this._moveBlocked = k;
+        }
+
+        public function isMoveBlocked():Boolean
+        {
+            return this._moveBlocked;
+        }
+
+        public function isWhereYouClickWhereYouGo():Boolean
+        {
+            return !this.isAreaSelectionMode();
         }
 
         public function get isInitialized():Boolean
@@ -333,6 +380,9 @@
             }]), new ComponentDependency(new IIDHabboCatalog(), function (k:IHabboCatalog):void
             {
                 _catalog = k;
+            }, false), new ComponentDependency(new IIDHabboUserDefinedRoomEvents(), function (k:IHabboUserDefinedRoomEvents):void
+            {
+                _roomEvents = k;
             }, false), new ComponentDependency(new IIDHabboGameManager(), function (k:IHabboGameManager):void
             {
                 _gameManager = k;
@@ -352,6 +402,7 @@
             this._roomDatas = new Map();
             this._roomObjectEventHandler = this.createRoomObjectEventHandlerInstance();
             this._roomMessageHandler = new RoomMessageHandler(this);
+            this._areaSelectionManager = new RoomAreaSelectionManager(this);
             var k:DisplayObjectContainer = context.displayObjectContainer;
             var _local_2:LoaderInfo = k.loaderInfo;
             this._roomContentLoader = new RoomContentLoader(_local_2.loaderURL);
@@ -419,6 +470,11 @@
                 this._roomMessageHandler.dispose();
                 this._roomMessageHandler = null;
             }
+            if (this._areaSelectionManager != null)
+            {
+                this._areaSelectionManager.dispose();
+                this._areaSelectionManager = null;
+            }
             if (this._roomContentLoader != null)
             {
                 this._roomContentLoader.dispose();
@@ -448,6 +504,12 @@
             {
                 this._badgeListenerObjects.dispose();
                 this._badgeListenerObjects = null;
+            }
+            this.detachFurniIconListener();
+            if (this._furniIconListenerObjects != null)
+            {
+                this._furniIconListenerObjects.dispose();
+                this._furniIconListenerObjects = null;
             }
             super.dispose();
         }
@@ -912,7 +974,7 @@
             }
         }
 
-        private function updateRoomCamera(k:int, _arg_2:int, _arg_3:IVector3d, _arg_4:uint):void
+        public function updateRoomCamera(k:int, _arg_2:int, _arg_3:IVector3d, _arg_4:uint):void
         {
             var _local_10:Number;
             var _local_11:Rectangle;
@@ -1275,7 +1337,7 @@
                     _local_3 = (this._roomDatas.getWithIndex(_local_2) as RoomData);
                     if (_local_3 != null)
                     {
-                        this.initializeRoom(_local_3.roomId, _local_3.data);
+                        this.initializeRoom(_local_3.roomId, _local_3.data, _local_3.cameraInitPosition, _local_3.areaHideData);
                     }
                     _local_2++;
                 }
@@ -1348,6 +1410,10 @@
         public function getIsPlayingGame(k:int):Boolean
         {
             var _local_3:Number;
+            if (((k == this._activeRoomId) && (this._roomEvents != null)) && this._roomEvents.isGameMode)
+            {
+                return true;
+            }
             var _local_2:IRoomInstance = this.getRoom(k);
             if (_local_2 != null)
             {
@@ -1360,9 +1426,106 @@
             return false;
         }
 
+        public function updateAreaHide(k:int, _arg_2:int, _arg_3:Boolean, _arg_4:int, _arg_5:int, _arg_6:int, _arg_7:int, _arg_8:Boolean):void
+        {
+            events.dispatchEvent(new RoomEngineAreaHideStateWidgetEvent(k, _arg_2, RoomObjectCategoryEnum.OBJECT_CATEGORY_FURNITURE, _arg_3));
+            var _local_9:IRoomObjectController = this.getObjectRoom(k);
+            if (((_local_9 == null) || (_local_9.getEventHandler() == null)))
+            {
+                return;
+            }
+            var _local_10:String = ((_arg_3) ? RoomObjectRoomFloorHoleUpdateMessage.RORPFHUM_ADD : RoomObjectRoomFloorHoleUpdateMessage.RORPFHUM_REMOVE);
+            _local_9.getEventHandler().processUpdateMessage(new RoomObjectRoomFloorHoleUpdateMessage(_local_10, _arg_2, _arg_4, _arg_5, _arg_6, _arg_7, _arg_8));
+        }
+
+        public function setHanditemControlBlocked(k:int, _arg_2:Boolean):void
+        {
+            this.setRoomBoolean(k, RoomVariableEnum.HANDITEM_CONTROL_BLOCKED, _arg_2);
+        }
+
+        public function setChooserDisabled(k:int, _arg_2:Boolean):void
+        {
+            this.setRoomBoolean(k, RoomVariableEnum.CHOOSER_DISABLED, _arg_2);
+        }
+
+        public function setFreeFurniMovementsMode(k:int, _arg_2:Boolean):void
+        {
+            this.setRoomBoolean(k, RoomVariableEnum.FREE_FURNI_MOVEMENTS_MODE, _arg_2);
+        }
+
+        public function setInvisibleFurni(k:int, _arg_2:Boolean):void
+        {
+            var _local_3:IRoomInstance = this.getRoom(k);
+            var _local_4:IRoomObject;
+            var _local_5:Array;
+            if (_local_3 == null)
+            {
+                return;
+            }
+            _local_3.setNumber(RoomVariableEnum.INVISIBLE_FURNI, ((_arg_2) ? 1 : 0));
+            _local_5 = this.getRoomObjects(k, RoomObjectCategoryEnum.OBJECT_CATEGORY_FURNITURE);
+            for each (_local_4 in _local_5)
+            {
+                this.applyInvisibleFurniState(_local_4, _arg_2);
+            }
+            _local_5 = this.getRoomObjects(k, RoomObjectCategoryEnum.OBJECT_CATEGORY_WALLITEM);
+            for each (_local_4 in _local_5)
+            {
+                this.applyInvisibleFurniState(_local_4, _arg_2);
+            }
+        }
+
+        private function applyInvisibleFurniState(k:IRoomObject, _arg_2:Boolean):void
+        {
+            var _local_3:IRoomObjectController = k as IRoomObjectController;
+            if (((_local_3 != null) && (_local_3.getModelController() != null)))
+            {
+                _local_3.getModelController().setNumber(RoomObjectVariableEnum.FURNITURE_INVISIBLE_LAYER, ((_arg_2) ? 1 : 0));
+            }
+        }
+
+        private function applyCurrentInvisibleFurniState(k:int, _arg_2:IRoomObjectController):void
+        {
+            var _local_3:IRoomInstance = this.getRoom(k);
+            this.applyInvisibleFurniState(_arg_2, ((_local_3 != null) && (_local_3.getNumber(RoomVariableEnum.INVISIBLE_FURNI) > 0)));
+        }
+
         public function getActiveRoomIsPlayingGame():Boolean
         {
             return this.getIsPlayingGame(this._activeRoomId);
+        }
+
+        public function get activeRoomHasHanditemControlBlocked():Boolean
+        {
+            return this.isRoomBooleanActive(
+                this._activeRoomId, RoomVariableEnum.HANDITEM_CONTROL_BLOCKED);
+        }
+
+        public function get activeRoomHasChooserDisabled():Boolean
+        {
+            return this.isRoomBooleanActive(
+                this._activeRoomId, RoomVariableEnum.CHOOSER_DISABLED);
+        }
+
+        public function get activeRoomHasFreeFurniMovementsMode():Boolean
+        {
+            return this.isRoomBooleanActive(
+                this._activeRoomId, RoomVariableEnum.FREE_FURNI_MOVEMENTS_MODE);
+        }
+
+        private function setRoomBoolean(k:int, _arg_2:String, _arg_3:Boolean):void
+        {
+            var _local_4:IRoomInstance = this.getRoom(k);
+            if (_local_4 != null)
+            {
+                _local_4.setNumber(_arg_2, ((_arg_3) ? 1 : 0));
+            }
+        }
+
+        private function isRoomBooleanActive(k:int, _arg_2:String):Boolean
+        {
+            var _local_3:IRoomInstance = this.getRoom(k);
+            return _local_3 != null && _local_3.getNumber(_arg_2) > 0;
         }
 
         public function getRoom(k:int):IRoomInstance
@@ -1376,7 +1539,7 @@
             return _local_3;
         }
 
-        public function initializeRoom(k:int, _arg_2:XML):void
+        public function initializeRoom(k:int, _arg_2:XML, _arg_3:IVector3d=null, _arg_4:Vector.<IAreaHideInfo>=null):void
         {
             var _local_3:String = this.getRoomIdentifier(k);
             var _local_4:RoomData;
@@ -1396,6 +1559,8 @@
                 _local_4.floorType = _local_5;
                 _local_4.wallType = _local_6;
                 _local_4.landscapeType = _local_7;
+                _local_4.cameraInitPosition = _arg_3;
+                _local_4.areaHideData = _arg_4;
                 this._roomDatas.add(_local_3, _local_4);
                 Logger.log("Room Engine not initilized yet, can not create room. Room data stored for later initialization.");
                 return;
@@ -1420,8 +1585,23 @@
                 {
                     _local_7 = _local_4.landscapeType;
                 }
+                if (_local_4.cameraInitPosition != null)
+                {
+                    _arg_3 = _local_4.cameraInitPosition;
+                }
+                if (_local_4.areaHideData != null)
+                {
+                    _arg_4 = _local_4.areaHideData;
+                }
             }
-            var _local_8:IRoomInstance = this.createRoom(_local_3, _arg_2, _local_5, _local_6, _local_7, this.getWorldType(k), this.isPublicRoom(k));
+            var _local_8:IRoomInstance = this.createRoom(_local_3, _arg_2, _local_5, _local_6, _local_7, this.getWorldType(k), this.isPublicRoom(k), _arg_3);
+            if (_arg_4 != null)
+            {
+                for each (var _local_9:IAreaHideInfo in _arg_4)
+                {
+                    this.updateAreaHide(k, _local_9.furniId, _local_9.on, _local_9.rootX, _local_9.rootY, _local_9.width, _local_9.length, _local_9.invert);
+                }
+            }
             if (_local_8 == null)
             {
                 return;
@@ -1429,7 +1609,7 @@
             events.dispatchEvent(new RoomEngineEvent(RoomEngineEvent.INITIALIZED, k));
         }
 
-        private function createRoom(k:String, _arg_2:XML, _arg_3:String, _arg_4:String, _arg_5:String, _arg_6:String, _arg_7:Boolean=false):IRoomInstance
+        private function createRoom(k:String, _arg_2:XML, _arg_3:String, _arg_4:String, _arg_5:String, _arg_6:String, _arg_7:Boolean=false, _arg_8:IVector3d=null):IRoomInstance
         {
             var _local_11:int;
             var _local_12:XML;
@@ -1480,6 +1660,12 @@
                 _local_9.getModelController().setNumber(RoomVariableEnum.AD_DISPLAY_DELAY, _local_32, true);
             }
             _local_7.setNumber(RoomVariableEnum.ROOM_Z_SCALE, _local_10, true);
+            if (_arg_8 != null)
+            {
+                _local_7.setNumber(RoomVariableEnum.CAMERA_INIT_X, _arg_8.x);
+                _local_7.setNumber(RoomVariableEnum.CAMERA_INIT_Y, _arg_8.y);
+                _local_7.setNumber(RoomVariableEnum.CAMERA_INIT_Z, _arg_8.z);
+            }
             if (_arg_2 != null)
             {
                 _local_11 = 0;
@@ -1603,6 +1789,25 @@
         public function getObjectRoom(k:int):IRoomObjectController
         {
             return this.getObject(this.getRoomIdentifier(k), OBJECT_ID_ROOM, RoomObjectCategoryEnum.OBJECT_CATEGORY_ROOM);
+        }
+
+        public function updatePublicRoomParkBusDoor(k:int, _arg_2:Boolean):void
+        {
+            if (this.getWorldType(k) != "park_a")
+            {
+                return;
+            }
+            var _local_3:IRoomObjectController = this.getObjectRoom(k);
+            if (_local_3 == null)
+            {
+                return;
+            }
+            var _local_4:IRoomObjectModelController = _local_3.getModelController();
+            if (_local_4 == null)
+            {
+                return;
+            }
+            _local_4.setNumber(RoomObjectVariableEnum.ROOM_PUBLIC_PARK_BUS_DOOR_STATUS, (_arg_2 ? 1 : 0));
         }
 
         public function updateObjectRoom(k:int, _arg_2:String=null, _arg_3:String=null, _arg_4:String=null, _arg_5:Boolean=false):Boolean
@@ -1779,7 +1984,10 @@
             _local_8.roomObjectVariableAccurateZ = RoomObjectVariableEnum.OBJECT_ACCURATE_Z_VALUE;
             _local_7.setRenderer(_local_8);
             var _local_18:int = _arg_5;
-            if (_local_7.getNumber(RoomVariableEnum.ROOM_IS_PUBLIC) == 1)
+            // Public rooms default to zoomed-out, EXCEPT small interior worlds that should use the
+            // normal guest-room zoom (the infobus interior, the rooftop cafe).
+            var _local_19:String = this.getWorldType(k);
+            if (((((_local_7.getNumber(RoomVariableEnum.ROOM_IS_PUBLIC) == 1) && (!(_local_19 == "park_b"))) && (!(_local_19 == "rooftop_2")))))
             {
                 _local_18 = RoomGeometry.SCALE_ZOOMED_OUT;
             }
@@ -1971,6 +2179,12 @@
             {
                 return false;
             }
+            if ((this._areaSelectionManager != null) && (this._areaSelectionManager.areaSelectionState == RoomAreaSelectionManager.SELECTING))
+            {
+                this._activeRoomIsDragged = false;
+                this._activeRoomWasDragged = false;
+                return false;
+            }
             var _local_8:int = (_arg_2 - this._activeRoomActiveCanvasMouseX);
             var _local_9:int = (_arg_3 - this._activeRoomActiveCanvasMouseY);
             if (_arg_4 == MouseEvent.MOUSE_DOWN)
@@ -2132,7 +2346,10 @@
                     _local_11.x = (_arg_2 - (_local_13.width / 2));
                     _local_11.y = (_arg_3 - (_local_13.height / 2));
                 }
-                if (!this.handleRoomDragging(_local_9, _arg_2, _arg_3, _arg_4, _arg_5, _arg_6, _arg_7))
+                if (((_arg_4 == MouseEvent.CLICK) && (this._areaSelectionManager != null)) && (this._areaSelectionManager.finishSelecting()))
+                {
+                }
+                else if (!this.handleRoomDragging(_local_9, _arg_2, _arg_3, _arg_4, _arg_5, _arg_6, _arg_7))
                 {
                     if (!_local_9.handleMouseEvent(_arg_2, _arg_3, _arg_4, _arg_5, _arg_6, _arg_7, _arg_8))
                     {
@@ -2768,6 +2985,7 @@
                 _local_8.getModelController().setNumber(RoomObjectVariableEnum.FURNITURE_OWNER_ID, _arg_3.ownerId);
                 _local_8.getModelController().setString(RoomObjectVariableEnum.FURNITURE_OWNER_NAME, _arg_3.ownerName);
             }
+            this.applyCurrentInvisibleFurniState(k, _local_8);
             if (!this.updateObjectFurniture(k, _arg_2, _arg_3.loc, _arg_3.dir, _arg_3.state, _arg_3.data, _arg_3.extra))
             {
                 return false;
@@ -2854,6 +3072,12 @@
             {
                 _local_8.getEventHandler().processUpdateMessage(_local_9);
                 _local_8.getEventHandler().processUpdateMessage(_local_10);
+                if (events != null)
+                {
+                    events.dispatchEvent(new RoomEngineObjectEvent(
+                        RoomEngineObjectEvent.UPDATED, k, _arg_2,
+                        RoomObjectCategoryEnum.OBJECT_CATEGORY_FURNITURE));
+                }
             }
             return true;
         }
@@ -2874,18 +3098,18 @@
             return true;
         }
 
-        public function updateObjectFurnitureLocation(k:int, _arg_2:int, _arg_3:IVector3d, _arg_4:IVector3d):Boolean
+        public function updateObjectFurnitureLocation(k:int, _arg_2:int, _arg_3:IVector3d, _arg_4:IVector3d, _arg_5:IVector3d=null, _arg_6:Number=NaN, _arg_7:Number=NaN, _arg_8:Number=NaN):Boolean
         {
-            var _local_6:RoomObjectMoveUpdateMessage;
-            var _local_5:IRoomObjectController = this.getObjectFurniture(k, _arg_2);
-            if (_local_5 == null)
+            var _local_9:RoomObjectMoveUpdateMessage;
+            var _local_10:IRoomObjectController = this.getObjectFurniture(k, _arg_2);
+            if (_local_10 == null)
             {
                 return false;
             }
-            if (((!(_local_5 == null)) && (!(_local_5.getEventHandler() == null))))
+            if (((!(_local_10 == null)) && (!(_local_10.getEventHandler() == null))))
             {
-                _local_6 = new RoomObjectMoveUpdateMessage(_arg_3, _arg_4, null, (!(_arg_4 == null)));
-                _local_5.getEventHandler().processUpdateMessage(_local_6);
+                _local_9 = new RoomObjectMoveUpdateMessage(_arg_3, _arg_5, _arg_4, _arg_6, (!(_arg_5 == null)), false, _arg_7, _arg_8);
+                _local_10.getEventHandler().processUpdateMessage(_local_9);
             }
             return true;
         }
@@ -3023,6 +3247,7 @@
                 _local_8.getModelController().setNumber(RoomObjectVariableEnum.FURNITURE_OWNER_ID, _arg_3.ownerId);
                 _local_8.getModelController().setString(RoomObjectVariableEnum.FURNITURE_OWNER_NAME, _arg_3.ownerName);
             }
+            this.applyCurrentInvisibleFurniState(k, _local_8);
             _local_4 = "";
             if (_arg_3.data != null)
             {
@@ -3128,18 +3353,18 @@
             return this.getObject(this.getRoomIdentifier(k), _arg_2, RoomObjectCategoryEnum.OBJECT_CATEGORY_WALLITEM);
         }
 
-        public function updateObjectWallItemLocation(k:int, _arg_2:int, _arg_3:IVector3d):Boolean
+        public function updateObjectWallItemLocation(k:int, _arg_2:int, _arg_3:IVector3d, _arg_4:IVector3d=null, _arg_5:Number=NaN):Boolean
         {
-            var _local_5:RoomObjectMoveUpdateMessage;
-            var _local_4:IRoomObjectController = this.getObjectWallItem(k, _arg_2);
-            if (_local_4 == null)
+            var _local_6:RoomObjectMoveUpdateMessage;
+            var _local_7:IRoomObjectController = this.getObjectWallItem(k, _arg_2);
+            if (_local_7 == null)
             {
                 return false;
             }
-            if (_local_4.getEventHandler() != null)
+            if (_local_7.getEventHandler() != null)
             {
-                _local_5 = new RoomObjectMoveUpdateMessage(_arg_3, null, null);
-                _local_4.getEventHandler().processUpdateMessage(_local_5);
+                _local_6 = new RoomObjectMoveUpdateMessage(_arg_3, _arg_4, null, _arg_5, (!(_arg_4 == null)));
+                _local_7.getEventHandler().processUpdateMessage(_local_6);
             }
             this.updateObjectRoomWindow(k, _arg_2);
             return true;
@@ -3226,7 +3451,7 @@
             return true;
         }
 
-        public function updateObjectUser(k:int, _arg_2:int, _arg_3:IVector3d, _arg_4:IVector3d, _arg_5:Boolean=false, _arg_6:Number=0, _arg_7:IVector3d=null, _arg_8:Number=NaN):Boolean
+        public function updateObjectUser(k:int, _arg_2:int, _arg_3:IVector3d, _arg_4:IVector3d, _arg_5:Boolean=false, _arg_6:Number=0, _arg_7:IVector3d=null, _arg_8:Number=NaN, _arg_9:Number=NaN, _arg_10:Boolean=false, _arg_11:Number=NaN):Boolean
         {
             var _local_9:IRoomObjectController = this.getObjectUser(k, _arg_2);
             if ((((_local_9 == null) || (_local_9.getEventHandler() == null)) || (_local_9.getModel() == null)))
@@ -3245,12 +3470,24 @@
             {
                 _arg_8 = _local_9.getModel().getNumber(RoomObjectVariableEnum.HEAD_DIRECTION);
             }
-            var _local_10:RoomObjectUpdateMessage = new RoomObjectAvatarUpdateMessage(this.fixedUserLocation(k, _arg_3), this.fixedUserLocation(k, _arg_4), _arg_7, _arg_8, _arg_5, _arg_6);
+            var _local_10:RoomObjectUpdateMessage = new RoomObjectAvatarUpdateMessage(this.fixedUserLocation(k, _arg_3), this.fixedUserLocation(k, _arg_4), _arg_7, _arg_8, _arg_5, _arg_6, _arg_9, _arg_10, _arg_11);
             _local_9.getEventHandler().processUpdateMessage(_local_10);
             if ((((this.roomSessionManager) && (this.roomSessionManager.getSession(k))) && (_arg_2 == this.roomSessionManager.getSession(k).ownUserRoomId)))
             {
                 this._roomObjectFactory.events.dispatchEvent(new RoomToObjectOwnAvatarMoveEvent(RoomToObjectOwnAvatarMoveEvent.ROAME_MOVE_TO, _arg_4));
             }
+            return true;
+        }
+
+        public function updateObjectUserDir(k:int, _arg_2:int, _arg_3:IVector3d, _arg_4:Number):Boolean
+        {
+            var _local_5:IRoomObjectController = this.getObjectUser(k, _arg_2);
+            if ((((_local_5 == null) || (_local_5.getEventHandler() == null)) || (_local_5.getModel() == null)))
+            {
+                return false;
+            }
+            var _local_6:RoomObjectUpdateMessage = new RoomObjectAvatarDirectionUpdateMessage(null, _arg_3, _arg_4);
+            _local_5.getEventHandler().processUpdateMessage(_local_6);
             return true;
         }
 
@@ -3339,9 +3576,91 @@
                 case RoomObjectVariableEnum.FIGURE_GUIDE_STATUS:
                     _local_7 = new RoomObjectAvatarGuideStatusUpdateMessage(_arg_4);
                     break;
+                case RoomObjectVariableEnum.FIGURE_HABBICON:
+                    _local_7 = new RoomObjectAvatarHabbiconUpdateMessage(_arg_4);
+                    break;
+            }
+            if (_local_7 == null)
+            {
+                return false;
             }
             _local_6.getEventHandler().processUpdateMessage(_local_7);
             return true;
+        }
+
+        /** Aggregates independent click-through owners (Wired, object-moving, etc.). */
+        public function setClickSettings(k:String, _arg_2:Boolean, _arg_3:Boolean):void
+        {
+            var _local_4:Boolean = this.clickThroughUsers;
+            var _local_5:Boolean = this.clickThroughFurni;
+            this.setClickSettingOwner(this._clickThroughUserOwners, k, _arg_2);
+            this.setClickSettingOwner(this._clickThroughFurniOwners, k, _arg_3);
+            if ((!(_local_4)) && _arg_2)
+            {
+                this.removeButtonMouseCursorOwners(
+                    this._activeRoomId,
+                    RoomObjectCategoryEnum.OBJECT_CATEGORY_USER);
+            }
+            if ((!(_local_5)) && _arg_3)
+            {
+                this.removeButtonMouseCursorOwners(
+                    this._activeRoomId,
+                    RoomObjectCategoryEnum.OBJECT_CATEGORY_FURNITURE);
+                this.removeButtonMouseCursorOwners(
+                    this._activeRoomId,
+                    RoomObjectCategoryEnum.OBJECT_CATEGORY_WALLITEM);
+            }
+        }
+
+        public function get clickThroughUsers():Boolean
+        {
+            return this._clickThroughUserOwners.length > 0;
+        }
+
+        public function get clickThroughFurni():Boolean
+        {
+            return this._clickThroughFurniOwners.length > 0;
+        }
+
+        private function setClickSettingOwner(k:Array, _arg_2:String, _arg_3:Boolean):void
+        {
+            var _local_4:int = k.indexOf(_arg_2);
+            if (_arg_3)
+            {
+                if (_local_4 < 0)
+                {
+                    k.push(_arg_2);
+                }
+            }
+            else if (_local_4 >= 0)
+            {
+                k.splice(_local_4, 1);
+            }
+        }
+
+        private function removeButtonMouseCursorOwners(k:int, _arg_2:int):void
+        {
+            var _local_3:RoomInstanceData = this.getRoomInstanceData(k);
+            if (_local_3 == null)
+            {
+                return;
+            }
+            var _local_4:Array = [];
+            var _local_5:String;
+            for each (_local_5 in _local_3.mouseButtonCursorOwners)
+            {
+                if (_local_5.indexOf((_arg_2 + "_")) == 0)
+                {
+                    _local_4.push(_local_5);
+                }
+            }
+            for each (_local_5 in _local_4)
+            {
+                if (_local_3.removeButtonMouseCursorOwner(_local_5))
+                {
+                    this._mouseCursorUpdate = true;
+                }
+            }
         }
 
         public function updateObjectUserPosture(k:int, _arg_2:int, _arg_3:String, _arg_4:String=""):Boolean
@@ -4423,6 +4742,154 @@
             {
                 this._sessionDataManager.events.removeEventListener(BadgeImageReadyEvent.BIRE_BADGE_IMAGE_READY, this.onBadgeLoaded);
             }
+        }
+
+        public function requestFurniIconAsset(roomId:int, objectId:int, category:int, wallItem:Boolean, typeId:int, extra:String):void
+        {
+            if (this._sessionDataManager == null)
+            {
+                return;
+            }
+
+            var roomObject:IRoomObjectController = this.resolveFurniIconListenerObject(roomId, objectId, category);
+            if (!this.isFurniIconListenerObjectValid(roomObject))
+            {
+                return;
+            }
+
+            extra = extra == null ? "" : extra;
+            var assetName:String = this._sessionDataManager.getFurniIconImageAssetName(wallItem, typeId, extra);
+            if (assetName == null)
+            {
+                assetName = FURNI_ICON_PLACEHOLDER;
+                var key:String = furniIconListenerKey(wallItem, typeId, extra);
+                if (this._furniIconListenerObjects == null)
+                {
+                    this._furniIconListenerObjects = new Map();
+                }
+                var listeners:Array = this._furniIconListenerObjects.getValue(key) as Array;
+                if (listeners == null)
+                {
+                    listeners = [];
+                    this._furniIconListenerObjects.add(key, listeners);
+                }
+                if (!this.hasFurniIconWaiter(listeners, roomId, objectId, category))
+                {
+                    listeners.push(new RoomObjectFurniIconAssetListener(roomId, objectId, category));
+                }
+                this.attachFurniIconListener();
+            }
+            else if (assetName != FURNI_ICON_PLACEHOLDER)
+            {
+                this.addFurniIconGraphicAsset(roomObject, assetName, wallItem, typeId, extra);
+            }
+
+            roomObject.getEventHandler().processUpdateMessage(new RoomObjectFurniIconUpdateMessage(assetName, wallItem, typeId, extra));
+        }
+
+        private function hasFurniIconWaiter(listeners:Array, roomId:int, objectId:int, category:int):Boolean
+        {
+            for each (var listener:RoomObjectFurniIconAssetListener in listeners)
+            {
+                if (listener != null && listener.roomId == roomId && listener.objectId == objectId && listener.category == category)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private function resolveFurniIconListenerObject(roomId:int, objectId:int, category:int):IRoomObjectController
+        {
+            if (this._roomManager == null)
+            {
+                return null;
+            }
+            if (roomId == 0)
+            {
+                var temporaryRoom:IRoomInstance = this._roomManager.getRoom(TEMPORARY_ROOM);
+                return temporaryRoom == null ? null : temporaryRoom.getObject(objectId, category) as IRoomObjectController;
+            }
+            return this.getRoomObject(roomId, objectId, category) as IRoomObjectController;
+        }
+
+        private function isFurniIconListenerObjectValid(roomObject:IRoomObjectController):Boolean
+        {
+            return roomObject != null && roomObject.isInitialized() && roomObject.getEventHandler() != null;
+        }
+
+        private function addFurniIconGraphicAsset(roomObject:IRoomObjectController, assetName:String, wallItem:Boolean, typeId:int, extra:String):void
+        {
+            if (this._roomContentLoader == null || this._sessionDataManager == null || assetName == null || assetName.length == 0)
+            {
+                return;
+            }
+            var image:BitmapData = this._sessionDataManager.getFurniIconImage(wallItem, typeId, extra);
+            if (image == null)
+            {
+                return;
+            }
+            if (!this._roomContentLoader._Str_16696(roomObject.getType(), assetName, image, false))
+            {
+                image.dispose();
+            }
+        }
+
+        private function onFurniIconLoaded(event:FurniIconImageReadyEvent):void
+        {
+            if (this._furniIconListenerObjects == null || event == null)
+            {
+                return;
+            }
+
+            var key:String = furniIconListenerKey(event.wallItem, event.typeId, event.extra);
+            var listeners:Array = this._furniIconListenerObjects.remove(key) as Array;
+            if (listeners == null)
+            {
+                if (this._furniIconListenerObjects.length == 0)
+                {
+                    this.detachFurniIconListener();
+                }
+                return;
+            }
+
+            for each (var listener:RoomObjectFurniIconAssetListener in listeners)
+            {
+                var roomObject:IRoomObjectController = listener == null ? null : this.resolveFurniIconListenerObject(listener.roomId, listener.objectId, listener.category);
+                if (!this.isFurniIconListenerObjectValid(roomObject))
+                {
+                    continue;
+                }
+                var resolvedAssetName:String = event.success ? event.assetName : FURNI_ICON_PLACEHOLDER;
+                if (event.success && resolvedAssetName != null && resolvedAssetName.length > 0)
+                {
+                    this.addFurniIconGraphicAsset(roomObject, resolvedAssetName, event.wallItem, event.typeId, event.extra);
+                }
+                roomObject.getEventHandler().processUpdateMessage(new RoomObjectFurniIconUpdateMessage(resolvedAssetName, event.wallItem, event.typeId, event.extra));
+            }
+
+            if (this._furniIconListenerObjects.length == 0)
+            {
+                this.detachFurniIconListener();
+            }
+        }
+
+        private function attachFurniIconListener():void
+        {
+            if (!this._furniIconListenerAttached && this._sessionDataManager != null && this._sessionDataManager.events != null)
+            {
+                this._sessionDataManager.events.addEventListener(FurniIconImageReadyEvent.ICON_READY, this.onFurniIconLoaded);
+                this._furniIconListenerAttached = true;
+            }
+        }
+
+        private function detachFurniIconListener():void
+        {
+            if (this._furniIconListenerAttached && this._sessionDataManager != null && this._sessionDataManager.events != null)
+            {
+                this._sessionDataManager.events.removeEventListener(FurniIconImageReadyEvent.ICON_READY, this.onFurniIconLoaded);
+            }
+            this._furniIconListenerAttached = false;
         }
 
         public function get getIsSelectedObjectInValidPosition():Boolean

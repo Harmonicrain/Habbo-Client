@@ -12,7 +12,9 @@
         public static const ADVERTISEMENT:String = "advertisement";
         public static const OPENLINK:String = "openlink";
         public static const OPENROOM:String = "openroom";
+        private static const AVATAR_ASSET_DIAGNOSTIC_LIMIT:int = 40;
         private static var _isSpaWeb:Boolean = false;
+        private static var _avatarAssetDiagnostics:Array = [];
         public static var rootLoaderInfo:LoaderInfo;
         public static var airParameters:Object;
         public static var isAirDesktop:Boolean = false;
@@ -182,6 +184,29 @@
             {
                 airDebugLogCallback(message);
             }
+        }
+
+        public static function recordAvatarAssetDiagnostic(state:String, libraryName:String, url:String=null, details:String=null):void
+        {
+            var message:String = "state=" + state + " lib=" + libraryName;
+            if (url != null && url.length > 0)
+            {
+                message += " url=" + url;
+            }
+            if (details != null && details.length > 0)
+            {
+                message += " " + details;
+            }
+            _avatarAssetDiagnostics.push(message);
+            while (_avatarAssetDiagnostics.length > AVATAR_ASSET_DIAGNOSTIC_LIMIT)
+            {
+                _avatarAssetDiagnostics.shift();
+            }
+        }
+
+        public static function getAvatarAssetDiagnostics():String
+        {
+            return _avatarAssetDiagnostics.join(" || ");
         }
 
         public static function showAirError(title:String, message:String, details:String=null):void

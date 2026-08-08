@@ -830,6 +830,14 @@
                     {
                         _local_7 = this._publicRoomLoadNameTemplate;
                         _local_7 = _local_7.replace(/%typeid%/, _local_4);
+                        if (_local_4 == "hh_room_park")
+                        {
+                            // The park's bus graphics live in the regional pack hh_room_park_uk.
+                            // Load it alongside the base park into the same asset collection, the
+                            // way r39 loads base + regional libraries together (comma content type).
+                            _local_10 = this._publicRoomLoadNameTemplate.replace(/%typeid%/, "hh_room_park_uk");
+                            return [this.resolvePublicRoomUrl(_local_7), this.resolvePublicRoomUrl(_local_10)];
+                        }
                         return [this.resolvePublicRoomUrl(_local_7)];
                     }
                     _local_5 = this.getObjectCategory(_local_4);
@@ -882,7 +890,20 @@
 
         private function isPublicRoomObjectType(k:String):Boolean
         {
-            return (((!(k == null)) && (k.indexOf("hh_room_") == 0)) && (k.indexOf("_", 8) == -1));
+            if (((k == null) || (!(k.indexOf("hh_room_") == 0))))
+            {
+                return false;
+            }
+            // Exact preloaded public-room library (e.g. hh_room_sun_terrace). World names can
+            // contain underscores, which the single-word check below would wrongly reject as a
+            // child object type, breaking the SWF load (stuck at 100%).
+            if (this._publicRoomPreloadTypes.indexOf(k) >= 0)
+            {
+                return true;
+            }
+            // Single-word room library: no underscore after the "hh_room_" prefix (distinguishes
+            // the room library from its child object types like hh_room_theater_mic).
+            return (k.indexOf("_", 8) == -1);
         }
 
         private function resolvePublicRoomUrl(k:String):String

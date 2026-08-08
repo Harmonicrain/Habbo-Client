@@ -9,6 +9,7 @@
         public static const RWFAM_USE:String = "RWFAM_USE";
         public static const RWFAM_OPEN_WELCOME_GIFT:String = "RWFAM_OPEN_WELCOME_GIFT";
         public static const RWFAM_SAVE_STUFF_DATA:String = "RWFAM_SAVE_STUFF_DATA";
+        public static const RWFAM_WIRED_INSPECT:String = "RWFAM_WIRED_INSPECT";
 
         private var _furniId:int = 0;
         private var _furniCategory:int = 0;

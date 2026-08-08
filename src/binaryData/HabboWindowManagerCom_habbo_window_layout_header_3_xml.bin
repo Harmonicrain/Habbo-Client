@@ -47,10 +47,12 @@
 					<params>
 						<param name="relative_horizontal_scale_move" />
 						<param name="relative_vertical_scale_fixed" />
+                        <param name="on_resize_align_right" />
 						<param name="use_parent_graphic_context" />
 					</params>
                     <variables>
                         <var key="spacing" value="5" type="int"/>
+                        <var key="resize_on_item_update" value="true" type="Boolean"/>
                     </variables>
 
                     <children>
@@ -68,7 +70,7 @@
 
                         <!-- Close button -->
 
-						<closebutton name="header_button_close" style="3" x="23" y="0" width="19" height="20" tags="_EXCLUDE, _INTERNAL, close">
+						<closebutton name="header_button_close" style="3" x="23" y="0" width="21" height="20" tags="_EXCLUDE, _INTERNAL, close">
 							<params>
 								<param name="relative_horizontal_scale_fixed" />
 								<param name="relative_vertical_scale_fixed" />

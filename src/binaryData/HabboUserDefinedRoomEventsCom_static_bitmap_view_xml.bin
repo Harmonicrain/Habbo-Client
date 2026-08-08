@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?><layout name="static_bitmap_view" width="30" height="30" version="0.1" uid="1F20B8C4-F638-B7DD-89CA-3C0550910C2E">
+  <window>
+    <static_bitmap x="0" y="0" width="30" height="30" params="16" style="3" name="static_bitmap">
+      <variables>
+        <var key="stretched_x" value="false" type="Boolean"/>
+        <var key="stretched_y" value="false" type="Boolean"/>
+        <var key="fit_size_to_contents" value="true" type="Boolean"/>
+      </variables>
+    </static_bitmap>
+  </window>
+</layout>

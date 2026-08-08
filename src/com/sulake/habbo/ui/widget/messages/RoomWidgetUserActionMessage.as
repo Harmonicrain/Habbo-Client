@@ -49,6 +49,9 @@
         public static const AMBASSADOR_MUTE_USER_60MIN:String = "RWUAM_AMBASSADOR_MUTE_60MIN";
         public static const AMBASSADOR_MUTE_USER_18HOUR:String = "RWUAM_AMBASSADOR_MUTE_18HOUR";
         public static const GROUP_WHISPER:String = "RWUAM_GROUP_WHISPER";
+        public static const RWUAM_WIRED_INSPECT:String = "RWUAM_WIRED_INSPECT";
+        public static const RWUAM_WIRED_INSPECT_BOT:String = "RWUAM_WIRED_INSPECT_BOT";
+        public static const RWUAM_WIRED_INSPECT_PET:String = "RWUAM_WIRED_INSPECT_PET";
 
         private var _userId:int = 0;
 

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout name="product_image" width="200" height="200" version="0.1" uid="E36BB5CD-6DCD-8867-6351-3D9401B0659A">
+  <window>
+    <container x="0" y="0" width="200" height="200" params="2196" style="0">
+      <children>
+        <static_bitmap x="0" y="0" width="200" height="200" params="2192" style="3" name="placeholder_image" visible="false">
+          <variables>
+            <var key="asset_uri" value="collectables_collection_default" type="String"/>
+            <var key="pivot_point" value="center" type="String"/>
+            <var key="stretched_x" value="false" type="Boolean"/>
+            <var key="stretched_y" value="false" type="Boolean"/>
+          </variables>
+        </static_bitmap>
+        <widget x="55" y="35" width="90" height="130" params="2192" style="3" name="avatar_image_widget" visible="false" width_min="90" width_max="90" height_min="130" height_max="130">
+          <variables>
+            <var key="widget_type" value="avatar_image" type="String"/>
+          </variables>
+        </widget>
+        <widget x="0" y="0" width="200" height="200" params="2192" style="3" name="badge_image_widget" visible="false">
+          <variables>
+            <var key="widget_type" value="badge_image" type="String"/>
+            <var key="badge_image:pivot_point" value="center" type="String"/>
+            <var key="badge_image:stretched_x" value="false" type="Boolean"/>
+            <var key="badge_image:stretched_y" value="false" type="Boolean"/>
+            <var key="badge_image:zoom_x" value="2" type="Number"/>
+            <var key="badge_image:zoom_y" value="2" type="Number"/>
+          </variables>
+        </widget>
+        <static_bitmap x="0" y="0" width="200" height="200" params="2192" style="3" name="unknown_image" visible="false">
+          <variables>
+            <var key="asset_uri" value="collectables_icon_curator_stamp_large" type="String"/>
+            <var key="pivot_point" value="center" type="String"/>
+            <var key="stretched_x" value="false" type="Boolean"/>
+            <var key="stretched_y" value="false" type="Boolean"/>
+          </variables>
+        </static_bitmap>
+        <widget x="0" y="0" width="200" height="200" params="2192" style="3" name="pet_image_widget" visible="false">
+          <variables>
+            <var key="widget_type" value="pet_image" type="String"/>
+          </variables>
+        </widget>
+        <widget x="50" y="-30" width="100" height="260" params="2192" style="3" name="effect_image_widget" visible="false" width_min="100" width_max="100" height_min="260" height_max="260">
+          <variables>
+            <var key="widget_type" value="room_previewer" type="String"/>
+            <var key="room_previewer:offsetx" value="2" type="int"/>
+          </variables>
+        </widget>
+        <bitmap x="0" y="0" width="200" height="200" params="2192" style="3" name="product_preview">
+          <variables>
+            <var key="pivot_point" value="center" type="String"/>
+            <var key="stretched_x" value="false" type="Boolean"/>
+            <var key="stretched_y" value="false" type="Boolean"/>
+          </variables>
+        </bitmap>
+      </children>
+    </container>
+  </window>
+</layout>

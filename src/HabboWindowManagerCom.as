@@ -7,157 +7,546 @@
     import com.sulake.iid.IIDHabboWindowManager;
     import com.sulake.iid.IIDCoreWindowManager;
     import com.sulake.habbo.window.HabboWindowManagerComponent;
-    import binaryData.*;
-    import images.*;
+
     import fonts.*;
 
     public class HabboWindowManagerCom extends SimpleApplication 
     {
         public static var requiredClasses:Array = new Array(HabboWindowManagerComponentBootstrap, IIDHabboWindowManager, IIDCoreWindowManager, HabboWindowManagerComponent, ICoreLocalizationFrameworkLib, ICoreWindowFrameworkLib, CoreWindowFrameworkLib);
-        public static var manifest:Class = HabboWindowManagerCom_manifest;
-        public static var habbo_element_description_xml:Class = HabboWindowManagerCom_habbo_element_description_xml;
-        public static var habbo_window_layout_alert_xml:Class = HabboWindowManagerCom_habbo_window_layout_alert_xml;
-        public static var habbo_window_layout_bubble_xml:Class = HabboWindowManagerCom_habbo_window_layout_bubble_xml;
-        public static var habbo_window_layout_bubble_7_xml:Class = HabboWindowManagerCom_habbo_window_layout_bubble_7_xml;
-        public static var habbo_window_layout_button_xml:Class = HabboWindowManagerCom_habbo_window_layout_button_xml;
-        public static var habbo_window_layout_button_thick_xml:Class = HabboWindowManagerCom_habbo_window_layout_button_thick_xml;
-        public static var habbo_window_layout_button_black_xml:Class = HabboWindowManagerCom_habbo_window_layout_button_black_xml;
-        public static var habbo_window_layout_button_thick_black_xml:Class = HabboWindowManagerCom_habbo_window_layout_button_thick_black_xml;
-        public static var habbo_window_layout_button_shiny_xml:Class = HabboWindowManagerCom_habbo_window_layout_button_shiny_xml;
-        public static var habbo_window_layout_button_shiny_thick_xml:Class = HabboWindowManagerCom_habbo_window_layout_button_shiny_thick_xml;
-        public static var habbo_window_layout_button_shiny_large_xml:Class = HabboWindowManagerCom_habbo_window_layout_button_shiny_large_xml;
-        public static var habbo_window_layout_button_shiny_large_5_xml:Class = HabboWindowManagerCom_habbo_window_layout_button_shiny_large_5_xml;
-        public static var habbo_window_layout_button_shiny_black_xml:Class = HabboWindowManagerCom_habbo_window_layout_button_shiny_black_xml;
-        public static var habbo_window_layout_button_shiny_thick_black_xml:Class = HabboWindowManagerCom_habbo_window_layout_button_shiny_thick_black_xml;
-        public static var habbo_window_layout_dropmenu_xml:Class = HabboWindowManagerCom_habbo_window_layout_dropmenu_xml;
-        public static var habbo_window_layout_dropmenu_3_xml:Class = HabboWindowManagerCom_habbo_window_layout_dropmenu_3_xml;
-        public static var habbo_window_layout_dropmenu_black_xml:Class = HabboWindowManagerCom_habbo_window_layout_dropmenu_black_xml;
-        public static var habbo_window_layout_dropmenu_item_xml:Class = HabboWindowManagerCom_habbo_window_layout_dropmenu_item_xml;
-        public static var habbo_window_layout_dropmenu_item_3_xml:Class = HabboWindowManagerCom_habbo_window_layout_dropmenu_item_3_xml;
-        public static var habbo_window_layout_dropmenu_item_black_xml:Class = HabboWindowManagerCom_habbo_window_layout_dropmenu_item_black_xml;
-        public static var habbo_window_layout_droplist_xml:Class = HabboWindowManagerCom_habbo_window_layout_droplist_xml;
-        public static var habbo_window_layout_frame_xml:Class = HabboWindowManagerCom_habbo_window_layout_frame_xml;
-        public static var habbo_window_layout_frame_3_xml:Class = HabboWindowManagerCom_habbo_window_layout_frame_3_xml;
-        public static var habbo_window_layout_frame_7_xml:Class = HabboWindowManagerCom_habbo_window_layout_frame_7_xml;
-        public static var habbo_window_layout_header_xml:Class = HabboWindowManagerCom_habbo_window_layout_header_xml;
-        public static var habbo_window_layout_header_black_xml:Class = HabboWindowManagerCom_habbo_window_layout_header_black_xml;
-        public static var habbo_window_layout_header_3_xml:Class = HabboWindowManagerCom_habbo_window_layout_header_3_xml;
-        public static var habbo_window_layout_header_7_xml:Class = HabboWindowManagerCom_habbo_window_layout_header_7_xml;
-        public static var habbo_window_layout_scaler_xml:Class = HabboWindowManagerCom_habbo_window_layout_scaler_xml;
-        public static var habbo_window_layout_scaler_3_xml:Class = HabboWindowManagerCom_habbo_window_layout_scaler_3_xml;
-        public static var habbo_window_layout_scrollbar_horizontal_xml:Class = HabboWindowManagerCom_habbo_window_layout_scrollbar_horizontal_xml;
-        public static var habbo_window_layout_scrollbar_vertical_xml:Class = HabboWindowManagerCom_habbo_window_layout_scrollbar_vertical_xml;
-        public static var habbo_window_layout_scrollable_itemlist_vertical_xml:Class = HabboWindowManagerCom_habbo_window_layout_scrollable_itemlist_vertical_xml;
-        public static var habbo_window_layout_scrollable_itemgrid_vertical_xml:Class = HabboWindowManagerCom_habbo_window_layout_scrollable_itemgrid_vertical_xml;
-        public static var habbo_window_layout_scrollable_itemlist_vertical_ubuntu_xml:Class = HabboWindowManagerCom_habbo_window_layout_scrollable_itemlist_vertical_ubuntu_xml;
-        public static var habbo_window_layout_scrollable_itemgrid_vertical_ubuntu_xml:Class = HabboWindowManagerCom_habbo_window_layout_scrollable_itemgrid_vertical_ubuntu_xml;
-        public static var habbo_window_layout_simple_xml:Class = HabboWindowManagerCom_habbo_window_layout_simple_xml;
-        public static var habbo_window_layout_tab_button_xml:Class = HabboWindowManagerCom_habbo_window_layout_tab_button_xml;
-        public static var habbo_window_layout_tab_button_black_xml:Class = HabboWindowManagerCom_habbo_window_layout_tab_button_black_xml;
-        public static var habbo_window_layout_tab_button_3_xml:Class = HabboWindowManagerCom_habbo_window_layout_tab_button_3_xml;
-        public static var habbo_window_layout_tab_context_xml:Class = HabboWindowManagerCom_habbo_window_layout_tab_context_xml;
-        public static var habbo_window_layout_tab_context_3_xml:Class = HabboWindowManagerCom_habbo_window_layout_tab_context_3_xml;
-        public static var habbo_window_layout_tooltip_xml:Class = HabboWindowManagerCom_habbo_window_layout_tooltip_xml;
-        public static var habbo_skin_frame_xml:Class = HabboWindowManagerCom_habbo_skin_frame_xml;
-        public static var habbo_skin_frame_3_xml:Class = HabboWindowManagerCom_habbo_skin_frame_3_xml;
-        public static var habbo_skin_frame_7_xml:Class = HabboWindowManagerCom_habbo_skin_frame_7_xml;
-        public static var habbo_skin_bubble_xml:Class = HabboWindowManagerCom_habbo_skin_bubble_xml;
-        public static var habbo_skin_bubble_pointer_up_xml:Class = HabboWindowManagerCom_habbo_skin_bubble_pointer_up_xml;
-        public static var habbo_skin_bubble_pointer_right_xml:Class = HabboWindowManagerCom_habbo_skin_bubble_pointer_right_xml;
-        public static var habbo_skin_bubble_pointer_down_xml:Class = HabboWindowManagerCom_habbo_skin_bubble_pointer_down_xml;
-        public static var habbo_skin_frame_pointer_down_xml:Class = HabboWindowManagerCom_habbo_skin_frame_pointer_down_xml;
-        public static var habbo_skin_bubble_pointer_left_xml:Class = HabboWindowManagerCom_habbo_skin_bubble_pointer_left_xml;
-        public static var habbo_skin_bubble_7_xml:Class = HabboWindowManagerCom_habbo_skin_bubble_7_xml;
-        public static var habbo_skin_bubble_pointer_up_7_xml:Class = HabboWindowManagerCom_habbo_skin_bubble_pointer_up_7_xml;
-        public static var habbo_skin_bubble_pointer_right_7_xml:Class = HabboWindowManagerCom_habbo_skin_bubble_pointer_right_7_xml;
-        public static var habbo_skin_bubble_pointer_down_7_xml:Class = HabboWindowManagerCom_habbo_skin_bubble_pointer_down_7_xml;
-        public static var habbo_skin_bubble_pointer_left_7_xml:Class = HabboWindowManagerCom_habbo_skin_bubble_pointer_left_7_xml;
-        public static var habbo_skin_button_default_xml:Class = HabboWindowManagerCom_habbo_skin_button_default_xml;
-        public static var habbo_skin_button_default_black_xml:Class = HabboWindowManagerCom_habbo_skin_button_default_black_xml;
-        public static var habbo_skin_button_default_white_xml:Class = HabboWindowManagerCom_habbo_skin_button_default_white_xml;
-        public static var habbo_skin_button_shiny_default_xml:Class = HabboWindowManagerCom_habbo_skin_button_shiny_default_xml;
-        public static var habbo_skin_button_shiny_black_xml:Class = HabboWindowManagerCom_habbo_skin_button_shiny_black_xml;
-        public static var habbo_skin_button_shiny_thick_xml:Class = HabboWindowManagerCom_habbo_skin_button_shiny_thick_xml;
-        public static var habbo_skin_button_shiny_large_xml:Class = HabboWindowManagerCom_habbo_skin_button_shiny_large_xml;
-        public static var habbo_skin_button_shiny_thick_black_xml:Class = HabboWindowManagerCom_habbo_skin_button_shiny_thick_black_xml;
-        public static var habbo_skin_button_thick_xml:Class = HabboWindowManagerCom_habbo_skin_button_thick_xml;
-        public static var habbo_skin_button_thick_black_xml:Class = HabboWindowManagerCom_habbo_skin_button_thick_black_xml;
-        public static var habbo_skin_button_thick_white_xml:Class = HabboWindowManagerCom_habbo_skin_button_thick_white_xml;
-        public static var habbo_skin_button_group_left_xml:Class = HabboWindowManagerCom_habbo_skin_button_group_left_xml;
-        public static var habbo_skin_button_group_left_black_xml:Class = HabboWindowManagerCom_habbo_skin_button_group_left_black_xml;
-        public static var habbo_skin_button_group_left_white_xml:Class = HabboWindowManagerCom_habbo_skin_button_group_left_white_xml;
-        public static var habbo_skin_button_group_center_xml:Class = HabboWindowManagerCom_habbo_skin_button_group_center_xml;
-        public static var habbo_skin_button_group_center_black_xml:Class = HabboWindowManagerCom_habbo_skin_button_group_center_black_xml;
-        public static var habbo_skin_button_group_center_white_xml:Class = HabboWindowManagerCom_habbo_skin_button_group_center_white_xml;
-        public static var habbo_skin_button_group_right_xml:Class = HabboWindowManagerCom_habbo_skin_button_group_right_xml;
-        public static var habbo_skin_button_group_right_black_xml:Class = HabboWindowManagerCom_habbo_skin_button_group_right_black_xml;
-        public static var habbo_skin_button_group_right_white_xml:Class = HabboWindowManagerCom_habbo_skin_button_group_right_white_xml;
-        public static var habbo_skin_button_checkbox_xml:Class = HabboWindowManagerCom_habbo_skin_button_checkbox_xml;
-        public static var habbo_skin_button_checkbox_black_xml:Class = HabboWindowManagerCom_habbo_skin_button_checkbox_black_xml;
-        public static var habbo_skin_button_checkbox_white_xml:Class = HabboWindowManagerCom_habbo_skin_button_checkbox_white_xml;
-        public static var habbo_skin_button_close_xml:Class = HabboWindowManagerCom_habbo_skin_button_close_xml;
-        public static var habbo_skin_button_close_black_xml:Class = HabboWindowManagerCom_habbo_skin_button_close_black_xml;
-        public static var habbo_skin_button_close_white_xml:Class = HabboWindowManagerCom_habbo_skin_button_close_white_xml;
-        public static var habbo_skin_button_close_3_xml:Class = HabboWindowManagerCom_habbo_skin_button_close_3_xml;
-        public static var habbo_skin_button_help_3_xml:Class = HabboWindowManagerCom_habbo_skin_button_help_3_xml;
-        public static var habbo_skin_button_radio_xml:Class = HabboWindowManagerCom_habbo_skin_button_radio_xml;
-        public static var habbo_skin_button_radio_black_xml:Class = HabboWindowManagerCom_habbo_skin_button_radio_black_xml;
-        public static var habbo_skin_button_radio_white_xml:Class = HabboWindowManagerCom_habbo_skin_button_radio_white_xml;
-        public static var habbo_skin_button_tab_xml:Class = HabboWindowManagerCom_habbo_skin_button_tab_xml;
-        public static var habbo_skin_button_tab_black_xml:Class = HabboWindowManagerCom_habbo_skin_button_tab_black_xml;
-        public static var habbo_skin_button_tab_white_xml:Class = HabboWindowManagerCom_habbo_skin_button_tab_white_xml;
-        public static var habbo_skin_button_tab_3_xml:Class = HabboWindowManagerCom_habbo_skin_button_tab_3_xml;
-        public static var habbo_skin_tab_content_3_xml:Class = HabboWindowManagerCom_habbo_skin_tab_content_3_xml;
-        public static var habbo_skin_scaler_xml:Class = HabboWindowManagerCom_habbo_skin_scaler_xml;
-        public static var habbo_skin_scaler_black_xml:Class = HabboWindowManagerCom_habbo_skin_scaler_black_xml;
-        public static var habbo_skin_scaler_white_xml:Class = HabboWindowManagerCom_habbo_skin_scaler_white_xml;
-        public static var habbo_skin_scaler_3_xml:Class = HabboWindowManagerCom_habbo_skin_scaler_3_xml;
-        public static var habbo_skin_scrollbar_xml:Class = HabboWindowManagerCom_habbo_skin_scrollbar_xml;
-        public static var habbo_skin_scrollbar_black_xml:Class = HabboWindowManagerCom_habbo_skin_scrollbar_black_xml;
-        public static var habbo_skin_scrollbar_3_xml:Class = HabboWindowManagerCom_habbo_skin_scrollbar_3_xml;
-        public static var habbo_skin_header_xml:Class = HabboWindowManagerCom_habbo_skin_header_xml;
-        public static var habbo_skin_header_3_xml:Class = HabboWindowManagerCom_habbo_skin_header_3_xml;
-        public static var habbo_skin_header_7_xml:Class = HabboWindowManagerCom_habbo_skin_header_7_xml;
-        public static var habbo_skin_icon_set_xml:Class = HabboWindowManagerCom_habbo_skin_icon_set_xml;
-        public static var habbo_skin_dropmenu_xml:Class = HabboWindowManagerCom_habbo_skin_dropmenu_xml;
-        public static var habbo_skin_dropmenu_3_xml:Class = HabboWindowManagerCom_habbo_skin_dropmenu_3_xml;
-        public static var habbo_skin_dropmenu_black_xml:Class = HabboWindowManagerCom_habbo_skin_dropmenu_black_xml;
-        public static var habbo_skin_droplist_xml:Class = HabboWindowManagerCom_habbo_skin_droplist_xml;
-        public static var habbo_skin_droplist_thick_xml:Class = HabboWindowManagerCom_habbo_skin_droplist_thick_xml;
-        public static var habbo_skin_tab_context_xml:Class = HabboWindowManagerCom_habbo_skin_tab_context_xml;
-        public static var habbo_skin_border_black_xml:Class = HabboWindowManagerCom_habbo_skin_border_black_xml;
-        public static var habbo_skin_border_colorless_xml:Class = HabboWindowManagerCom_habbo_skin_border_colorless_xml;
-        public static var habbo_skin_border_colorless_dropshadow_xml:Class = HabboWindowManagerCom_habbo_skin_border_colorless_dropshadow_xml;
-        public static var habbo_skin_border_white_xml:Class = HabboWindowManagerCom_habbo_skin_border_white_xml;
-        public static var habbo_skin_border_slot_xml:Class = HabboWindowManagerCom_habbo_skin_border_slot_xml;
-        public static var habbo_skin_border_4_xml:Class = HabboWindowManagerCom_habbo_skin_border_4_xml;
-        public static var habbo_skin_border_5_xml:Class = HabboWindowManagerCom_habbo_skin_border_5_xml;
-        public static var habbo_skin_border_6_xml:Class = HabboWindowManagerCom_habbo_skin_border_6_xml;
-        public static var habbo_skin_border_7_xml:Class = HabboWindowManagerCom_habbo_skin_border_7_xml;
-        public static var habbo_skin_border_8_xml:Class = HabboWindowManagerCom_habbo_skin_border_8_xml;
-        public static var habbo_skin_border_9_xml:Class = HabboWindowManagerCom_habbo_skin_border_9_xml;
-        public static var habbo_skin_text_xml:Class = HabboWindowManagerCom_habbo_skin_text_xml;
-        public static var habbo_skin_tooltip_xml:Class = HabboWindowManagerCom_habbo_skin_tooltip_xml;
-        public static var text_styles_css:Class = HabboWindowManagerCom_text_styles_css;
-        public static var habbo_blue_skin_png:Class = HabboWindowManagerCom_habbo_blue_skin_png;
-        public static var habbo_skin_ubuntu_png:Class = HabboWindowManagerCom_habbo_skin_ubuntu_png;
-        public static var skin_ubuntu_bg_9:Class = HabboWindowManagerCom_skin_ubuntu_bg_9;
-        public static var habbo_cursor_link_png:Class = HabboWindowManagerCom_habbo_cursor_link_png;
-        public static var habbo_cursor_drag_png:Class = HabboWindowManagerCom_habbo_cursor_drag_png;
-        public static var habbo_icons_png:Class = HabboWindowManagerCom_habbo_icons_png;
-        public static var placeholder_avatar_png:Class = HabboWindowManagerCom_placeholder_avatar_png;
-        public static var placeholder_avatar_head_png:Class = HabboWindowManagerCom_placeholder_avatar_head_png;
-        public static var placeholder_avatar_cropped_png:Class = HabboWindowManagerCom_placeholder_avatar_cropped_png;
-        public static var placeholder_avatar_head_cropped_png:Class = HabboWindowManagerCom_placeholder_avatar_head_cropped_png;
-        public static var placeholder_avatar_small_png:Class = HabboWindowManagerCom_placeholder_avatar_small_png;
-        public static var placeholder_avatar_small_head_png:Class = HabboWindowManagerCom_placeholder_avatar_small_head_png;
-        public static var placeholder_avatar_small_cropped_png:Class = HabboWindowManagerCom_placeholder_avatar_small_cropped_png;
-        public static var placeholder_avatar_small_head_cropped_png:Class = HabboWindowManagerCom_placeholder_avatar_small_head_cropped_png;
-        public static var placeholder_pet_png:Class = HabboWindowManagerCom_placeholder_pet_png;
-        public static var placeholder_pet_small_png:Class = HabboWindowManagerCom_placeholder_pet_small_png;
-        public static var placeholder_furni_png:Class = HabboWindowManagerCom_placeholder_furni_png;
-        public static var placeholder_furni_small_png:Class = HabboWindowManagerCom_placeholder_furni_small_png;
-        public static var navigation_icon_weblink:Class = HabboWindowManagerCom_navigation_icon_weblink;
+        [Embed(source="binaryData/HabboWindowManagerCom_manifest.bin", mimeType="application/octet-stream")]
+        public static var manifest:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_chests_bell_icon.png")]
+        public static var wired_chests_bell_icon:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_chests_gear_icon.png")]
+        public static var wired_chests_gear_icon:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_chests_images_classic_furni_chest_empty.png")]
+        public static var wired_chests_images_classic_furni_chest_empty:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_chests_images_variant_furni_chest_empty.png")]
+        public static var wired_chests_images_variant_furni_chest_empty:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_chests_images_generic_payments.png")]
+        public static var wired_chests_images_generic_payments:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_chests_images_dark_coins_chest_balance_zero.png")]
+        public static var wired_chests_images_dark_coins_chest_balance_zero:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_chests_images_dark_coins_chest_balance_low.png")]
+        public static var wired_chests_images_dark_coins_chest_balance_low:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_chests_images_dark_coins_chest_balance_medium.png")]
+        public static var wired_chests_images_dark_coins_chest_balance_medium:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_chests_images_dark_coins_chest_balance_high.png")]
+        public static var wired_chests_images_dark_coins_chest_balance_high:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_chests_images_light_coins_chest_balance_zero.png")]
+        public static var wired_chests_images_light_coins_chest_balance_zero:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_chests_images_light_coins_chest_balance_low.png")]
+        public static var wired_chests_images_light_coins_chest_balance_low:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_chests_images_light_coins_chest_balance_medium.png")]
+        public static var wired_chests_images_light_coins_chest_balance_medium:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_chests_images_light_coins_chest_balance_high.png")]
+        public static var wired_chests_images_light_coins_chest_balance_high:Class;
+        [Embed(source="images/HabboWindowManagerCom_chest_overlay_brown_background.png")]
+        public static var chest_overlay_brown_background:Class;
+        [Embed(source="images/HabboWindowManagerCom_chest_overlay_brown_plaque.png")]
+        public static var chest_overlay_brown_plaque:Class;
+        [Embed(source="images/HabboWindowManagerCom_chest_overlay_gold_background.png")]
+        public static var chest_overlay_gold_background:Class;
+        [Embed(source="images/HabboWindowManagerCom_chest_overlay_gold_plaque.png")]
+        public static var chest_overlay_gold_plaque:Class;
+        [Embed(source="images/HabboWindowManagerCom_chest_overlay_silver_background.png")]
+        public static var chest_overlay_silver_background:Class;
+        [Embed(source="images/HabboWindowManagerCom_chest_overlay_silver_plaque.png")]
+        public static var chest_overlay_silver_plaque:Class;
+        [Embed(source="images/HabboWindowManagerCom_chest_overlay_shine.png")]
+        public static var chest_overlay_shine:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_element_description_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_element_description_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_window_layout_alert_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_window_layout_alert_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_window_layout_bubble_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_window_layout_bubble_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_window_layout_bubble_7_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_window_layout_bubble_7_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_window_layout_button_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_window_layout_button_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_window_layout_button_thick_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_window_layout_button_thick_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_window_layout_button_black_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_window_layout_button_black_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_window_layout_button_thick_black_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_window_layout_button_thick_black_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_window_layout_button_shiny_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_window_layout_button_shiny_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_window_layout_button_shiny_thick_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_window_layout_button_shiny_thick_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_window_layout_button_shiny_large_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_window_layout_button_shiny_large_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_window_layout_button_shiny_large_5_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_window_layout_button_shiny_large_5_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_window_layout_button_shiny_black_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_window_layout_button_shiny_black_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_window_layout_button_shiny_thick_black_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_window_layout_button_shiny_thick_black_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_window_layout_dropmenu_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_window_layout_dropmenu_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_window_layout_dropmenu_3_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_window_layout_dropmenu_3_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_window_layout_dropmenu_black_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_window_layout_dropmenu_black_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_window_layout_dropmenu_item_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_window_layout_dropmenu_item_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_window_layout_dropmenu_item_3_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_window_layout_dropmenu_item_3_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_window_layout_dropmenu_item_black_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_window_layout_dropmenu_item_black_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_window_layout_droplist_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_window_layout_droplist_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_window_layout_frame_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_window_layout_frame_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_window_layout_frame_3_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_window_layout_frame_3_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_window_layout_frame_7_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_window_layout_frame_7_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_window_layout_frame_leaderboard_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_window_layout_frame_leaderboard_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_window_layout_header_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_window_layout_header_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_window_layout_header_black_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_window_layout_header_black_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_window_layout_header_3_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_window_layout_header_3_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_window_layout_header_7_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_window_layout_header_7_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_window_layout_header_leaderboard_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_window_layout_header_leaderboard_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_window_layout_scaler_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_window_layout_scaler_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_window_layout_scaler_3_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_window_layout_scaler_3_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_window_layout_scrollbar_horizontal_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_window_layout_scrollbar_horizontal_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_window_layout_scrollbar_vertical_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_window_layout_scrollbar_vertical_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_window_layout_scrollable_itemlist_vertical_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_window_layout_scrollable_itemlist_vertical_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_window_layout_scrollable_itemgrid_vertical_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_window_layout_scrollable_itemgrid_vertical_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_window_layout_scrollable_itemlist_vertical_ubuntu_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_window_layout_scrollable_itemlist_vertical_ubuntu_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_window_layout_scrollable_itemgrid_vertical_ubuntu_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_window_layout_scrollable_itemgrid_vertical_ubuntu_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_window_layout_simple_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_window_layout_simple_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_window_layout_tab_button_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_window_layout_tab_button_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_window_layout_tab_button_black_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_window_layout_tab_button_black_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_window_layout_tab_button_3_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_window_layout_tab_button_3_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_window_layout_tab_context_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_window_layout_tab_context_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_window_layout_tab_context_3_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_window_layout_tab_context_3_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_window_layout_tooltip_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_window_layout_tooltip_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_frame_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_frame_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_frame_3_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_frame_3_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_frame_7_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_frame_7_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_frame_leaderboard_all_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_frame_leaderboard_all_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_bubble_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_bubble_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_bubble_pointer_up_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_bubble_pointer_up_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_bubble_pointer_right_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_bubble_pointer_right_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_bubble_pointer_down_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_bubble_pointer_down_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_frame_pointer_down_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_frame_pointer_down_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_bubble_pointer_left_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_bubble_pointer_left_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_bubble_7_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_bubble_7_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_bubble_pointer_up_7_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_bubble_pointer_up_7_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_bubble_pointer_right_7_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_bubble_pointer_right_7_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_bubble_pointer_down_7_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_bubble_pointer_down_7_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_bubble_pointer_left_7_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_bubble_pointer_left_7_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_button_default_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_button_default_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_button_default_black_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_button_default_black_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_button_default_white_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_button_default_white_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_button_shiny_default_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_button_shiny_default_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_button_shiny_black_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_button_shiny_black_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_button_shiny_thick_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_button_shiny_thick_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_button_shiny_large_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_button_shiny_large_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_button_shiny_thick_black_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_button_shiny_thick_black_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_button_thick_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_button_thick_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_button_thick_black_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_button_thick_black_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_button_thick_white_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_button_thick_white_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_button_group_left_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_button_group_left_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_button_group_left_black_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_button_group_left_black_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_button_group_left_white_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_button_group_left_white_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_button_group_center_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_button_group_center_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_button_group_center_black_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_button_group_center_black_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_button_group_center_white_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_button_group_center_white_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_button_group_right_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_button_group_right_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_button_group_right_black_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_button_group_right_black_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_button_group_right_white_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_button_group_right_white_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_button_checkbox_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_button_checkbox_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_button_checkbox_black_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_button_checkbox_black_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_button_checkbox_white_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_button_checkbox_white_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_button_close_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_button_close_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_button_close_black_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_button_close_black_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_button_close_white_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_button_close_white_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_button_close_3_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_button_close_3_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_button_close_leaderboard_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_button_close_leaderboard_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_button_help_3_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_button_help_3_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_button_radio_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_button_radio_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_button_radio_black_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_button_radio_black_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_button_radio_white_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_button_radio_white_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_button_tab_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_button_tab_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_button_tab_black_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_button_tab_black_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_button_tab_white_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_button_tab_white_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_button_tab_3_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_button_tab_3_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_tab_content_3_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_tab_content_3_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_scaler_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_scaler_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_scaler_black_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_scaler_black_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_scaler_white_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_scaler_white_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_scaler_3_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_scaler_3_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_scrollbar_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_scrollbar_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_scrollbar_black_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_scrollbar_black_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_scrollbar_3_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_scrollbar_3_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_header_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_header_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_header_3_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_header_3_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_header_7_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_header_7_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_header_leaderboard_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_header_leaderboard_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_icon_set_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_icon_set_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_dropmenu_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_dropmenu_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_dropmenu_3_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_dropmenu_3_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_dropmenu_black_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_dropmenu_black_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_droplist_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_droplist_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_droplist_thick_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_droplist_thick_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_tab_context_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_tab_context_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_border_black_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_border_black_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_border_colorless_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_border_colorless_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_border_colorless_dropshadow_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_border_colorless_dropshadow_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_border_white_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_border_white_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_border_slot_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_border_slot_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_border_4_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_border_4_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_border_5_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_border_5_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_border_6_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_border_6_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_border_7_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_border_7_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_border_8_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_border_8_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_border_9_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_border_9_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_border_slot_2_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_border_slot_2_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_border_12_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_border_12_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_border_13_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_border_13_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_border_14_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_border_14_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_border_15_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_border_15_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_border_16_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_border_16_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_button_menu_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_button_menu_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_button_minus_3_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_button_minus_3_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_button_plus_3_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_button_plus_3_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_frame_leaderboard_ach_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_frame_leaderboard_ach_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_frame_leaderboard_rarity_1_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_frame_leaderboard_rarity_1_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_frame_leaderboard_rarity_2_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_frame_leaderboard_rarity_2_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_frame_leaderboard_rarity_3_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_frame_leaderboard_rarity_3_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_frame_leaderboard_rarity_4_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_frame_leaderboard_rarity_4_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_frame_leaderboard_rarity_5_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_frame_leaderboard_rarity_5_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_frame_leaderboard_rarity_uncommon_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_frame_leaderboard_rarity_uncommon_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_light_skin_button_dark_recolorable_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_light_skin_button_dark_recolorable_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_light_skin_button_frame_minimize_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_light_skin_button_frame_minimize_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_light_skin_button_multi_left_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_light_skin_button_multi_left_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_light_skin_button_multi_middle_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_light_skin_button_multi_middle_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_light_skin_button_multi_right_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_light_skin_button_multi_right_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_text_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_text_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_skin_tooltip_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_skin_tooltip_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_text_styles_css.bin", mimeType="application/octet-stream")]
+        public static var text_styles_css:Class;
+        [Embed(source="images/HabboWindowManagerCom_habbo_blue_skin_png.png")]
+        public static var habbo_blue_skin_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_menu_border_skin_png.png")]
+        public static var wired_menu_border_skin_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_habbo_skin_ubuntu_png.png")]
+        public static var habbo_skin_ubuntu_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_skin_ubuntu_bg_9.png")]
+        public static var skin_ubuntu_bg_9:Class;
+        [Embed(source="images/HabboWindowManagerCom_ubuntu_frame_leaderboard_all_png.png")]
+        public static var ubuntu_frame_leaderboard_all_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_leaderboard_button_close_png.png")]
+        public static var leaderboard_button_close_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_reward_track_checkmark.png")]
+        public static var reward_track_checkmark:Class;
+        [Embed(source="images/HabboWindowManagerCom_reward_track_available_icon.png")]
+        public static var reward_track_available_icon:Class;
+        [Embed(source="images/HabboWindowManagerCom_reward_track_frank_and_piccolo.png")]
+        public static var reward_track_frank_and_piccolo:Class;
+        [Embed(source="images/HabboWindowManagerCom_reward_track_frank_tips.png")]
+        public static var reward_track_frank_tips:Class;
+        [Embed(source="images/HabboWindowManagerCom_reward_track_free_track.png")]
+        public static var reward_track_free_track:Class;
+        [Embed(source="images/HabboWindowManagerCom_reward_track_locked_large.png")]
+        public static var reward_track_locked_large:Class;
+        [Embed(source="images/HabboWindowManagerCom_reward_track_locked_reward.png")]
+        public static var reward_track_locked_reward:Class;
+        [Embed(source="images/HabboWindowManagerCom_reward_track_locked_small.png")]
+        public static var reward_track_locked_small:Class;
+        [Embed(source="images/HabboWindowManagerCom_reward_track_not_available_icon.png")]
+        public static var reward_track_not_available_icon:Class;
+        [Embed(source="images/HabboWindowManagerCom_reward_track_point_large.png")]
+        public static var reward_track_point_large:Class;
+        [Embed(source="images/HabboWindowManagerCom_reward_track_point_small.png")]
+        public static var reward_track_point_small:Class;
+        [Embed(source="images/HabboWindowManagerCom_reward_track_premium_track.png")]
+        public static var reward_track_premium_track:Class;
+        [Embed(source="images/HabboWindowManagerCom_reward_track_prizes_background.png")]
+        public static var reward_track_prizes_background:Class;
+        [Embed(source="images/HabboWindowManagerCom_reward_track_prizes_background_stars.png")]
+        public static var reward_track_prizes_background_stars:Class;
+        [Embed(source="images/HabboWindowManagerCom_reward_track_reward_gift.png")]
+        public static var reward_track_reward_gift:Class;
+        [Embed(source="images/HabboWindowManagerCom_reward_track_reward_gift_premium.png")]
+        public static var reward_track_reward_gift_premium:Class;
+        [Embed(source="images/HabboWindowManagerCom_reward_track_small_icon.png")]
+        public static var reward_track_small_icon:Class;
+        [Embed(source="images/HabboWindowManagerCom_reward_track_task_list.png")]
+        public static var reward_track_task_list:Class;
+        [Embed(source="images/HabboWindowManagerCom_reward_track_task_list_complete.png")]
+        public static var reward_track_task_list_complete:Class;
+        [Embed(source="images/HabboWindowManagerCom_reward_track_tasks_chat_with_someone.png")]
+        public static var reward_track_tasks_chat_with_someone:Class;
+        [Embed(source="images/HabboWindowManagerCom_reward_track_tasks_change_figure.png")]
+        public static var reward_track_tasks_change_figure:Class;
+        [Embed(source="images/HabboWindowManagerCom_reward_track_tasks_change_motto.png")]
+        public static var reward_track_tasks_change_motto:Class;
+        [Embed(source="images/HabboWindowManagerCom_reward_track_tasks_create_room.png")]
+        public static var reward_track_tasks_create_room:Class;
+        [Embed(source="images/HabboWindowManagerCom_reward_track_tasks_dance.png")]
+        public static var reward_track_tasks_dance:Class;
+        [Embed(source="images/HabboWindowManagerCom_reward_track_tasks_give_respect.png")]
+        public static var reward_track_tasks_give_respect:Class;
+        [Embed(source="images/HabboWindowManagerCom_reward_track_tasks_request_friend.png")]
+        public static var reward_track_tasks_request_friend:Class;
+        [Embed(source="images/HabboWindowManagerCom_reward_track_tasks_buy_from_catalogue.png")]
+        public static var reward_track_tasks_buy_from_catalogue:Class;
+        [Embed(source="images/HabboWindowManagerCom_reward_track_tasks_place_item.png")]
+        public static var reward_track_tasks_place_item:Class;
+        [Embed(source="images/HabboWindowManagerCom_reward_track_tasks_switch_item_state.png")]
+        public static var reward_track_tasks_switch_item_state:Class;
+        [Embed(source="images/HabboWindowManagerCom_reward_track_tasks_wave.png")]
+        public static var reward_track_tasks_wave:Class;
+        [Embed(source="images/HabboWindowManagerCom_reward_track_tasks_enter_other_users_room.png")]
+        public static var reward_track_tasks_enter_other_users_room:Class;
+        [Embed(source="images/HabboWindowManagerCom_reward_track_tasks_wear_badge.png")]
+        public static var reward_track_tasks_wear_badge:Class;
+        [Embed(source="images/HabboWindowManagerCom_reward_track_tasks_find_hand_item.png")]
+        public static var reward_track_tasks_find_hand_item:Class;
+        [Embed(source="images/HabboWindowManagerCom_reward_track_tasks_follow_friend.png")]
+        public static var reward_track_tasks_follow_friend:Class;
+        [Embed(source="images/HabboWindowManagerCom_reward_track_tasks_move_item.png")]
+        public static var reward_track_tasks_move_item:Class;
+        [Embed(source="images/HabboWindowManagerCom_reward_track_tasks_rotate_item.png")]
+        public static var reward_track_tasks_rotate_item:Class;
+        [Embed(source="images/HabboWindowManagerCom_reward_track_tasks_send_messenger_invite.png")]
+        public static var reward_track_tasks_send_messenger_invite:Class;
+        [Embed(source="images/HabboWindowManagerCom_reward_track_tasks_send_messenger_message.png")]
+        public static var reward_track_tasks_send_messenger_message:Class;
+        [Embed(source="images/HabboWindowManagerCom_reward_track_tasks_set_relationship_status.png")]
+        public static var reward_track_tasks_set_relationship_status:Class;
+        [Embed(source="images/HabboWindowManagerCom_reward_track_tasks_swim.png")]
+        public static var reward_track_tasks_swim:Class;
+        [Embed(source="images/HabboWindowManagerCom_reward_track_tasks_teleport.png")]
+        public static var reward_track_tasks_teleport:Class;
+        [Embed(source="images/HabboWindowManagerCom_bg_pattern_001.png")]
+        public static var bg_pattern_001:Class;
+        [Embed(source="images/HabboWindowManagerCom_habbicons_habbicons_logo.png")]
+        public static var habbicons_habbicons_logo:Class;
+        [Embed(source="images/HabboWindowManagerCom_habbicons_habbicons_dm.png")]
+        public static var habbicons_habbicons_dm:Class;
+        [Embed(source="images/HabboWindowManagerCom_habbicons_sticky_note.png")]
+        public static var habbicons_sticky_note:Class;
+        [Embed(source="images/HabboWindowManagerCom_habbicons_clip.png")]
+        public static var habbicons_clip:Class;
+        [Embed(source="images/HabboWindowManagerCom_habbicons_sticky_note2.png")]
+        public static var habbicons_sticky_note2:Class;
+        [Embed(source="images/HabboWindowManagerCom_icon_habbicon_fav.png")]
+        public static var icon_habbicon_fav:Class;
+        [Embed(source="images/HabboWindowManagerCom_habbicon_topbar_mid.png")]
+        public static var habbicon_topbar_mid:Class;
+        [Embed(source="images/HabboWindowManagerCom_habbicon_topbar_left.png")]
+        public static var habbicon_topbar_left:Class;
+        [Embed(source="images/HabboWindowManagerCom_habbicon_topbar_right.png")]
+        public static var habbicon_topbar_right:Class;
+        [Embed(source="images/HabboWindowManagerCom_habbicons_submenu_icon_default.png")]
+        public static var habbicons_submenu_icon_default:Class;
+        [Embed(source="images/HabboWindowManagerCom_habbicons_submenu_icon_owned.png")]
+        public static var habbicons_submenu_icon_owned:Class;
+        [Embed(source="images/HabboWindowManagerCom_use_habbicon.png")]
+        public static var use_habbicon:Class;
+        [Embed(source="images/HabboWindowManagerCom_use_habbicon.png")]
+        public static var reward_track_tasks_use_habbicon:Class;
+        [Embed(source="images/HabboWindowManagerCom_badge_rarity_badges_emblem_unique.png")]
+        public static var badge_rarity_badges_emblem_unique:Class;
+        [Embed(source="images/HabboWindowManagerCom_badge_rarity_badges_emblem_unique_extended.png")]
+        public static var badge_rarity_badges_emblem_unique_extended:Class;
+        [Embed(source="images/HabboWindowManagerCom_badge_leaderboard_entry_even.png")]
+        public static var badge_leaderboard_entry_even:Class;
+        [Embed(source="images/HabboWindowManagerCom_badge_leaderboard_entry_self.png")]
+        public static var badge_leaderboard_entry_self:Class;
+        [Embed(source="images/HabboWindowManagerCom_badge_leaderboard_entry_uneven.png")]
+        public static var badge_leaderboard_entry_uneven:Class;
+        [Embed(source="images/HabboWindowManagerCom_badge_leaderboard_header.png")]
+        public static var badge_leaderboard_header:Class;
+        [Embed(source="images/HabboWindowManagerCom_badge_leaderboard_dropdown_opener.png")]
+        public static var badge_leaderboard_dropdown_opener:Class;
+        [Embed(source="images/HabboWindowManagerCom_habbo_cursor_link_png.png")]
+        public static var habbo_cursor_link_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_habbo_cursor_drag_png.png")]
+        public static var habbo_cursor_drag_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_habbo_border_hsv_layers_png.png")]
+        public static var habbo_border_hsv_layers_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_habbo_border_hsv_layers2_png.png")]
+        public static var habbo_border_hsv_layers2_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_illumina_light_button_dark_recolorable_png.png")]
+        public static var illumina_light_button_dark_recolorable_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_illumina_light_button_frame_minimize_png.png")]
+        public static var illumina_light_button_frame_minimize_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_illumina_light_button_multi_png.png")]
+        public static var illumina_light_button_multi_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_ubuntu_frame_leaderboard_ach_png.png")]
+        public static var ubuntu_frame_leaderboard_ach_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_ubuntu_frame_leaderboard_rarity_1_png.png")]
+        public static var ubuntu_frame_leaderboard_rarity_1_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_ubuntu_frame_leaderboard_rarity_2_png.png")]
+        public static var ubuntu_frame_leaderboard_rarity_2_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_ubuntu_frame_leaderboard_rarity_3_png.png")]
+        public static var ubuntu_frame_leaderboard_rarity_3_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_ubuntu_frame_leaderboard_rarity_4_png.png")]
+        public static var ubuntu_frame_leaderboard_rarity_4_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_ubuntu_frame_leaderboard_rarity_5_png.png")]
+        public static var ubuntu_frame_leaderboard_rarity_5_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_ubuntu_frame_leaderboard_rarity_uncommon_png.png")]
+        public static var ubuntu_frame_leaderboard_rarity_uncommon_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_habbo_icons_png.png")]
+        public static var habbo_icons_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_placeholder_avatar_png.png")]
+        public static var placeholder_avatar_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_placeholder_avatar_head_png.png")]
+        public static var placeholder_avatar_head_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_placeholder_avatar_cropped_png.png")]
+        public static var placeholder_avatar_cropped_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_placeholder_avatar_head_cropped_png.png")]
+        public static var placeholder_avatar_head_cropped_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_placeholder_avatar_small_png.png")]
+        public static var placeholder_avatar_small_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_placeholder_avatar_small_head_png.png")]
+        public static var placeholder_avatar_small_head_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_placeholder_avatar_small_cropped_png.png")]
+        public static var placeholder_avatar_small_cropped_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_placeholder_avatar_small_head_cropped_png.png")]
+        public static var placeholder_avatar_small_head_cropped_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_placeholder_pet_png.png")]
+        public static var placeholder_pet_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_placeholder_pet_small_png.png")]
+        public static var placeholder_pet_small_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_placeholder_furni_png.png")]
+        public static var placeholder_furni_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_placeholder_furni_small_png.png")]
+        public static var placeholder_furni_small_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_navigation_icon_weblink.png")]
+        public static var navigation_icon_weblink:Class;
         public static var volter:Class = _Str_10363;
         public static var volterb:Class = _Str_10339;
         public static var ubuntu_regular:Class = _Str_10940;
@@ -167,648 +556,1412 @@
         public static var ubuntu_italic:Class = _Str_11991;
         public static var ubuntu_bold_italic:Class = _Str_10581;
         public static var ubuntuMedium:Class = _Str_10176;
-        public static var habbo_window_alert_xml:Class = HabboWindowManagerCom_habbo_window_alert_xml;
-        public static var habbo_window_alert_link_xml:Class = HabboWindowManagerCom_habbo_window_alert_link_xml;
-        public static var habbo_window_confirm_xml:Class = HabboWindowManagerCom_habbo_window_confirm_xml;
-        public static var habbo_crasher_dialog_xml:Class = HabboWindowManagerCom_habbo_crasher_dialog_xml;
-        public static var unseen_item_counter_xml:Class = HabboWindowManagerCom_unseen_item_counter_xml;
-        public static var simple_alert_xml:Class = HabboWindowManagerCom_simple_alert_xml;
-        public static var illumina_alert_illustrations_frank_neutral_png:Class = HabboWindowManagerCom_illumina_alert_illustrations_frank_neutral_png;
-        public static var habbo_skin_illumina_light_png:Class = HabboWindowManagerCom_habbo_skin_illumina_light_png;
-        public static var illumina_light_balloon_png:Class = HabboWindowManagerCom_illumina_light_balloon_png;
-        public static var illumina_light_border_etched_png:Class = HabboWindowManagerCom_illumina_light_border_etched_png;
-        public static var illumina_light_border_frame_png:Class = HabboWindowManagerCom_illumina_light_border_frame_png;
-        public static var illumina_light_border_infobox_png:Class = HabboWindowManagerCom_illumina_light_border_infobox_png;
-        public static var illumina_light_border_light_png:Class = HabboWindowManagerCom_illumina_light_border_light_png;
-        public static var illumina_light_border_raised_png:Class = HabboWindowManagerCom_illumina_light_border_raised_png;
-        public static var illumina_light_border_sunk_png:Class = HabboWindowManagerCom_illumina_light_border_sunk_png;
-        public static var illumina_light_bubble_chat_arrow_png:Class = HabboWindowManagerCom_illumina_light_bubble_chat_arrow_png;
-        public static var illumina_light_bubble_chat_bg_png:Class = HabboWindowManagerCom_illumina_light_bubble_chat_bg_png;
-        public static var illumina_light_button_default_png:Class = HabboWindowManagerCom_illumina_light_button_default_png;
-        public static var illumina_light_button_frame_close_png:Class = HabboWindowManagerCom_illumina_light_button_frame_close_png;
-        public static var illumina_light_button_unetched_png:Class = HabboWindowManagerCom_illumina_light_button_unetched_png;
-        public static var illumina_light_checkbox_basic_png:Class = HabboWindowManagerCom_illumina_light_checkbox_basic_png;
-        public static var illumina_light_clock_background_png:Class = HabboWindowManagerCom_illumina_light_clock_background_png;
-        public static var illumina_light_clock_background_left_png:Class = HabboWindowManagerCom_illumina_light_clock_background_left_png;
-        public static var illumina_light_clock_background_mid_png:Class = HabboWindowManagerCom_illumina_light_clock_background_mid_png;
-        public static var illumina_light_clock_background_right_png:Class = HabboWindowManagerCom_illumina_light_clock_background_right_png;
-        public static var illumina_light_icons_png:Class = HabboWindowManagerCom_illumina_light_icons_png;
-        public static var illumina_light_input_chat_png:Class = HabboWindowManagerCom_illumina_light_input_chat_png;
-        public static var illumina_light_progress_indicator_etched_png:Class = HabboWindowManagerCom_illumina_light_progress_indicator_etched_png;
-        public static var illumina_light_progress_indicator_flat_png:Class = HabboWindowManagerCom_illumina_light_progress_indicator_flat_png;
-        public static var illumina_light_radio_button_png:Class = HabboWindowManagerCom_illumina_light_radio_button_png;
-        public static var illumina_light_scrollbar_horizontal_png:Class = HabboWindowManagerCom_illumina_light_scrollbar_horizontal_png;
-        public static var illumina_light_scrollbar_vertical_png:Class = HabboWindowManagerCom_illumina_light_scrollbar_vertical_png;
-        public static var illumina_light_separator_png:Class = HabboWindowManagerCom_illumina_light_separator_png;
-        public static var illumina_light_switch_png:Class = HabboWindowManagerCom_illumina_light_switch_png;
-        public static var illumina_light_skin_border_xml:Class = HabboWindowManagerCom_illumina_light_skin_border_xml;
-        public static var illumina_light_skin_border_sunk_xml:Class = HabboWindowManagerCom_illumina_light_skin_border_sunk_xml;
-        public static var illumina_light_skin_border_light_xml:Class = HabboWindowManagerCom_illumina_light_skin_border_light_xml;
-        public static var illumina_light_skin_border_raised_xml:Class = HabboWindowManagerCom_illumina_light_skin_border_raised_xml;
-        public static var illumina_light_skin_border_input_xml:Class = HabboWindowManagerCom_illumina_light_skin_border_input_xml;
-        public static var illumina_light_skin_border_chat_bubble_xml:Class = HabboWindowManagerCom_illumina_light_skin_border_chat_bubble_xml;
-        public static var illumina_light_skin_border_balloon_xml:Class = HabboWindowManagerCom_illumina_light_skin_border_balloon_xml;
-        public static var illumina_light_skin_border_infobox_xml:Class = HabboWindowManagerCom_illumina_light_skin_border_infobox_xml;
-        public static var illumina_light_frame_xml:Class = HabboWindowManagerCom_illumina_light_frame_xml;
-        public static var illumina_light_frame_modal_xml:Class = HabboWindowManagerCom_illumina_light_frame_modal_xml;
-        public static var illumina_light_skin_frame_xml:Class = HabboWindowManagerCom_illumina_light_skin_frame_xml;
-        public static var illumina_light_button_xml:Class = HabboWindowManagerCom_illumina_light_button_xml;
-        public static var illumina_light_button_plain_xml:Class = HabboWindowManagerCom_illumina_light_button_plain_xml;
-        public static var illumina_light_skin_button_xml:Class = HabboWindowManagerCom_illumina_light_skin_button_xml;
-        public static var illumina_light_skin_button_plain_xml:Class = HabboWindowManagerCom_illumina_light_skin_button_plain_xml;
-        public static var illumina_light_skin_button_unetched_xml:Class = HabboWindowManagerCom_illumina_light_skin_button_unetched_xml;
-        public static var illumina_light_checkbox_basic_xml:Class = HabboWindowManagerCom_illumina_light_checkbox_basic_xml;
-        public static var illumina_light_skin_checkbox_basic_xml:Class = HabboWindowManagerCom_illumina_light_skin_checkbox_basic_xml;
-        public static var illumina_light_switch_xml:Class = HabboWindowManagerCom_illumina_light_switch_xml;
-        public static var illumina_light_skin_switch_xml:Class = HabboWindowManagerCom_illumina_light_skin_switch_xml;
-        public static var illumina_light_radio_button_xml:Class = HabboWindowManagerCom_illumina_light_radio_button_xml;
-        public static var illumina_light_skin_radio_button_xml:Class = HabboWindowManagerCom_illumina_light_skin_radio_button_xml;
-        public static var illumina_light_scrollbar_horizontal_xml:Class = HabboWindowManagerCom_illumina_light_scrollbar_horizontal_xml;
-        public static var illumina_light_scrollbar_vertical_xml:Class = HabboWindowManagerCom_illumina_light_scrollbar_vertical_xml;
-        public static var illumina_light_skin_scrollbar_xml:Class = HabboWindowManagerCom_illumina_light_skin_scrollbar_xml;
-        public static var illumina_light_scrollable_itemlist_vertical_xml:Class = HabboWindowManagerCom_illumina_light_scrollable_itemlist_vertical_xml;
-        public static var illumina_light_dropmenu_item_xml:Class = HabboWindowManagerCom_illumina_light_dropmenu_item_xml;
-        public static var illumina_light_dropmenu_xml:Class = HabboWindowManagerCom_illumina_light_dropmenu_xml;
-        public static var illumina_purple_frame_xml:Class = HabboWindowManagerCom_illumina_purple_frame_xml;
-        public static var illumina_purple_skin_frame_xml:Class = HabboWindowManagerCom_illumina_purple_skin_frame_xml;
-        public static var illumina_purple_button_xml:Class = HabboWindowManagerCom_illumina_purple_button_xml;
-        public static var illumina_purple_skin_button_xml:Class = HabboWindowManagerCom_illumina_purple_skin_button_xml;
-        public static var illumina_purple_button_plain_xml:Class = HabboWindowManagerCom_illumina_purple_button_plain_xml;
-        public static var illumina_purple_skin_button_plain_xml:Class = HabboWindowManagerCom_illumina_purple_skin_button_plain_xml;
-        public static var illumina_purple_skin_button_frame_close_xml:Class = HabboWindowManagerCom_illumina_purple_skin_button_frame_close_xml;
-        public static var illumina_purple_border_frame_png:Class = HabboWindowManagerCom_illumina_purple_border_frame_png;
-        public static var illumina_purple_button_default_png:Class = HabboWindowManagerCom_illumina_purple_button_default_png;
-        public static var illumina_purple_button_frame_close_png:Class = HabboWindowManagerCom_illumina_purple_button_frame_close_png;
-        public static var habbo_skin_illumina_dark_png:Class = HabboWindowManagerCom_habbo_skin_illumina_dark_png;
-        public static var illumina_dark_skin_border_xml:Class = HabboWindowManagerCom_illumina_dark_skin_border_xml;
-        public static var illumina_dark_frame_xml:Class = HabboWindowManagerCom_illumina_dark_frame_xml;
-        public static var illumina_dark_skin_frame_xml:Class = HabboWindowManagerCom_illumina_dark_skin_frame_xml;
-        public static var illumina_dark_header_xml:Class = HabboWindowManagerCom_illumina_dark_header_xml;
-        public static var illumina_dark_skin_header_xml:Class = HabboWindowManagerCom_illumina_dark_skin_header_xml;
-        public static var illumina_dark_button_xml:Class = HabboWindowManagerCom_illumina_dark_button_xml;
-        public static var illumina_dark_skin_button_xml:Class = HabboWindowManagerCom_illumina_dark_skin_button_xml;
-        public static var illumina_dark_scrollbar_horizontal_xml:Class = HabboWindowManagerCom_illumina_dark_scrollbar_horizontal_xml;
-        public static var illumina_dark_scrollbar_vertical_xml:Class = HabboWindowManagerCom_illumina_dark_scrollbar_vertical_xml;
-        public static var illumina_dark_skin_scrollbar_xml:Class = HabboWindowManagerCom_illumina_dark_skin_scrollbar_xml;
-        public static var illumina_dark_scrollbar_horizontal_png:Class = HabboWindowManagerCom_illumina_dark_scrollbar_horizontal_png;
-        public static var illumina_dark_scrollbar_vertical_png:Class = HabboWindowManagerCom_illumina_dark_scrollbar_vertical_png;
-        public static var achievement_ach_progressbar1:Class = HabboWindowManagerCom_achievement_ach_progressbar1;
-        public static var achievement_ach_progressbar2:Class = HabboWindowManagerCom_achievement_ach_progressbar2;
-        public static var achievement_ach_progressbar3:Class = HabboWindowManagerCom_achievement_ach_progressbar3;
-        public static var achievement_ach_progressbar4:Class = HabboWindowManagerCom_achievement_ach_progressbar4;
-        public static var achievement_ach_progressbar5:Class = HabboWindowManagerCom_achievement_ach_progressbar5;
-        public static var avatar_editor_avatar_editor_download_icon:Class = HabboWindowManagerCom_avatar_editor_avatar_editor_download_icon;
-        public static var avatar_editor_editor_clr_13x21_1:Class = HabboWindowManagerCom_avatar_editor_editor_clr_13x21_1;
-        public static var avatar_editor_editor_clr_13x21_2:Class = HabboWindowManagerCom_avatar_editor_editor_clr_13x21_2;
-        public static var avatar_editor_editor_clr_13x21_3:Class = HabboWindowManagerCom_avatar_editor_editor_clr_13x21_3;
-        public static var avatar_editor_editor_clr_40x32_1:Class = HabboWindowManagerCom_avatar_editor_editor_clr_40x32_1;
-        public static var avatar_editor_editor_clr_40x32_2:Class = HabboWindowManagerCom_avatar_editor_editor_clr_40x32_2;
-        public static var avatar_editor_editor_clr_40x32_3:Class = HabboWindowManagerCom_avatar_editor_editor_clr_40x32_3;
-        public static var avatar_editor_generic_platform:Class = HabboWindowManagerCom_avatar_editor_generic_platform;
-        public static var avatar_editor_generic_remove_selection:Class = HabboWindowManagerCom_avatar_editor_generic_remove_selection;
-        public static var avatar_editor_parts_hilite:Class = HabboWindowManagerCom_avatar_editor_parts_hilite;
-        public static var avatar_editor_parts_hilite_with_sd:Class = HabboWindowManagerCom_avatar_editor_parts_hilite_with_sd;
-        public static var avatar_editor_rotate_avatar_button:Class = HabboWindowManagerCom_avatar_editor_rotate_avatar_button;
-        public static var avatar_editor_tabs_ae_tabs_effects:Class = HabboWindowManagerCom_avatar_editor_tabs_ae_tabs_effects;
-        public static var avatar_editor_tabs_ae_tabs_generic:Class = HabboWindowManagerCom_avatar_editor_tabs_ae_tabs_generic;
-        public static var avatar_editor_tabs_ae_tabs_head:Class = HabboWindowManagerCom_avatar_editor_tabs_ae_tabs_head;
-        public static var avatar_editor_tabs_ae_tabs_hotlooks:Class = HabboWindowManagerCom_avatar_editor_tabs_ae_tabs_hotlooks;
-        public static var avatar_editor_tabs_ae_tabs_legs:Class = HabboWindowManagerCom_avatar_editor_tabs_ae_tabs_legs;
-        public static var avatar_editor_tabs_ae_tabs_misc:Class = HabboWindowManagerCom_avatar_editor_tabs_ae_tabs_misc;
-        public static var avatar_editor_tabs_ae_tabs_torso:Class = HabboWindowManagerCom_avatar_editor_tabs_ae_tabs_torso;
-        public static var avatar_editor_tabs_ae_tabs_wardrobe:Class = HabboWindowManagerCom_avatar_editor_tabs_ae_tabs_wardrobe;
-        public static var avatar_editor_tabs_bottom_accessories:Class = HabboWindowManagerCom_avatar_editor_tabs_bottom_accessories;
-        public static var avatar_editor_tabs_bottom_accessories_on:Class = HabboWindowManagerCom_avatar_editor_tabs_bottom_accessories_on;
-        public static var avatar_editor_tabs_bottom_shoes:Class = HabboWindowManagerCom_avatar_editor_tabs_bottom_shoes;
-        public static var avatar_editor_tabs_bottom_shoes_on:Class = HabboWindowManagerCom_avatar_editor_tabs_bottom_shoes_on;
-        public static var avatar_editor_tabs_bottom_trousers:Class = HabboWindowManagerCom_avatar_editor_tabs_bottom_trousers;
-        public static var avatar_editor_tabs_bottom_trousers_on:Class = HabboWindowManagerCom_avatar_editor_tabs_bottom_trousers_on;
-        public static var avatar_editor_tabs_effects_fx:Class = HabboWindowManagerCom_avatar_editor_tabs_effects_fx;
-        public static var avatar_editor_tabs_gender_female:Class = HabboWindowManagerCom_avatar_editor_tabs_gender_female;
-        public static var avatar_editor_tabs_gender_female_on:Class = HabboWindowManagerCom_avatar_editor_tabs_gender_female_on;
-        public static var avatar_editor_tabs_gender_male:Class = HabboWindowManagerCom_avatar_editor_tabs_gender_male;
-        public static var avatar_editor_tabs_gender_male_on:Class = HabboWindowManagerCom_avatar_editor_tabs_gender_male_on;
-        public static var avatar_editor_tabs_head_accessories:Class = HabboWindowManagerCom_avatar_editor_tabs_head_accessories;
-        public static var avatar_editor_tabs_head_accessories_on:Class = HabboWindowManagerCom_avatar_editor_tabs_head_accessories_on;
-        public static var avatar_editor_tabs_head_eyewear:Class = HabboWindowManagerCom_avatar_editor_tabs_head_eyewear;
-        public static var avatar_editor_tabs_head_eyewear_on:Class = HabboWindowManagerCom_avatar_editor_tabs_head_eyewear_on;
-        public static var avatar_editor_tabs_head_face_accessories:Class = HabboWindowManagerCom_avatar_editor_tabs_head_face_accessories;
-        public static var avatar_editor_tabs_head_face_accessories_on:Class = HabboWindowManagerCom_avatar_editor_tabs_head_face_accessories_on;
-        public static var avatar_editor_tabs_head_hair:Class = HabboWindowManagerCom_avatar_editor_tabs_head_hair;
-        public static var avatar_editor_tabs_head_hair_on:Class = HabboWindowManagerCom_avatar_editor_tabs_head_hair_on;
-        public static var avatar_editor_tabs_head_hats:Class = HabboWindowManagerCom_avatar_editor_tabs_head_hats;
-        public static var avatar_editor_tabs_head_hats_on:Class = HabboWindowManagerCom_avatar_editor_tabs_head_hats_on;
-        public static var avatar_editor_tabs_icon_misc_misc_off:Class = HabboWindowManagerCom_avatar_editor_tabs_icon_misc_misc_off;
-        public static var avatar_editor_tabs_icon_misc_pets_off:Class = HabboWindowManagerCom_avatar_editor_tabs_icon_misc_pets_off;
-        public static var avatar_editor_tabs_top_accessories:Class = HabboWindowManagerCom_avatar_editor_tabs_top_accessories;
-        public static var avatar_editor_tabs_top_accessories_on:Class = HabboWindowManagerCom_avatar_editor_tabs_top_accessories_on;
-        public static var avatar_editor_tabs_top_jacket:Class = HabboWindowManagerCom_avatar_editor_tabs_top_jacket;
-        public static var avatar_editor_tabs_top_jacket_on:Class = HabboWindowManagerCom_avatar_editor_tabs_top_jacket_on;
-        public static var avatar_editor_tabs_top_prints:Class = HabboWindowManagerCom_avatar_editor_tabs_top_prints;
-        public static var avatar_editor_tabs_top_prints_on:Class = HabboWindowManagerCom_avatar_editor_tabs_top_prints_on;
-        public static var avatar_editor_tabs_top_shirt:Class = HabboWindowManagerCom_avatar_editor_tabs_top_shirt;
-        public static var avatar_editor_tabs_top_shirt_on:Class = HabboWindowManagerCom_avatar_editor_tabs_top_shirt_on;
-        public static var avatar_editor_wardrobe_select_outfit:Class = HabboWindowManagerCom_avatar_editor_wardrobe_select_outfit;
-        public static var avatar_editor_wardrobe_select_outfit_over:Class = HabboWindowManagerCom_avatar_editor_wardrobe_select_outfit_over;
-        public static var avatar_editor_wardrobe_wardrobe_empty_slot:Class = HabboWindowManagerCom_avatar_editor_wardrobe_wardrobe_empty_slot;
-        public static var bottom_bar_buildersclub:Class = HabboWindowManagerCom_bottom_bar_buildersclub;
-        public static var bottom_bar_camera:Class = HabboWindowManagerCom_bottom_bar_camera;
-        public static var bottom_bar_collapse_left:Class = HabboWindowManagerCom_bottom_bar_collapse_left;
-        public static var bottom_bar_collapse_right:Class = HabboWindowManagerCom_bottom_bar_collapse_right;
-        public static var bottom_bar_divider_1px:Class = HabboWindowManagerCom_bottom_bar_divider_1px;
-        public static var bottom_bar_games:Class = HabboWindowManagerCom_bottom_bar_games;
-        public static var bottom_bar_home:Class = HabboWindowManagerCom_bottom_bar_home;
-        public static var bottom_bar_inventory:Class = HabboWindowManagerCom_bottom_bar_inventory;
-        public static var bottom_bar_logo:Class = HabboWindowManagerCom_bottom_bar_logo;
-        public static var bottom_bar_navigator:Class = HabboWindowManagerCom_bottom_bar_navigator;
-        public static var bottom_bar_memenu_bg:Class = HabboWindowManagerCom_bottom_bar_memenu_bg;
-        public static var bottom_bar_memenu_circle:Class = HabboWindowManagerCom_bottom_bar_memenu_circle;
-        public static var bottom_bar_quests:Class = HabboWindowManagerCom_bottom_bar_quests;
-        public static var bottom_bar_shop:Class = HabboWindowManagerCom_bottom_bar_shop;
-        public static var bottom_bar_stories:Class = HabboWindowManagerCom_bottom_bar_stories;
-		public static var bottom_bar_modtool:Class = ModerationMIconPng;
-        public static var camera_arrow_gray:Class = HabboWindowManagerCom_camera_arrow_gray;
-        public static var camera_arrow_green:Class = HabboWindowManagerCom_camera_arrow_green;
-        public static var camera_browse_ffwd:Class = HabboWindowManagerCom_camera_browse_ffwd;
-        public static var camera_cam_bg:Class = HabboWindowManagerCom_camera_cam_bg;
-        public static var camera_cam_btn_hi:Class = HabboWindowManagerCom_camera_cam_btn_hi;
-        public static var camera_cam_close_x:Class = HabboWindowManagerCom_camera_cam_close_x;
-        public static var camera_camera_btn:Class = HabboWindowManagerCom_camera_camera_btn;
-        public static var camera_camera_btn_down:Class = HabboWindowManagerCom_camera_camera_btn_down;
-        public static var camera_camera_edit:Class = HabboWindowManagerCom_camera_camera_edit;
-        public static var camera_camera_icon:Class = HabboWindowManagerCom_camera_camera_icon;
-        public static var camera_fx_button_active:Class = HabboWindowManagerCom_camera_fx_button_active;
-        public static var camera_fx_button_outline:Class = HabboWindowManagerCom_camera_fx_button_outline;
-        public static var camera_fx_button_selected:Class = HabboWindowManagerCom_camera_fx_button_selected;
-        public static var camera_fx_frame_selected:Class = HabboWindowManagerCom_camera_fx_frame_selected;
-        public static var camera_fx_slider_bottom_active:Class = HabboWindowManagerCom_camera_fx_slider_bottom_active;
-        public static var camera_fx_slider_button:Class = HabboWindowManagerCom_camera_fx_slider_button;
-        public static var camera_habbo_camera:Class = HabboWindowManagerCom_camera_habbo_camera;
-        public static var camera_icon_colorfilter:Class = HabboWindowManagerCom_camera_icon_colorfilter;
-        public static var camera_icon_compositefilter:Class = HabboWindowManagerCom_camera_icon_compositefilter;
-        public static var camera_icon_frame:Class = HabboWindowManagerCom_camera_icon_frame;
-        public static var camera_locked:Class = HabboWindowManagerCom_camera_locked;
-        public static var camera_photo_border:Class = HabboWindowManagerCom_camera_photo_border;
-        public static var camera_remove_effect:Class = HabboWindowManagerCom_camera_remove_effect;
-        public static var camera_retake_button:Class = HabboWindowManagerCom_camera_retake_button;
-        public static var camera_shadow_outline:Class = HabboWindowManagerCom_camera_shadow_outline;
-        public static var camera_viewfinder:Class = HabboWindowManagerCom_camera_viewfinder;
-        public static var camera_zoom_in:Class = HabboWindowManagerCom_camera_zoom_in;
-        public static var camera_zoom_out:Class = HabboWindowManagerCom_camera_zoom_out;
-        public static var campaign_day_generic_activated:Class = HabboWindowManagerCom_campaign_day_generic_activated;
-        public static var campaign_day_generic_bg:Class = HabboWindowManagerCom_campaign_day_generic_bg;
-        public static var campaign_day_generic_button:Class = HabboWindowManagerCom_campaign_day_generic_button;
-        public static var campaign_generic_lock:Class = HabboWindowManagerCom_campaign_generic_lock;
-        public static var campaign_calendar_icon:Class = HabboWindowManagerCom_campaign_calendar_icon;
-        public static var campaign_opened:Class = HabboWindowManagerCom_campaign_opened;
-        public static var catalogue_background:Class = HabboWindowManagerCom_catalogue_background;
-        public static var catalogue_badge_background:Class = HabboWindowManagerCom_catalogue_badge_background;
-        public static var catalogue_bundle_star:Class = HabboWindowManagerCom_catalogue_bundle_star;
-        public static var catalogue_clakboard:Class = HabboWindowManagerCom_catalogue_clakboard;
-        public static var catalogue_color_picker_27x22_border:Class = HabboWindowManagerCom_catalogue_color_picker_27x22_border;
-        public static var catalogue_color_picker_27x22_color:Class = HabboWindowManagerCom_catalogue_color_picker_27x22_color;
-        public static var catalogue_color_picker_27x22_selection:Class = HabboWindowManagerCom_catalogue_color_picker_27x22_selection;
-        public static var catalogue_effects_ninja:Class = HabboWindowManagerCom_catalogue_effects_ninja;
-        public static var catalogue_giftcard_blank:Class = HabboWindowManagerCom_catalogue_giftcard_blank;
-        public static var catalogue_ufo_pricebg:Class = HabboWindowManagerCom_catalogue_ufo_pricebg;
-        public static var common_beta_sign:Class = HabboWindowManagerCom_common_beta_sign;
-        public static var common_blue_arrow_horizontal:Class = HabboWindowManagerCom_common_blue_arrow_horizontal;
-        public static var common_blue_arrow_vertical:Class = HabboWindowManagerCom_common_blue_arrow_vertical;
-        public static var common_chat_indicator:Class = HabboWindowManagerCom_common_chat_indicator;
-        public static var common_chat_style_block:Class = HabboWindowManagerCom_common_chat_style_block;
-        public static var common_chat_styles:Class = HabboWindowManagerCom_common_chat_styles;
-        public static var common_chisel:Class = HabboWindowManagerCom_common_chisel;
-        public static var common_close_x:Class = HabboWindowManagerCom_common_close_x;
-        public static var common_green_arrow_horizontal:Class = HabboWindowManagerCom_common_green_arrow_horizontal;
-        public static var common_green_arrow_vertical:Class = HabboWindowManagerCom_common_green_arrow_vertical;
-        public static var common_hilight_big:Class = HabboWindowManagerCom_common_hilight_big;
-        public static var common_info_icon_grey:Class = HabboWindowManagerCom_common_info_icon_grey;
-        public static var common_item_selected:Class = HabboWindowManagerCom_common_item_selected;
-        public static var common_item_unselected:Class = HabboWindowManagerCom_common_item_unselected;
-        public static var common_loading_icon:Class = HabboWindowManagerCom_common_loading_icon;
-        public static var common_maximize:Class = HabboWindowManagerCom_common_maximize;
-        public static var common_maximize_unetched:Class = HabboWindowManagerCom_common_maximize_unetched;
-        public static var common_minimize_unetched:Class = HabboWindowManagerCom_common_minimize_unetched;
-        public static var common_offers_icon:Class = HabboWindowManagerCom_common_offers_icon;
-        public static var common_promo_arrow_close:Class = HabboWindowManagerCom_common_promo_arrow_close;
-        public static var common_promo_arrow_top_right:Class = HabboWindowManagerCom_common_promo_arrow_top_right;
-        public static var common_small_coin:Class = HabboWindowManagerCom_common_small_coin;
-        public static var common_small_pen:Class = HabboWindowManagerCom_common_small_pen;
-        public static var common_star:Class = HabboWindowManagerCom_common_star;
-        public static var common_trashcan_big:Class = HabboWindowManagerCom_common_trashcan_big;
-        public static var common_trashcan_small:Class = HabboWindowManagerCom_common_trashcan_small;
-        public static var common_welcome_screen_arrow:Class = HabboWindowManagerCom_common_welcome_screen_arrow;
-        public static var craft_craft_bg:Class = HabboWindowManagerCom_craft_craft_bg;
-        public static var extended_profile_clear_favourite:Class = HabboWindowManagerCom_extended_profile_clear_favourite;
-        public static var extended_profile_make_favourite:Class = HabboWindowManagerCom_extended_profile_make_favourite;
-        public static var extended_profile_rooms:Class = HabboWindowManagerCom_extended_profile_rooms;
-        public static var floor_plan_editor_add_tile:Class = HabboWindowManagerCom_floor_plan_editor_add_tile;
-        public static var floor_plan_editor_enter_tile:Class = HabboWindowManagerCom_floor_plan_editor_enter_tile;
-        public static var floor_plan_editor_logo:Class = HabboWindowManagerCom_floor_plan_editor_logo;
-        public static var floor_plan_editor_raise_tile:Class = HabboWindowManagerCom_floor_plan_editor_raise_tile;
-        public static var floor_plan_editor_remove_tile:Class = HabboWindowManagerCom_floor_plan_editor_remove_tile;
-        public static var floor_plan_editor_sink_tile:Class = HabboWindowManagerCom_floor_plan_editor_sink_tile;
-        public static var forum_forum_edit:Class = HabboWindowManagerCom_forum_forum_edit;
-        public static var forum_forum_hide:Class = HabboWindowManagerCom_forum_forum_hide;
-        public static var forum_forum_list0:Class = HabboWindowManagerCom_forum_forum_list0;
-        public static var forum_forum_list1:Class = HabboWindowManagerCom_forum_forum_list1;
-        public static var forum_forum_list2:Class = HabboWindowManagerCom_forum_forum_list2;
-        public static var forum_forum_locked:Class = HabboWindowManagerCom_forum_forum_locked;
-        public static var forum_forum_pinned:Class = HabboWindowManagerCom_forum_forum_pinned;
-        public static var infostand_furni_place:Class = HabboWindowManagerCom_infostand_furni_place;
-        public static var infostand_furni_shop:Class = HabboWindowManagerCom_infostand_furni_shop;
-        public static var forum_forum_report:Class = HabboWindowManagerCom_forum_forum_report;
-        public static var forum_forum_unhide:Class = HabboWindowManagerCom_forum_forum_unhide;
-        public static var forum_forum_unlocked:Class = HabboWindowManagerCom_forum_forum_unlocked;
-        public static var forum_forum_unpinned:Class = HabboWindowManagerCom_forum_forum_unpinned;
-        public static var forum_reply:Class = HabboWindowManagerCom_forum_reply;
-        public static var friend_bar_all_friends:Class = HabboWindowManagerCom_friend_bar_all_friends;
-        public static var friend_bar_event_notification_icon:Class = HabboWindowManagerCom_friend_bar_event_notification_icon;
-        public static var friend_bar_friendlist_chat:Class = HabboWindowManagerCom_friend_bar_friendlist_chat;
-        public static var friend_bar_friendlist_eye:Class = HabboWindowManagerCom_friend_bar_friendlist_eye;
-        public static var friend_bar_friendlist_go_room:Class = HabboWindowManagerCom_friend_bar_friendlist_go_room;
-        public static var friend_bar_friendlist_messenger:Class = HabboWindowManagerCom_friend_bar_friendlist_messenger;
-        public static var friend_bar_friendlist_messenger_notify_0:Class = HabboWindowManagerCom_friend_bar_friendlist_messenger_notify_0;
-        public static var friend_bar_friendlist_messenger_notify_1:Class = HabboWindowManagerCom_friend_bar_friendlist_messenger_notify_1;
-        public static var friend_bar_friends_browse_bg:Class = HabboWindowManagerCom_friend_bar_friends_browse_bg;
-        public static var friend_bar_search_habbos:Class = HabboWindowManagerCom_friend_bar_search_habbos;
-        public static var game_center_achievement_locked_icon:Class = HabboWindowManagerCom_game_center_achievement_locked_icon;
-        public static var game_center_loading_icon:Class = HabboWindowManagerCom_game_center_loading_icon;
-        public static var group_guild_color_btm:Class = HabboWindowManagerCom_group_guild_color_btm;
-        public static var group_guild_color_top:Class = HabboWindowManagerCom_group_guild_color_top;
-        public static var hc_center_hc_center_cover:Class = HabboWindowManagerCom_hc_center_hc_center_cover;
-        public static var hc_center_hc_center_icon_credits:Class = HabboWindowManagerCom_hc_center_hc_center_icon_credits;
-        public static var hc_center_hc_center_illustration:Class = HabboWindowManagerCom_hc_center_hc_center_illustration;
-        public static var hc_center_hc_center_timer:Class = HabboWindowManagerCom_hc_center_hc_center_timer;
-        public static var hc_center_hc_postit_bg:Class = HabboWindowManagerCom_hc_center_hc_postit_bg;
-        public static var hc_center_t0:Class = HabboWindowManagerCom_hc_center_t0;
-        public static var hc_center_t1:Class = HabboWindowManagerCom_hc_center_t1;
-        public static var hc_center_t2:Class = HabboWindowManagerCom_hc_center_t2;
-        public static var hc_center_t3:Class = HabboWindowManagerCom_hc_center_t3;
-        public static var hc_center_t4:Class = HabboWindowManagerCom_hc_center_t4;
-        public static var hc_center_t5:Class = HabboWindowManagerCom_hc_center_t5;
-        public static var hc_center_t6:Class = HabboWindowManagerCom_hc_center_t6;
-        public static var hc_center_t7:Class = HabboWindowManagerCom_hc_center_t7;
-        public static var hc_center_t8:Class = HabboWindowManagerCom_hc_center_t8;
-        public static var hc_center_t9:Class = HabboWindowManagerCom_hc_center_t9;
-        public static var help_accept_icon:Class = HabboWindowManagerCom_help_accept_icon;
-        public static var help_bandaid:Class = HabboWindowManagerCom_help_bandaid;
-        public static var help_chat_review_anonymous:Class = HabboWindowManagerCom_help_chat_review_anonymous;
-        public static var help_chat_review_avatar_anonymous:Class = HabboWindowManagerCom_help_chat_review_avatar_anonymous;
-        public static var help_chat_review_avatar_perpetrator:Class = HabboWindowManagerCom_help_chat_review_avatar_perpetrator;
-        public static var help_chat_review_decision_bad:Class = HabboWindowManagerCom_help_chat_review_decision_bad;
-        public static var help_chat_review_decision_ok:Class = HabboWindowManagerCom_help_chat_review_decision_ok;
-        public static var help_chat_review_decision_refused:Class = HabboWindowManagerCom_help_chat_review_decision_refused;
-        public static var help_chat_review_decision_searching_1:Class = HabboWindowManagerCom_help_chat_review_decision_searching_1;
-        public static var help_chat_review_decision_searching_2:Class = HabboWindowManagerCom_help_chat_review_decision_searching_2;
-        public static var help_chat_review_decision_undecided:Class = HabboWindowManagerCom_help_chat_review_decision_undecided;
-        public static var help_chat_review_decision_very_bad:Class = HabboWindowManagerCom_help_chat_review_decision_very_bad;
-        public static var help_chat_review_decision_waiting_1:Class = HabboWindowManagerCom_help_chat_review_decision_waiting_1;
-        public static var help_chat_review_decision_waiting_2:Class = HabboWindowManagerCom_help_chat_review_decision_waiting_2;
-        public static var help_chat_review_perpetrator:Class = HabboWindowManagerCom_help_chat_review_perpetrator;
-        public static var help_chat_review_progress_big_1:Class = HabboWindowManagerCom_help_chat_review_progress_big_1;
-        public static var help_chat_review_progress_big_2:Class = HabboWindowManagerCom_help_chat_review_progress_big_2;
-        public static var help_chat_review_progress_big_3:Class = HabboWindowManagerCom_help_chat_review_progress_big_3;
-        public static var help_chat_review_progress_big_4:Class = HabboWindowManagerCom_help_chat_review_progress_big_4;
-        public static var help_chat_review_vote_bad:Class = HabboWindowManagerCom_help_chat_review_vote_bad;
-        public static var help_chat_review_vote_bad_down:Class = HabboWindowManagerCom_help_chat_review_vote_bad_down;
-        public static var help_chat_review_vote_bad_over:Class = HabboWindowManagerCom_help_chat_review_vote_bad_over;
-        public static var help_chat_review_vote_ok:Class = HabboWindowManagerCom_help_chat_review_vote_ok;
-        public static var help_chat_review_vote_ok_down:Class = HabboWindowManagerCom_help_chat_review_vote_ok_down;
-        public static var help_chat_review_vote_ok_over:Class = HabboWindowManagerCom_help_chat_review_vote_ok_over;
-        public static var help_chat_review_vote_very_bad:Class = HabboWindowManagerCom_help_chat_review_vote_very_bad;
-        public static var help_chat_review_vote_very_bad_down:Class = HabboWindowManagerCom_help_chat_review_vote_very_bad_down;
-        public static var help_chat_review_vote_very_bad_over:Class = HabboWindowManagerCom_help_chat_review_vote_very_bad_over;
-        public static var help_citizenship_default:Class = HabboWindowManagerCom_help_citizenship_default;
-        public static var help_decline_icon:Class = HabboWindowManagerCom_help_decline_icon;
-        public static var help_error_state:Class = HabboWindowManagerCom_help_error_state;
-        public static var help_feeling_confused:Class = HabboWindowManagerCom_help_feeling_confused;
-        public static var help_feeling_confused_coming_up:Class = HabboWindowManagerCom_help_feeling_confused_coming_up;
-        public static var help_frank_greeting:Class = HabboWindowManagerCom_help_frank_greeting;
-        public static var help_guide_accept:Class = HabboWindowManagerCom_help_guide_accept;
-        public static var help_guide_icon:Class = HabboWindowManagerCom_help_guide_icon;
-        public static var help_habboway_correct:Class = HabboWindowManagerCom_help_habboway_correct;
-        public static var help_habboway_dove_off:Class = HabboWindowManagerCom_help_habboway_dove_off;
-        public static var help_habboway_dove_on:Class = HabboWindowManagerCom_help_habboway_dove_on;
-        public static var help_habboway_dove_quizz:Class = HabboWindowManagerCom_help_habboway_dove_quizz;
-        public static var help_habboway_next:Class = HabboWindowManagerCom_help_habboway_next;
-        public static var help_habboway_prev:Class = HabboWindowManagerCom_help_habboway_prev;
-        public static var help_habboway_wrong:Class = HabboWindowManagerCom_help_habboway_wrong;
-        public static var help_help_duck:Class = HabboWindowManagerCom_help_help_duck;
-        public static var help_illustrations_bully:Class = HabboWindowManagerCom_help_illustrations_bully;
-        public static var help_illustrations_question:Class = HabboWindowManagerCom_help_illustrations_question;
-        public static var help_illustrations_tour:Class = HabboWindowManagerCom_help_illustrations_tour;
-        public static var help_need_help:Class = HabboWindowManagerCom_help_need_help;
-        public static var help_notification:Class = HabboWindowManagerCom_help_notification;
-        public static var help_poor_frank:Class = HabboWindowManagerCom_help_poor_frank;
-        public static var help_requester_icon:Class = HabboWindowManagerCom_help_requester_icon;
-        public static var help_user_create:Class = HabboWindowManagerCom_help_user_create;
-        public static var help_user_feedback:Class = HabboWindowManagerCom_help_user_feedback;
-        public static var help_user_pending:Class = HabboWindowManagerCom_help_user_pending;
-        public static var high_score_highscore_cup:Class = HabboWindowManagerCom_high_score_highscore_cup;
-        public static var icons_back:Class = HabboWindowManagerCom_icons_back;
-        public static var icons_back_small:Class = HabboWindowManagerCom_icons_back_small;
-        public static var icons_builder_error_full:Class = HabboWindowManagerCom_icons_builder_error_full;
-        public static var icons_builder_error_furnilimit:Class = HabboWindowManagerCom_icons_builder_error_furnilimit;
-        public static var icons_builder_error_grouproom:Class = HabboWindowManagerCom_icons_builder_error_grouproom;
-        public static var icons_builder_error_notroom:Class = HabboWindowManagerCom_icons_builder_error_notroom;
-        public static var icons_builder_error_room:Class = HabboWindowManagerCom_icons_builder_error_room;
-        public static var icons_builder_error_userinroom:Class = HabboWindowManagerCom_icons_builder_error_userinroom;
-        public static var icons_close:Class = HabboWindowManagerCom_icons_close;
-        public static var icons_facebook:Class = HabboWindowManagerCom_icons_facebook;
-        public static var icons_flag:Class = HabboWindowManagerCom_icons_flag;
-        public static var icons_forward:Class = HabboWindowManagerCom_icons_forward;
-        public static var icons_forward_small:Class = HabboWindowManagerCom_icons_forward_small;
-        public static var icons_go_to_room_icon:Class = HabboWindowManagerCom_icons_go_to_room_icon;
-        public static var icons_hc_icon_small:Class = HabboWindowManagerCom_icons_hc_icon_small;
-        public static var icons_hilighter_yellow:Class = HabboWindowManagerCom_icons_hilighter_yellow;
-        public static var icons_link_icon:Class = HabboWindowManagerCom_icons_link_icon;
-        public static var icons_next:Class = HabboWindowManagerCom_icons_next;
-        public static var icons_panic:Class = HabboWindowManagerCom_icons_panic;
-        public static var icons_share:Class = HabboWindowManagerCom_icons_share;
-        public static var icons_star:Class = HabboWindowManagerCom_icons_star;
-        public static var icons_tickmark:Class = HabboWindowManagerCom_icons_tickmark;
-        public static var icons_toolbar_achievements_hover:Class = HabboWindowManagerCom_icons_toolbar_achievements_hover;
-        public static var icons_toolbar_achievements_normal:Class = HabboWindowManagerCom_icons_toolbar_achievements_normal;
-        public static var icons_toolbar_builder_hover:Class = HabboWindowManagerCom_icons_toolbar_builder_hover;
-        public static var icons_toolbar_builder_normal:Class = HabboWindowManagerCom_icons_toolbar_builder_normal;
-        public static var icons_toolbar_catalogue_hover:Class = HabboWindowManagerCom_icons_toolbar_catalogue_hover;
-        public static var icons_toolbar_catalogue_normal:Class = HabboWindowManagerCom_icons_toolbar_catalogue_normal;
-        public static var icons_toolbar_divider:Class = HabboWindowManagerCom_icons_toolbar_divider;
-        public static var icons_toolbar_games_hover:Class = HabboWindowManagerCom_icons_toolbar_games_hover;
-        public static var icons_toolbar_games_normal:Class = HabboWindowManagerCom_icons_toolbar_games_normal;
-        public static var icons_toolbar_home_hover:Class = HabboWindowManagerCom_icons_toolbar_home_hover;
-        public static var icons_toolbar_home_normal:Class = HabboWindowManagerCom_icons_toolbar_home_normal;
-        public static var icons_toolbar_inventory_hover:Class = HabboWindowManagerCom_icons_toolbar_inventory_hover;
-        public static var icons_toolbar_inventory_normal:Class = HabboWindowManagerCom_icons_toolbar_inventory_normal;
-        public static var icons_toolbar_me_menu_placeholder:Class = HabboWindowManagerCom_icons_toolbar_me_menu_placeholder;
-        public static var icons_toolbar_minimail_hover:Class = HabboWindowManagerCom_icons_toolbar_minimail_hover;
-        public static var icons_toolbar_minimail_normal:Class = HabboWindowManagerCom_icons_toolbar_minimail_normal;
-        public static var icons_toolbar_navigator_hover:Class = HabboWindowManagerCom_icons_toolbar_navigator_hover;
-        public static var icons_toolbar_navigator_normal:Class = HabboWindowManagerCom_icons_toolbar_navigator_normal;
-        public static var icons_toolbar_quests_hover:Class = HabboWindowManagerCom_icons_toolbar_quests_hover;
-        public static var icons_toolbar_quests_normal:Class = HabboWindowManagerCom_icons_toolbar_quests_normal;
-        public static var icons_toolbar_reception_hover:Class = HabboWindowManagerCom_icons_toolbar_reception_hover;
-        public static var icons_toolbar_reception_normal:Class = HabboWindowManagerCom_icons_toolbar_reception_normal;
-        public static var icons_toolbar_stories_hover:Class = HabboWindowManagerCom_icons_toolbar_stories_hover;
-        public static var icons_toolbar_stories_normal:Class = HabboWindowManagerCom_icons_toolbar_stories_normal;
-        public static var icons_toolbar_valentines_hover:Class = HabboWindowManagerCom_icons_toolbar_valentines_hover;
-        public static var icons_toolbar_valentines_normal:Class = HabboWindowManagerCom_icons_toolbar_valentines_normal;
-        public static var icons_toolbar_xmas_hover:Class = HabboWindowManagerCom_icons_toolbar_xmas_hover;
-        public static var icons_toolbar_xmas_normal:Class = HabboWindowManagerCom_icons_toolbar_xmas_normal;
-        public static var icons_twitter:Class = HabboWindowManagerCom_icons_twitter;
-        public static var icons_wearable:Class = HabboWindowManagerCom_icons_wearable;
-        public static var illumina_horizontal_separator:Class = HabboWindowManagerCom_illumina_horizontal_separator;
-        public static var infostand_bot_info_bg:Class = HabboWindowManagerCom_infostand_bot_info_bg;
-        public static var inventory_download_icon:Class = HabboWindowManagerCom_inventory_download_icon;
-        public static var inventory_furni_icon_credits:Class = HabboWindowManagerCom_inventory_furni_icon_credits;
-        public static var inventory_furni_icon_floor:Class = HabboWindowManagerCom_inventory_furni_icon_floor;
-        public static var inventory_furni_icon_landscape:Class = HabboWindowManagerCom_inventory_furni_icon_landscape;
-        public static var inventory_furni_icon_wallpaper:Class = HabboWindowManagerCom_inventory_furni_icon_wallpaper;
-        public static var inventory_furni_no_recycle_icon:Class = HabboWindowManagerCom_inventory_furni_no_recycle_icon;
-        public static var inventory_furni_no_trade_icon:Class = HabboWindowManagerCom_inventory_furni_no_trade_icon;
-        public static var inventory_furni_recycle_icon:Class = HabboWindowManagerCom_inventory_furni_recycle_icon;
-        public static var inventory_furni_trade_icon:Class = HabboWindowManagerCom_inventory_furni_trade_icon;
-        public static var inventory_inventory_empty:Class = HabboWindowManagerCom_inventory_inventory_empty;
-        public static var inventory_inventory_icon:Class = HabboWindowManagerCom_inventory_inventory_icon;
-        public static var inventory_thumb_bg:Class = HabboWindowManagerCom_inventory_thumb_bg;
-        public static var inventory_thumb_bg_selected:Class = HabboWindowManagerCom_inventory_thumb_bg_selected;
-        public static var inventory_thumb_icon_recycle:Class = HabboWindowManagerCom_inventory_thumb_icon_recycle;
-        public static var inventory_thumb_rent_ending:Class = HabboWindowManagerCom_inventory_thumb_rent_ending;
-        public static var inventory_thumb_rent_started:Class = HabboWindowManagerCom_inventory_thumb_rent_started;
-        public static var inventory_thumb_selected_outline:Class = HabboWindowManagerCom_inventory_thumb_selected_outline;
-        public static var inventory_trading_trading_locked_icon:Class = HabboWindowManagerCom_inventory_trading_trading_locked_icon;
-        public static var inventory_trading_trading_unlocked_icon:Class = HabboWindowManagerCom_inventory_trading_trading_unlocked_icon;
-        public static var landing_view_avatar_info_background:Class = HabboWindowManagerCom_landing_view_avatar_info_background;
-        public static var landing_view_needle_meter_needle0:Class = HabboWindowManagerCom_landing_view_needle_meter_needle0;
-        public static var landing_view_needle_meter_needle1:Class = HabboWindowManagerCom_landing_view_needle_meter_needle1;
-        public static var landing_view_needle_meter_needle10:Class = HabboWindowManagerCom_landing_view_needle_meter_needle10;
-        public static var landing_view_needle_meter_needle11:Class = HabboWindowManagerCom_landing_view_needle_meter_needle11;
-        public static var landing_view_needle_meter_needle12:Class = HabboWindowManagerCom_landing_view_needle_meter_needle12;
-        public static var landing_view_needle_meter_needle13:Class = HabboWindowManagerCom_landing_view_needle_meter_needle13;
-        public static var landing_view_needle_meter_needle14:Class = HabboWindowManagerCom_landing_view_needle_meter_needle14;
-        public static var landing_view_needle_meter_needle15:Class = HabboWindowManagerCom_landing_view_needle_meter_needle15;
-        public static var landing_view_needle_meter_needle16:Class = HabboWindowManagerCom_landing_view_needle_meter_needle16;
-        public static var landing_view_needle_meter_needle17:Class = HabboWindowManagerCom_landing_view_needle_meter_needle17;
-        public static var landing_view_needle_meter_needle18:Class = HabboWindowManagerCom_landing_view_needle_meter_needle18;
-        public static var landing_view_needle_meter_needle19:Class = HabboWindowManagerCom_landing_view_needle_meter_needle19;
-        public static var landing_view_needle_meter_needle2:Class = HabboWindowManagerCom_landing_view_needle_meter_needle2;
-        public static var landing_view_needle_meter_needle20:Class = HabboWindowManagerCom_landing_view_needle_meter_needle20;
-        public static var landing_view_needle_meter_needle21:Class = HabboWindowManagerCom_landing_view_needle_meter_needle21;
-        public static var landing_view_needle_meter_needle22:Class = HabboWindowManagerCom_landing_view_needle_meter_needle22;
-        public static var landing_view_needle_meter_needle23:Class = HabboWindowManagerCom_landing_view_needle_meter_needle23;
-        public static var landing_view_needle_meter_needle3:Class = HabboWindowManagerCom_landing_view_needle_meter_needle3;
-        public static var landing_view_needle_meter_needle4:Class = HabboWindowManagerCom_landing_view_needle_meter_needle4;
-        public static var landing_view_needle_meter_needle5:Class = HabboWindowManagerCom_landing_view_needle_meter_needle5;
-        public static var landing_view_needle_meter_needle6:Class = HabboWindowManagerCom_landing_view_needle_meter_needle6;
-        public static var landing_view_needle_meter_needle7:Class = HabboWindowManagerCom_landing_view_needle_meter_needle7;
-        public static var landing_view_needle_meter_needle8:Class = HabboWindowManagerCom_landing_view_needle_meter_needle8;
-        public static var landing_view_needle_meter_needle9:Class = HabboWindowManagerCom_landing_view_needle_meter_needle9;
-        public static var landing_view_reception_horizontal:Class = HabboWindowManagerCom_landing_view_reception_horizontal;
-        public static var me_menu_me_achv:Class = HabboWindowManagerCom_me_menu_me_achv;
-        public static var me_menu_me_clothing:Class = HabboWindowManagerCom_me_menu_me_clothing;
-        public static var me_menu_me_forums:Class = HabboWindowManagerCom_me_menu_me_forums;
-        public static var me_menu_me_guide:Class = HabboWindowManagerCom_me_menu_me_guide;
-        public static var me_menu_me_mail:Class = HabboWindowManagerCom_me_menu_me_mail;
-        public static var me_menu_me_profile:Class = HabboWindowManagerCom_me_menu_me_profile;
-        public static var me_menu_me_rooms:Class = HabboWindowManagerCom_me_menu_me_rooms;
-        public static var me_menu_me_talents:Class = HabboWindowManagerCom_me_menu_me_talents;
-        public static var messenger_caution:Class = HabboWindowManagerCom_messenger_caution;
-        public static var messenger_minimize_button:Class = HabboWindowManagerCom_messenger_minimize_button;
-        public static var messenger_notification_icon:Class = HabboWindowManagerCom_messenger_notification_icon;
-        public static var messenger_profile_icon:Class = HabboWindowManagerCom_messenger_profile_icon;
-        public static var messenger_visit_icon:Class = HabboWindowManagerCom_messenger_visit_icon;
-        public static var mysterybox_box_base:Class = HabboWindowManagerCom_mysterybox_box_base;
-        public static var mysterybox_box_overlay:Class = HabboWindowManagerCom_mysterybox_box_overlay;
-        public static var mysterybox_box_small:Class = HabboWindowManagerCom_mysterybox_box_small;
-        public static var mysterybox_key_base:Class = HabboWindowManagerCom_mysterybox_key_base;
-        public static var mysterybox_key_overlay:Class = HabboWindowManagerCom_mysterybox_key_overlay;
-        public static var mysterybox_key_small:Class = HabboWindowManagerCom_mysterybox_key_small;
-        public static var mysterybox_tracker_border:Class = HabboWindowManagerCom_mysterybox_tracker_border;
-        public static var newnavigator_button_back:Class = HabboWindowManagerCom_newnavigator_button_back;
-        public static var newnavigator_button_category_collapse:Class = HabboWindowManagerCom_newnavigator_button_category_collapse;
-        public static var newnavigator_button_category_expand:Class = HabboWindowManagerCom_newnavigator_button_category_expand;
-        public static var newnavigator_button_category_show_more:Class = HabboWindowManagerCom_newnavigator_button_category_show_more;
-        public static var newnavigator_button_leftpane_hide:Class = HabboWindowManagerCom_newnavigator_button_leftpane_hide;
-        public static var newnavigator_button_leftpane_show:Class = HabboWindowManagerCom_newnavigator_button_leftpane_show;
-        public static var newnavigator_button_quicklink_add:Class = HabboWindowManagerCom_newnavigator_button_quicklink_add;
-        public static var newnavigator_button_quicklink_remove:Class = HabboWindowManagerCom_newnavigator_button_quicklink_remove;
-        public static var newnavigator_button_rows:Class = HabboWindowManagerCom_newnavigator_button_rows;
-        public static var newnavigator_button_show_room_info:Class = HabboWindowManagerCom_newnavigator_button_show_room_info;
-        public static var newnavigator_button_tiles:Class = HabboWindowManagerCom_newnavigator_button_tiles;
-        public static var newnavigator_create_room:Class = HabboWindowManagerCom_newnavigator_create_room;
-        public static var newnavigator_default_room:Class = HabboWindowManagerCom_newnavigator_default_room;
-        public static var newnavigator_doormode_doorbell_small:Class = HabboWindowManagerCom_newnavigator_doormode_doorbell_small;
-        public static var newnavigator_doormode_invisible_small:Class = HabboWindowManagerCom_newnavigator_doormode_invisible_small;
-        public static var newnavigator_doormode_password_small:Class = HabboWindowManagerCom_newnavigator_doormode_password_small;
-        public static var newnavigator_event_icon:Class = HabboWindowManagerCom_newnavigator_event_icon;
-        public static var newnavigator_group_base_icon:Class = HabboWindowManagerCom_newnavigator_group_base_icon;
-        public static var newnavigator_icon_fav_no:Class = HabboWindowManagerCom_newnavigator_icon_fav_no;
-        public static var newnavigator_icon_fav_yes:Class = HabboWindowManagerCom_newnavigator_icon_fav_yes;
-        public static var newnavigator_icon_group:Class = HabboWindowManagerCom_newnavigator_icon_group;
-        public static var newnavigator_icon_group_admin:Class = HabboWindowManagerCom_newnavigator_icon_group_admin;
-        public static var newnavigator_icon_group_owner:Class = HabboWindowManagerCom_newnavigator_icon_group_owner;
-        public static var newnavigator_icon_home_no:Class = HabboWindowManagerCom_newnavigator_icon_home_no;
-        public static var newnavigator_icon_home_yes:Class = HabboWindowManagerCom_newnavigator_icon_home_yes;
-        public static var newnavigator_icon_ql_add:Class = HabboWindowManagerCom_newnavigator_icon_ql_add;
-        public static var newnavigator_icon_ql_remove:Class = HabboWindowManagerCom_newnavigator_icon_ql_remove;
-        public static var newnavigator_icon_quicklink_plain:Class = HabboWindowManagerCom_newnavigator_icon_quicklink_plain;
-        public static var newnavigator_icon_usercount:Class = HabboWindowManagerCom_newnavigator_icon_usercount;
-        public static var newnavigator_nav_view_mini:Class = HabboWindowManagerCom_newnavigator_nav_view_mini;
-        public static var newnavigator_nav_view_row:Class = HabboWindowManagerCom_newnavigator_nav_view_row;
-        public static var newnavigator_nav_view_thumbs:Class = HabboWindowManagerCom_newnavigator_nav_view_thumbs;
-        public static var newnavigator_promote_room:Class = HabboWindowManagerCom_newnavigator_promote_room;
-        public static var newnavigator_random_room:Class = HabboWindowManagerCom_newnavigator_random_room;
-        public static var newnavigator_rating_star_off:Class = HabboWindowManagerCom_newnavigator_rating_star_off;
-        public static var newnavigator_rating_star_on:Class = HabboWindowManagerCom_newnavigator_rating_star_on;
-        public static var newnavigator_refresh_search_icon:Class = HabboWindowManagerCom_newnavigator_refresh_search_icon;
-        public static var newnavigator_report_room:Class = HabboWindowManagerCom_newnavigator_report_room;
-        public static var newnavigator_room_settings_icon:Class = HabboWindowManagerCom_newnavigator_room_settings_icon;
-        public static var newnavigator_roominfo_temp:Class = HabboWindowManagerCom_newnavigator_roominfo_temp;
-        public static var newnavigator_roomusercount_dimmer_black:Class = HabboWindowManagerCom_newnavigator_roomusercount_dimmer_black;
-        public static var poll_poll_prompt_frank:Class = HabboWindowManagerCom_poll_poll_prompt_frank;
-        public static var poll_poll_prompt_question:Class = HabboWindowManagerCom_poll_poll_prompt_question;
-        public static var pursearea_credits_icon:Class = HabboWindowManagerCom_pursearea_credits_icon;
-        public static var pursearea_credits_icon2:Class = HabboWindowManagerCom_pursearea_credits_icon2;
-        public static var pursearea_diamond_icon:Class = HabboWindowManagerCom_pursearea_diamond_icon;
-        public static var pursearea_duckets_icon:Class = HabboWindowManagerCom_pursearea_duckets_icon;
-        public static var pursearea_hc_icon:Class = HabboWindowManagerCom_pursearea_hc_icon;
-        public static var pursearea_logout_icon:Class = HabboWindowManagerCom_pursearea_logout_icon;
-        public static var pursearea_loyalty_icon:Class = HabboWindowManagerCom_pursearea_loyalty_icon;
-        public static var pursearea_settings_icon:Class = HabboWindowManagerCom_pursearea_settings_icon;
-        public static var rarity_item_rarity_item_plaque:Class = HabboWindowManagerCom_rarity_item_rarity_item_plaque;
-        public static var rarity_item_rarity_preview_bg:Class = HabboWindowManagerCom_rarity_item_rarity_preview_bg;
-        public static var relationship_status_bobba:Class = HabboWindowManagerCom_relationship_status_bobba;
-        public static var relationship_status_heart:Class = HabboWindowManagerCom_relationship_status_heart;
-        public static var relationship_status_none:Class = HabboWindowManagerCom_relationship_status_none;
-        public static var relationship_status_smile:Class = HabboWindowManagerCom_relationship_status_smile;
-        public static var roomtools_camera:Class = HabboWindowManagerCom_roomtools_camera;
-        public static var roomtools_chat_history:Class = HabboWindowManagerCom_roomtools_chat_history;
-        public static var roomtools_gear:Class = HabboWindowManagerCom_roomtools_gear;
-        public static var roomtools_history_back_bg:Class = HabboWindowManagerCom_roomtools_history_back_bg;
-        public static var roomtools_history_back_icon:Class = HabboWindowManagerCom_roomtools_history_back_icon;
-        public static var roomtools_history_forward_bg:Class = HabboWindowManagerCom_roomtools_history_forward_bg;
-        public static var roomtools_history_forward_icon:Class = HabboWindowManagerCom_roomtools_history_forward_icon;
-        public static var roomtools_history_open_bg:Class = HabboWindowManagerCom_roomtools_history_open_bg;
-        public static var roomtools_history_open_icon:Class = HabboWindowManagerCom_roomtools_history_open_icon;
-        public static var roomtools_like:Class = HabboWindowManagerCom_roomtools_like;
-        public static var roomtools_magnifier:Class = HabboWindowManagerCom_roomtools_magnifier;
-        public static var roomtools_minimizebutton:Class = HabboWindowManagerCom_roomtools_minimizebutton;
-        public static var roomtools_photo_icon:Class = HabboWindowManagerCom_roomtools_photo_icon;
-        public static var roomtools_unlike:Class = HabboWindowManagerCom_roomtools_unlike;
-        public static var roomtools_zoom_in:Class = HabboWindowManagerCom_roomtools_zoom_in;
-        public static var roomtools_zoom_out:Class = HabboWindowManagerCom_roomtools_zoom_out;
-        public static var talent_achieved_div:Class = HabboWindowManagerCom_talent_achieved_div;
-        public static var talent_achieved_left:Class = HabboWindowManagerCom_talent_achieved_left;
-        public static var talent_achieved_mid:Class = HabboWindowManagerCom_talent_achieved_mid;
-        public static var talent_achieved_right:Class = HabboWindowManagerCom_talent_achieved_right;
-        public static var talent_action_overlay:Class = HabboWindowManagerCom_talent_action_overlay;
-        public static var talent_avatar_glow:Class = HabboWindowManagerCom_talent_avatar_glow;
-        public static var talent_check_mark_circle:Class = HabboWindowManagerCom_talent_check_mark_circle;
-        public static var talent_citizenship_accomplished:Class = HabboWindowManagerCom_talent_citizenship_accomplished;
-        public static var talent_helper_icon:Class = HabboWindowManagerCom_talent_helper_icon;
-        public static var talent_locked_achievement:Class = HabboWindowManagerCom_talent_locked_achievement;
-        public static var talent_locked_stripe:Class = HabboWindowManagerCom_talent_locked_stripe;
-        public static var talent_mask_left:Class = HabboWindowManagerCom_talent_mask_left;
-        public static var talent_mask_right:Class = HabboWindowManagerCom_talent_mask_right;
-        public static var talent_progress_lower:Class = HabboWindowManagerCom_talent_progress_lower;
-        public static var talent_progress_upper:Class = HabboWindowManagerCom_talent_progress_upper;
-        public static var talent_register_cutout_character:Class = HabboWindowManagerCom_talent_register_cutout_character;
-        public static var talent_task_progress_bg:Class = HabboWindowManagerCom_talent_task_progress_bg;
-        public static var talent_task_progress_fg:Class = HabboWindowManagerCom_talent_task_progress_fg;
-        public static var talent_task_progress_left:Class = HabboWindowManagerCom_talent_task_progress_left;
-        public static var talent_task_progress_right:Class = HabboWindowManagerCom_talent_task_progress_right;
-        public static var talent_unachieved_div:Class = HabboWindowManagerCom_talent_unachieved_div;
-        public static var talent_unachieved_left:Class = HabboWindowManagerCom_talent_unachieved_left;
-        public static var talent_unachieved_mid:Class = HabboWindowManagerCom_talent_unachieved_mid;
-        public static var talent_unachieved_right:Class = HabboWindowManagerCom_talent_unachieved_right;
-        public static var talent_vip_reward:Class = HabboWindowManagerCom_talent_vip_reward;
-        public static var toolbar_citizenship_icon:Class = HabboWindowManagerCom_toolbar_citizenship_icon;
-        public static var toolbar_credit_icon_0:Class = HabboWindowManagerCom_toolbar_credit_icon_0;
-        public static var toolbar_credit_icon_1:Class = HabboWindowManagerCom_toolbar_credit_icon_1;
-        public static var toolbar_credit_icon_2:Class = HabboWindowManagerCom_toolbar_credit_icon_2;
-        public static var toolbar_duckat_icon_0:Class = HabboWindowManagerCom_toolbar_duckat_icon_0;
-        public static var toolbar_duckat_icon_1:Class = HabboWindowManagerCom_toolbar_duckat_icon_1;
-        public static var toolbar_duckat_icon_2:Class = HabboWindowManagerCom_toolbar_duckat_icon_2;
-        public static var toolbar_hc_icon_0:Class = HabboWindowManagerCom_toolbar_hc_icon_0;
-        public static var toolbar_hc_icon_1:Class = HabboWindowManagerCom_toolbar_hc_icon_1;
-        public static var toolbar_hc_icon_2:Class = HabboWindowManagerCom_toolbar_hc_icon_2;
-        public static var toolbar_memenu_achievements_color:Class = HabboWindowManagerCom_toolbar_memenu_achievements_color;
-        public static var toolbar_memenu_achievements_white:Class = HabboWindowManagerCom_toolbar_memenu_achievements_white;
-        public static var toolbar_memenu_clothes_color:Class = HabboWindowManagerCom_toolbar_memenu_clothes_color;
-        public static var toolbar_memenu_clothes_white:Class = HabboWindowManagerCom_toolbar_memenu_clothes_white;
-        public static var toolbar_memenu_guide_color:Class = HabboWindowManagerCom_toolbar_memenu_guide_color;
-        public static var toolbar_memenu_guide_white:Class = HabboWindowManagerCom_toolbar_memenu_guide_white;
-        public static var toolbar_memenu_minimail_color:Class = HabboWindowManagerCom_toolbar_memenu_minimail_color;
-        public static var toolbar_memenu_minimail_white:Class = HabboWindowManagerCom_toolbar_memenu_minimail_white;
-        public static var toolbar_memenu_profile_color:Class = HabboWindowManagerCom_toolbar_memenu_profile_color;
-        public static var toolbar_memenu_profile_white:Class = HabboWindowManagerCom_toolbar_memenu_profile_white;
-        public static var toolbar_memenu_rooms_color:Class = HabboWindowManagerCom_toolbar_memenu_rooms_color;
-        public static var toolbar_memenu_rooms_white:Class = HabboWindowManagerCom_toolbar_memenu_rooms_white;
-        public static var toolbar_memenu_settings_color:Class = HabboWindowManagerCom_toolbar_memenu_settings_color;
-        public static var toolbar_memenu_settings_slider_base:Class = HabboWindowManagerCom_toolbar_memenu_settings_slider_base;
-        public static var toolbar_memenu_settings_slider_button:Class = HabboWindowManagerCom_toolbar_memenu_settings_slider_button;
-        public static var toolbar_memenu_settings_sounds_off_color:Class = HabboWindowManagerCom_toolbar_memenu_settings_sounds_off_color;
-        public static var toolbar_memenu_settings_sounds_off_white:Class = HabboWindowManagerCom_toolbar_memenu_settings_sounds_off_white;
-        public static var toolbar_memenu_settings_sounds_on_color:Class = HabboWindowManagerCom_toolbar_memenu_settings_sounds_on_color;
-        public static var toolbar_memenu_settings_sounds_on_white:Class = HabboWindowManagerCom_toolbar_memenu_settings_sounds_on_white;
-        public static var toolbar_memenu_settings_white:Class = HabboWindowManagerCom_toolbar_memenu_settings_white;
-        public static var toolbar_memenu_talents_color:Class = HabboWindowManagerCom_toolbar_memenu_talents_color;
-        public static var toolbar_memenu_talents_white:Class = HabboWindowManagerCom_toolbar_memenu_talents_white;
-        public static var toolbar_offer_icon_0:Class = HabboWindowManagerCom_toolbar_offer_icon_0;
-        public static var toolbar_offer_icon_1:Class = HabboWindowManagerCom_toolbar_offer_icon_1;
-        public static var toolbar_offer_icon_2:Class = HabboWindowManagerCom_toolbar_offer_icon_2;
-        public static var toolbar_room_icon_0:Class = HabboWindowManagerCom_toolbar_room_icon_0;
-        public static var toolbar_room_icon_1:Class = HabboWindowManagerCom_toolbar_room_icon_1;
-        public static var toolbar_room_icon_2:Class = HabboWindowManagerCom_toolbar_room_icon_2;
-        public static var tools_black_pixel:Class = HabboWindowManagerCom_tools_black_pixel;
-        public static var tools_file_icon:Class = HabboWindowManagerCom_tools_file_icon;
-        public static var tools_folder_icon:Class = HabboWindowManagerCom_tools_folder_icon;
-        public static var tools_tools_download_icon:Class = HabboWindowManagerCom_tools_tools_download_icon;
-        public static var unique_item_label_1:Class = HabboWindowManagerCom_unique_item_label_1;
-        public static var unique_item_label_glass_shine:Class = HabboWindowManagerCom_unique_item_label_glass_shine;
-        public static var unique_item_label_number_glyphs:Class = HabboWindowManagerCom_unique_item_label_number_glyphs;
-        public static var unique_item_label_plaque_border:Class = HabboWindowManagerCom_unique_item_label_plaque_border;
-        public static var unique_item_label_plaque_metal:Class = HabboWindowManagerCom_unique_item_label_plaque_metal;
-        public static var unique_item_label_studs:Class = HabboWindowManagerCom_unique_item_label_studs;
-        public static var unique_item_large_background_wide:Class = HabboWindowManagerCom_unique_item_large_background_wide;
-        public static var unique_item_large_glass_bottom:Class = HabboWindowManagerCom_unique_item_large_glass_bottom;
-        public static var unique_item_large_glass_mid:Class = HabboWindowManagerCom_unique_item_large_glass_mid;
-        public static var unique_item_large_glass_shine:Class = HabboWindowManagerCom_unique_item_large_glass_shine;
-        public static var unique_item_large_glass_top:Class = HabboWindowManagerCom_unique_item_large_glass_top;
-        public static var unique_item_large_iron:Class = HabboWindowManagerCom_unique_item_large_iron;
-        public static var unique_item_large_na_button:Class = HabboWindowManagerCom_unique_item_large_na_button;
-        public static var unique_item_large_na_button_wide:Class = HabboWindowManagerCom_unique_item_large_na_button_wide;
-        public static var unique_item_large_tile_upright:Class = HabboWindowManagerCom_unique_item_large_tile_upright;
-        public static var unique_item_sold_out_label:Class = HabboWindowManagerCom_unique_item_sold_out_label;
-        public static var unique_item_sold_out_tile:Class = HabboWindowManagerCom_unique_item_sold_out_tile;
-        public static var word_quiz_thum_down:Class = HabboWindowManagerCom_word_quiz_thum_down;
-        public static var word_quiz_thum_down_big:Class = HabboWindowManagerCom_word_quiz_thum_down_big;
-        public static var word_quiz_thum_up:Class = HabboWindowManagerCom_word_quiz_thum_up;
-        public static var word_quiz_thum_up_big:Class = HabboWindowManagerCom_word_quiz_thum_up_big;
-        public static var avatar_image_xml:Class = HabboWindowManagerCom_avatar_image_xml;
-        public static var badge_image_xml:Class = HabboWindowManagerCom_badge_image_xml;
-        public static var balloon_xml:Class = HabboWindowManagerCom_balloon_xml;
-        public static var clock_base_xml:Class = HabboWindowManagerCom_clock_base_xml;
-        public static var hover_bitmap_xml:Class = HabboWindowManagerCom_hover_bitmap_xml;
-        public static var illumina_border_xml:Class = HabboWindowManagerCom_illumina_border_xml;
-        public static var illumina_chat_bubble_xml:Class = HabboWindowManagerCom_illumina_chat_bubble_xml;
-        public static var illumina_input_xml:Class = HabboWindowManagerCom_illumina_input_xml;
-        public static var updating_timestamp_xml:Class = HabboWindowManagerCom_updating_timestamp_xml;
-        public static var progress_indicator_xml:Class = HabboWindowManagerCom_progress_indicator_xml;
-        public static var separator_xml:Class = HabboWindowManagerCom_separator_xml;
-        public static var running_number_xml:Class = HabboWindowManagerCom_running_number_xml;
-        public static var pet_image_xml:Class = HabboWindowManagerCom_pet_image_xml;
-        public static var furniture_image_xml:Class = HabboWindowManagerCom_furniture_image_xml;
-        public static var room_previewer_xml:Class = HabboWindowManagerCom_room_previewer_xml;
-        public static var pixel_limit_xml:Class = HabboWindowManagerCom_pixel_limit_xml;
-        public static var room_usercount_xml:Class = HabboWindowManagerCom_room_usercount_xml;
-        public static var room_thumbnail_xml:Class = HabboWindowManagerCom_room_thumbnail_xml;
-        public static var unique_item_overlay_griditem_xml:Class = HabboWindowManagerCom_unique_item_overlay_griditem_xml;
-        public static var unique_item_overlay_supply_xml:Class = HabboWindowManagerCom_unique_item_overlay_supply_xml;
-        public static var unique_item_overlay_preview_xml:Class = HabboWindowManagerCom_unique_item_overlay_preview_xml;
-        public static var rarity_item_overlay_griditem_xml:Class = HabboWindowManagerCom_rarity_item_overlay_griditem_xml;
-        public static var rarity_item_overlay_preview_xml:Class = HabboWindowManagerCom_rarity_item_overlay_preview_xml;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_window_alert_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_window_alert_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_window_alert_link_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_window_alert_link_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_window_confirm_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_window_confirm_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_habbo_crasher_dialog_xml.bin", mimeType="application/octet-stream")]
+        public static var habbo_crasher_dialog_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_unseen_item_counter_xml.bin", mimeType="application/octet-stream")]
+        public static var unseen_item_counter_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_simple_alert_xml.bin", mimeType="application/octet-stream")]
+        public static var simple_alert_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_daybreak_alert_xml.bin", mimeType="application/octet-stream")]
+        public static var daybreak_alert_xml:Class;
+        [Embed(source="images/HabboWindowManagerCom_illumina_alert_illustrations_frank_neutral_png.png")]
+        public static var illumina_alert_illustrations_frank_neutral_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_daybreak_logo_png.png")]
+        public static var daybreak_logo_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_habbo_skin_illumina_light_png.png")]
+        public static var habbo_skin_illumina_light_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_illumina_light_balloon_png.png")]
+        public static var illumina_light_balloon_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_illumina_light_border_etched_png.png")]
+        public static var illumina_light_border_etched_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_illumina_light_border_frame_png.png")]
+        public static var illumina_light_border_frame_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_illumina_light_border_infobox_png.png")]
+        public static var illumina_light_border_infobox_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_illumina_light_border_light_png.png")]
+        public static var illumina_light_border_light_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_illumina_light_border_raised_png.png")]
+        public static var illumina_light_border_raised_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_illumina_light_border_sunk_png.png")]
+        public static var illumina_light_border_sunk_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_illumina_light_bubble_chat_arrow_png.png")]
+        public static var illumina_light_bubble_chat_arrow_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_illumina_light_bubble_chat_bg_png.png")]
+        public static var illumina_light_bubble_chat_bg_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_illumina_light_button_default_png.png")]
+        public static var illumina_light_button_default_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_illumina_light_button_frame_close_png.png")]
+        public static var illumina_light_button_frame_close_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_illumina_light_button_unetched_png.png")]
+        public static var illumina_light_button_unetched_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_illumina_light_checkbox_basic_png.png")]
+        public static var illumina_light_checkbox_basic_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_illumina_light_clock_background_png.png")]
+        public static var illumina_light_clock_background_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_illumina_light_clock_background_left_png.png")]
+        public static var illumina_light_clock_background_left_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_illumina_light_clock_background_mid_png.png")]
+        public static var illumina_light_clock_background_mid_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_illumina_light_clock_background_right_png.png")]
+        public static var illumina_light_clock_background_right_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_illumina_light_icons_png.png")]
+        public static var illumina_light_icons_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_illumina_light_input_chat_png.png")]
+        public static var illumina_light_input_chat_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_illumina_light_progress_indicator_etched_png.png")]
+        public static var illumina_light_progress_indicator_etched_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_illumina_light_progress_indicator_flat_png.png")]
+        public static var illumina_light_progress_indicator_flat_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_illumina_light_radio_button_png.png")]
+        public static var illumina_light_radio_button_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_illumina_light_scrollbar_horizontal_png.png")]
+        public static var illumina_light_scrollbar_horizontal_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_illumina_light_scrollbar_vertical_png.png")]
+        public static var illumina_light_scrollbar_vertical_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_illumina_light_separator_png.png")]
+        public static var illumina_light_separator_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_illumina_light_switch_png.png")]
+        public static var illumina_light_switch_png:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_light_skin_border_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_light_skin_border_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_light_skin_border_sunk_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_light_skin_border_sunk_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_light_skin_border_light_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_light_skin_border_light_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_light_skin_border_raised_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_light_skin_border_raised_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_light_skin_border_input_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_light_skin_border_input_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_light_skin_border_chat_bubble_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_light_skin_border_chat_bubble_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_light_skin_border_balloon_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_light_skin_border_balloon_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_light_skin_border_infobox_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_light_skin_border_infobox_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_light_frame_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_light_frame_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_light_frame_modal_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_light_frame_modal_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_light_frame_wired_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_light_frame_wired_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_light_skin_frame_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_light_skin_frame_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_light_skin_button_frame_close_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_light_skin_button_frame_close_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_light_skin_button_frame_menu_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_light_skin_button_frame_menu_xml:Class;
+        [Embed(source="images/HabboWindowManagerCom_illumina_light_button_frame_menu_png.png")]
+        public static var illumina_light_button_frame_menu_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_illumina_wired_bg_left.png")]
+        public static var illumina_wired_bg_left:Class;
+        [Embed(source="images/HabboWindowManagerCom_illumina_wired_bg_right.png")]
+        public static var illumina_wired_bg_right:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_light_button_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_light_button_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_light_button_plain_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_light_button_plain_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_light_skin_button_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_light_skin_button_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_light_skin_button_plain_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_light_skin_button_plain_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_light_skin_button_unetched_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_light_skin_button_unetched_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_light_checkbox_basic_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_light_checkbox_basic_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_light_skin_checkbox_basic_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_light_skin_checkbox_basic_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_light_switch_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_light_switch_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_light_skin_switch_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_light_skin_switch_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_light_radio_button_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_light_radio_button_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_light_skin_radio_button_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_light_skin_radio_button_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_light_scrollbar_horizontal_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_light_scrollbar_horizontal_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_light_scrollbar_vertical_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_light_scrollbar_vertical_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_light_skin_scrollbar_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_light_skin_scrollbar_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_light_scrollable_itemlist_vertical_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_light_scrollable_itemlist_vertical_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_light_dropmenu_item_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_light_dropmenu_item_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_light_dropmenu_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_light_dropmenu_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_purple_frame_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_purple_frame_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_purple_skin_frame_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_purple_skin_frame_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_purple_button_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_purple_button_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_purple_skin_button_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_purple_skin_button_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_purple_button_plain_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_purple_button_plain_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_purple_skin_button_plain_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_purple_skin_button_plain_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_purple_skin_button_frame_close_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_purple_skin_button_frame_close_xml:Class;
+        [Embed(source="binaryData/../images/HabboWindowManagerCom_illumina_purple_border_frame_png.png")]
+        public static var illumina_purple_border_frame_png:Class;
+        [Embed(source="binaryData/../images/HabboWindowManagerCom_illumina_purple_button_default_png.png")]
+        public static var illumina_purple_button_default_png:Class;
+        [Embed(source="binaryData/../images/HabboWindowManagerCom_illumina_purple_button_frame_close_png.png")]
+        public static var illumina_purple_button_frame_close_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_habbo_skin_illumina_dark_png.png")]
+        public static var habbo_skin_illumina_dark_png:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_dark_skin_border_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_dark_skin_border_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_dark_frame_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_dark_frame_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_dark_skin_frame_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_dark_skin_frame_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_dark_header_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_dark_header_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_dark_skin_header_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_dark_skin_header_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_dark_button_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_dark_button_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_dark_skin_button_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_dark_skin_button_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_dark_scrollbar_horizontal_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_dark_scrollbar_horizontal_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_dark_scrollbar_vertical_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_dark_scrollbar_vertical_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_dark_skin_scrollbar_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_dark_skin_scrollbar_xml:Class;
+        [Embed(source="images/HabboWindowManagerCom_illumina_dark_scrollbar_horizontal_png.png")]
+        public static var illumina_dark_scrollbar_horizontal_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_illumina_dark_scrollbar_vertical_png.png")]
+        public static var illumina_dark_scrollbar_vertical_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_achievement_ach_progressbar1.png")]
+        public static var achievement_ach_progressbar1:Class;
+        [Embed(source="images/HabboWindowManagerCom_achievement_ach_progressbar2.png")]
+        public static var achievement_ach_progressbar2:Class;
+        [Embed(source="images/HabboWindowManagerCom_achievement_ach_progressbar3.png")]
+        public static var achievement_ach_progressbar3:Class;
+        [Embed(source="images/HabboWindowManagerCom_achievement_ach_progressbar4.png")]
+        public static var achievement_ach_progressbar4:Class;
+        [Embed(source="images/HabboWindowManagerCom_achievement_ach_progressbar5.png")]
+        public static var achievement_ach_progressbar5:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_avatar_editor_download_icon.png")]
+        public static var avatar_editor_avatar_editor_download_icon:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_editor_clr_13x21_1.png")]
+        public static var avatar_editor_editor_clr_13x21_1:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_editor_clr_13x21_2.png")]
+        public static var avatar_editor_editor_clr_13x21_2:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_editor_clr_13x21_3.png")]
+        public static var avatar_editor_editor_clr_13x21_3:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_editor_clr_40x32_1.png")]
+        public static var avatar_editor_editor_clr_40x32_1:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_editor_clr_40x32_2.png")]
+        public static var avatar_editor_editor_clr_40x32_2:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_editor_clr_40x32_3.png")]
+        public static var avatar_editor_editor_clr_40x32_3:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_generic_platform.png")]
+        public static var avatar_editor_generic_platform:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_generic_remove_selection.png")]
+        public static var avatar_editor_generic_remove_selection:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_parts_hilite.png")]
+        public static var avatar_editor_parts_hilite:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_parts_hilite_with_sd.png")]
+        public static var avatar_editor_parts_hilite_with_sd:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_rotate_avatar_button.png")]
+        public static var avatar_editor_rotate_avatar_button:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_tabs_ae_tabs_effects.png")]
+        public static var avatar_editor_tabs_ae_tabs_effects:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_tabs_ae_tabs_generic.png")]
+        public static var avatar_editor_tabs_ae_tabs_generic:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_tabs_ae_tabs_head.png")]
+        public static var avatar_editor_tabs_ae_tabs_head:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_tabs_ae_tabs_hotlooks.png")]
+        public static var avatar_editor_tabs_ae_tabs_hotlooks:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_tabs_ae_tabs_legs.png")]
+        public static var avatar_editor_tabs_ae_tabs_legs:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_tabs_ae_tabs_misc.png")]
+        public static var avatar_editor_tabs_ae_tabs_misc:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_tabs_ae_tabs_torso.png")]
+        public static var avatar_editor_tabs_ae_tabs_torso:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_tabs_ae_tabs_wardrobe.png")]
+        public static var avatar_editor_tabs_ae_tabs_wardrobe:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_tabs_bottom_accessories.png")]
+        public static var avatar_editor_tabs_bottom_accessories:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_tabs_bottom_accessories_on.png")]
+        public static var avatar_editor_tabs_bottom_accessories_on:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_tabs_bottom_shoes.png")]
+        public static var avatar_editor_tabs_bottom_shoes:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_tabs_bottom_shoes_on.png")]
+        public static var avatar_editor_tabs_bottom_shoes_on:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_tabs_bottom_trousers.png")]
+        public static var avatar_editor_tabs_bottom_trousers:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_tabs_bottom_trousers_on.png")]
+        public static var avatar_editor_tabs_bottom_trousers_on:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_tabs_effects_fx.png")]
+        public static var avatar_editor_tabs_effects_fx:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_tabs_gender_female.png")]
+        public static var avatar_editor_tabs_gender_female:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_tabs_gender_female_on.png")]
+        public static var avatar_editor_tabs_gender_female_on:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_tabs_gender_male.png")]
+        public static var avatar_editor_tabs_gender_male:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_tabs_gender_male_on.png")]
+        public static var avatar_editor_tabs_gender_male_on:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_tabs_head_accessories.png")]
+        public static var avatar_editor_tabs_head_accessories:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_tabs_head_accessories_on.png")]
+        public static var avatar_editor_tabs_head_accessories_on:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_tabs_head_eyewear.png")]
+        public static var avatar_editor_tabs_head_eyewear:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_tabs_head_eyewear_on.png")]
+        public static var avatar_editor_tabs_head_eyewear_on:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_tabs_head_face_accessories.png")]
+        public static var avatar_editor_tabs_head_face_accessories:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_tabs_head_face_accessories_on.png")]
+        public static var avatar_editor_tabs_head_face_accessories_on:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_tabs_head_hair.png")]
+        public static var avatar_editor_tabs_head_hair:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_tabs_head_hair_on.png")]
+        public static var avatar_editor_tabs_head_hair_on:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_tabs_head_hats.png")]
+        public static var avatar_editor_tabs_head_hats:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_tabs_head_hats_on.png")]
+        public static var avatar_editor_tabs_head_hats_on:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_tabs_icon_misc_misc_off.png")]
+        public static var avatar_editor_tabs_icon_misc_misc_off:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_tabs_icon_misc_pets_off.png")]
+        public static var avatar_editor_tabs_icon_misc_pets_off:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_tabs_top_accessories.png")]
+        public static var avatar_editor_tabs_top_accessories:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_tabs_top_accessories_on.png")]
+        public static var avatar_editor_tabs_top_accessories_on:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_tabs_top_jacket.png")]
+        public static var avatar_editor_tabs_top_jacket:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_tabs_top_jacket_on.png")]
+        public static var avatar_editor_tabs_top_jacket_on:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_tabs_top_prints.png")]
+        public static var avatar_editor_tabs_top_prints:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_tabs_top_prints_on.png")]
+        public static var avatar_editor_tabs_top_prints_on:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_tabs_top_shirt.png")]
+        public static var avatar_editor_tabs_top_shirt:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_tabs_top_shirt_on.png")]
+        public static var avatar_editor_tabs_top_shirt_on:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_wardrobe_select_outfit.png")]
+        public static var avatar_editor_wardrobe_select_outfit:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_wardrobe_select_outfit_over.png")]
+        public static var avatar_editor_wardrobe_select_outfit_over:Class;
+        [Embed(source="images/HabboWindowManagerCom_avatar_editor_wardrobe_wardrobe_empty_slot.png")]
+        public static var avatar_editor_wardrobe_wardrobe_empty_slot:Class;
+        [Embed(source="images/HabboWindowManagerCom_bottom_bar_buildersclub.png")]
+        public static var bottom_bar_buildersclub:Class;
+        [Embed(source="images/HabboWindowManagerCom_bottom_bar_camera.png")]
+        public static var bottom_bar_camera:Class;
+        [Embed(source="images/HabboWindowManagerCom_bottom_bar_collapse_left.png")]
+        public static var bottom_bar_collapse_left:Class;
+        [Embed(source="images/HabboWindowManagerCom_bottom_bar_collapse_right.png")]
+        public static var bottom_bar_collapse_right:Class;
+        [Embed(source="images/HabboWindowManagerCom_bottom_bar_divider_1px.png")]
+        public static var bottom_bar_divider_1px:Class;
+        [Embed(source="images/HabboWindowManagerCom_bottom_bar_games.png")]
+        public static var bottom_bar_games:Class;
+        [Embed(source="images/HabboWindowManagerCom_bottom_bar_home.png")]
+        public static var bottom_bar_home:Class;
+        [Embed(source="images/HabboWindowManagerCom_bottom_bar_inventory.png")]
+        public static var bottom_bar_inventory:Class;
+        [Embed(source="images/HabboWindowManagerCom_bottom_bar_logo.png")]
+        public static var bottom_bar_logo:Class;
+        [Embed(source="images/HabboWindowManagerCom_bottom_bar_navigator.png")]
+        public static var bottom_bar_navigator:Class;
+        [Embed(source="images/HabboWindowManagerCom_bottom_bar_memenu_bg.png")]
+        public static var bottom_bar_memenu_bg:Class;
+        [Embed(source="images/HabboWindowManagerCom_bottom_bar_memenu_circle.png")]
+        public static var bottom_bar_memenu_circle:Class;
+        [Embed(source="images/HabboWindowManagerCom_bottom_bar_quests.png")]
+        public static var bottom_bar_quests:Class;
+        [Embed(source="images/HabboWindowManagerCom_bottom_bar_shop.png")]
+        public static var bottom_bar_shop:Class;
+        [Embed(source="images/HabboWindowManagerCom_bottom_bar_stories.png")]
+        public static var bottom_bar_stories:Class;
+		[Embed(source="images/ModerationMIconPng.png")]
+		public static var bottom_bar_modtool:Class;
+        [Embed(source="images/HabboWindowManagerCom_camera_arrow_gray.png")]
+        public static var camera_arrow_gray:Class;
+        [Embed(source="images/HabboWindowManagerCom_camera_arrow_green.png")]
+        public static var camera_arrow_green:Class;
+        [Embed(source="images/HabboWindowManagerCom_camera_browse_ffwd.png")]
+        public static var camera_browse_ffwd:Class;
+        [Embed(source="images/HabboWindowManagerCom_camera_cam_bg.png")]
+        public static var camera_cam_bg:Class;
+        [Embed(source="images/HabboWindowManagerCom_camera_cam_btn_hi.png")]
+        public static var camera_cam_btn_hi:Class;
+        [Embed(source="images/HabboWindowManagerCom_camera_cam_close_x.png")]
+        public static var camera_cam_close_x:Class;
+        [Embed(source="images/HabboWindowManagerCom_camera_camera_btn.png")]
+        public static var camera_camera_btn:Class;
+        [Embed(source="images/HabboWindowManagerCom_camera_camera_btn_down.png")]
+        public static var camera_camera_btn_down:Class;
+        [Embed(source="images/HabboWindowManagerCom_camera_camera_edit.png")]
+        public static var camera_camera_edit:Class;
+        [Embed(source="images/HabboWindowManagerCom_camera_camera_icon.png")]
+        public static var camera_camera_icon:Class;
+        [Embed(source="images/HabboWindowManagerCom_camera_fx_button_active.png")]
+        public static var camera_fx_button_active:Class;
+        [Embed(source="images/HabboWindowManagerCom_camera_fx_button_outline.png")]
+        public static var camera_fx_button_outline:Class;
+        [Embed(source="images/HabboWindowManagerCom_camera_fx_button_selected.png")]
+        public static var camera_fx_button_selected:Class;
+        [Embed(source="images/HabboWindowManagerCom_camera_fx_frame_selected.png")]
+        public static var camera_fx_frame_selected:Class;
+        [Embed(source="images/HabboWindowManagerCom_camera_fx_slider_bottom_active.png")]
+        public static var camera_fx_slider_bottom_active:Class;
+        [Embed(source="images/HabboWindowManagerCom_camera_fx_slider_button.png")]
+        public static var camera_fx_slider_button:Class;
+        [Embed(source="images/HabboWindowManagerCom_camera_habbo_camera.png")]
+        public static var camera_habbo_camera:Class;
+        [Embed(source="images/HabboWindowManagerCom_camera_icon_colorfilter.png")]
+        public static var camera_icon_colorfilter:Class;
+        [Embed(source="images/HabboWindowManagerCom_camera_icon_compositefilter.png")]
+        public static var camera_icon_compositefilter:Class;
+        [Embed(source="images/HabboWindowManagerCom_camera_icon_frame.png")]
+        public static var camera_icon_frame:Class;
+        [Embed(source="images/HabboWindowManagerCom_camera_locked.png")]
+        public static var camera_locked:Class;
+        [Embed(source="images/HabboWindowManagerCom_camera_photo_border.png")]
+        public static var camera_photo_border:Class;
+        [Embed(source="images/HabboWindowManagerCom_camera_remove_effect.png")]
+        public static var camera_remove_effect:Class;
+        [Embed(source="images/HabboWindowManagerCom_camera_retake_button.png")]
+        public static var camera_retake_button:Class;
+        [Embed(source="images/HabboWindowManagerCom_camera_shadow_outline.png")]
+        public static var camera_shadow_outline:Class;
+        [Embed(source="images/HabboWindowManagerCom_camera_viewfinder.png")]
+        public static var camera_viewfinder:Class;
+        [Embed(source="images/HabboWindowManagerCom_camera_zoom_in.png")]
+        public static var camera_zoom_in:Class;
+        [Embed(source="images/HabboWindowManagerCom_camera_zoom_out.png")]
+        public static var camera_zoom_out:Class;
+        [Embed(source="images/HabboWindowManagerCom_campaign_day_generic_activated.png")]
+        public static var campaign_day_generic_activated:Class;
+        [Embed(source="images/HabboWindowManagerCom_campaign_day_generic_bg.png")]
+        public static var campaign_day_generic_bg:Class;
+        [Embed(source="images/HabboWindowManagerCom_campaign_day_generic_button.png")]
+        public static var campaign_day_generic_button:Class;
+        [Embed(source="images/HabboWindowManagerCom_campaign_generic_lock.png")]
+        public static var campaign_generic_lock:Class;
+        [Embed(source="images/HabboWindowManagerCom_campaign_calendar_icon.png")]
+        public static var campaign_calendar_icon:Class;
+        [Embed(source="images/HabboWindowManagerCom_campaign_opened.png")]
+        public static var campaign_opened:Class;
+        [Embed(source="images/HabboWindowManagerCom_catalogue_background.png")]
+        public static var catalogue_background:Class;
+        [Embed(source="images/HabboWindowManagerCom_catalogue_badge_background.png")]
+        public static var catalogue_badge_background:Class;
+        [Embed(source="images/HabboWindowManagerCom_catalogue_bundle_star.png")]
+        public static var catalogue_bundle_star:Class;
+        [Embed(source="images/HabboWindowManagerCom_catalogue_clakboard.png")]
+        public static var catalogue_clakboard:Class;
+        [Embed(source="images/HabboWindowManagerCom_catalogue_color_picker_27x22_border.png")]
+        public static var catalogue_color_picker_27x22_border:Class;
+        [Embed(source="images/HabboWindowManagerCom_catalogue_color_picker_27x22_color.png")]
+        public static var catalogue_color_picker_27x22_color:Class;
+        [Embed(source="images/HabboWindowManagerCom_catalogue_color_picker_27x22_selection.png")]
+        public static var catalogue_color_picker_27x22_selection:Class;
+        [Embed(source="images/HabboWindowManagerCom_catalogue_effects_ninja.png")]
+        public static var catalogue_effects_ninja:Class;
+        [Embed(source="images/HabboWindowManagerCom_catalogue_giftcard_blank.png")]
+        public static var catalogue_giftcard_blank:Class;
+        [Embed(source="images/HabboWindowManagerCom_catalogue_ufo_pricebg.png")]
+        public static var catalogue_ufo_pricebg:Class;
+        [Embed(source="images/HabboWindowManagerCom_common_beta_sign.png")]
+        public static var common_beta_sign:Class;
+        [Embed(source="images/HabboWindowManagerCom_common_blue_arrow_horizontal.png")]
+        public static var common_blue_arrow_horizontal:Class;
+        [Embed(source="images/HabboWindowManagerCom_common_blue_arrow_vertical.png")]
+        public static var common_blue_arrow_vertical:Class;
+        [Embed(source="images/HabboWindowManagerCom_common_chat_indicator.png")]
+        public static var common_chat_indicator:Class;
+        [Embed(source="images/HabboWindowManagerCom_common_chat_style_block.png")]
+        public static var common_chat_style_block:Class;
+        [Embed(source="images/HabboWindowManagerCom_common_chat_styles.png")]
+        public static var common_chat_styles:Class;
+        [Embed(source="images/HabboWindowManagerCom_common_chisel.png")]
+        public static var common_chisel:Class;
+        [Embed(source="images/HabboWindowManagerCom_common_close_x.png")]
+        public static var common_close_x:Class;
+        [Embed(source="images/HabboWindowManagerCom_common_green_arrow_horizontal.png")]
+        public static var common_green_arrow_horizontal:Class;
+        [Embed(source="images/HabboWindowManagerCom_common_green_arrow_vertical.png")]
+        public static var common_green_arrow_vertical:Class;
+        [Embed(source="images/HabboWindowManagerCom_common_hilight_big.png")]
+        public static var common_hilight_big:Class;
+        [Embed(source="images/HabboWindowManagerCom_common_info_icon_grey.png")]
+        public static var common_info_icon_grey:Class;
+        [Embed(source="images/HabboWindowManagerCom_common_item_selected.png")]
+        public static var common_item_selected:Class;
+        [Embed(source="images/HabboWindowManagerCom_common_item_unselected.png")]
+        public static var common_item_unselected:Class;
+        [Embed(source="images/HabboWindowManagerCom_common_loading_icon.png")]
+        public static var common_loading_icon:Class;
+        [Embed(source="images/HabboWindowManagerCom_common_maximize.png")]
+        public static var common_maximize:Class;
+        [Embed(source="images/HabboWindowManagerCom_common_maximize_unetched.png")]
+        public static var common_maximize_unetched:Class;
+        [Embed(source="images/HabboWindowManagerCom_common_minimize_unetched.png")]
+        public static var common_minimize_unetched:Class;
+        [Embed(source="images/HabboWindowManagerCom_common_offers_icon.png")]
+        public static var common_offers_icon:Class;
+        [Embed(source="images/HabboWindowManagerCom_common_promo_arrow_close.png")]
+        public static var common_promo_arrow_close:Class;
+        [Embed(source="images/HabboWindowManagerCom_common_promo_arrow_top_right.png")]
+        public static var common_promo_arrow_top_right:Class;
+        [Embed(source="images/HabboWindowManagerCom_common_small_coin.png")]
+        public static var common_small_coin:Class;
+        [Embed(source="images/HabboWindowManagerCom_common_small_pen.png")]
+        public static var common_small_pen:Class;
+        [Embed(source="images/HabboWindowManagerCom_common_star.png")]
+        public static var common_star:Class;
+        [Embed(source="images/HabboWindowManagerCom_common_trashcan_big.png")]
+        public static var common_trashcan_big:Class;
+        [Embed(source="images/HabboWindowManagerCom_common_trashcan_small.png")]
+        public static var common_trashcan_small:Class;
+        [Embed(source="images/HabboWindowManagerCom_common_welcome_screen_arrow.png")]
+        public static var common_welcome_screen_arrow:Class;
+        [Embed(source="images/HabboWindowManagerCom_craft_craft_bg.png")]
+        public static var craft_craft_bg:Class;
+        [Embed(source="images/HabboWindowManagerCom_extended_profile_clear_favourite.png")]
+        public static var extended_profile_clear_favourite:Class;
+        [Embed(source="images/HabboWindowManagerCom_extended_profile_make_favourite.png")]
+        public static var extended_profile_make_favourite:Class;
+        [Embed(source="images/HabboWindowManagerCom_extended_profile_rooms.png")]
+        public static var extended_profile_rooms:Class;
+        [Embed(source="images/HabboWindowManagerCom_floor_plan_editor_add_tile.png")]
+        public static var floor_plan_editor_add_tile:Class;
+        [Embed(source="images/HabboWindowManagerCom_floor_plan_editor_enter_tile.png")]
+        public static var floor_plan_editor_enter_tile:Class;
+        [Embed(source="images/HabboWindowManagerCom_floor_plan_editor_logo.png")]
+        public static var floor_plan_editor_logo:Class;
+        [Embed(source="images/HabboWindowManagerCom_floor_plan_editor_raise_tile.png")]
+        public static var floor_plan_editor_raise_tile:Class;
+        [Embed(source="images/HabboWindowManagerCom_floor_plan_editor_remove_tile.png")]
+        public static var floor_plan_editor_remove_tile:Class;
+        [Embed(source="images/HabboWindowManagerCom_floor_plan_editor_sink_tile.png")]
+        public static var floor_plan_editor_sink_tile:Class;
+        [Embed(source="images/HabboWindowManagerCom_forum_forum_edit.png")]
+        public static var forum_forum_edit:Class;
+        [Embed(source="images/HabboWindowManagerCom_forum_forum_hide.png")]
+        public static var forum_forum_hide:Class;
+        [Embed(source="images/HabboWindowManagerCom_forum_forum_list0.png")]
+        public static var forum_forum_list0:Class;
+        [Embed(source="images/HabboWindowManagerCom_forum_forum_list1.png")]
+        public static var forum_forum_list1:Class;
+        [Embed(source="images/HabboWindowManagerCom_forum_forum_list2.png")]
+        public static var forum_forum_list2:Class;
+        [Embed(source="images/HabboWindowManagerCom_forum_forum_locked.png")]
+        public static var forum_forum_locked:Class;
+        [Embed(source="images/HabboWindowManagerCom_forum_forum_pinned.png")]
+        public static var forum_forum_pinned:Class;
+        [Embed(source="images/HabboWindowManagerCom_infostand_furni_place.png")]
+        public static var infostand_furni_place:Class;
+        [Embed(source="images/HabboWindowManagerCom_infostand_furni_shop.png")]
+        public static var infostand_furni_shop:Class;
+        [Embed(source="images/HabboWindowManagerCom_forum_forum_report.png")]
+        public static var forum_forum_report:Class;
+        [Embed(source="images/HabboWindowManagerCom_forum_forum_unhide.png")]
+        public static var forum_forum_unhide:Class;
+        [Embed(source="images/HabboWindowManagerCom_forum_forum_unlocked.png")]
+        public static var forum_forum_unlocked:Class;
+        [Embed(source="images/HabboWindowManagerCom_forum_forum_unpinned.png")]
+        public static var forum_forum_unpinned:Class;
+        [Embed(source="images/HabboWindowManagerCom_forum_reply.png")]
+        public static var forum_reply:Class;
+        [Embed(source="images/HabboWindowManagerCom_friend_bar_all_friends.png")]
+        public static var friend_bar_all_friends:Class;
+        [Embed(source="images/HabboWindowManagerCom_friend_bar_event_notification_icon.png")]
+        public static var friend_bar_event_notification_icon:Class;
+        [Embed(source="images/HabboWindowManagerCom_friend_bar_friendlist_chat.png")]
+        public static var friend_bar_friendlist_chat:Class;
+        [Embed(source="images/HabboWindowManagerCom_friend_bar_friendlist_eye.png")]
+        public static var friend_bar_friendlist_eye:Class;
+        [Embed(source="images/HabboWindowManagerCom_friend_bar_friendlist_go_room.png")]
+        public static var friend_bar_friendlist_go_room:Class;
+        [Embed(source="images/HabboWindowManagerCom_friend_bar_friendlist_messenger.png")]
+        public static var friend_bar_friendlist_messenger:Class;
+        [Embed(source="images/HabboWindowManagerCom_friend_bar_friendlist_messenger_notify_0.png")]
+        public static var friend_bar_friendlist_messenger_notify_0:Class;
+        [Embed(source="images/HabboWindowManagerCom_friend_bar_friendlist_messenger_notify_1.png")]
+        public static var friend_bar_friendlist_messenger_notify_1:Class;
+        [Embed(source="images/HabboWindowManagerCom_friend_bar_friends_browse_bg.png")]
+        public static var friend_bar_friends_browse_bg:Class;
+        [Embed(source="images/HabboWindowManagerCom_friend_bar_search_habbos.png")]
+        public static var friend_bar_search_habbos:Class;
+        [Embed(source="images/HabboWindowManagerCom_game_center_achievement_locked_icon.png")]
+        public static var game_center_achievement_locked_icon:Class;
+        [Embed(source="images/HabboWindowManagerCom_game_center_loading_icon.png")]
+        public static var game_center_loading_icon:Class;
+        [Embed(source="images/HabboWindowManagerCom_group_guild_color_btm.png")]
+        public static var group_guild_color_btm:Class;
+        [Embed(source="images/HabboWindowManagerCom_group_guild_color_top.png")]
+        public static var group_guild_color_top:Class;
+        [Embed(source="images/HabboWindowManagerCom_hc_center_hc_center_cover.png")]
+        public static var hc_center_hc_center_cover:Class;
+        [Embed(source="images/HabboWindowManagerCom_hc_center_hc_center_icon_credits.png")]
+        public static var hc_center_hc_center_icon_credits:Class;
+        [Embed(source="images/HabboWindowManagerCom_hc_center_hc_center_illustration.png")]
+        public static var hc_center_hc_center_illustration:Class;
+        [Embed(source="images/HabboWindowManagerCom_hc_center_hc_center_timer.png")]
+        public static var hc_center_hc_center_timer:Class;
+        [Embed(source="images/HabboWindowManagerCom_hc_center_hc_postit_bg.png")]
+        public static var hc_center_hc_postit_bg:Class;
+        [Embed(source="images/HabboWindowManagerCom_hc_center_t0.png")]
+        public static var hc_center_t0:Class;
+        [Embed(source="images/HabboWindowManagerCom_hc_center_t1.png")]
+        public static var hc_center_t1:Class;
+        [Embed(source="images/HabboWindowManagerCom_hc_center_t2.png")]
+        public static var hc_center_t2:Class;
+        [Embed(source="images/HabboWindowManagerCom_hc_center_t3.png")]
+        public static var hc_center_t3:Class;
+        [Embed(source="images/HabboWindowManagerCom_hc_center_t4.png")]
+        public static var hc_center_t4:Class;
+        [Embed(source="images/HabboWindowManagerCom_hc_center_t5.png")]
+        public static var hc_center_t5:Class;
+        [Embed(source="images/HabboWindowManagerCom_hc_center_t6.png")]
+        public static var hc_center_t6:Class;
+        [Embed(source="images/HabboWindowManagerCom_hc_center_t7.png")]
+        public static var hc_center_t7:Class;
+        [Embed(source="images/HabboWindowManagerCom_hc_center_t8.png")]
+        public static var hc_center_t8:Class;
+        [Embed(source="images/HabboWindowManagerCom_hc_center_t9.png")]
+        public static var hc_center_t9:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_accept_icon.png")]
+        public static var help_accept_icon:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_bandaid.png")]
+        public static var help_bandaid:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_chat_review_anonymous.png")]
+        public static var help_chat_review_anonymous:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_chat_review_avatar_anonymous.png")]
+        public static var help_chat_review_avatar_anonymous:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_chat_review_avatar_perpetrator.png")]
+        public static var help_chat_review_avatar_perpetrator:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_chat_review_decision_bad.png")]
+        public static var help_chat_review_decision_bad:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_chat_review_decision_ok.png")]
+        public static var help_chat_review_decision_ok:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_chat_review_decision_refused.png")]
+        public static var help_chat_review_decision_refused:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_chat_review_decision_searching_1.png")]
+        public static var help_chat_review_decision_searching_1:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_chat_review_decision_searching_2.png")]
+        public static var help_chat_review_decision_searching_2:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_chat_review_decision_undecided.png")]
+        public static var help_chat_review_decision_undecided:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_chat_review_decision_very_bad.png")]
+        public static var help_chat_review_decision_very_bad:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_chat_review_decision_waiting_1.png")]
+        public static var help_chat_review_decision_waiting_1:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_chat_review_decision_waiting_2.png")]
+        public static var help_chat_review_decision_waiting_2:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_chat_review_perpetrator.png")]
+        public static var help_chat_review_perpetrator:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_chat_review_progress_big_1.png")]
+        public static var help_chat_review_progress_big_1:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_chat_review_progress_big_2.png")]
+        public static var help_chat_review_progress_big_2:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_chat_review_progress_big_3.png")]
+        public static var help_chat_review_progress_big_3:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_chat_review_progress_big_4.png")]
+        public static var help_chat_review_progress_big_4:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_chat_review_vote_bad.png")]
+        public static var help_chat_review_vote_bad:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_chat_review_vote_bad_down.png")]
+        public static var help_chat_review_vote_bad_down:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_chat_review_vote_bad_over.png")]
+        public static var help_chat_review_vote_bad_over:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_chat_review_vote_ok.png")]
+        public static var help_chat_review_vote_ok:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_chat_review_vote_ok_down.png")]
+        public static var help_chat_review_vote_ok_down:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_chat_review_vote_ok_over.png")]
+        public static var help_chat_review_vote_ok_over:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_chat_review_vote_very_bad.png")]
+        public static var help_chat_review_vote_very_bad:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_chat_review_vote_very_bad_down.png")]
+        public static var help_chat_review_vote_very_bad_down:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_chat_review_vote_very_bad_over.png")]
+        public static var help_chat_review_vote_very_bad_over:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_citizenship_default.png")]
+        public static var help_citizenship_default:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_decline_icon.png")]
+        public static var help_decline_icon:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_error_state.png")]
+        public static var help_error_state:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_feeling_confused.png")]
+        public static var help_feeling_confused:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_feeling_confused_coming_up.png")]
+        public static var help_feeling_confused_coming_up:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_frank_greeting.png")]
+        public static var help_frank_greeting:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_guide_accept.png")]
+        public static var help_guide_accept:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_guide_icon.png")]
+        public static var help_guide_icon:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_habboway_correct.png")]
+        public static var help_habboway_correct:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_habboway_dove_off.png")]
+        public static var help_habboway_dove_off:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_habboway_dove_on.png")]
+        public static var help_habboway_dove_on:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_habboway_dove_quizz.png")]
+        public static var help_habboway_dove_quizz:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_habboway_next.png")]
+        public static var help_habboway_next:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_habboway_prev.png")]
+        public static var help_habboway_prev:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_habboway_wrong.png")]
+        public static var help_habboway_wrong:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_help_duck.png")]
+        public static var help_help_duck:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_illustrations_bully.png")]
+        public static var help_illustrations_bully:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_illustrations_question.png")]
+        public static var help_illustrations_question:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_illustrations_tour.png")]
+        public static var help_illustrations_tour:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_need_help.png")]
+        public static var help_need_help:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_notification.png")]
+        public static var help_notification:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_poor_frank.png")]
+        public static var help_poor_frank:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_requester_icon.png")]
+        public static var help_requester_icon:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_user_create.png")]
+        public static var help_user_create:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_user_feedback.png")]
+        public static var help_user_feedback:Class;
+        [Embed(source="images/HabboWindowManagerCom_help_user_pending.png")]
+        public static var help_user_pending:Class;
+        [Embed(source="images/HabboWindowManagerCom_high_score_highscore_cup.png")]
+        public static var high_score_highscore_cup:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_back.png")]
+        public static var icons_back:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_back_small.png")]
+        public static var icons_back_small:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_builder_error_full.png")]
+        public static var icons_builder_error_full:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_builder_error_furnilimit.png")]
+        public static var icons_builder_error_furnilimit:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_builder_error_grouproom.png")]
+        public static var icons_builder_error_grouproom:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_builder_error_notroom.png")]
+        public static var icons_builder_error_notroom:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_builder_error_room.png")]
+        public static var icons_builder_error_room:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_builder_error_userinroom.png")]
+        public static var icons_builder_error_userinroom:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_close.png")]
+        public static var icons_close:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_facebook.png")]
+        public static var icons_facebook:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_flag.png")]
+        public static var icons_flag:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_forward.png")]
+        public static var icons_forward:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_forward_small.png")]
+        public static var icons_forward_small:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_go_to_room_icon.png")]
+        public static var icons_go_to_room_icon:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_hc_icon_small.png")]
+        public static var icons_hc_icon_small:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_hilighter_yellow.png")]
+        public static var icons_hilighter_yellow:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_link_icon.png")]
+        public static var icons_link_icon:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_next.png")]
+        public static var icons_next:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_panic.png")]
+        public static var icons_panic:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_share.png")]
+        public static var icons_share:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_star.png")]
+        public static var icons_star:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_tickmark.png")]
+        public static var icons_tickmark:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_toolbar_achievements_hover.png")]
+        public static var icons_toolbar_achievements_hover:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_toolbar_achievements_normal.png")]
+        public static var icons_toolbar_achievements_normal:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_toolbar_builder_hover.png")]
+        public static var icons_toolbar_builder_hover:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_toolbar_builder_normal.png")]
+        public static var icons_toolbar_builder_normal:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_toolbar_catalogue_hover.png")]
+        public static var icons_toolbar_catalogue_hover:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_toolbar_catalogue_normal.png")]
+        public static var icons_toolbar_catalogue_normal:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_toolbar_divider.png")]
+        public static var icons_toolbar_divider:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_toolbar_games_hover.png")]
+        public static var icons_toolbar_games_hover:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_toolbar_games_normal.png")]
+        public static var icons_toolbar_games_normal:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_toolbar_home_hover.png")]
+        public static var icons_toolbar_home_hover:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_toolbar_home_normal.png")]
+        public static var icons_toolbar_home_normal:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_toolbar_inventory_hover.png")]
+        public static var icons_toolbar_inventory_hover:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_toolbar_inventory_normal.png")]
+        public static var icons_toolbar_inventory_normal:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_toolbar_me_menu_placeholder.png")]
+        public static var icons_toolbar_me_menu_placeholder:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_toolbar_minimail_hover.png")]
+        public static var icons_toolbar_minimail_hover:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_toolbar_minimail_normal.png")]
+        public static var icons_toolbar_minimail_normal:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_toolbar_navigator_hover.png")]
+        public static var icons_toolbar_navigator_hover:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_toolbar_navigator_normal.png")]
+        public static var icons_toolbar_navigator_normal:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_toolbar_quests_hover.png")]
+        public static var icons_toolbar_quests_hover:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_toolbar_quests_normal.png")]
+        public static var icons_toolbar_quests_normal:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_toolbar_reception_hover.png")]
+        public static var icons_toolbar_reception_hover:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_toolbar_reception_normal.png")]
+        public static var icons_toolbar_reception_normal:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_toolbar_stories_hover.png")]
+        public static var icons_toolbar_stories_hover:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_toolbar_stories_normal.png")]
+        public static var icons_toolbar_stories_normal:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_toolbar_valentines_hover.png")]
+        public static var icons_toolbar_valentines_hover:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_toolbar_valentines_normal.png")]
+        public static var icons_toolbar_valentines_normal:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_toolbar_xmas_hover.png")]
+        public static var icons_toolbar_xmas_hover:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_toolbar_xmas_normal.png")]
+        public static var icons_toolbar_xmas_normal:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_twitter.png")]
+        public static var icons_twitter:Class;
+        [Embed(source="images/HabboWindowManagerCom_icons_wearable.png")]
+        public static var icons_wearable:Class;
+        [Embed(source="images/HabboWindowManagerCom_illumina_horizontal_separator.png")]
+        public static var illumina_horizontal_separator:Class;
+        [Embed(source="images/HabboWindowManagerCom_infostand_bot_info_bg.png")]
+        public static var infostand_bot_info_bg:Class;
+        [Embed(source="images/HabboWindowManagerCom_inventory_download_icon.png")]
+        public static var inventory_download_icon:Class;
+        [Embed(source="images/HabboWindowManagerCom_inventory_furni_icon_credits.png")]
+        public static var inventory_furni_icon_credits:Class;
+        [Embed(source="images/HabboWindowManagerCom_inventory_furni_icon_floor.png")]
+        public static var inventory_furni_icon_floor:Class;
+        [Embed(source="images/HabboWindowManagerCom_inventory_furni_icon_landscape.png")]
+        public static var inventory_furni_icon_landscape:Class;
+        [Embed(source="images/HabboWindowManagerCom_inventory_furni_icon_wallpaper.png")]
+        public static var inventory_furni_icon_wallpaper:Class;
+        [Embed(source="images/HabboWindowManagerCom_inventory_furni_no_recycle_icon.png")]
+        public static var inventory_furni_no_recycle_icon:Class;
+        [Embed(source="images/HabboWindowManagerCom_inventory_furni_no_trade_icon.png")]
+        public static var inventory_furni_no_trade_icon:Class;
+        [Embed(source="images/HabboWindowManagerCom_inventory_furni_recycle_icon.png")]
+        public static var inventory_furni_recycle_icon:Class;
+        [Embed(source="images/HabboWindowManagerCom_inventory_furni_trade_icon.png")]
+        public static var inventory_furni_trade_icon:Class;
+        [Embed(source="images/HabboWindowManagerCom_inventory_inventory_empty.png")]
+        public static var inventory_inventory_empty:Class;
+        [Embed(source="images/HabboWindowManagerCom_inventory_inventory_icon.png")]
+        public static var inventory_inventory_icon:Class;
+        [Embed(source="images/HabboWindowManagerCom_inventory_thumb_bg.png")]
+        public static var inventory_thumb_bg:Class;
+        [Embed(source="images/HabboWindowManagerCom_inventory_thumb_bg_selected.png")]
+        public static var inventory_thumb_bg_selected:Class;
+        [Embed(source="images/HabboWindowManagerCom_inventory_thumb_icon_recycle.png")]
+        public static var inventory_thumb_icon_recycle:Class;
+        [Embed(source="images/HabboWindowManagerCom_inventory_thumb_rent_ending.png")]
+        public static var inventory_thumb_rent_ending:Class;
+        [Embed(source="images/HabboWindowManagerCom_inventory_thumb_rent_started.png")]
+        public static var inventory_thumb_rent_started:Class;
+        [Embed(source="images/HabboWindowManagerCom_inventory_thumb_selected_outline.png")]
+        public static var inventory_thumb_selected_outline:Class;
+        [Embed(source="images/HabboWindowManagerCom_inventory_trading_trading_locked_icon.png")]
+        public static var inventory_trading_trading_locked_icon:Class;
+        [Embed(source="images/HabboWindowManagerCom_inventory_trading_trading_unlocked_icon.png")]
+        public static var inventory_trading_trading_unlocked_icon:Class;
+        [Embed(source="images/HabboWindowManagerCom_landing_view_avatar_info_background.png")]
+        public static var landing_view_avatar_info_background:Class;
+        [Embed(source="images/HabboWindowManagerCom_landing_view_needle_meter_needle0.png")]
+        public static var landing_view_needle_meter_needle0:Class;
+        [Embed(source="images/HabboWindowManagerCom_landing_view_needle_meter_needle1.png")]
+        public static var landing_view_needle_meter_needle1:Class;
+        [Embed(source="images/HabboWindowManagerCom_landing_view_needle_meter_needle10.png")]
+        public static var landing_view_needle_meter_needle10:Class;
+        [Embed(source="images/HabboWindowManagerCom_landing_view_needle_meter_needle11.png")]
+        public static var landing_view_needle_meter_needle11:Class;
+        [Embed(source="images/HabboWindowManagerCom_landing_view_needle_meter_needle12.png")]
+        public static var landing_view_needle_meter_needle12:Class;
+        [Embed(source="images/HabboWindowManagerCom_landing_view_needle_meter_needle13.png")]
+        public static var landing_view_needle_meter_needle13:Class;
+        [Embed(source="images/HabboWindowManagerCom_landing_view_needle_meter_needle14.png")]
+        public static var landing_view_needle_meter_needle14:Class;
+        [Embed(source="images/HabboWindowManagerCom_landing_view_needle_meter_needle15.png")]
+        public static var landing_view_needle_meter_needle15:Class;
+        [Embed(source="images/HabboWindowManagerCom_landing_view_needle_meter_needle16.png")]
+        public static var landing_view_needle_meter_needle16:Class;
+        [Embed(source="images/HabboWindowManagerCom_landing_view_needle_meter_needle17.png")]
+        public static var landing_view_needle_meter_needle17:Class;
+        [Embed(source="images/HabboWindowManagerCom_landing_view_needle_meter_needle18.png")]
+        public static var landing_view_needle_meter_needle18:Class;
+        [Embed(source="images/HabboWindowManagerCom_landing_view_needle_meter_needle19.png")]
+        public static var landing_view_needle_meter_needle19:Class;
+        [Embed(source="images/HabboWindowManagerCom_landing_view_needle_meter_needle2.png")]
+        public static var landing_view_needle_meter_needle2:Class;
+        [Embed(source="images/HabboWindowManagerCom_landing_view_needle_meter_needle20.png")]
+        public static var landing_view_needle_meter_needle20:Class;
+        [Embed(source="images/HabboWindowManagerCom_landing_view_needle_meter_needle21.png")]
+        public static var landing_view_needle_meter_needle21:Class;
+        [Embed(source="images/HabboWindowManagerCom_landing_view_needle_meter_needle22.png")]
+        public static var landing_view_needle_meter_needle22:Class;
+        [Embed(source="images/HabboWindowManagerCom_landing_view_needle_meter_needle23.png")]
+        public static var landing_view_needle_meter_needle23:Class;
+        [Embed(source="images/HabboWindowManagerCom_landing_view_needle_meter_needle3.png")]
+        public static var landing_view_needle_meter_needle3:Class;
+        [Embed(source="images/HabboWindowManagerCom_landing_view_needle_meter_needle4.png")]
+        public static var landing_view_needle_meter_needle4:Class;
+        [Embed(source="images/HabboWindowManagerCom_landing_view_needle_meter_needle5.png")]
+        public static var landing_view_needle_meter_needle5:Class;
+        [Embed(source="images/HabboWindowManagerCom_landing_view_needle_meter_needle6.png")]
+        public static var landing_view_needle_meter_needle6:Class;
+        [Embed(source="images/HabboWindowManagerCom_landing_view_needle_meter_needle7.png")]
+        public static var landing_view_needle_meter_needle7:Class;
+        [Embed(source="images/HabboWindowManagerCom_landing_view_needle_meter_needle8.png")]
+        public static var landing_view_needle_meter_needle8:Class;
+        [Embed(source="images/HabboWindowManagerCom_landing_view_needle_meter_needle9.png")]
+        public static var landing_view_needle_meter_needle9:Class;
+        [Embed(source="images/HabboWindowManagerCom_landing_view_reception_horizontal.png")]
+        public static var landing_view_reception_horizontal:Class;
+        [Embed(source="images/HabboWindowManagerCom_me_menu_me_achv.png")]
+        public static var me_menu_me_achv:Class;
+        [Embed(source="images/HabboWindowManagerCom_me_menu_me_clothing.png")]
+        public static var me_menu_me_clothing:Class;
+        [Embed(source="images/HabboWindowManagerCom_me_menu_me_forums.png")]
+        public static var me_menu_me_forums:Class;
+        [Embed(source="images/HabboWindowManagerCom_me_menu_me_guide.png")]
+        public static var me_menu_me_guide:Class;
+        [Embed(source="images/HabboWindowManagerCom_me_menu_me_mail.png")]
+        public static var me_menu_me_mail:Class;
+        [Embed(source="images/HabboWindowManagerCom_me_menu_me_profile.png")]
+        public static var me_menu_me_profile:Class;
+        [Embed(source="images/HabboToolbarCom_prog_introduction_png.png")]
+        public static var prog_introduction_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_me_menu_me_rooms.png")]
+        public static var me_menu_me_rooms:Class;
+        [Embed(source="images/HabboWindowManagerCom_me_menu_me_talents.png")]
+        public static var me_menu_me_talents:Class;
+        [Embed(source="images/HabboWindowManagerCom_messenger_caution.png")]
+        public static var messenger_caution:Class;
+        [Embed(source="images/HabboWindowManagerCom_messenger_minimize_button.png")]
+        public static var messenger_minimize_button:Class;
+        [Embed(source="images/HabboWindowManagerCom_messenger_notification_icon.png")]
+        public static var messenger_notification_icon:Class;
+        [Embed(source="images/HabboWindowManagerCom_messenger_profile_icon.png")]
+        public static var messenger_profile_icon:Class;
+        [Embed(source="images/HabboWindowManagerCom_messenger_visit_icon.png")]
+        public static var messenger_visit_icon:Class;
+        [Embed(source="images/HabboWindowManagerCom_mysterybox_box_base.png")]
+        public static var mysterybox_box_base:Class;
+        [Embed(source="images/HabboWindowManagerCom_mysterybox_box_overlay.png")]
+        public static var mysterybox_box_overlay:Class;
+        [Embed(source="images/HabboWindowManagerCom_mysterybox_box_small.png")]
+        public static var mysterybox_box_small:Class;
+        [Embed(source="images/HabboWindowManagerCom_mysterybox_key_base.png")]
+        public static var mysterybox_key_base:Class;
+        [Embed(source="images/HabboWindowManagerCom_mysterybox_key_overlay.png")]
+        public static var mysterybox_key_overlay:Class;
+        [Embed(source="images/HabboWindowManagerCom_mysterybox_key_small.png")]
+        public static var mysterybox_key_small:Class;
+        [Embed(source="images/HabboWindowManagerCom_mysterybox_tracker_border.png")]
+        public static var mysterybox_tracker_border:Class;
+        [Embed(source="images/HabboWindowManagerCom_newnavigator_button_back.png")]
+        public static var newnavigator_button_back:Class;
+        [Embed(source="images/HabboWindowManagerCom_newnavigator_button_category_collapse.png")]
+        public static var newnavigator_button_category_collapse:Class;
+        [Embed(source="images/HabboWindowManagerCom_newnavigator_button_category_expand.png")]
+        public static var newnavigator_button_category_expand:Class;
+        [Embed(source="images/HabboWindowManagerCom_newnavigator_button_category_show_more.png")]
+        public static var newnavigator_button_category_show_more:Class;
+        [Embed(source="images/HabboWindowManagerCom_newnavigator_button_leftpane_hide.png")]
+        public static var newnavigator_button_leftpane_hide:Class;
+        [Embed(source="images/HabboWindowManagerCom_newnavigator_button_leftpane_show.png")]
+        public static var newnavigator_button_leftpane_show:Class;
+        [Embed(source="images/HabboWindowManagerCom_newnavigator_button_quicklink_add.png")]
+        public static var newnavigator_button_quicklink_add:Class;
+        [Embed(source="images/HabboWindowManagerCom_newnavigator_button_quicklink_remove.png")]
+        public static var newnavigator_button_quicklink_remove:Class;
+        [Embed(source="images/HabboWindowManagerCom_newnavigator_button_rows.png")]
+        public static var newnavigator_button_rows:Class;
+        [Embed(source="images/HabboWindowManagerCom_newnavigator_button_show_room_info.png")]
+        public static var newnavigator_button_show_room_info:Class;
+        [Embed(source="images/HabboWindowManagerCom_newnavigator_button_tiles.png")]
+        public static var newnavigator_button_tiles:Class;
+        [Embed(source="images/HabboWindowManagerCom_newnavigator_create_room.png")]
+        public static var newnavigator_create_room:Class;
+        [Embed(source="images/HabboWindowManagerCom_newnavigator_default_room.png")]
+        public static var newnavigator_default_room:Class;
+        [Embed(source="images/HabboWindowManagerCom_newnavigator_doormode_doorbell_small.png")]
+        public static var newnavigator_doormode_doorbell_small:Class;
+        [Embed(source="images/HabboWindowManagerCom_newnavigator_doormode_invisible_small.png")]
+        public static var newnavigator_doormode_invisible_small:Class;
+        [Embed(source="images/HabboWindowManagerCom_newnavigator_doormode_password_small.png")]
+        public static var newnavigator_doormode_password_small:Class;
+        [Embed(source="images/HabboWindowManagerCom_newnavigator_event_icon.png")]
+        public static var newnavigator_event_icon:Class;
+        [Embed(source="images/HabboWindowManagerCom_newnavigator_group_base_icon.png")]
+        public static var newnavigator_group_base_icon:Class;
+        [Embed(source="images/HabboWindowManagerCom_newnavigator_icon_fav_no.png")]
+        public static var newnavigator_icon_fav_no:Class;
+        [Embed(source="images/HabboWindowManagerCom_newnavigator_icon_fav_yes.png")]
+        public static var newnavigator_icon_fav_yes:Class;
+        [Embed(source="images/HabboWindowManagerCom_newnavigator_icon_group.png")]
+        public static var newnavigator_icon_group:Class;
+        [Embed(source="images/HabboWindowManagerCom_newnavigator_icon_group_admin.png")]
+        public static var newnavigator_icon_group_admin:Class;
+        [Embed(source="images/HabboWindowManagerCom_newnavigator_icon_group_owner.png")]
+        public static var newnavigator_icon_group_owner:Class;
+        [Embed(source="images/HabboWindowManagerCom_newnavigator_icon_home_no.png")]
+        public static var newnavigator_icon_home_no:Class;
+        [Embed(source="images/HabboWindowManagerCom_newnavigator_icon_home_yes.png")]
+        public static var newnavigator_icon_home_yes:Class;
+        [Embed(source="images/HabboWindowManagerCom_newnavigator_icon_ql_add.png")]
+        public static var newnavigator_icon_ql_add:Class;
+        [Embed(source="images/HabboWindowManagerCom_newnavigator_icon_ql_remove.png")]
+        public static var newnavigator_icon_ql_remove:Class;
+        [Embed(source="images/HabboWindowManagerCom_newnavigator_icon_quicklink_plain.png")]
+        public static var newnavigator_icon_quicklink_plain:Class;
+        [Embed(source="images/HabboWindowManagerCom_newnavigator_icon_usercount.png")]
+        public static var newnavigator_icon_usercount:Class;
+        [Embed(source="images/HabboWindowManagerCom_newnavigator_nav_view_mini.png")]
+        public static var newnavigator_nav_view_mini:Class;
+        [Embed(source="images/HabboWindowManagerCom_newnavigator_nav_view_row.png")]
+        public static var newnavigator_nav_view_row:Class;
+        [Embed(source="images/HabboWindowManagerCom_newnavigator_nav_view_thumbs.png")]
+        public static var newnavigator_nav_view_thumbs:Class;
+        [Embed(source="images/HabboWindowManagerCom_newnavigator_promote_room.png")]
+        public static var newnavigator_promote_room:Class;
+        [Embed(source="images/HabboWindowManagerCom_newnavigator_random_room.png")]
+        public static var newnavigator_random_room:Class;
+        [Embed(source="images/HabboWindowManagerCom_newnavigator_rating_star_off.png")]
+        public static var newnavigator_rating_star_off:Class;
+        [Embed(source="images/HabboWindowManagerCom_newnavigator_rating_star_on.png")]
+        public static var newnavigator_rating_star_on:Class;
+        [Embed(source="images/HabboWindowManagerCom_newnavigator_refresh_search_icon.png")]
+        public static var newnavigator_refresh_search_icon:Class;
+        [Embed(source="images/HabboWindowManagerCom_newnavigator_report_room.png")]
+        public static var newnavigator_report_room:Class;
+        [Embed(source="images/HabboWindowManagerCom_newnavigator_room_settings_icon.png")]
+        public static var newnavigator_room_settings_icon:Class;
+        [Embed(source="images/HabboWindowManagerCom_newnavigator_roominfo_temp.png")]
+        public static var newnavigator_roominfo_temp:Class;
+        [Embed(source="images/HabboWindowManagerCom_newnavigator_roomusercount_dimmer_black.png")]
+        public static var newnavigator_roomusercount_dimmer_black:Class;
+        [Embed(source="images/HabboWindowManagerCom_poll_poll_prompt_frank.png")]
+        public static var poll_poll_prompt_frank:Class;
+        [Embed(source="images/HabboWindowManagerCom_poll_poll_prompt_question.png")]
+        public static var poll_poll_prompt_question:Class;
+        [Embed(source="images/HabboWindowManagerCom_pursearea_credits_icon.png")]
+        public static var pursearea_credits_icon:Class;
+        [Embed(source="images/HabboWindowManagerCom_pursearea_credits_icon2.png")]
+        public static var pursearea_credits_icon2:Class;
+        [Embed(source="images/HabboWindowManagerCom_pursearea_diamond_icon.png")]
+        public static var pursearea_diamond_icon:Class;
+        [Embed(source="images/HabboWindowManagerCom_pursearea_duckets_icon.png")]
+        public static var pursearea_duckets_icon:Class;
+        [Embed(source="images/HabboWindowManagerCom_pursearea_hc_icon.png")]
+        public static var pursearea_hc_icon:Class;
+        [Embed(source="images/HabboWindowManagerCom_pursearea_logout_icon.png")]
+        public static var pursearea_logout_icon:Class;
+        [Embed(source="images/HabboWindowManagerCom_pursearea_loyalty_icon.png")]
+        public static var pursearea_loyalty_icon:Class;
+        [Embed(source="images/HabboWindowManagerCom_pursearea_settings_icon.png")]
+        public static var pursearea_settings_icon:Class;
+        [Embed(source="images/HabboWindowManagerCom_rarity_item_rarity_item_plaque.png")]
+        public static var rarity_item_rarity_item_plaque:Class;
+        [Embed(source="images/HabboWindowManagerCom_rarity_item_rarity_preview_bg.png")]
+        public static var rarity_item_rarity_preview_bg:Class;
+        [Embed(source="images/HabboWindowManagerCom_relationship_status_bobba.png")]
+        public static var relationship_status_bobba:Class;
+        [Embed(source="images/HabboWindowManagerCom_relationship_status_heart.png")]
+        public static var relationship_status_heart:Class;
+        [Embed(source="images/HabboWindowManagerCom_relationship_status_none.png")]
+        public static var relationship_status_none:Class;
+        [Embed(source="images/HabboWindowManagerCom_relationship_status_smile.png")]
+        public static var relationship_status_smile:Class;
+        [Embed(source="images/HabboWindowManagerCom_roomtools_camera.png")]
+        public static var roomtools_camera:Class;
+        [Embed(source="images/HabboWindowManagerCom_roomtools_chat_history.png")]
+        public static var roomtools_chat_history:Class;
+        [Embed(source="images/HabboWindowManagerCom_roomtools_gear.png")]
+        public static var roomtools_gear:Class;
+        [Embed(source="images/HabboWindowManagerCom_roomtools_history_back_bg.png")]
+        public static var roomtools_history_back_bg:Class;
+        [Embed(source="images/HabboWindowManagerCom_roomtools_history_back_icon.png")]
+        public static var roomtools_history_back_icon:Class;
+        [Embed(source="images/HabboWindowManagerCom_roomtools_history_forward_bg.png")]
+        public static var roomtools_history_forward_bg:Class;
+        [Embed(source="images/HabboWindowManagerCom_roomtools_history_forward_icon.png")]
+        public static var roomtools_history_forward_icon:Class;
+        [Embed(source="images/HabboWindowManagerCom_roomtools_history_open_bg.png")]
+        public static var roomtools_history_open_bg:Class;
+        [Embed(source="images/HabboWindowManagerCom_roomtools_history_open_icon.png")]
+        public static var roomtools_history_open_icon:Class;
+        [Embed(source="images/HabboWindowManagerCom_roomtools_like.png")]
+        public static var roomtools_like:Class;
+        [Embed(source="images/HabboWindowManagerCom_roomtools_magnifier.png")]
+        public static var roomtools_magnifier:Class;
+        [Embed(source="images/HabboWindowManagerCom_roomtools_minimizebutton.png")]
+        public static var roomtools_minimizebutton:Class;
+        [Embed(source="images/HabboWindowManagerCom_roomtools_photo_icon.png")]
+        public static var roomtools_photo_icon:Class;
+        [Embed(source="images/HabboWindowManagerCom_roomtools_unlike.png")]
+        public static var roomtools_unlike:Class;
+        [Embed(source="images/HabboWindowManagerCom_roomtools_zoom_in.png")]
+        public static var roomtools_zoom_in:Class;
+        [Embed(source="images/HabboWindowManagerCom_roomtools_zoom_out.png")]
+        public static var roomtools_zoom_out:Class;
+        [Embed(source="images/HabboWindowManagerCom_talent_achieved_div.png")]
+        public static var talent_achieved_div:Class;
+        [Embed(source="images/HabboWindowManagerCom_talent_achieved_left.png")]
+        public static var talent_achieved_left:Class;
+        [Embed(source="images/HabboWindowManagerCom_talent_achieved_mid.png")]
+        public static var talent_achieved_mid:Class;
+        [Embed(source="images/HabboWindowManagerCom_talent_achieved_right.png")]
+        public static var talent_achieved_right:Class;
+        [Embed(source="images/HabboWindowManagerCom_talent_action_overlay.png")]
+        public static var talent_action_overlay:Class;
+        [Embed(source="images/HabboWindowManagerCom_talent_avatar_glow.png")]
+        public static var talent_avatar_glow:Class;
+        [Embed(source="images/HabboWindowManagerCom_talent_check_mark_circle.png")]
+        public static var talent_check_mark_circle:Class;
+        [Embed(source="images/HabboWindowManagerCom_talent_citizenship_accomplished.png")]
+        public static var talent_citizenship_accomplished:Class;
+        [Embed(source="images/HabboWindowManagerCom_talent_helper_icon.png")]
+        public static var talent_helper_icon:Class;
+        [Embed(source="images/HabboWindowManagerCom_talent_locked_achievement.png")]
+        public static var talent_locked_achievement:Class;
+        [Embed(source="images/HabboWindowManagerCom_talent_locked_stripe.png")]
+        public static var talent_locked_stripe:Class;
+        [Embed(source="images/HabboWindowManagerCom_talent_mask_left.png")]
+        public static var talent_mask_left:Class;
+        [Embed(source="images/HabboWindowManagerCom_talent_mask_right.png")]
+        public static var talent_mask_right:Class;
+        [Embed(source="images/HabboWindowManagerCom_talent_progress_lower.png")]
+        public static var talent_progress_lower:Class;
+        [Embed(source="images/HabboWindowManagerCom_talent_progress_upper.png")]
+        public static var talent_progress_upper:Class;
+        [Embed(source="images/HabboWindowManagerCom_talent_register_cutout_character.png")]
+        public static var talent_register_cutout_character:Class;
+        [Embed(source="images/HabboWindowManagerCom_talent_task_progress_bg.png")]
+        public static var talent_task_progress_bg:Class;
+        [Embed(source="images/HabboWindowManagerCom_talent_task_progress_fg.png")]
+        public static var talent_task_progress_fg:Class;
+        [Embed(source="images/HabboWindowManagerCom_talent_task_progress_left.png")]
+        public static var talent_task_progress_left:Class;
+        [Embed(source="images/HabboWindowManagerCom_talent_task_progress_right.png")]
+        public static var talent_task_progress_right:Class;
+        [Embed(source="images/HabboWindowManagerCom_talent_unachieved_div.png")]
+        public static var talent_unachieved_div:Class;
+        [Embed(source="images/HabboWindowManagerCom_talent_unachieved_left.png")]
+        public static var talent_unachieved_left:Class;
+        [Embed(source="images/HabboWindowManagerCom_talent_unachieved_mid.png")]
+        public static var talent_unachieved_mid:Class;
+        [Embed(source="images/HabboWindowManagerCom_talent_unachieved_right.png")]
+        public static var talent_unachieved_right:Class;
+        [Embed(source="images/HabboWindowManagerCom_talent_vip_reward.png")]
+        public static var talent_vip_reward:Class;
+        [Embed(source="images/HabboWindowManagerCom_toolbar_citizenship_icon.png")]
+        public static var toolbar_citizenship_icon:Class;
+        [Embed(source="images/HabboWindowManagerCom_toolbar_credit_icon_0.png")]
+        public static var toolbar_credit_icon_0:Class;
+        [Embed(source="images/HabboWindowManagerCom_toolbar_credit_icon_1.png")]
+        public static var toolbar_credit_icon_1:Class;
+        [Embed(source="images/HabboWindowManagerCom_toolbar_credit_icon_2.png")]
+        public static var toolbar_credit_icon_2:Class;
+        [Embed(source="images/HabboWindowManagerCom_toolbar_duckat_icon_0.png")]
+        public static var toolbar_duckat_icon_0:Class;
+        [Embed(source="images/HabboWindowManagerCom_toolbar_duckat_icon_1.png")]
+        public static var toolbar_duckat_icon_1:Class;
+        [Embed(source="images/HabboWindowManagerCom_toolbar_duckat_icon_2.png")]
+        public static var toolbar_duckat_icon_2:Class;
+        [Embed(source="images/HabboWindowManagerCom_toolbar_hc_icon_0.png")]
+        public static var toolbar_hc_icon_0:Class;
+        [Embed(source="images/HabboWindowManagerCom_toolbar_hc_icon_1.png")]
+        public static var toolbar_hc_icon_1:Class;
+        [Embed(source="images/HabboWindowManagerCom_toolbar_hc_icon_2.png")]
+        public static var toolbar_hc_icon_2:Class;
+        [Embed(source="images/HabboWindowManagerCom_toolbar_memenu_achievements_color.png")]
+        public static var toolbar_memenu_achievements_color:Class;
+        [Embed(source="images/HabboWindowManagerCom_toolbar_memenu_achievements_white.png")]
+        public static var toolbar_memenu_achievements_white:Class;
+        [Embed(source="images/HabboWindowManagerCom_toolbar_memenu_clothes_color.png")]
+        public static var toolbar_memenu_clothes_color:Class;
+        [Embed(source="images/HabboWindowManagerCom_toolbar_memenu_clothes_white.png")]
+        public static var toolbar_memenu_clothes_white:Class;
+        [Embed(source="images/HabboWindowManagerCom_toolbar_memenu_guide_color.png")]
+        public static var toolbar_memenu_guide_color:Class;
+        [Embed(source="images/HabboWindowManagerCom_toolbar_memenu_guide_white.png")]
+        public static var toolbar_memenu_guide_white:Class;
+        [Embed(source="images/HabboWindowManagerCom_toolbar_memenu_minimail_color.png")]
+        public static var toolbar_memenu_minimail_color:Class;
+        [Embed(source="images/HabboWindowManagerCom_toolbar_memenu_minimail_white.png")]
+        public static var toolbar_memenu_minimail_white:Class;
+        [Embed(source="images/HabboWindowManagerCom_toolbar_memenu_profile_color.png")]
+        public static var toolbar_memenu_profile_color:Class;
+        [Embed(source="images/HabboWindowManagerCom_toolbar_memenu_profile_white.png")]
+        public static var toolbar_memenu_profile_white:Class;
+        [Embed(source="images/HabboWindowManagerCom_toolbar_memenu_rooms_color.png")]
+        public static var toolbar_memenu_rooms_color:Class;
+        [Embed(source="images/HabboWindowManagerCom_toolbar_memenu_rooms_white.png")]
+        public static var toolbar_memenu_rooms_white:Class;
+        [Embed(source="images/HabboWindowManagerCom_toolbar_memenu_settings_color.png")]
+        public static var toolbar_memenu_settings_color:Class;
+        [Embed(source="images/HabboWindowManagerCom_toolbar_memenu_settings_slider_base.png")]
+        public static var toolbar_memenu_settings_slider_base:Class;
+        [Embed(source="images/HabboWindowManagerCom_toolbar_memenu_settings_slider_button.png")]
+        public static var toolbar_memenu_settings_slider_button:Class;
+        [Embed(source="images/HabboWindowManagerCom_toolbar_memenu_settings_sounds_off_color.png")]
+        public static var toolbar_memenu_settings_sounds_off_color:Class;
+        [Embed(source="images/HabboWindowManagerCom_toolbar_memenu_settings_sounds_off_white.png")]
+        public static var toolbar_memenu_settings_sounds_off_white:Class;
+        [Embed(source="images/HabboWindowManagerCom_toolbar_memenu_settings_sounds_on_color.png")]
+        public static var toolbar_memenu_settings_sounds_on_color:Class;
+        [Embed(source="images/HabboWindowManagerCom_toolbar_memenu_settings_sounds_on_white.png")]
+        public static var toolbar_memenu_settings_sounds_on_white:Class;
+        [Embed(source="images/HabboWindowManagerCom_toolbar_memenu_settings_white.png")]
+        public static var toolbar_memenu_settings_white:Class;
+        [Embed(source="images/HabboWindowManagerCom_toolbar_memenu_talents_color.png")]
+        public static var toolbar_memenu_talents_color:Class;
+        [Embed(source="images/HabboWindowManagerCom_toolbar_memenu_talents_white.png")]
+        public static var toolbar_memenu_talents_white:Class;
+        [Embed(source="images/HabboWindowManagerCom_toolbar_offer_icon_0.png")]
+        public static var toolbar_offer_icon_0:Class;
+        [Embed(source="images/HabboWindowManagerCom_toolbar_offer_icon_1.png")]
+        public static var toolbar_offer_icon_1:Class;
+        [Embed(source="images/HabboWindowManagerCom_toolbar_offer_icon_2.png")]
+        public static var toolbar_offer_icon_2:Class;
+        [Embed(source="images/HabboWindowManagerCom_toolbar_room_icon_0.png")]
+        public static var toolbar_room_icon_0:Class;
+        [Embed(source="images/HabboWindowManagerCom_toolbar_room_icon_1.png")]
+        public static var toolbar_room_icon_1:Class;
+        [Embed(source="images/HabboWindowManagerCom_toolbar_room_icon_2.png")]
+        public static var toolbar_room_icon_2:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_styles_volter_slider_bg.png")]
+        public static var wired_styles_volter_slider_bg:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_styles_volter_slider_obj.png")]
+        public static var wired_styles_volter_slider_obj:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_styles_illumina_slider_obj.png")]
+        public static var wired_styles_illumina_slider_obj:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_styles_illumina_icon_source_furni.png")]
+        public static var wired_styles_illumina_icon_source_furni:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_styles_illumina_icon_source_users.png")]
+        public static var wired_styles_illumina_icon_source_users:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_styles_illumina_icon_source_global.png")]
+        public static var wired_styles_illumina_icon_source_global:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_styles_illumina_icon_source_context.png")]
+        public static var wired_styles_illumina_icon_source_context:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_styles_illumina_furni_picks_1.png")]
+        public static var wired_styles_illumina_furni_picks_1:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_add.png")]
+        public static var wired_add:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_remove.png")]
+        public static var wired_remove:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_reference.png")]
+        public static var wired_reference:Class;
+        [Embed(source="images/HabboWindowManagerCom_var_picker_all.png")]
+        public static var var_picker_all:Class;
+        [Embed(source="images/HabboWindowManagerCom_var_picker_cancel_search.png")]
+        public static var var_picker_cancel_search:Class;
+        [Embed(source="images/HabboWindowManagerCom_var_picker_internal.png")]
+        public static var var_picker_internal:Class;
+        [Embed(source="images/HabboWindowManagerCom_var_picker_recent.png")]
+        public static var var_picker_recent:Class;
+        [Embed(source="images/HabboWindowManagerCom_var_picker_search.png")]
+        public static var var_picker_search:Class;
+        [Embed(source="images/HabboWindowManagerCom_var_picker_smart.png")]
+        public static var var_picker_smart:Class;
+        [Embed(source="images/HabboWindowManagerCom_var_picker_usermade.png")]
+        public static var var_picker_usermade:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_enlarge_image.png")]
+        public static var wired_enlarge_image:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_reduce_image.png")]
+        public static var wired_reduce_image:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_styles_illumina_furni_picks_2.png")]
+        public static var wired_styles_illumina_furni_picks_2:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_styles_illumina_move_0.png")]
+        public static var wired_styles_illumina_move_0:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_styles_illumina_move_1.png")]
+        public static var wired_styles_illumina_move_1:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_styles_illumina_move_2.png")]
+        public static var wired_styles_illumina_move_2:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_styles_illumina_move_3.png")]
+        public static var wired_styles_illumina_move_3:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_styles_illumina_move_4.png")]
+        public static var wired_styles_illumina_move_4:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_styles_illumina_move_5.png")]
+        public static var wired_styles_illumina_move_5:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_styles_illumina_move_6.png")]
+        public static var wired_styles_illumina_move_6:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_styles_illumina_move_7.png")]
+        public static var wired_styles_illumina_move_7:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_styles_illumina_move_diag.png")]
+        public static var wired_styles_illumina_move_diag:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_styles_illumina_move_rnd.png")]
+        public static var wired_styles_illumina_move_rnd:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_styles_illumina_move_vrt.png")]
+        public static var wired_styles_illumina_move_vrt:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_styles_illumina_rotate_ccw.png")]
+        public static var wired_styles_illumina_rotate_ccw:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_styles_illumina_rotate_cw.png")]
+        public static var wired_styles_illumina_rotate_cw:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_misc_directional_system_0_png.png")]
+        public static var wired_misc_directional_system_0_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_misc_directional_system_1_png.png")]
+        public static var wired_misc_directional_system_1_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_misc_directional_system_2_png.png")]
+        public static var wired_misc_directional_system_2_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_misc_directional_system_3_png.png")]
+        public static var wired_misc_directional_system_3_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_icon_wired_variable_user_large_png.png")]
+        public static var icon_wired_variable_user_large_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_icon_wired_variable_context_large_png.png")]
+        public static var icon_wired_variable_context_large_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_icon_wired_variable_global_large_png.png")]
+        public static var icon_wired_variable_global_large_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_icon_wired_variable_furni_large_png.png")]
+        public static var icon_wired_variable_furni_large_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_box_lines_png.png")]
+        public static var wired_box_lines_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_global_placeholder_png.png")]
+        public static var wired_global_placeholder_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_monitor_element1_png.png")]
+        public static var wired_monitor_element1_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_monitor_element2_png.png")]
+        public static var wired_monitor_element2_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_icon_discord_png.png")]
+        public static var icon_discord_png:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_volter_uparrow.png")]
+        public static var wired_volter_uparrow:Class;
+        [Embed(source="images/HabboWindowManagerCom_wired_volter_downarrow.png")]
+        public static var wired_volter_downarrow:Class;
+        [Embed(source="images/HabboWindowManagerCom_tools_black_pixel.png")]
+        public static var tools_black_pixel:Class;
+        [Embed(source="images/HabboWindowManagerCom_tools_file_icon.png")]
+        public static var tools_file_icon:Class;
+        [Embed(source="images/HabboWindowManagerCom_tools_folder_icon.png")]
+        public static var tools_folder_icon:Class;
+        [Embed(source="images/HabboWindowManagerCom_tools_tools_download_icon.png")]
+        public static var tools_tools_download_icon:Class;
+        [Embed(source="images/HabboWindowManagerCom_unique_item_label_1.png")]
+        public static var unique_item_label_1:Class;
+        [Embed(source="images/HabboWindowManagerCom_unique_item_label_glass_shine.png")]
+        public static var unique_item_label_glass_shine:Class;
+        [Embed(source="images/HabboWindowManagerCom_unique_item_label_number_glyphs.png")]
+        public static var unique_item_label_number_glyphs:Class;
+        [Embed(source="images/HabboWindowManagerCom_unique_item_label_plaque_border.png")]
+        public static var unique_item_label_plaque_border:Class;
+        [Embed(source="images/HabboWindowManagerCom_unique_item_label_plaque_metal.png")]
+        public static var unique_item_label_plaque_metal:Class;
+        [Embed(source="images/HabboWindowManagerCom_unique_item_label_studs.png")]
+        public static var unique_item_label_studs:Class;
+        [Embed(source="images/HabboWindowManagerCom_unique_item_large_background_wide.png")]
+        public static var unique_item_large_background_wide:Class;
+        [Embed(source="images/HabboWindowManagerCom_unique_item_large_glass_bottom.png")]
+        public static var unique_item_large_glass_bottom:Class;
+        [Embed(source="images/HabboWindowManagerCom_unique_item_large_glass_mid.png")]
+        public static var unique_item_large_glass_mid:Class;
+        [Embed(source="images/HabboWindowManagerCom_unique_item_large_glass_shine.png")]
+        public static var unique_item_large_glass_shine:Class;
+        [Embed(source="images/HabboWindowManagerCom_unique_item_large_glass_top.png")]
+        public static var unique_item_large_glass_top:Class;
+        [Embed(source="images/HabboWindowManagerCom_unique_item_large_iron.png")]
+        public static var unique_item_large_iron:Class;
+        [Embed(source="images/HabboWindowManagerCom_unique_item_large_na_button.png")]
+        public static var unique_item_large_na_button:Class;
+        [Embed(source="images/HabboWindowManagerCom_unique_item_large_na_button_wide.png")]
+        public static var unique_item_large_na_button_wide:Class;
+        [Embed(source="images/HabboWindowManagerCom_unique_item_large_tile_upright.png")]
+        public static var unique_item_large_tile_upright:Class;
+        [Embed(source="images/HabboWindowManagerCom_unique_item_sold_out_label.png")]
+        public static var unique_item_sold_out_label:Class;
+        [Embed(source="images/HabboWindowManagerCom_unique_item_sold_out_tile.png")]
+        public static var unique_item_sold_out_tile:Class;
+        [Embed(source="images/HabboWindowManagerCom_word_quiz_thum_down.png")]
+        public static var word_quiz_thum_down:Class;
+        [Embed(source="images/HabboWindowManagerCom_word_quiz_thum_down_big.png")]
+        public static var word_quiz_thum_down_big:Class;
+        [Embed(source="images/HabboWindowManagerCom_word_quiz_thum_up.png")]
+        public static var word_quiz_thum_up:Class;
+        [Embed(source="images/HabboWindowManagerCom_word_quiz_thum_up_big.png")]
+        public static var word_quiz_thum_up_big:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_avatar_image_xml.bin", mimeType="application/octet-stream")]
+        public static var avatar_image_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_badge_image_xml.bin", mimeType="application/octet-stream")]
+        public static var badge_image_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_product_icon_xml.bin", mimeType="application/octet-stream")]
+        public static var product_icon_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_product_image_xml.bin", mimeType="application/octet-stream")]
+        public static var product_image_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_balloon_xml.bin", mimeType="application/octet-stream")]
+        public static var balloon_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_clock_base_xml.bin", mimeType="application/octet-stream")]
+        public static var clock_base_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_hover_bitmap_xml.bin", mimeType="application/octet-stream")]
+        public static var hover_bitmap_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_border_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_border_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_chat_bubble_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_chat_bubble_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_illumina_input_xml.bin", mimeType="application/octet-stream")]
+        public static var illumina_input_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_updating_timestamp_xml.bin", mimeType="application/octet-stream")]
+        public static var updating_timestamp_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_progress_indicator_xml.bin", mimeType="application/octet-stream")]
+        public static var progress_indicator_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_separator_xml.bin", mimeType="application/octet-stream")]
+        public static var separator_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_running_number_xml.bin", mimeType="application/octet-stream")]
+        public static var running_number_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_pet_image_xml.bin", mimeType="application/octet-stream")]
+        public static var pet_image_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_furniture_image_xml.bin", mimeType="application/octet-stream")]
+        public static var furniture_image_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_room_previewer_xml.bin", mimeType="application/octet-stream")]
+        public static var room_previewer_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_pixel_limit_xml.bin", mimeType="application/octet-stream")]
+        public static var pixel_limit_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_room_usercount_xml.bin", mimeType="application/octet-stream")]
+        public static var room_usercount_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_room_thumbnail_xml.bin", mimeType="application/octet-stream")]
+        public static var room_thumbnail_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_unique_item_overlay_griditem_xml.bin", mimeType="application/octet-stream")]
+        public static var unique_item_overlay_griditem_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_chest_overlay_griditem_xml.bin", mimeType="application/octet-stream")]
+        public static var chest_overlay_griditem_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_unique_item_overlay_supply_xml.bin", mimeType="application/octet-stream")]
+        public static var unique_item_overlay_supply_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_unique_item_overlay_preview_xml.bin", mimeType="application/octet-stream")]
+        public static var unique_item_overlay_preview_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_rarity_item_overlay_griditem_xml.bin", mimeType="application/octet-stream")]
+        public static var rarity_item_overlay_griditem_xml:Class;
+        [Embed(source="binaryData/HabboWindowManagerCom_rarity_item_overlay_preview_xml.bin", mimeType="application/octet-stream")]
+        public static var rarity_item_overlay_preview_xml:Class;
 		public static var vote_question_xml:Class = VoteQuestionXML;
 		public static var vote_choice_xml:Class = VoteChoiceXML;
     }

@@ -5,6 +5,7 @@
     import com.sulake.core.window.IWindowContainer;
     import __AS3__.vec.Vector;
     import com.sulake.core.window.IWindow;
+    import com.sulake.core.assets.XmlAsset;
     import flash.display.Shape;
     import com.sulake.habbo.session.ISessionDataManager;
     import flash.display.BitmapData;
@@ -12,6 +13,8 @@
     import flash.display.Sprite;
     import com.sulake.core.window.components.IDisplayObjectWrapper;
     import com.sulake.core.window.components.IBitmapWrapperWindow;
+    import com.sulake.core.window.components.ITextWindow;
+    import com.sulake.core.window.components.IItemListWindow;
     import com.sulake.core.window.events.WindowMouseEvent;
     import com.sulake.core.window.events.WindowEvent;
     import __AS3__.vec.*;
@@ -19,15 +22,18 @@
     public class ChatStyleSelector implements IDisposable 
     {
         private static const _Str_17267:int = 1;
-        private static const _Str_16506:int = 3;
+        private static const _Str_16506:int = 6;
+        private static const FONT_SIZE_LABELS:Array = ["S", "M", "L", "XL", "XXL"];
         private static var _Str_1007:ChatStyleGridEntry = null;
         private static var _Str_6012:Boolean = false;
+        private static var _fontSizeMode:int = 0;
 
         private var _roomChatInputView:RoomChatInputView;
         private var _container:IWindowContainer;
         private var _Str_3334:ChatStyleGridView;
         private var _Str_2514:Vector.<ChatStyleGridEntry>;
         private var _Str_11421:IWindow;
+        private var _fontSizeTemplate:IWindow;
         private var _Str_4357:Shape;
 
         public function ChatStyleSelector(k:RoomChatInputView, _arg_2:IWindowContainer, _arg_3:ISessionDataManager)
@@ -36,12 +42,18 @@
             super();
             this._roomChatInputView = k;
             this._Str_3334 = new ChatStyleGridView(this, this._roomChatInputView.sessionDataManager);
-            this._Str_11421 = k.widget.windowManager.buildFromXML((k.widget.assets.getAssetByName("chatinput_chatstyle_template_xml").content as XML));
+            this._Str_11421 = this.buildTemplateWindow("chatinput_chatstyle_template_xml");
+            this._fontSizeTemplate = this.buildTemplateWindow("chatinput_chatfontsize_template_xml");
             this._container = _arg_2;
             this._container.procedure = this._Str_12416;
-            this._roomChatInputView._Str_22667.addChild(this._Str_3334.window);
-            this._Str_3334.window.x = 0;
-            this._Str_3334.window.y = 0;
+            if (((this._Str_3334.window) && (this._roomChatInputView._Str_22667)))
+            {
+                this._roomChatInputView._Str_22667.addChild(this._Str_3334.window);
+                this._Str_3334.window.x = 0;
+                this._Str_3334.window.y = 0;
+            }
+            this._roomChatInputView._Str_22667.visible = false;
+            this.createFontSizeOptions();
         }
 
         public function dispose():void
@@ -53,6 +65,7 @@
             this._Str_2514 = null;
             this._Str_3334.dispose();
             this._Str_3334 = null;
+            this._fontSizeTemplate = null;
             if (((this._Str_4357) && (this._Str_4357.parent)))
             {
                 this._Str_4357.parent.removeChild(this._Str_4357);
@@ -71,8 +84,16 @@
 
         public function addItem(k:int, _arg_2:BitmapData):void
         {
+            if (((this._Str_3334 == null) || (this._Str_3334.grid == null)) || (this._Str_11421 == null))
+            {
+                return;
+            }
             this._Str_2514.push(new ChatStyleGridEntry(k, _arg_2));
             var _local_3:IWindowContainer = this._Str_22807(_arg_2);
+            if (_local_3 == null)
+            {
+                return;
+            }
             this._Str_3334.grid.addGridItem(_local_3);
             _local_3.findChildByName("background_color").visible = false;
         }
@@ -96,14 +117,27 @@
             return null;
         }
 
-        public function _Str_24820():void
+        public function _Str_24820(k:int=-1):void
         {
-            this.selected = this.selected;
+            var _local_2:ChatStyleGridEntry = this.getEntryById(k);
+            if (((_local_2 == null) && (!(k == 0))))
+            {
+                _local_2 = this.getEntryById(0);
+            }
+            this.selected = ((_local_2) ? _local_2 : this.selected);
             _Str_6012 = false;
+            if (this._roomChatInputView.widget.handler.container.freeFlowChat)
+            {
+                this.initFontSizeSelection(this._roomChatInputView.widget.handler.container.freeFlowChat.chatFontSizeMode);
+            }
         }
 
         public function set _Str_22746(k:int):void
         {
+            if (((this._Str_3334 == null) || (this._Str_3334.grid == null)) || (this._Str_11421 == null))
+            {
+                return;
+            }
             k = Math.min(k, _Str_16506);
             var _local_2:int = (((k - 1) * (this._Str_11421.width + _Str_17267)) + this._Str_11421.width);
             if (k > 1)
@@ -118,6 +152,10 @@
 
         private function set selected(k:ChatStyleGridEntry):void
         {
+            if (k == null)
+            {
+                return;
+            }
             _Str_1007 = k;
             _Str_6012 = true;
             var _local_2:IChatStyle = this._roomChatInputView.widget._Str_13265.chatStyleLibrary.getStyle(k.id);
@@ -153,15 +191,53 @@
 
         private function get selected():ChatStyleGridEntry
         {
-            if (_Str_1007 == null)
+            if ((((_Str_1007 == null) || (!(this.hasEntry(_Str_1007)))) && (this._Str_2514.length > 0)))
             {
                 _Str_1007 = this._Str_2514[(this._Str_2514.length - 1)];
             }
             return _Str_1007;
         }
 
+        private function getEntryById(k:int):ChatStyleGridEntry
+        {
+            var _local_2:ChatStyleGridEntry;
+            if (this._Str_2514 == null)
+            {
+                return null;
+            }
+            for each (_local_2 in this._Str_2514)
+            {
+                if (((_local_2) && (_local_2.id == k)))
+                {
+                    return _local_2;
+                }
+            }
+            return null;
+        }
+
+        private function hasEntry(k:ChatStyleGridEntry):Boolean
+        {
+            var _local_2:ChatStyleGridEntry;
+            if (((k == null) || (this._Str_2514 == null)))
+            {
+                return false;
+            }
+            for each (_local_2 in this._Str_2514)
+            {
+                if (_local_2 === k)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         private function _Str_22807(k:BitmapData):IWindowContainer
         {
+            if (this._Str_11421 == null)
+            {
+                return null;
+            }
             var _local_2:IWindowContainer = IWindowContainer(this._Str_11421.clone());
             var _local_3:IBitmapWrapperWindow = IBitmapWrapperWindow(_local_2.findChildByName("bubble_preview"));
             _local_3.bitmap = k;
@@ -172,17 +248,38 @@
 
         public function _Str_19515():void
         {
-            if (this._Str_3334.window.visible)
+            if (((this._Str_3334) && (this._Str_3334.window)) && (this._Str_3334.window.visible))
             {
                 this._Str_3334._Str_25385(this._container);
             }
         }
 
+        public function setMenuOpen(k:Boolean):void
+        {
+            if (this._roomChatInputView._Str_22667)
+            {
+                this._roomChatInputView._Str_22667.visible = k;
+            }
+            if (((this._Str_3334) && (this._Str_3334.window)))
+            {
+                this._Str_3334.window.visible = k;
+            }
+            if (k)
+            {
+                this._Str_19515();
+            }
+        }
+
         private function _Str_12416(k:WindowEvent, _arg_2:IWindow):void
         {
+            var _local_3:Boolean;
             if (k.type == WindowMouseEvent.CLICK)
             {
-                this._Str_3334.window.visible = (!(this._Str_3334.window.visible));
+                _fontSizeMode = this.clampFontSize(this._roomChatInputView.widget.handler.container.freeFlowChat.chatFontSizeMode);
+                this.updateFontSizeSelectionHighlight();
+                _local_3 = (!(this._roomChatInputView._Str_22667.visible));
+                this._roomChatInputView._Str_22667.visible = _local_3;
+                this._Str_3334.window.visible = _local_3;
                 this._Str_19515();
             }
         }
@@ -195,7 +292,6 @@
                 _local_3 = this._Str_3334.grid.getGridItemIndex(_arg_2);
                 this._Str_23446(_arg_2);
                 this.selected = this._Str_2514[_local_3];
-                this._Str_3334.window.visible = false;
             }
             if (k.type == WindowMouseEvent.OVER)
             {
@@ -216,6 +312,115 @@
                 _local_2++;
             }
             IWindowContainer(k).findChildByName("background_color").visible = true;
+        }
+
+        private function buildTemplateWindow(k:String):IWindow
+        {
+            var _local_2:XmlAsset = this._roomChatInputView.widget.assets.getAssetByName(k) as XmlAsset;
+            if (((_local_2 == null) || (_local_2.content == null)))
+            {
+                return null;
+            }
+            return this._roomChatInputView.widget.windowManager.buildFromXML(_local_2.content as XML);
+        }
+
+        private function createFontSizeOptions():void
+        {
+            var k:int;
+            if (((this._Str_3334 == null) || (this._Str_3334.fontSizeList == null)) || (this._fontSizeTemplate == null))
+            {
+                return;
+            }
+            while (k < FONT_SIZE_LABELS.length)
+            {
+                this._Str_3334.fontSizeList.addListItem(this.getFontSizeItemWindowWrapper(FONT_SIZE_LABELS[k], k));
+                k++;
+            }
+            this.updateFontSizeSelectionHighlight();
+        }
+
+        private function getFontSizeItemWindowWrapper(k:String, _arg_2:int):IWindowContainer
+        {
+            var _local_3:IWindowContainer = IWindowContainer(this._fontSizeTemplate.clone());
+            _local_3.id = _arg_2;
+            ITextWindow(_local_3.findChildByName("label")).caption = k;
+            _local_3.procedure = this.fontSizeItemWindowProc;
+            return _local_3;
+        }
+
+        private function initFontSizeSelection(k:int):void
+        {
+            _fontSizeMode = this.clampFontSize(k);
+            this.updateFontSizeSelectionHighlight();
+        }
+
+        private function fontSizeItemWindowProc(k:WindowEvent, _arg_2:IWindow):void
+        {
+            var _local_3:IWindowContainer = this.resolveFontSizeItem(_arg_2);
+            if (_local_3 == null)
+            {
+                return;
+            }
+            if (k.type == WindowMouseEvent.CLICK)
+            {
+                _fontSizeMode = this.clampFontSize(_local_3.id);
+                this._roomChatInputView.widget.handler.container.freeFlowChat.chatFontSizeMode = _fontSizeMode;
+                this.updateFontSizeSelectionHighlight();
+            }
+            if (k.type == WindowMouseEvent.OVER)
+            {
+                _local_3.findChildByName("background_color").color = 4291875024;
+            }
+            if (k.type == WindowMouseEvent.OUT)
+            {
+                _local_3.findChildByName("background_color").color = 0xFFFFFFFF;
+            }
+        }
+
+        private function updateFontSizeSelectionHighlight():void
+        {
+            var _local_2:int;
+            var _local_3:IWindowContainer;
+            var _local_4:ITextWindow;
+            if (((this._Str_3334 == null) || (this._Str_3334.fontSizeList == null)))
+            {
+                return;
+            }
+            var _local_1:IItemListWindow = this._Str_3334.fontSizeList;
+            while (_local_2 < _local_1.numListItems)
+            {
+                _local_3 = IWindowContainer(_local_1.getListItemAt(_local_2));
+                _local_3.findChildByName("background_color").visible = _local_3.id == _fontSizeMode;
+                _local_4 = _local_3.findChildByName("label") as ITextWindow;
+                if (_local_4)
+                {
+                    _local_4.textColor = _local_3.id == _fontSizeMode ? 0x333333 : 0x999999;
+                }
+                _local_2++;
+            }
+        }
+
+        private function resolveFontSizeItem(k:IWindow):IWindowContainer
+        {
+            var _local_2:IWindow = k;
+            while ((((_local_2 != null) && (_local_2.parent != null)) && (_local_2.parent.parent != this._Str_3334.fontSizeList)))
+            {
+                _local_2 = _local_2.parent;
+            }
+            return _local_2 as IWindowContainer;
+        }
+
+        private function clampFontSize(k:int):int
+        {
+            if (k < 0)
+            {
+                return 0;
+            }
+            if (k > 4)
+            {
+                return 4;
+            }
+            return k;
         }
     }
 }

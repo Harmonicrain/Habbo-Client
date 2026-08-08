@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?><layout name="chatfontsize_template" width="18" height="18" version="0.1" uid="FA9A365F-5AB6-D70E-547C-B140945409EA">
+  <window>
+    <region x="0" y="0" width="18" height="18" params="17" style="0" name="chatfontsize_region" treshold="0">
+      <children>
+        <border x="0" y="0" width="18" height="18" params="144" style="2" name="background_color"/>
+        <text x="4" y="1" width="9" height="15" params="4194320" style="0" name="label" caption="S" treshold="0">
+          <variables>
+            <var key="antialias_type" value="advanced" type="String"/>
+            <var key="auto_size" value="left" type="String"/>
+            <var key="font_face" value="Ubuntu" type="String"/>
+            <var key="font_size" value="10" type="uint"/>
+            <var key="text_color" value="0x333333" type="hex"/>
+            <var key="mouse_wheel_enabled" value="false" type="Boolean"/>
+            <var key="sharpness" value="0" type="Number"/>
+            <var key="thickness" value="0" type="Number"/>
+            <var key="bold" value="true" type="Boolean"/>
+            <var key="kerning" value="false" type="Boolean"/>
+            <var key="spacing" value="0" type="Number"/>
+            <var key="leading" value="0" type="Number"/>
+          </variables>
+        </text>
+      </children>
+    </region>
+  </window>
+</layout>

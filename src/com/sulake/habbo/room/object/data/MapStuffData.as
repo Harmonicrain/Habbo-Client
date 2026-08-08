@@ -83,5 +83,25 @@
             }
             return -1;
         }
+
+        override public function get contentsCount():int
+        {
+            if (this._data == null)
+            {
+                return 0;
+            }
+            var value:String = this._data["contents_count"];
+            return value == null ? 0 : int(value);
+        }
+
+        override public function get chestName():String
+        {
+            if (this._data == null)
+            {
+                return "";
+            }
+            var value:String = this._data["chest_name"];
+            return value == null ? "" : value;
+        }
     }
 }

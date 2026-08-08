@@ -27,6 +27,9 @@
     import flash.display.Sprite;
     import flash.geom.Rectangle;
     import flash.display.BitmapData;
+    import com.sulake.habbo.freeflowchat.viewer.visualization.ManualNineSliceSprite;
+    import com.sulake.habbo.freeflowchat.viewer.enum.ChatMarkup;
+    import com.sulake.habbo.freeflowchat.viewer.visualization.style.ChatStyle;
     import com.sulake.core.runtime.ComponentDependency;
     import com.sulake.iid.IIDSessionDataManager;
     import com.sulake.iid.IIDAvatarRenderManager;
@@ -91,6 +94,7 @@
         private var _roomChatSettings:RoomChatSettings;
         private var _freeFlowDisabled:Boolean = false;
         private var _preferedChatStyle:int = 1;
+        private var _chatFontSizeMode:int = 0;
         private var _roomChangeRecordedInHistory:Boolean = false;
 
         public function HabboFreeFlowChat(k:IContext, _arg_2:uint=0, _arg_3:IAssetLibrary=null)
@@ -115,6 +119,10 @@
             return new Scale9BitmapSprite(k, _arg_2);
         }
 
+        public static function createPixelPerfect9SliceSprite(k:Rectangle, _arg_2:BitmapData):Sprite
+        {
+            return new ManualNineSliceSprite(k, _arg_2);
+        }
 
         override protected function get dependencies():Vector.<ComponentDependency>
         {
@@ -246,6 +254,7 @@
         {
             this._freeFlowDisabled = k.getParser().freeFlowChatDisabled;
             this._preferedChatStyle = k.getParser().preferedChatStyle;
+            this._chatFontSizeMode = this.clampChatFontSizeMode(k.getParser().chatSizePreference);
         }
 
         public function getRoomChangeBitmap():BitmapData
@@ -339,6 +348,7 @@
             {
                 return;
             }
+            this.fixHtml(chatItem, ChatStyle(this.chatStyleLibrary.getStyle(chatItem.style)));
             this._chatHistoryBuffer.insertChat(chatItem);
             try
             {
@@ -397,6 +407,15 @@
             return this._chatBubbleFactory;
         }
 
+        public function createChatStylePreviewBitmap(styleId:int, userName:String, figure:String, sampleText:String):BitmapData
+        {
+            if (this._chatBubbleFactory == null)
+            {
+                return null;
+            }
+            return this._chatBubbleFactory.createStylePreviewBitmap(styleId, userName, figure, sampleText);
+        }
+
         public function get chatHistoryScrollView():ChatHistoryScrollView
         {
             return this._chatHistoryScrollView;
@@ -413,6 +432,14 @@
 
         public function disableRoomMouseEventsLeftOfX(k:int):void
         {
+            // _roomEngine is an optional injected dependency. NGHWin's F5 reload disposes the
+            // RoomEngine component first, so the DI framework nulls _roomEngine back out while this
+            // chat component is still alive; a window resize in that window otherwise reaches here
+            // (via the chat tray) and throws #1009. Guarded like the _roomEngine == null check above.
+            if (this._roomEngine == null)
+            {
+                return;
+            }
             this._roomEngine.mouseEventsDisabledLeftToX = k;
         }
 
@@ -490,7 +517,71 @@
         public function set preferedChatStyle(k:int):void
         {
             this._preferedChatStyle = k;
-            this._communication.connection.send(new SetChatStylePreferenceComposer(this._preferedChatStyle));
+            this._communication.connection.send(new SetChatStylePreferenceComposer(this._preferedChatStyle, this._chatFontSizeMode));
+        }
+
+        public function get chatFontSizeMode():int
+        {
+            return this._chatFontSizeMode;
+        }
+
+        public function set chatFontSizeMode(k:int):void
+        {
+            this._chatFontSizeMode = this.clampChatFontSizeMode(k);
+            this._communication.connection.send(new SetChatStylePreferenceComposer(this._preferedChatStyle, this._chatFontSizeMode));
+        }
+
+        public function get chatFontSizeScale():Number
+        {
+            switch (this._chatFontSizeMode)
+            {
+                case 1:
+                    return 1.15;
+                case 2:
+                    return 1.3;
+                case 3:
+                    return 1.5;
+                case 4:
+                    return 1.75;
+                default:
+                    return 1;
+            }
+        }
+
+        private function clampChatFontSizeMode(k:int):int
+        {
+            if (k < 0)
+            {
+                return 0;
+            }
+            if (k > 4)
+            {
+                return 4;
+            }
+            return k;
+        }
+
+        private function fixHtml(k:ChatItem, _arg_2:ChatStyle):void
+        {
+            var _local_3:uint;
+            if (!_arg_2.allowHTML)
+            {
+                k.text = k.text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                k.text = k.text.replace(/&#[0-9]+;/g, "");
+                k.text = k.text.replace(/&#x[0-9]+;/g, "");
+            }
+            _local_3 = uint((((_arg_2.textFormat) && (!(_arg_2.textFormat.color == null))) ? uint(_arg_2.textFormat.color) : 0));
+            if (_arg_2.isNotification)
+            {
+                k.text = ChatMarkup.applyToElements(k.text, _local_3);
+            }
+            k.text = ChatMarkup.applyColourToChat(k.text, _local_3);
+        }
+
+        public function isNotificationStyle(k:int):Boolean
+        {
+            var _local_2:ChatStyle = this.chatStyleLibrary.getStyle(k) as ChatStyle;
+            return ((_local_2 != null) && (_local_2.isNotification));
         }
 
         public function clear():void

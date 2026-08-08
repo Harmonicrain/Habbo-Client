@@ -93,11 +93,15 @@
     import com.sulake.habbo.ui.handler.ObjectLocationRequestHandler;
     import com.sulake.habbo.ui.handler.CameraWidgetHandler;
     import com.sulake.habbo.ui.handler.FurnitureBackgroundColorWidgetHandler;
+    import com.sulake.habbo.ui.handler.FurnitureAreaHideWidgetHandler;
+    import com.sulake.habbo.room.events.RoomEngineAreaHideStateWidgetEvent;
     import com.sulake.habbo.ui.handler.CustomUserNotificationWidgetHandler;
     import com.sulake.habbo.ui.handler.FurnitureAchievementResolutionEngraving;
     import com.sulake.habbo.ui.handler.FriendFurniConfirmWidgetHandler;
     import com.sulake.habbo.ui.handler.FriendFurniEngravingWidgetHandler;
     import com.sulake.habbo.ui.handler.HighScoreFurniWidgetHandler;
+    import com.sulake.habbo.ui.handler.GamehallWidgetHandler;
+    import com.sulake.habbo.ui.handler.GamehallLeaderboardWidgetHandler;
     import com.sulake.habbo.ui.handler.FurnitureInternalLinkHandler;
     import com.sulake.habbo.ui.handler.FurnitureCustomStackHeightWidgetHandler;
     import com.sulake.habbo.ui.handler.FurnitureYoutubeDisplayWidgetHandler;
@@ -108,6 +112,7 @@
     import com.sulake.habbo.ui.handler.RoomThumbnailCameraWidgetHandler;
     import com.sulake.habbo.ui.handler.CraftingWidgetHandler;
     import com.sulake.habbo.room.events.RoomEngineTriggerWidgetEvent;
+    import com.sulake.habbo.room.events.RoomEngineGamehallEvent;
     import com.sulake.habbo.ui.widget.events.RoomWidgetUpdateEvent;
     import com.sulake.habbo.ui.widget.messages.RoomWidgetZoomToggleMessage;
     import com.sulake.habbo.ui.widget.messages.RoomWidgetMessage;
@@ -143,7 +148,6 @@
     import com.sulake.core.window.events.WindowEvent;
     import flash.display.Sprite;
     import flash.display.BlendMode;
-    import com.sulake.habbo.communication.enum.perk.PerkEnum;
     import com.sulake.room.utils.ColorConverter;
     import flash.utils.getTimer;
     import com.sulake.core.runtime.Component;
@@ -868,6 +872,9 @@
                 case RoomWidgetEnum.ROOM_BACKGROUND_COLOR:
                     widgetHandler = new FurnitureBackgroundColorWidgetHandler();
                     break;
+                case RoomWidgetEnum.AREA_HIDE:
+                    widgetHandler = new FurnitureAreaHideWidgetHandler();
+                    break;
                 case RoomWidgetEnum.CUSTOM_USER_NOTIFICATION:
                     widgetHandler = new CustomUserNotificationWidgetHandler();
                     break;
@@ -883,6 +890,12 @@
                     break;
                 case RoomWidgetEnum.HIGH_SCORE_DISPLAY:
                     widgetHandler = new HighScoreFurniWidgetHandler();
+                    break;
+                case RoomWidgetEnum.GAMEHALL_BOARD:
+                    widgetHandler = new GamehallWidgetHandler();
+                    break;
+                case RoomWidgetEnum.GAMEHALL_LEADERBOARD:
+                    widgetHandler = new GamehallLeaderboardWidgetHandler();
                     break;
                 case RoomWidgetEnum.INTERNAL_LINK:
                     widgetHandler = new FurnitureInternalLinkHandler();
@@ -993,6 +1006,8 @@
                 case RoomWidgetEnum.CHAT_WIDGET:
                 case RoomWidgetEnum.AVATAR_INFO:
                 case RoomWidgetEnum.LOCATION_WIDGET:
+                case RoomWidgetEnum.GAMEHALL_BOARD:
+                case RoomWidgetEnum.GAMEHALL_LEADERBOARD:
                     return true;
                 default:
                     return false;
@@ -1280,9 +1295,15 @@
                 case RoomEngineUseProductEvent.ROSM_USE_PRODUCT_FROM_INVENTORY:
                 case RoomEngineUseProductEvent.ROSM_USE_PRODUCT_FROM_ROOM:
                 case RoomEngineTriggerWidgetEvent.RETWE_REQUEST_BACKGROUND_COLOR:
+                case RoomEngineTriggerWidgetEvent.RETWE_REQUEST_AREA_HIDE:
+                case RoomEngineAreaHideStateWidgetEvent.UPDATE_STATE_AREA_HIDE:
                 case RoomEngineTriggerWidgetEvent.RETWE_REQUEST_FRIEND_FURNITURE_ENGRAVING:
                 case RoomEngineTriggerWidgetEvent.RETWE_REQUEST_HIGH_SCORE_DISPLAY:
                 case RoomEngineTriggerWidgetEvent.RETWE_REQUEST_HIDE_HIGH_SCORE_DISPLAY:
+                case RoomEngineGamehallEvent.OPEN:
+                case RoomEngineGamehallEvent.UPDATE:
+                case RoomEngineGamehallEvent.CLOSE:
+                case RoomEngineGamehallEvent.LEADERBOARD_OPEN:
                 case RoomEngineTriggerWidgetEvent.RETWE_REQUEST_INTERNAL_LINK:
                 case RoomEngineTriggerWidgetEvent.RETWE_REQUEST_ROOM_LINK:
                     this.processEvent(k);
@@ -1313,7 +1334,11 @@
 
         private function checkFurniManipulationRights(k:int, _arg_2:int, _arg_3:int):Boolean
         {
-            return ((this._session.roomControllerLevel >= RoomControllerLevel.GUEST) || (this._sessionDataManager.isAnyRoomController)) || (this.isOwnerOfFurniture(this._roomEngine.getRoomObject(k, _arg_2, _arg_3)));
+            return ((this._session.roomControllerLevel >= RoomControllerLevel.GUEST)
+                || this._sessionDataManager.isAnyRoomController
+                || this.isOwnerOfFurniture(
+                    this._roomEngine.getRoomObject(k, _arg_2, _arg_3))
+                || this._roomEngine.activeRoomHasFreeFurniMovementsMode);
         }
 
         public function roomEngineEventHandler(k:RoomEngineEvent):void
@@ -1443,14 +1468,31 @@
 
         private function checkAndEnableMouseZoomEvent(k:DisplayObject):void
         {
-            k.removeEventListener(MouseEvent.MOUSE_WHEEL, this.mouseWheelHandler);
-            if (this._sessionDataManager.isPerkAllowed(PerkEnum.MOUSE_ZOOM))
+            if (k != null)
             {
-                k.addEventListener(MouseEvent.MOUSE_WHEEL, this.mouseWheelHandler);
+                k.removeEventListener(MouseEvent.MOUSE_WHEEL, this.mouseWheelHandler);
+            }
+            if (this._roomCanvasWrapper == null)
+            {
+                return;
+            }
+            this._roomCanvasWrapper.removeEventListener(WindowMouseEvent.WHEEL, this.mouseWheelHandler);
+            this._roomCanvasWrapper.addEventListener(WindowMouseEvent.WHEEL, this.mouseWheelHandler);
+        }
+
+        public function initCameraLocation(k:int):void
+        {
+            var _local_2:Number = this._roomEngine.getRoomNumberValue(this._session.roomId, RoomVariableEnum.CAMERA_INIT_X);
+            var _local_3:Number = this._roomEngine.getRoomNumberValue(this._session.roomId, RoomVariableEnum.CAMERA_INIT_Y);
+            var _local_4:Number = this._roomEngine.getRoomNumberValue(this._session.roomId, RoomVariableEnum.CAMERA_INIT_Z);
+            if (((!isNaN(_local_2)) && (!isNaN(_local_3)) && (!isNaN(_local_4))))
+            {
+                this._roomEngine.runUpdate();
+                this._roomEngine.updateRoomCamera(this._session.roomId, k, new Vector3d(_local_2, _local_3, _local_4), 1);
             }
         }
 
-        private function mouseWheelHandler(k:MouseEvent):void
+        private function mouseWheelHandler(k:WindowMouseEvent):void
         {
             var _local_2:Point;
             var _local_3:int;

@@ -33,6 +33,7 @@
     import com.sulake.habbo.communication.messages.outgoing.inventory.furni.RequestFurniInventoryComposer;
     import com.sulake.habbo.communication.messages.outgoing.inventory.furni.RequestFurniInventoryWhenNotInRoomComposer;
     import com.sulake.habbo.inventory.trading.TradingModel;
+    import com.sulake.habbo.inventory.trading.ITradingModel;
     import com.sulake.habbo.inventory.recycler.RecyclerModel;
     import com.sulake.habbo.inventory.IUnseenItemTracker;
     import com.sulake.habbo.inventory.enum.UnseenItemCategoryEnum;
@@ -118,7 +119,9 @@
 
         public function get _Str_7553():Boolean
         {
-            return this._controller._Str_18332() == InventorySubCategory.TRADING;
+            var subCategory:String = this._controller._Str_18332();
+            return subCategory == InventorySubCategory.TRADING
+                || subCategory == InventorySubCategory.WIRED_TRADING;
         }
 
         public function get isPrivateRoom():Boolean
@@ -403,10 +406,10 @@
         {
             var _local_5:GroupItem;
             var k:Array = new Array();
-            var _local_2:TradingModel = this._controller._Str_3957;
+            var _local_2:ITradingModel = this._controller.activeTradingModel;
             if (_local_2 != null)
             {
-                k = k.concat(_local_2._Str_21112());
+                k = k.concat(_local_2.getOwnItemIdsInTrade());
             }
             var _local_3:RecyclerModel = this._controller._Str_5568;
             if (_local_3 != null)
@@ -774,10 +777,10 @@
             {
                 return;
             }
-            var trading:TradingModel = this._controller._Str_3957;
+            var trading:ITradingModel = this._controller.activeTradingModel;
             if (trading != null)
             {
-                ownItemCount = trading._Str_21112().length;
+                ownItemCount = trading.getOwnItemIdsInTrade().length;
                 if ((ownItemCount + itemIds.length) <= 1500)
                 {
                     if (offerInTradingCount != null)
@@ -1168,21 +1171,27 @@
             var _local_3:Boolean = this.isUnseen(k);
             for each (_local_5 in this._furniData)
             {
-                if ((((_local_5.type == k.type) && (_local_5.isWallItem == k.isWallItem)) && (_local_5.isGroupable)))
+                if (((_local_5.type == k.type) && (_local_5.isWallItem == k.isWallItem)))
                 {
-                    if (k.category == FurniCategory.POSTER)
+                    if (((k.category == FurniCategory.FURNI_CHEST) ||
+                         (k.category == FurniCategory.COINS_CHEST)))
                     {
-                        if (_local_5.stuffData.getLegacyString() == k.stuffData.getLegacyString())
+                        // July keeps named or non-empty chests separate so one
+                        // thumbnail cannot hide another chest's state/count.
+                        if (((_local_5.stuffData.contentsCount == 0) &&
+                             (k.stuffData.contentsCount == 0)) &&
+                            ((_local_5.stuffData.chestName == "") &&
+                             (k.stuffData.chestName == "")))
                         {
                             _local_4 = _local_5;
                             break;
                         }
                     }
-                    else
+                    else if (_local_5.isGroupable)
                     {
-                        if (k.category == FurniCategory.GUILD_FURNI)
+                        if (k.category == FurniCategory.POSTER)
                         {
-                            if (k.stuffData.compare(_local_5.stuffData))
+                            if (_local_5.stuffData.getLegacyString() == k.stuffData.getLegacyString())
                             {
                                 _local_4 = _local_5;
                                 break;
@@ -1190,8 +1199,19 @@
                         }
                         else
                         {
-                            _local_4 = _local_5;
-                            break;
+                            if (k.category == FurniCategory.GUILD_FURNI)
+                            {
+                                if (k.stuffData.compare(_local_5.stuffData))
+                                {
+                                    _local_4 = _local_5;
+                                    break;
+                                }
+                            }
+                            else
+                            {
+                                _local_4 = _local_5;
+                                break;
+                            }
                         }
                     }
                 }

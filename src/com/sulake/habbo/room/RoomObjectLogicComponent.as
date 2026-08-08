@@ -18,6 +18,8 @@
     import com.sulake.habbo.room.object.logic.furniture.FurnitureExternalImageLogic;
     import com.sulake.habbo.room.object.logic.furniture.FurniturePresentLogic;
     import com.sulake.habbo.room.object.logic.furniture.FurnitureTrophyLogic;
+    import com.sulake.habbo.room.object.logic.furniture.FurnitureFurniChestLogic;
+    import com.sulake.habbo.room.object.logic.furniture.FurnitureCoinsChestLogic;
     import com.sulake.habbo.room.object.logic.furniture.FurnitureEcotronBoxLogic;
     import com.sulake.habbo.room.object.logic.furniture.FurnitureDiceLogic;
     import com.sulake.habbo.room.object.logic.furniture.FurnitureHockeyScoreLogic;
@@ -43,6 +45,7 @@
     import com.sulake.habbo.room.object.logic.furniture.FurnitureWelcomeGiftLogic;
     import com.sulake.habbo.room.object.logic.furniture.FurnitureFloorHoleLogic;
     import com.sulake.habbo.room.object.logic.room.RoomLogic;
+    import com.sulake.habbo.room.object.logic.room.publicroom.PublicRoomParkLogic;
     import com.sulake.habbo.room.object.logic.furniture.FurnitureMannequinLogic;
     import com.sulake.habbo.room.object.logic.furniture.FurnitureGuildCustomizedLogic;
     import com.sulake.habbo.room.object.logic.furniture.FurnitureGroupForumTerminalLogic;
@@ -57,6 +60,7 @@
     import com.sulake.habbo.room.object.logic.furniture.FurnitureMonsterplantSeedLogic;
     import com.sulake.habbo.room.object.logic.furniture.FurniturePurchasableClothingLogic;
     import com.sulake.habbo.room.object.logic.furniture.FurnitureRoomBackgroundColorLogic;
+    import com.sulake.habbo.room.object.logic.furniture.FurnitureAreaHideLogic;
     import com.sulake.habbo.room.object.logic.furniture.FurnitureMysterboxLogic;
     import com.sulake.habbo.room.object.logic.furniture.FurnitureEffectboxLogic;
     import com.sulake.habbo.room.object.logic.furniture.FurnitureMysterytrophyLogic;
@@ -184,6 +188,12 @@
                 case RoomObjectLogicEnum.FURNITURE_TROPHY:
                     classDefinition = FurnitureTrophyLogic;
                     break;
+                case RoomObjectLogicEnum.FURNITURE_FURNI_CHEST:
+                    classDefinition = FurnitureFurniChestLogic;
+                    break;
+                case RoomObjectLogicEnum.FURNITURE_COINS_CHEST:
+                    classDefinition = FurnitureCoinsChestLogic;
+                    break;
                 case RoomObjectLogicEnum.FURNITURE_ECOTRON_BOX:
                     classDefinition = FurnitureEcotronBoxLogic;
                     break;
@@ -260,6 +270,9 @@
                 case RoomObjectLogicEnum.PUBLIC_ROOM:
                     classDefinition = RoomLogic;
                     break;
+                case RoomObjectLogicEnum.PUBLIC_ROOM_PARK:
+                    classDefinition = PublicRoomParkLogic;
+                    break;
                 case RoomObjectLogicEnum.FURNITURE_MANNEQUIN:
                     classDefinition = FurnitureMannequinLogic;
                     break;
@@ -301,6 +314,9 @@
                     break;
                 case RoomObjectLogicEnum.FURNITURE_BACKGROUND_COLOR:
                     classDefinition = FurnitureRoomBackgroundColorLogic;
+                    break;
+                case RoomObjectLogicEnum.FURNITURE_AREA_HIDE:
+                    classDefinition = FurnitureAreaHideLogic;
                     break;
                 case RoomObjectLogicEnum.FURNITURE_MYSTERYBOX:
                     classDefinition = FurnitureMysterboxLogic;

@@ -667,6 +667,7 @@
             _local_3.tag = _local_4.tag;
             _local_3.blendMode = _local_4.blendMode;
             _local_3.filters = _local_4.filters;
+            _local_3.skipMouseHandling = _local_4.skipMouseHandling;
             _local_3.varyingDepth = _local_4.varyingDepth;
             _local_3.clickHandling = _local_4.clickHandling;
             _local_3.smoothing = false;
@@ -724,6 +725,7 @@
                     _local_4.blendMode = _local_3.blendMode;
                     _local_4.clickHandling = _local_3.clickHandling;
                     _local_4.filters = _local_3.filters;
+                    _local_4.skipMouseHandling = _local_3.skipMouseHandling;
                     _local_6 = this.getBitmapData(_local_3.asset, _local_3.assetName, _local_3.flipH, _local_3.flipV, _local_3.color);
                     if (_local_4.bitmapData != _local_6)
                     {
@@ -1067,7 +1069,7 @@
             while (_local_14 >= 0)
             {
                 _local_10 = (this.getSprite(_local_14) as ExtendedSprite);
-                if (((!(_local_10 == null)) && (_local_10.hitTestPoint((k - _local_10.x), (_arg_2 - _local_10.y)))))
+                if (((!(_local_10 == null)) && (!(_local_10.skipMouseHandling)) && (_local_10.hitTestPoint((k - _local_10.x), (_arg_2 - _local_10.y)))))
                 {
                     if (((_local_10.clickHandling) && ((_arg_3 == MouseEvent.CLICK) || (_arg_3 == MouseEvent.DOUBLE_CLICK))))
                     {
