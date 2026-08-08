@@ -125,6 +125,8 @@
         public static const FURNITURE_HIGHSCORE_DATA_ENTRY_BASE_USERS_:String = "furniture_highscore_data_entry_base_users_";
         public static const FURNITURE_HIGHSCORE_DATA_ENTRY_BASE_SCORE_:String = "furniture_highscore_data_entry_base_score_";
         public static const FURNITURE_INTERNAL_LINK:String = "furniture_internal_link";
+        public static const FURNITURE_FURNI_CHEST_SHOWN_ASSET_NAMES:String = "furniture_furni_chest_shown_asset_names";
+        public static const FURNITURE_CHEST_IS_WIRED_ENABLED:String = "furniture_chest_is_wired_enabled";
         public static const SESSION_CURRENT_USER_ID:String = "session_current_user_id";
         public static const SESSION_URL_PREFIX:String = "session_url_prefix";
         public static const ROOM_PLANE_XML:String = "room_plane_xml";

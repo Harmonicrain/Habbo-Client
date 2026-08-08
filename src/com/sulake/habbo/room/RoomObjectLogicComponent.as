@@ -18,6 +18,8 @@
     import com.sulake.habbo.room.object.logic.furniture.FurnitureExternalImageLogic;
     import com.sulake.habbo.room.object.logic.furniture.FurniturePresentLogic;
     import com.sulake.habbo.room.object.logic.furniture.FurnitureTrophyLogic;
+    import com.sulake.habbo.room.object.logic.furniture.FurnitureFurniChestLogic;
+    import com.sulake.habbo.room.object.logic.furniture.FurnitureCoinsChestLogic;
     import com.sulake.habbo.room.object.logic.furniture.FurnitureEcotronBoxLogic;
     import com.sulake.habbo.room.object.logic.furniture.FurnitureDiceLogic;
     import com.sulake.habbo.room.object.logic.furniture.FurnitureHockeyScoreLogic;
@@ -185,6 +187,12 @@
                     break;
                 case RoomObjectLogicEnum.FURNITURE_TROPHY:
                     classDefinition = FurnitureTrophyLogic;
+                    break;
+                case RoomObjectLogicEnum.FURNITURE_FURNI_CHEST:
+                    classDefinition = FurnitureFurniChestLogic;
+                    break;
+                case RoomObjectLogicEnum.FURNITURE_COINS_CHEST:
+                    classDefinition = FurnitureCoinsChestLogic;
                     break;
                 case RoomObjectLogicEnum.FURNITURE_ECOTRON_BOX:
                     classDefinition = FurnitureEcotronBoxLogic;

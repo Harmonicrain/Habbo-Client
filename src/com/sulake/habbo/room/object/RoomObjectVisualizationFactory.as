@@ -24,6 +24,8 @@
     import com.sulake.habbo.room.object.visualization.furniture.FurnitureHabbowheelVisualization;
     import com.sulake.habbo.room.object.visualization.furniture.FurnitureValRandomizerVisualization;
     import com.sulake.habbo.room.object.visualization.furniture.FurnitureBottleVisualization;
+    import com.sulake.habbo.room.object.visualization.furniture.FurnitureFurniChestVisualization;
+    import com.sulake.habbo.room.object.visualization.furniture.FurnitureCoinsChestVisualization;
     import com.sulake.habbo.room.object.visualization.furniture.FurniturePlanetSystemVisualization;
     import com.sulake.habbo.room.object.visualization.furniture.FurnitureQueueTileVisualization;
     import com.sulake.habbo.room.object.visualization.furniture.FurniturePartyBeamerVisualization;
@@ -156,6 +158,12 @@
                 case RoomObjectVisualizationType.FURNITURE_BOTTLE:
                     _local_2 = FurnitureBottleVisualization;
                     break;
+                case RoomObjectVisualizationType.FURNITURE_FURNI_CHEST:
+                    _local_2 = FurnitureFurniChestVisualization;
+                    break;
+                case RoomObjectVisualizationType.FURNITURE_COINS_CHEST:
+                    _local_2 = FurnitureCoinsChestVisualization;
+                    break;
                 case RoomObjectVisualizationType.FURNITURE_PLANET_SYSTEM:
                     _local_2 = FurniturePlanetSystemVisualization;
                     break;
@@ -268,6 +276,8 @@
                     _local_5 = FurnitureVisualizationData;
                     break;
                 case RoomObjectVisualizationType.FURNITURE_ANIMATED:
+                case RoomObjectVisualizationType.FURNITURE_FURNI_CHEST:
+                case RoomObjectVisualizationType.FURNITURE_COINS_CHEST:
                 case RoomObjectVisualizationType.FURNITURE_RESETTING_ANIMATED:
                 case RoomObjectVisualizationType.FURNITURE_POSTER:
                 case RoomObjectVisualizationType.FURNITURE_HABBOWHEEL:

@@ -10,6 +10,8 @@
         public static const FURNITURE_HABBOWHEEL:String = "furniture_habbowheel";
         public static const FURNITURE_VAL_RANDOMIZER:String = "furniture_val_randomizer";
         public static const FURNITURE_BOTTLE:String = "furniture_bottle";
+        public static const FURNITURE_FURNI_CHEST:String = "furniture_furnichest";
+        public static const FURNITURE_COINS_CHEST:String = "furniture_coinschest";
         public static const FURNITURE_PLANET_SYSTEM:String = "furniture_planet_system";
         public static const FURNITURE_QUEUE_TILE:String = "furniture_queue_tile";
         public static const FURNITURE_PARTY_BEAMER:String = "furniture_party_beamer";

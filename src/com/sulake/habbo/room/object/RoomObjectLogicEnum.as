@@ -11,6 +11,8 @@
         public static const FURNITURE_STICKIE:String = "furniture_stickie";
         public static const FURNITURE_PRESENT:String = "furniture_present";
         public static const FURNITURE_TROPHY:String = "furniture_trophy";
+        public static const FURNITURE_FURNI_CHEST:String = "furniture_furnichest";
+        public static const FURNITURE_COINS_CHEST:String = "furniture_coinschest";
         public static const FURNITURE_ECOTRON_BOX:String = "furniture_ecotron_box";
         public static const FURNITURE_DICE:String = "furniture_dice";
         public static const FURNITURE_HOCKEY_SCORE:String = "furniture_hockey_score";

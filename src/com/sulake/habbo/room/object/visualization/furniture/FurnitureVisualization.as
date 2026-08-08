@@ -18,6 +18,30 @@
     {
         protected static const _Str_19020:Number = Math.sqrt(0.5);
 
+        private static function concatListWillEqual(first:Array, second:Array, current:Array):Boolean
+        {
+            if (current == null || first.length + second.length != current.length)
+            {
+                return false;
+            }
+            var index:int;
+            for (index = 0; index < first.length; index++)
+            {
+                if (first[index] !== current[index])
+                {
+                    return false;
+                }
+            }
+            for (index = 0; index < second.length; index++)
+            {
+                if (second[index] !== current[first.length + index])
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         private var _direction:int;
         private var _lastCameraAngle:Number = NaN;
         private var _selectedColor:int = -1;
@@ -243,6 +267,10 @@
                             _local_4.alphaTolerance = AlphaTolerance.MATCH_NOTHING;
                         }
                         _local_4.blendMode = this.getBlendMode(this.getSpriteInk(k, this._direction, _arg_2));
+                        if (this.getSpriteFlipH(k, this._direction, _arg_2))
+                        {
+                            _local_4.flipH = !_local_4.flipH;
+                        }
                         _local_6 = this.getSpriteZOffset(k, this._direction, _arg_2);
                         _local_6 = (_local_6 - (_arg_2 * 0.001));
                     }
@@ -266,7 +294,7 @@
                     _local_4.libraryAssetName = this.getLibraryAssetNameForSprite(_local_5, _local_4);
                     _local_4.assetPosture = this.getPostureForAssetFile(k, _local_5.libraryAssetName);
                     _local_4.clickHandling = this._clickHandling;
-                    this.updateSpriteFilters(_local_4);
+                    this.updateSpriteFilters(k, _local_4, _arg_2);
                 }
                 else
                 {
@@ -282,15 +310,27 @@
             }
         }
 
-        private function updateSpriteFilters(k:IRoomObjectSprite):void
+        private function updateSpriteFilters(size:int, sprite:IRoomObjectSprite, spriteIndex:int):void
         {
-            if (k.blendMode != BlendMode.ADD)
+            if (sprite.blendMode != BlendMode.ADD)
             {
-                k.filters = this._filters;
+                var spriteFilters:Array = this.getSpriteFilters(size, this._direction, spriteIndex);
+                if (spriteFilters == null)
+                {
+                    sprite.filters = this._filters;
+                }
+                else if (this._filters == null)
+                {
+                    sprite.filters = spriteFilters;
+                }
+                else if (!concatListWillEqual(this._filters, spriteFilters, sprite.filters))
+                {
+                    sprite.filters = this._filters.concat(spriteFilters);
+                }
             }
-            else if (k.filters != null)
+            else if (sprite.filters != null)
             {
-                k.filters = null;
+                sprite.filters = null;
             }
         }
 
@@ -532,6 +572,11 @@
             return _local_4;
         }
 
+        protected function getSpriteFilters(k:int, _arg_2:int, _arg_3:int):Array
+        {
+            return null;
+        }
+
         protected function getSpriteAlpha(k:int, _arg_2:int, _arg_3:int):int
         {
             if (((!(this._spriteAlphas[_arg_3] == null)) && (!(this._Str_11460))))
@@ -641,6 +686,11 @@
             var _local_4:Number = this._data._Str_8329(k, _arg_2, _arg_3);
             this._spriteZOffsets[_arg_3] = _local_4;
             return _local_4;
+        }
+
+        protected function getSpriteFlipH(k:int, _arg_2:int, _arg_3:int):Boolean
+        {
+            return false;
         }
 
         protected function _Str_3033(k:int):int
