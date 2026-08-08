@@ -38,7 +38,11 @@ package com.sulake.habbo.roomevents.wired_setup.uibuilder.presets
         {
             var value:WiredVariable = this.selected;
             this._picker.finalize();
-            return value == null ? null : value.variableId;
+            // July uses optional chaining here. Its newer wire encoder preserves
+            // the null slot, while the 2016 Eva encoder silently omits null array
+            // entries and corrupts every following field. Use July's explicit
+            // no-variable id so the declared variableIds count remains truthful.
+            return value == null ? WiredVariable.NONE_ID : value.variableId;
         }
 
         override public function resizeToWidth(value:int):void
